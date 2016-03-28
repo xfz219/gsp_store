@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- author:liwang  time: 2015年8月03日  comment:app销售人员手机设备变更-->
+<mapper namespace="com.puhui.app.dao.ChangeMobileDao">
+	<resultMap type="com.puhui.app.vo.AppUserTokenChangeRecordVo" id="appUserTokenChangeRecordVo">
+		<result property="id" column="id"/>
+		<result property="sellerNumber" column="seller_number"/>
+		<result property="salesNo" column="sales_no"/>
+		<result property="appKeyId" column="app_key_id"/>
+		<result property="pid" column="pid"/>
+		<result property="clientType" column="client_type"/>
+		<result property="loginStatus" column="login_status"/>
+		<result property="token" column="token"/>
+		<result property="version" column="version"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="alias" column="alias"/>
+		<result property="isEnable" column="is_enable"/>
+	</resultMap>
+	
+	
+	<!-- 查询设备变更记录信息 -->
+	<select id="queryAppUserTokenChangeRecord" parameterType="map" resultMap="appUserTokenChangeRecordVo">
+		SELECT
+			ar.*
+		FROM
+			app_user_token_change_record ar
+			<if test="salesNo != null and salesNo != ''">
+				WHERE ar.sales_no = #{salesNo}
+			</if>
+		ORDER BY
+			ar.update_time DESC
+	</select>
+	
+	<!-- 查询app_user_token信息 -->
+	<select id="queryAppUserToken" parameterType="String" resultMap="appUserTokenChangeRecordVo">
+		SELECT
+			t.*
+		FROM
+			app_user_token t
+		WHERE
+			t.is_enable = 1
+		AND t.sales_no = #{salesNo}
+	</select>
+	
+	<!-- 删除app_user_token表中数据 -->
+	<delete id="deleteAppUserToken" parameterType="long">
+		DELETE
+		FROM
+			app_user_token 
+		WHERE
+			id = #{id}
+	</delete>
+	
+	<!-- 插入app_user_token_change_record表中数据 -->
+	<insert id="createAppUserTokenChangeRecord" parameterType="appUserTokenChangeRecordVo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO app_user_token_change_record (
+			seller_number,
+			sales_no,
+			app_key_id,
+			pid,
+			client_type,
+			login_status,
+			token,
+			version,
+			create_time,
+			alias,
+			is_enable
+		)
+		VALUES(
+			#{sellerNumber},
+			#{salesNo},
+			#{appKeyId},
+			#{pid},
+			#{clientType},
+			#{loginStatus},
+			#{token},
+			#{version},
+			#{createTime},
+			#{alias},
+			#{isEnable}
+		)
+	</insert>
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:jedis="http://technology.puhuifinance.com/schema/jedis"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://technology.puhuifinance.com/schema/jedis http://technology.puhuifinance.com/schema/jedis/jedis.xsd">
+
+ 	<!-- 自定义jedis标签 -->
+	<jedis:directPool id ="directPool" host="${redis.host}" port="${redis.port}" maxTotal="1024"  database="4"/> 
+	<!-- jedis操作集成 -->
+	<bean id="jedisTemplate" class="com.puhui.nosql.redis.JedisTemplate">
+		<constructor-arg index="0" ref="directPool" />
+	</bean>
+	
+</beans>

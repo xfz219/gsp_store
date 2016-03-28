@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.puhui.app.dao.AppDataCachingOperationsDao">
+	<!-- 查询所有需要重置的进件号 -->
+	<select id="getDataServer" parameterType="map" resultType="map">
+		select al.id,al.class_name as className,al.attribution,al.code_name as codeName,al.code_value as codeValue,al.meaning,al.message FROM app_latitude al
+		where	1=1
+			<if test="className != null and className != ''">
+				<![CDATA[AND al.class_name = #{className}]]>
+			</if>
+			<if test="attribution != null and attribution != ''">
+				<![CDATA[AND al.attribution =#{attribution} ]]>
+			</if>
+			<if test="codeName != null and codeName != ''">
+				<![CDATA[AND al.code_name =#{codeName} ]]>
+			</if>
+	</select>
+	
+	<update id="updateDataServer" parameterType="map">
+		update app_latitude set 
+			class_name = #{className},attribution = #{attribution},
+			code_name = #{codeName},code_value = #{codeValue},
+			meaning = #{meaning},message = #{message}
+		where id = #{id}
+	</update>
+	
+	<insert id="addDataServer" parameterType="map">
+		INSERT INTO app_latitude (
+			class_name,
+			attribution,
+			code_name,
+			code_value,
+			meaning,
+			message,
+			create_time
+		)
+		VALUES(
+			#{className},
+			#{attribution},
+			#{codeName},
+			#{codeValue},
+			#{meaning},
+			#{message},
+			now()
+		)
+	</insert>
+</mapper>

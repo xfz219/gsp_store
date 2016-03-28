@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans        http://www.springframework.org/schema/beans/spring-beans.xsd        http://code.alibabatech.com/schema/dubbo        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+ 
+	<dubbo:application name="puhui-lend-app-report" />
+	<dubbo:registry protocol="zookeeper" address="zookeeper://172.16.7.56:40000" client="zkclient" timeout="5000" />
+	<!-- <dubbo:protocol name="dubbo" port="20830" threads="200" threadpool="fixed" accepts="100" /> -->
+	
+	<!-- UC start -->
+	<!-- 登录服务接口 -->
+ 	<dubbo:reference id="remoteUserCenteCentreService" interface="com.puhui.uc.api.service.RemoteUserCentreService" loadbalance="random" check="false" />
+ 	<!-- 登录服务接口 -->
+ 	<dubbo:reference id="remoteLoginService" interface="com.puhui.uc.api.service.RemoteLoginService" loadbalance="random" check="false" />
+	<!-- UC end -->
+</beans>

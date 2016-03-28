@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.puhui.app.dao.AppLendAnnexAtatusDao">
+	<!-- 查询所有需要重置的进件号 -->
+	<select id="getAccessoryResetServer" parameterType="map" resultType="map">
+		select alas.app_lend_request_id,alas.type from app_lend_annex_status alas 
+		LEFT JOIN app_lend_request alr on alr.id = alas.app_lend_request_id
+		where	alas.status = '7' and alr.customer_service_manager_number != 4838
+			<if test="appLendRequestId != null and appLendRequestId != ''">
+				<![CDATA[AND alas.app_lend_request_id = #{appLendRequestId}]]>
+			</if>
+			<if test="type != null and type != ''">
+				<![CDATA[AND alas.type =#{type} ]]>
+			</if>
+	</select>
+	
+	<update id="updateAccessoryServer" parameterType="map">
+		update app_lend_annex_status set
+			status = #{status},query_number = #{queryNumber}
+		where app_lend_request_id = #{appLendRequestId} and type = #{type}
+	</update>
+</mapper>
