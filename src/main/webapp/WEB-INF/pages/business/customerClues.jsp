@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>附件状态查询</title>
+<title>线索管理</title>
 <style>
 .box table{
  	width:100% !important; 
@@ -48,7 +48,7 @@ $(function(){
 		nowrap: false,
 		striped: true,
 		fit: true,
-		url:'${ctx}/accessoryReset/selectAccessoryMethod',
+		url:'${ctx}/customerClues/selectCustomerCluesMethod',
 	    columns:[[
 			{field:'id',title:'id',align:'center',hidden:true},
 			{field:'name',title:'客户姓名',align:'center',width : fixWidth(0.1)},
@@ -75,7 +75,7 @@ $(function(){
 		onLoadSuccess:function (data){
 		},
 		onLoadError:function (data) {			
-			$.messager.alert('提示信息',"查询附件状态失败！");
+			$.messager.alert('提示信息',"查询线索管理失败！");
 		}
 	});
 	

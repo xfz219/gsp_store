@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.puhui.app.dao.AppUserToPromoteDao">
+	<resultMap type="com.puhui.app.po.AppUserToPromote" id="appUserToPromoteObj">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="mobile" column="mobile"/>
+		<result property="city" column="city"/>
+		<result property="cityCode" column="city_code"/>
+		<result property="branch" column="branch"/>
+		<result property="branchCode" column="branch_code"/>
+		<result property="salesName" column="sales_name"/>
+		<result property="salesNo" column="sales_no"/>
+		<result property="uid" column="uid"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+	</resultMap>
+	
+	<select id="selectCustomerCluesMethod" parameterType="map" resultMap="appUserToPromoteObj">
+		select * from app_user_to_promote autp where 1 = 1 
+			<if test="appLendRequestId != null and appLendRequestId != ''">
+				<![CDATA[AND autp.app_lend_request_id = #{appLendRequestId}]]>
+			</if>
+			<if test="type != null and type != ''">
+				<![CDATA[AND autp.type =#{type} ]]>
+			</if>
+	</select>
+	
+</mapper> 
