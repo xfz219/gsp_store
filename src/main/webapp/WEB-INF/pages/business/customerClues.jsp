@@ -32,11 +32,7 @@ form .label{
 .box .datagrid-body{
 overflow:hidden;
 }
-#salesStatus{
-width:175px;
-height: 20px;
-}
-#branchCode{
+.type{
 width:175px;
 height: 20px;
 }
@@ -145,6 +141,57 @@ function resetConditions(){
 	$('#salesStatus').val('');
 }
 
+function bindingUserA() {
+	$('#addBindingUser').dialog({
+		title: "绑定",
+	   	width: 400,
+	   	height: 200,
+	   	modal: true,
+	   	closed:false
+	});
+	}
+	
+function YES() {
+	var thisButton = $(this);
+ 	if(typeof $('#selectUserZu').val() != '' && $('#selectUserName').val() != ''){
+    	$.messager.confirm('确定','您确定要绑定吗？',function(r){
+        	if(r){
+            	thisButton.linkbutton('disable');
+       			$.ajax({
+       			    url: '${ctx}/customerClues/bindingUser',
+       			    data: {
+       			        "mobile": $('#mobile').val()
+       			    },
+       			    type: 'POST',
+       			    cache: false,
+       			    dataType: "json",
+       			    async:false,
+       			    success: function(data) {
+       			        if(data.returnEntity.success){
+       			        	addBindingUser.dialog('close');
+        			        grid.datagrid('clearSelections');
+        			        grid.datagrid('load');
+       			        }
+       			        $.messager.alert('提示信息',data.returnEntity.msg);
+       			     	thisButton.linkbutton('enable');
+       			    },
+       			    error: function(XMLHttpRequest, textStatus, errorThrown) {
+       			    	thisButton.linkbutton('enable');
+       			        $.messager.alert('提示信息', "请求出现错误！");
+       			    }
+       			});
+         	}
+      	});
+   	}else{
+   		$.messager.alert('提示信息', '组别与姓名不可为空！');
+   	}
+	
+}
+function NO() {
+	$('#addBindingUser').dialog({
+	   	closed:true
+	});
+}
 </script>
 
 </head>
@@ -152,9 +199,31 @@ function resetConditions(){
 <div data-options="region:'center'" style="overflow: hidden;">
 		<table id="datagrid"></table>
 </div>
-	
-<div id="addBlacklistDialog"></div>	
-<div id="modifyDialog"></div>
+	<div id="addBindingUser" class="easyui-dialog" title="绑定" style="width:400px;height:200px;" data-options="iconCls:'icon-save',resizable:true,closed:true" >
+   		 <div style="margin: 20px 0px 0px 80px;">
+   		 	<label style="margin: 0px 0px 0px 50px;">请选择需要绑定的销售</label>
+   		 	<br><br><br>
+   		 	<label>组别：</label>
+   		 	<select type="select" name="selectUserZu" id="selectUserZu" class="type">
+					<option value=""></option>
+					<option value="正常">正常</option>
+					<option value="异常">异常</option>
+			</select>
+   		 	<br><br>
+   		 	<label>姓名：</label>
+   		 	<select type="select" name="selectUserName" id="selectUserName" class="type">
+					<option value=""></option>
+					<option value="正常">正常</option>
+					<option value="异常">异常</option>
+			</select>
+			<br><br>
+			<div style="margin: 0px 0px 0px 50px;">
+				<a href="#" onclick="YES();" class="easyui-linkbutton">确认</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="#" onclick="NO();" class="easyui-linkbutton">取消</a>
+			</div>
+   		 </div>
+	</div>
 	<div id="tbLendRequest">
 		<br>
 		&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="radio" value="1" >仅显示未绑定销售
@@ -162,7 +231,7 @@ function resetConditions(){
         <br><br>
 			&nbsp;&nbsp;&nbsp;&nbsp;客户姓名：<input type="text" id="name" name="name" />&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;客户手机：<input type="text" id="mobile" name="mobile" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;门店机构：<select type="select" name="branchCode" id="branchCode">
+			&nbsp;&nbsp;&nbsp;&nbsp;门店机构：<select type="select" name="branchCode" id="branchCode" class="type">
 					<option value=""></option>
 					<option value="1">正常</option>
 					<option value="2">异常</option>
@@ -170,7 +239,7 @@ function resetConditions(){
 			<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;销售姓名：<input type="text" id="salesName" name="salesName" />&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;销售工号：<input type="text" id="salesNo" name="salesNo" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;销售状态：<select type="select" name="salesStatus" id="salesStatus">
+			&nbsp;&nbsp;&nbsp;&nbsp;销售状态：<select type="select" name="salesStatus" id="salesStatus" class="type">
 					<option value=""></option>
 					<option value="正常">正常</option>
 					<option value="异常">异常</option>
@@ -179,8 +248,9 @@ function resetConditions(){
 			<span class="datagrid-btn-separator" style="float:none;"></span>
 			<a  href="javascript:void(0);" class="easyui-linkbutton clear" iconCls="icon-remove" plain="true" onclick="resetConditions();">重置</a>
 			<br><br>
-			&nbsp;&nbsp;&nbsp;&nbsp;<a id="btn" href="#" class="easyui-linkbutton l-btn" onclick="searchByConditions();" group=""><span class="l-btn-text">绑定</span></a>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a id="addChangeMobileDialog" href="#" class="easyui-linkbutton l-btn" onclick="bindingUserA();"><span class="l-btn-text">绑定</span></a>
 			<br><br>
 	</div>
+	
 </body>
 </html>

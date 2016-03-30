@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.puhui.app.common.page.mybatis.Page;
-import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
 
 /**
@@ -54,6 +55,8 @@ public class CustomerCluesController {
 		
     	Map<String, Object> objMap = new HashMap<String, Object>();
     	try{
+//    		Subject currStaff = SecurityUtils.getSubject();
+//            Staff staff = (Staff) currStaff.getPrincipal();
     		int pageNo = Integer.valueOf(pageMap.get("page").toString());// 当前页
     		int pageSize= Integer.valueOf(pageMap.get("rows").toString());// 当前页大小
             Page page = Page.getPage(pageNo,pageSize);
