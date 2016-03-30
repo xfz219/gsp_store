@@ -32,7 +32,11 @@ form .label{
 .box .datagrid-body{
 overflow:hidden;
 }
-#type{
+#salesStatus{
+width:175px;
+height: 20px;
+}
+#branchCode{
 width:175px;
 height: 20px;
 }
@@ -59,7 +63,8 @@ $(function(){
 			{field:'sales',title:'是否绑定销售',align:'center',width : fixWidth(0.1)},
 			{field:'salesName',title:'销售姓名',align:'center',width : fixWidth(0.1)},
 			{field:'salesNo',title:'销售工号',align:'center',width : fixWidth(0.1)},
-			{field:'salesStatus',title:'销售状态',align:'center',width : fixWidth(0.1)}
+			{field:'salesStatus',title:'销售状态',align:'center',width : fixWidth(0.1)},
+			{field:'radio',title:'radio',align:'center',hidden:true}
 	        
 	    ]],
 		idField:'id',
@@ -117,8 +122,13 @@ function getData(data){
 
 //搜索
 function searchByConditions(){
-	paramData.appLendRequestId = $('#appLendRequestId').val(); //进件id
-	paramData.type =  $('#type').val();//类型
+	paramData.radio =  $('input:radio:checked').val();
+	paramData.name = $('#name').val();
+	paramData.mobile = $('#mobile').val();
+	paramData.branchCode = $('#branchCode').val();
+	paramData.salesName = $('#salesName').val();
+	paramData.salesNo = $('#salesNo').val();
+	paramData.salesStatus = $('#salesStatus').val();
 	grid.datagrid('load', getData(paramData));
 	grid.datagrid('clearSelections'); 
 }
@@ -126,8 +136,13 @@ function searchByConditions(){
 
 //重置
 function resetConditions(){
-	$('#appLendRequestId').val(''); //员工编号
-	$('#type').val(''); //员工编号
+	$('#name').val('');
+	$('#mobile').val('');
+	$('#branchCode').val('');
+	$('#mobile').val('');
+	$('#salesName').val('');
+	$('#salesNo').val('');
+	$('#salesStatus').val('');
 }
 
 </script>
@@ -142,19 +157,23 @@ function resetConditions(){
 <div id="modifyDialog"></div>
 	<div id="tbLendRequest">
 		<br>
-		&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="aa" value="1" >仅显示未绑定销售
-		&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="aa" value="2" checked>显示全部
+		&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="radio" value="1" >仅显示未绑定销售
+		&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="radio" value="2" checked>显示全部
         <br><br>
 			&nbsp;&nbsp;&nbsp;&nbsp;客户姓名：<input type="text" id="name" name="name" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;客户手机：<input type="text" id="name" name="name" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;门店机构：<input type="text" id="name" name="name" />&nbsp;&nbsp;&nbsp;&nbsp;
-			<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;销售姓名：<input type="text" id="name" name="name" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;销售工号：<input type="text" id="name" name="name" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;销售状态：<select type="select" name="type" id="type">
+			&nbsp;&nbsp;&nbsp;&nbsp;客户手机：<input type="text" id="mobile" name="mobile" />&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;门店机构：<select type="select" name="branchCode" id="branchCode">
 					<option value=""></option>
 					<option value="1">正常</option>
 					<option value="2">异常</option>
+				</select>
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;销售姓名：<input type="text" id="salesName" name="salesName" />&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;销售工号：<input type="text" id="salesNo" name="salesNo" />&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;销售状态：<select type="select" name="salesStatus" id="salesStatus">
+					<option value=""></option>
+					<option value="正常">正常</option>
+					<option value="异常">异常</option>
 				</select>
 			<a  href="javascript:void(0);" class="easyui-linkbutton search" iconCls="icon-search" plain="true" onclick="searchByConditions();">搜索</a>
 			<span class="datagrid-btn-separator" style="float:none;"></span>

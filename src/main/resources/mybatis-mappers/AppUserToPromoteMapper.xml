@@ -18,11 +18,23 @@
 	
 	<select id="selectCustomerCluesMethod" parameterType="map" resultMap="appUserToPromoteObj">
 		select * from app_user_to_promote autp where 1 = 1 
-			<if test="appLendRequestId != null and appLendRequestId != ''">
-				<![CDATA[AND autp.app_lend_request_id = #{appLendRequestId}]]>
+			<if test="radio == 1">
+				<![CDATA[AND autp.sales_no is null]]>
 			</if>
-			<if test="type != null and type != ''">
-				<![CDATA[AND autp.type =#{type} ]]>
+			<if test="name != null and name != ''">
+				<![CDATA[AND autp.name =#{name} ]]>
+			</if>
+			<if test="mobile != null and mobile != ''">
+				<![CDATA[AND autp.mobile =#{mobile} ]]>
+			</if>
+			<if test="branchCode != null and branchCode != ''">
+				<![CDATA[AND autp.branch_code =#{branchCode} ]]>
+			</if>
+			<if test="salesName != null and salesName != ''">
+				<![CDATA[AND autp.sales_name =#{salesName} ]]>
+			</if>
+			<if test="salesNo != null and salesNo != ''">
+				<![CDATA[AND autp.sales_no =#{salesNo} ]]>
 			</if>
 	</select>
 	

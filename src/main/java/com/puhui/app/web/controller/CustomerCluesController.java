@@ -44,8 +44,14 @@ public class CustomerCluesController {
 	@RequestMapping(value = "/selectCustomerCluesMethod")
 	@ResponseBody
 	public Map<String, Object> selectCustomerCluesMethod(@RequestParam Map<String, Object> pageMap, 
-    		@RequestParam(value = "appLendRequestId", required = false) String appLendRequestId,
-    		@RequestParam(value = "type", required = false) String type){
+    		@RequestParam(value = "radio", required = false) String radio,
+    		@RequestParam(value = "name", required = false) String name,
+    		@RequestParam(value = "mobile", required = false) String mobile,
+    		@RequestParam(value = "branchCode", required = false) String branchCode,
+    		@RequestParam(value = "salesName", required = false) String salesName,
+    		@RequestParam(value = "salesNo", required = false) String salesNo,
+    		@RequestParam(value = "salesStatus", required = false) String salesStatus){
+		
     	Map<String, Object> objMap = new HashMap<String, Object>();
     	try{
     		int pageNo = Integer.valueOf(pageMap.get("page").toString());// 当前页
@@ -54,8 +60,13 @@ public class CustomerCluesController {
             //查询条件参数
             Map<String, Object> paramMap = new HashMap<String, Object>(); 
         	paramMap.put("page", page);
-        	paramMap.put("appLendRequestId", appLendRequestId);
-        	paramMap.put("type", type);
+        	paramMap.put("radio", radio);
+        	paramMap.put("name", name);
+        	paramMap.put("mobile", mobile);
+        	paramMap.put("branchCode", branchCode);
+        	paramMap.put("salesName", salesName);
+        	paramMap.put("salesNo", salesNo);
+        	paramMap.put("salesStatus", salesStatus);
         	List<Map<String, Object>> autpList = customerCluesService.selectCustomerCluesMethod(paramMap);
         	objMap.put("total", page.getTotalCount());
         	objMap.put("rows", autpList);
