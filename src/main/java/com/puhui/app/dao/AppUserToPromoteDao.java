@@ -12,6 +12,6 @@ public interface AppUserToPromoteDao extends BaseDao<AppUserToPromote> {
 	 * @author lichunyue
 	 * @return
 	 */
-	public List<Map<String, Object>> selectCustomerCluesMethod(Map<String, Object> paramMap);
+	public List<AppUserToPromote> selectCustomerCluesMethod(Map<String, Object> paramMap);
 
 }

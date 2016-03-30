@@ -14,6 +14,8 @@ public class AppUserToPromote implements Serializable {
      * @author puhui
      */
     private static final long serialVersionUID = 1L;
+    
+    private long id;
 
     private String name;
     
@@ -105,5 +107,14 @@ public class AppUserToPromote implements Serializable {
 		this.uid = uid;
 	}
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	
     
 }

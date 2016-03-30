@@ -3,6 +3,8 @@ package com.puhui.app.service;
 import java.util.List;
 import java.util.Map;
 
+import com.puhui.app.po.AppUserToPromote;
+
 
 public interface CustomerCluesService {
 	/**

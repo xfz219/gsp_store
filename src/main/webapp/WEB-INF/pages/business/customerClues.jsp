@@ -56,10 +56,10 @@ $(function(){
 			{field:'registered',title:'是否注册app',align:'center',width : fixWidth(0.1)},
 			{field:'city',title:'借款城市',align:'center',width : fixWidth(0.1)},
 			{field:'branch',title:'门店',align:'center',width : fixWidth(0.1)},
-			{field:'salse',title:'是否绑定销售',align:'center',width : fixWidth(0.1)},
-			{field:'salseName',title:'销售姓名',align:'center',width : fixWidth(0.1)},
-			{field:'salseNo',title:'销售工号',align:'center',width : fixWidth(0.1)},
-			{field:'salseStatus',title:'销售状态',align:'center',width : fixWidth(0.1)}
+			{field:'sales',title:'是否绑定销售',align:'center',width : fixWidth(0.1)},
+			{field:'salesName',title:'销售姓名',align:'center',width : fixWidth(0.1)},
+			{field:'salesNo',title:'销售工号',align:'center',width : fixWidth(0.1)},
+			{field:'salesStatus',title:'销售状态',align:'center',width : fixWidth(0.1)}
 	        
 	    ]],
 		idField:'id',

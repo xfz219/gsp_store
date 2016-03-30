@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.puhui.app.common.page.mybatis.Page;
+import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
 
 /**
@@ -55,11 +56,9 @@ public class CustomerCluesController {
         	paramMap.put("page", page);
         	paramMap.put("appLendRequestId", appLendRequestId);
         	paramMap.put("type", type);
-        	
-        	List<Map<String, Object>> list = customerCluesService.selectCustomerCluesMethod(paramMap);
-        	
+        	List<Map<String, Object>> autpList = customerCluesService.selectCustomerCluesMethod(paramMap);
         	objMap.put("total", page.getTotalCount());
-        	objMap.put("rows", list);
+        	objMap.put("rows", autpList);
     	}catch(Exception e){
     		System.out.println("查询附件失败");
     		throw new IllegalArgumentException(e);

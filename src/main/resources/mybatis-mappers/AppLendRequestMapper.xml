@@ -5,7 +5,8 @@
 <mapper namespace="com.puhui.app.dao.AppLendRequestDao">
 
 <update id="updateCustomerEntryState" parameterType="long">
-	update app_lend_request set state = 1
+	update app_lend_request set 
+	state = 2,audit_state = 0
 		where id = #{id}
 </update>
 	
