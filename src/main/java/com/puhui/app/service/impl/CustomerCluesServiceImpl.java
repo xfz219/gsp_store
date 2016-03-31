@@ -40,6 +40,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 		List<Map<String, Object>> list =  new ArrayList<Map<String, Object>>();
 		for(AppUserToPromote autp : autpList){
     		Map<String, Object> autpMap = new HashMap<String, Object>();
+    		autpMap.put("toPromoteId", autp.getId());
     		autpMap.put("name", autp.getName());
     		autpMap.put("mobile", autp.getMobile());
     		autpMap.put("city", autp.getCity());

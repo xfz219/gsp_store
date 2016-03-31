@@ -43,7 +43,6 @@ height: 20px;
  var i = 0;
  var paramData = {};
 $(function(){
-	
 	grid = $('#datagrid').datagrid({
 		nowrap: false,
 		striped: true,
@@ -51,6 +50,7 @@ $(function(){
 		url:'${ctx}/customerClues/selectCustomerCluesMethod',
 	    columns:[[
 			{field:'id',title:'id',align:'center',hidden:true},
+			{field:'toPromoteId',title:'toPromoteId',hidden:true},
 			{field:'name',title:'客户姓名',align:'center',width : fixWidth(0.1)},
 			{field:'mobile',title:'手机号码',align:'center',width : fixWidth(0.1)},
 			{field:'registered',title:'是否注册app',align:'center',width : fixWidth(0.1)},
@@ -86,23 +86,6 @@ function fixWidth(percent) {
 	return document.body.clientWidth * percent;
 }
 
-function reset(){
-	var rows = $('#datagrid').datagrid('getSelections');
-	if(rows.length>1){
-		$.messager.alert('提示信息','只能选择单条记录件！');
-	}else if(rows.length<1){
-		$.messager.alert('提示信息','请选择一条记录！');
-	}else{
-		$.ajax({
-            type:'POST', //请求方式  
-            url:'${ctx}/accessoryReset/updateAccessory', //请求路径  
-            cache: false,     
-            data:rows[0],  //传参  
-            dataType: 'json'//返回值类型  
-            });
-		searchByConditions();
-	}
-}
 
 //过滤无效属性
 function getData(data){
@@ -152,19 +135,21 @@ function bindingUserA() {
 	}
 	
 function YES() {
+	var rows = $('#datagrid').datagrid('getSelections');
+	if(rows.length<1){
+		$.messager.alert('提示信息','请选择一条记录！');
+	}else{
 	var thisButton = $(this);
  	if(typeof $('#selectUserZu').val() != '' && $('#selectUserName').val() != ''){
     	$.messager.confirm('确定','您确定要绑定吗？',function(r){
         	if(r){
-            	thisButton.linkbutton('disable');
        			$.ajax({
-       			    url: '${ctx}/customerClues/bindingUser',
-       			    data: {
-       			        "selectUserName": $('#selectUserName').val()
+       			    url: '${ctx}/customerClues/bindingUserMethod',
+       			    data:{"selectUserName": $('#selectUserName').val(),"toPromoteId":rows[0].toPromoteId
        			    },
        			    type: 'POST',
        			    cache: false,
-       			    dataType: "json",
+       			    dataType: "json",//返回值类型  
        			    async:false,
        			    success: function(data) {
        			        if(data.returnEntity.success){
@@ -185,8 +170,9 @@ function YES() {
    	}else{
    		$.messager.alert('提示信息', '组别与姓名不可为空！');
    	}
-	
+	}
 }
+
 function NO() {
 	$('#addBindingUser').dialog({
 	   	closed:true
@@ -206,15 +192,15 @@ function NO() {
    		 	<label>组别：</label>
    		 	<select type="select" name="selectUserZu" id="selectUserZu" class="type">
 					<option value=""></option>
-					<option value="正常">正常</option>
-					<option value="异常">异常</option>
+					<option value="一组">一组</option>
+					<option value="二组">二组</option>
 			</select>
    		 	<br><br>
    		 	<label>姓名：</label>
    		 	<select type="select" name="selectUserName" id="selectUserName" class="type">
 					<option value=""></option>
-					<option value="正常">正常</option>
-					<option value="异常">异常</option>
+					<option value="003578">智超</option>
+					<option value="003578">智超</option>
 			</select>
 			<br><br>
 			<div style="margin: 0px 0px 0px 50px;">

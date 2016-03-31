@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.puhui.app.common.page.mybatis.Page;
+import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
 
 /**
@@ -84,10 +83,10 @@ public class CustomerCluesController {
 	 * @comment 绑定
 	 * @author lichunyue
 	 */
-	@RequestMapping(value = "/bindingUser")
+	@RequestMapping(value = "/bindingUserMethod")
 	@ResponseBody
-	public void bindingUser(
-			@RequestParam(value = "id", required = false) int id,
+	public void bindingUserMethod(
+			@RequestParam(value = "toPromoteId", required = false) int toPromoteId,
     		@RequestParam(value = "selectUserName", required = false) String selectUserName){
     	try{
             //查询条件参数
