@@ -79,28 +79,25 @@ public class CustomerCluesController {
     	}
     	return objMap;
 	}
-//	
-//	/**
-//	 * @comment 重置获取状态与轮询次数
-//	 * @author lichunyue
-//	 */
-//	@RequestMapping(value = "/updateAccessory")
-//	@ResponseBody
-//	public void updateAccessory(@RequestParam(value = "app_lend_request_id", required = false) int appLendRequestId,
-//    		@RequestParam(value = "type", required = false) String type){
-//    	try{
-//            //查询条件参数
-//            Map<String, Object> paramMap = new HashMap<String, Object>(); 
-//        	paramMap.put("appLendRequestId", appLendRequestId);
-//        	paramMap.put("type", Select.getInstance().checkType().get(type));
-//        	paramMap.put("status", 5);
-//        	paramMap.put("queryNumber", 1);
-//        	
+	
+	/**
+	 * @comment 绑定
+	 * @author lichunyue
+	 */
+	@RequestMapping(value = "/bindingUser")
+	@ResponseBody
+	public void bindingUser(
+			@RequestParam(value = "id", required = false) int id,
+    		@RequestParam(value = "selectUserName", required = false) String selectUserName){
+    	try{
+            //查询条件参数
+            Map<String, Object> paramMap = new HashMap<String, Object>(); 
+        	
 //        	accessoryResetServer.updateAccessoryServer(paramMap);
-//        	
-//    	}catch(Exception e){
-//    		System.out.println("重置失败");
-//    		throw new IllegalArgumentException(e);
-//    	}
-//	}
+        	
+    	}catch(Exception e){
+    		System.out.println("绑定失败");
+    		throw new IllegalArgumentException(e);
+    	}
+	}
 }

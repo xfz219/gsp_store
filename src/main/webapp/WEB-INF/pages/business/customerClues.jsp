@@ -160,7 +160,7 @@ function YES() {
        			$.ajax({
        			    url: '${ctx}/customerClues/bindingUser',
        			    data: {
-       			        "mobile": $('#mobile').val()
+       			        "selectUserName": $('#selectUserName').val()
        			    },
        			    type: 'POST',
        			    cache: false,
