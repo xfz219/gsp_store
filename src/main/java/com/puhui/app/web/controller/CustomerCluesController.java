@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.puhui.app.common.page.mybatis.Page;
 import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
+import com.puhui.app.vo.ReturnEntity;
 
 /**
  * @comment 客户线索
@@ -83,17 +84,13 @@ public class CustomerCluesController {
 	 * @comment 绑定
 	 * @author lichunyue
 	 */
-	@RequestMapping(value = "/bindingUserMethod")
+	@RequestMapping(value = "/updateBindingUserMethod")
 	@ResponseBody
-	public void bindingUserMethod(
+	public void updateBindingUserMethod(
 			@RequestParam(value = "toPromoteId", required = false) int toPromoteId,
     		@RequestParam(value = "selectUserName", required = false) String selectUserName){
     	try{
-            //查询条件参数
-            Map<String, Object> paramMap = new HashMap<String, Object>(); 
-        	
-//        	accessoryResetServer.updateAccessoryServer(paramMap);
-        	
+    		customerCluesService.updateBindingUserMethod(toPromoteId,selectUserName);
     	}catch(Exception e){
     		System.out.println("绑定失败");
     		throw new IllegalArgumentException(e);

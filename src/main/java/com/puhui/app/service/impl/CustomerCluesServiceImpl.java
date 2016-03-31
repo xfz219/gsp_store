@@ -15,7 +15,6 @@ import com.puhui.app.service.CustomerCluesService;
 import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
 import com.puhui.uc.api.service.RemoteOrganizationService;
 import com.puhui.uc.vo.RemoteLendAppResultVo;
-import com.puhui.uc.vo.RemoteOrganizationVo;
 
 @Service
 public class CustomerCluesServiceImpl implements CustomerCluesService{
@@ -60,6 +59,17 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
     	}
 		return list;
 	}
+	
+	@Override
+	public void updateBindingUserMethod(int toPromoteId,String selectUserName) throws Exception {
+		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(selectUserName);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", toPromoteId);
+		map.put("name", remoteLendAppResultVo.getName());
+		map.put("salesNo", selectUserName);
+		appUserToPromoteDao.updateBindingUserMethod(map);
+	}
+
 	/**
 	 * @comment 查询是否异常
 	 * @author lichunyue
@@ -94,5 +104,4 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 		}
 		return cityName;
 	}
-
 }

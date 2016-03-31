@@ -13,5 +13,7 @@ public interface AppUserToPromoteDao extends BaseDao<AppUserToPromote> {
 	 * @return
 	 */
 	public List<AppUserToPromote> selectCustomerCluesMethod(Map<String, Object> paramMap);
+	
+	public void updateBindingUserMethod(Map<String, Object> map);
 
 }

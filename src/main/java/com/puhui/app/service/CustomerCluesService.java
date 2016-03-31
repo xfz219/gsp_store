@@ -13,5 +13,13 @@ public interface CustomerCluesService {
 	 * @return
 	 */
 	public List<Map<String, Object>> selectCustomerCluesMethod(Map<String, Object> paramMap)throws Exception;
+	
+	/**
+	 * @comment 绑定
+	 * @author lichunyue
+	 * @return
+	 */
+	public void updateBindingUserMethod(int toPromoteId, String selectUserName)throws Exception;
+
 
 }

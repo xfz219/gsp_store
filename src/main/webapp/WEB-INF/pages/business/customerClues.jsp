@@ -139,29 +139,22 @@ function YES() {
 	if(rows.length<1){
 		$.messager.alert('提示信息','请选择一条记录！');
 	}else{
-	var thisButton = $(this);
  	if(typeof $('#selectUserZu').val() != '' && $('#selectUserName').val() != ''){
     	$.messager.confirm('确定','您确定要绑定吗？',function(r){
         	if(r){
        			$.ajax({
-       			    url: '${ctx}/customerClues/bindingUserMethod',
+       			    url: '${ctx}/customerClues/updateBindingUserMethod',
        			    data:{"selectUserName": $('#selectUserName').val(),"toPromoteId":rows[0].toPromoteId
        			    },
        			    type: 'POST',
        			    cache: false,
        			    dataType: "json",//返回值类型  
        			    async:false,
-       			    success: function(data) {
-       			        if(data.returnEntity.success){
-       			        	addBindingUser.dialog('close');
-        			        grid.datagrid('clearSelections');
-        			        grid.datagrid('load');
-       			        }
-       			        $.messager.alert('提示信息',data.returnEntity.msg);
-       			     	thisButton.linkbutton('enable');
+       			    success: function() {
+       			        	$('#addBindingUser').dialog('close');
+       			        	searchByConditions();
        			    },
        			    error: function(XMLHttpRequest, textStatus, errorThrown) {
-       			    	thisButton.linkbutton('enable');
        			        $.messager.alert('提示信息', "请求出现错误！");
        			    }
        			});

@@ -38,4 +38,10 @@
 			</if>
 	</select>
 	
+	<update id="updateBindingUserMethod" parameterType="map">
+		update app_user_to_promote set
+		sales_name = #{name},
+		sales_no = #{salesNo}
+		where id = #{id}
+	</update>
 </mapper> 
