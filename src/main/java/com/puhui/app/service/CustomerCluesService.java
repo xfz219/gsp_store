@@ -19,7 +19,7 @@ public interface CustomerCluesService {
 	 * @author lichunyue
 	 * @return
 	 */
-	public void updateBindingUserMethod(int toPromoteId, String selectUserName)throws Exception;
+	public void updateBindingUserMethod(Integer toPromoteId, String selectUserName)throws Exception;
 
 
 }

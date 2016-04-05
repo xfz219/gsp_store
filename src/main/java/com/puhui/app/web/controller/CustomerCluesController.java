@@ -1,9 +1,14 @@
 package com.puhui.app.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.puhui.app.common.page.mybatis.Page;
-import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
-import com.puhui.app.vo.ReturnEntity;
+import com.puhui.uc.vo.RemoteStaffVo;
 
 /**
  * @comment 客户线索
@@ -55,8 +59,8 @@ public class CustomerCluesController {
 		
     	Map<String, Object> objMap = new HashMap<String, Object>();
     	try{
-//    		Subject currStaff = SecurityUtils.getSubject();
-//            Staff staff = (Staff) currStaff.getPrincipal();
+    		Subject currStaff = SecurityUtils.getSubject();
+    		RemoteStaffVo staff = (RemoteStaffVo) currStaff.getPrincipal();
     		int pageNo = Integer.valueOf(pageMap.get("page").toString());// 当前页
     		int pageSize= Integer.valueOf(pageMap.get("rows").toString());// 当前页大小
             Page page = Page.getPage(pageNo,pageSize);
@@ -70,6 +74,7 @@ public class CustomerCluesController {
         	paramMap.put("salesName", salesName);
         	paramMap.put("salesNo", salesNo);
         	paramMap.put("salesStatus", salesStatus);
+        	paramMap.put("EmployeeNo", staff.getEmployeeNo());
         	List<Map<String, Object>> autpList = customerCluesService.selectCustomerCluesMethod(paramMap);
         	objMap.put("total", page.getTotalCount());
         	objMap.put("rows", autpList);
@@ -93,6 +98,62 @@ public class CustomerCluesController {
     		customerCluesService.updateBindingUserMethod(toPromoteId,selectUserName);
     	}catch(Exception e){
     		System.out.println("绑定失败");
+    		throw new IllegalArgumentException(e);
+    	}
+	}
+	
+	/**
+	 * @comment 查询异常
+	 * @author lichunyue
+	 */
+	@RequestMapping(value = "/selectUserSalesStatusMethod")
+	@ResponseBody
+	public JSONArray selectUserSalesStatusMethod(){
+    	try{
+    		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+    		Map<String, Object> map = new HashMap<String, Object>();
+    		map.put("salesStatusCode", "");
+    		map.put("salesStatusName", "全部");
+    		listMap.add(map);
+    		Map<String, Object> map1 = new HashMap<String, Object>();
+    		map1.put("salesStatusCode", "正常");
+    		map1.put("salesStatusName", "正常");
+    		listMap.add(map1);
+    		Map<String, Object> map2 = new HashMap<String, Object>();
+    		map2.put("salesStatusCode", "异常");
+    		map2.put("salesStatusName", "异常");
+    		listMap.add(map2);
+    		JSONArray json = JSONArray.fromObject(listMap); 
+    		return json;
+    		
+    	}catch(Exception e){
+    		System.out.println("调用列表失败！");
+    		throw new IllegalArgumentException(e);
+    	}
+	}
+	
+	/**
+	 * @comment 查询
+	 * @author lichunyue
+	 */
+	@RequestMapping(value = "/selectUserMethod")
+	@ResponseBody
+	public JSONArray selectUserMethod(){
+    	try{
+    		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+    		Map<String, Object> map = new HashMap<String, Object>();
+    		map.put("shopCode", "");
+    		map.put("shopName", "全部");
+    		listMap.add(map);
+    		Map<String, Object> map1 = new HashMap<String, Object>();
+    		map1.put("shopCode", "RPA24505");
+    		map1.put("shopName", "百色环球广场营业部");
+    		listMap.add(map1);
+    		JSONArray json = JSONArray.fromObject(listMap); 
+    		return json;
+    		
+    	}catch(Exception e){
+    		System.out.println("调用列表失败！");
     		throw new IllegalArgumentException(e);
     	}
 	}

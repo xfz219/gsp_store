@@ -42,6 +42,8 @@ height: 20px;
  var grid;
  var i = 0;
  var paramData = {};
+ var i = 0;
+	
 $(function(){
 	grid = $('#datagrid').datagrid({
 		nowrap: false,
@@ -51,6 +53,7 @@ $(function(){
 	    columns:[[
 			{field:'id',title:'id',align:'center',hidden:true},
 			{field:'toPromoteId',title:'toPromoteId',hidden:true},
+			{field:'branchCode',title:'门店Code',hidden:true},
 			{field:'name',title:'客户姓名',align:'center',width : fixWidth(0.1)},
 			{field:'mobile',title:'手机号码',align:'center',width : fixWidth(0.1)},
 			{field:'registered',title:'是否注册app',align:'center',width : fixWidth(0.1)},
@@ -107,7 +110,7 @@ function searchByConditions(){
 	paramData.branchCode = $('#branchCode').val();
 	paramData.salesName = $('#salesName').val();
 	paramData.salesNo = $('#salesNo').val();
-	paramData.salesStatus = $('#salesStatus').val();
+	paramData.salesStatus = $('#salesStatus').combobox('getValue');
 	grid.datagrid('load', getData(paramData));
 	grid.datagrid('clearSelections'); 
 }
@@ -117,14 +120,18 @@ function searchByConditions(){
 function resetConditions(){
 	$('#name').val('');
 	$('#mobile').val('');
-	$('#branchCode').val('');
 	$('#mobile').val('');
 	$('#salesName').val('');
 	$('#salesNo').val('');
-	$('#salesStatus').val('');
+	$('#branchCode').combobox("setValue", '');
+	$("#salesStatus").combobox("setValue", '');
 }
 
 function bindingUserA() {
+	var rows = $('#datagrid').datagrid('getSelections');
+	if(rows.length<1){
+		$.messager.alert('提示信息','请选择一条记录！');
+	}else{
 	$('#addBindingUser').dialog({
 		title: "绑定",
 	   	width: 400,
@@ -133,12 +140,9 @@ function bindingUserA() {
 	   	closed:false
 	});
 	}
+}
 	
 function YES() {
-	var rows = $('#datagrid').datagrid('getSelections');
-	if(rows.length<1){
-		$.messager.alert('提示信息','请选择一条记录！');
-	}else{
  	if(typeof $('#selectUserZu').val() != '' && $('#selectUserName').val() != ''){
     	$.messager.confirm('确定','您确定要绑定吗？',function(r){
         	if(r){
@@ -163,7 +167,6 @@ function YES() {
    	}else{
    		$.messager.alert('提示信息', '组别与姓名不可为空！');
    	}
-	}
 }
 
 function NO() {
@@ -210,19 +213,25 @@ function NO() {
         <br><br>
 			&nbsp;&nbsp;&nbsp;&nbsp;客户姓名：<input type="text" id="name" name="name" />&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;客户手机：<input type="text" id="mobile" name="mobile" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;门店机构：<select type="select" name="branchCode" id="branchCode" class="type">
-					<option value=""></option>
-					<option value="1">正常</option>
-					<option value="2">异常</option>
-				</select>
+			&nbsp;&nbsp;&nbsp;&nbsp;门店机构： <input class="easyui-combobox" data-options="editable:false" 
+							   id='branchCode'
+							   name="branchCode"
+							   url='${ctx}/customerClues/selectUserMethod'
+							   valueField='shopCode'
+							   textField='shopName'
+							   panelHeight='auto'
+							   />
 			<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;销售姓名：<input type="text" id="salesName" name="salesName" />&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;销售工号：<input type="text" id="salesNo" name="salesNo" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;销售状态：<select type="select" name="salesStatus" id="salesStatus" class="type">
-					<option value=""></option>
-					<option value="正常">正常</option>
-					<option value="异常">异常</option>
-				</select>
+			&nbsp;&nbsp;&nbsp;&nbsp;销售状态：	<input class="easyui-combobox" 
+							   id='salesStatus'
+							   name="salesStatus"
+							   url='${ctx}/customerClues/selectUserSalesStatusMethod'
+							   valueField='salesStatusCode'
+							   textField='salesStatusName'
+							   panelHeight='auto'
+							   />
 			<a  href="javascript:void(0);" class="easyui-linkbutton search" iconCls="icon-search" plain="true" onclick="searchByConditions();">搜索</a>
 			<span class="datagrid-btn-separator" style="float:none;"></span>
 			<a  href="javascript:void(0);" class="easyui-linkbutton clear" iconCls="icon-remove" plain="true" onclick="resetConditions();">重置</a>

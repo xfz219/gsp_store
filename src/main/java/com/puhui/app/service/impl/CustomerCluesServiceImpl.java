@@ -35,6 +35,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	@Override
 	public List<Map<String, Object>> selectCustomerCluesMethod(Map<String, Object> paramMap) throws Exception {
 		List<AppUserToPromote> autpList = appUserToPromoteDao.selectCustomerCluesMethod(paramMap);
+		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(Long.parseLong("4838"));
 		Object salesStatus = paramMap.get("salesStatus");
 		List<Map<String, Object>> list =  new ArrayList<Map<String, Object>>();
 		for(AppUserToPromote autp : autpList){
@@ -44,9 +45,10 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
     		autpMap.put("mobile", autp.getMobile());
     		autpMap.put("city", autp.getCity());
     		autpMap.put("branch", autp.getBranch());
+    		autpMap.put("branchCode", autp.getBranchCode());
     		autpMap.put("salesName", autp.getSalesName());
     		autpMap.put("salesNo", autp.getSalesNo());
-    		Map<String, Object> map= appCustomerDao.getMobileMethod(autp.getMobile());
+    		Map<String, Object> map = appCustomerDao.getMobileMethod(autp.getMobile());
     		autpMap.put("registered", map == null ? "未注册" : "已注册");
     		autpMap.put("sales", autp.getSalesNo() == null ? "否" : "是");
     		autpMap.put("salesStatus", autp.getSalesNo() == null ? "" : getUserInfoMethod(autp.getSalesNo(),autp.getCity()));
@@ -61,7 +63,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	}
 	
 	@Override
-	public void updateBindingUserMethod(int toPromoteId,String selectUserName) throws Exception {
+	public void updateBindingUserMethod(Integer toPromoteId,String selectUserName) throws Exception {
 		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(selectUserName);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", toPromoteId);
