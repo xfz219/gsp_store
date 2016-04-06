@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.puhui.app.common.page.mybatis.Page;
 import com.puhui.app.service.CustomerCluesService;
+import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
+import com.puhui.uc.vo.RemoteLendAppResultVo;
 import com.puhui.uc.vo.RemoteStaffVo;
 
 /**
@@ -29,6 +31,8 @@ public class CustomerCluesController {
 	
 	@Autowired
 	private CustomerCluesService customerCluesService;
+	@Autowired
+	private RemoteLendAppUserCenterService remoteLendAppUserCenterService;
 	
 	
 	/**
@@ -52,7 +56,7 @@ public class CustomerCluesController {
     		@RequestParam(value = "radio", required = false) String radio,
     		@RequestParam(value = "name", required = false) String name,
     		@RequestParam(value = "mobile", required = false) String mobile,
-    		@RequestParam(value = "branchCode", required = false) String branchCode,
+    		@RequestParam(value = "department", required = false) String department,
     		@RequestParam(value = "salesName", required = false) String salesName,
     		@RequestParam(value = "salesNo", required = false) String salesNo,
     		@RequestParam(value = "salesStatus", required = false) String salesStatus){
@@ -70,11 +74,13 @@ public class CustomerCluesController {
         	paramMap.put("radio", radio);
         	paramMap.put("name", name);
         	paramMap.put("mobile", mobile);
-        	paramMap.put("branchCode", branchCode);
+        	paramMap.put("department", department);
         	paramMap.put("salesName", salesName);
         	paramMap.put("salesNo", salesNo);
         	paramMap.put("salesStatus", salesStatus);
-        	paramMap.put("EmployeeNo", staff.getEmployeeNo());
+//        	RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(staff.getEmployeeNo());
+        	RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod("003192");
+        	paramMap.put("branchCode", remoteLendAppResultVo.getShopCode());
         	List<Map<String, Object>> autpList = customerCluesService.selectCustomerCluesMethod(paramMap);
         	objMap.put("total", page.getTotalCount());
         	objMap.put("rows", autpList);
@@ -91,11 +97,12 @@ public class CustomerCluesController {
 	 */
 	@RequestMapping(value = "/updateBindingUserMethod")
 	@ResponseBody
-	public void updateBindingUserMethod(
+	public JSONArray updateBindingUserMethod(
 			@RequestParam(value = "toPromoteId", required = false) int toPromoteId,
     		@RequestParam(value = "selectUserName", required = false) String selectUserName){
     	try{
     		customerCluesService.updateBindingUserMethod(toPromoteId,selectUserName);
+    		return JSONArray.fromObject(1); 
     	}catch(Exception e){
     		System.out.println("绑定失败");
     		throw new IllegalArgumentException(e);
@@ -133,7 +140,27 @@ public class CustomerCluesController {
 	}
 	
 	/**
-	 * @comment 查询
+	 * @comment 查询姓名
+	 * @author lichunyue
+	 */
+	@RequestMapping(value = "/selectUserNameMethod")
+	@ResponseBody
+	public JSONArray selectUserNameMethod(@RequestParam(value = "department", required = false) String department){
+    	try{
+    		Subject currStaff = SecurityUtils.getSubject();
+    		RemoteStaffVo staff = (RemoteStaffVo) currStaff.getPrincipal();
+//        	RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(staff.getEmployeeNo());
+        	RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod("003192");
+    		JSONArray json = customerCluesService.selectUserNameMethod(department);
+    		return json;
+    	}catch(Exception e){
+    		System.out.println("调用列表失败！");
+    		throw new IllegalArgumentException(e);
+    	}
+	}
+	
+	/**
+	 * @comment 查询分组
 	 * @author lichunyue
 	 */
 	@RequestMapping(value = "/selectUserMethod")
@@ -142,13 +169,29 @@ public class CustomerCluesController {
     	try{
     		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
     		Map<String, Object> map = new HashMap<String, Object>();
-    		map.put("shopCode", "");
-    		map.put("shopName", "全部");
+    		map.put("departmentCode", "");
+    		map.put("departmentName", "全部");
     		listMap.add(map);
     		Map<String, Object> map1 = new HashMap<String, Object>();
-    		map1.put("shopCode", "RPA24505");
-    		map1.put("shopName", "百色环球广场营业部");
+    		map1.put("departmentCode", "一组");
+    		map1.put("departmentName", "一组");
     		listMap.add(map1);
+    		Map<String, Object> map2 = new HashMap<String, Object>();
+    		map2.put("departmentCode", "二组");
+    		map2.put("departmentName", "二组");
+    		listMap.add(map2);
+    		Map<String, Object> map3 = new HashMap<String, Object>();
+    		map3.put("departmentCode", "三组");
+    		map3.put("departmentName", "三组");
+    		listMap.add(map3);
+    		Map<String, Object> map4 = new HashMap<String, Object>();
+    		map4.put("departmentCode", "四组");
+    		map4.put("departmentName", "四组");
+    		listMap.add(map4);
+    		Map<String, Object> map5 = new HashMap<String, Object>();
+    		map5.put("departmentCode", "五组");
+    		map5.put("departmentName", "五组");
+    		listMap.add(map5);
     		JSONArray json = JSONArray.fromObject(listMap); 
     		return json;
     		

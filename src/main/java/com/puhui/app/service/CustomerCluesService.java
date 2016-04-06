@@ -3,6 +3,8 @@ package com.puhui.app.service;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
+
 import com.puhui.app.po.AppUserToPromote;
 
 
@@ -20,6 +22,12 @@ public interface CustomerCluesService {
 	 * @return
 	 */
 	public void updateBindingUserMethod(Integer toPromoteId, String selectUserName)throws Exception;
+	/**
+	 * @comment 销售查询
+	 * @author lichunyue
+	 * @return
+	 */
+	public JSONArray selectUserNameMethod(String department);
 
 
 }

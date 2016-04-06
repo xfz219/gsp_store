@@ -53,7 +53,7 @@ $(function(){
 	    columns:[[
 			{field:'id',title:'id',align:'center',hidden:true},
 			{field:'toPromoteId',title:'toPromoteId',hidden:true},
-			{field:'branchCode',title:'门店Code',hidden:true},
+			{field:'department',title:'department',hidden:true},
 			{field:'name',title:'客户姓名',align:'center',width : fixWidth(0.1)},
 			{field:'mobile',title:'手机号码',align:'center',width : fixWidth(0.1)},
 			{field:'registered',title:'是否注册app',align:'center',width : fixWidth(0.1)},
@@ -107,9 +107,9 @@ function searchByConditions(){
 	paramData.radio =  $('input:radio:checked').val();
 	paramData.name = $('#name').val();
 	paramData.mobile = $('#mobile').val();
-	paramData.branchCode = $('#branchCode').val();
 	paramData.salesName = $('#salesName').val();
 	paramData.salesNo = $('#salesNo').val();
+	paramData.department = $('#department').combobox('getValue');
 	paramData.salesStatus = $('#salesStatus').combobox('getValue');
 	grid.datagrid('load', getData(paramData));
 	grid.datagrid('clearSelections'); 
@@ -123,7 +123,7 @@ function resetConditions(){
 	$('#mobile').val('');
 	$('#salesName').val('');
 	$('#salesNo').val('');
-	$('#branchCode').combobox("setValue", '');
+	$('#department').combobox("setValue", '');
 	$("#salesStatus").combobox("setValue", '');
 }
 
@@ -143,12 +143,13 @@ function bindingUserA() {
 }
 	
 function YES() {
- 	if(typeof $('#selectUserZu').val() != '' && $('#selectUserName').val() != ''){
+	var rows = $('#datagrid').datagrid('getSelections');
+ 	if(typeof $('#selectUserZu').combobox('getValue') != '' && $('#selectUserName').combobox('getValue') != ''){
     	$.messager.confirm('确定','您确定要绑定吗？',function(r){
         	if(r){
        			$.ajax({
        			    url: '${ctx}/customerClues/updateBindingUserMethod',
-       			    data:{"selectUserName": $('#selectUserName').val(),"toPromoteId":rows[0].toPromoteId
+       			    data:{"selectUserName": $('#selectUserName').combobox('getValue'),"toPromoteId":rows[0].toPromoteId
        			    },
        			    type: 'POST',
        			    cache: false,
@@ -174,6 +175,29 @@ function NO() {
 	   	closed:true
 	});
 }
+
+$(document).ready(function () {
+	$("#selectUserZu").combobox({
+	onChange: function (n,o) {
+	$.ajax({
+	    url: '${ctx}/customerClues/selectUserNameMethod',
+	    data:{"department": $('#selectUserZu').combobox('getValue')
+	    },
+	    type: 'POST',
+	    cache: false,
+	    dataType: "json",//返回值类型  
+	    async:false,
+	    success: function(data) {
+	    	$("#selectUserName").combobox("loadData", data);
+	    },
+	    error: function(XMLHttpRequest, textStatus, errorThrown) {
+	        $.messager.alert('提示信息', "请求出现错误！");
+	    }
+	});
+	}
+	});
+	});
+	
 </script>
 
 </head>
@@ -186,18 +210,17 @@ function NO() {
    		 	<label style="margin: 0px 0px 0px 50px;">请选择需要绑定的销售</label>
    		 	<br><br><br>
    		 	<label>组别：</label>
-   		 	<select type="select" name="selectUserZu" id="selectUserZu" class="type">
-					<option value=""></option>
-					<option value="一组">一组</option>
-					<option value="二组">二组</option>
-			</select>
+				<input class="easyui-combobox" data-options="editable:false" 
+											   id='selectUserZu'
+											   name="selectUserZu"
+											   url='${ctx}/customerClues/selectUserMethod'
+											   valueField='departmentCode'
+											   textField='departmentName'
+											   panelHeight='auto'
+											   />
    		 	<br><br>
    		 	<label>姓名：</label>
-   		 	<select type="select" name="selectUserName" id="selectUserName" class="type">
-					<option value=""></option>
-					<option value="003578">智超</option>
-					<option value="003578">智超</option>
-			</select>
+			<input class="easyui-combobox" id='selectUserName' name="selectUserName" data-options="valueField:'selectUserCode', textField:'selectUserName', panelHeight:'auto'" />
 			<br><br>
 			<div style="margin: 0px 0px 0px 50px;">
 				<a href="#" onclick="YES();" class="easyui-linkbutton">确认</a>
@@ -206,7 +229,7 @@ function NO() {
 			</div>
    		 </div>
 	</div>
-	<div id="tbLendRequest">
+	<div id="tbLendRequest" style="width: 1800px">
 		<br>
 		&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="radio" value="1" >仅显示未绑定销售
 		&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="radio" value="2" checked>显示全部
@@ -214,17 +237,17 @@ function NO() {
 			&nbsp;&nbsp;&nbsp;&nbsp;客户姓名：<input type="text" id="name" name="name" />&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;客户手机：<input type="text" id="mobile" name="mobile" />&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;门店机构： <input class="easyui-combobox" data-options="editable:false" 
-							   id='branchCode'
-							   name="branchCode"
+							   id='department'
+							   name="department"
 							   url='${ctx}/customerClues/selectUserMethod'
-							   valueField='shopCode'
-							   textField='shopName'
+							   valueField='departmentCode'
+							   textField='departmentName'
 							   panelHeight='auto'
 							   />
 			<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;销售姓名：<input type="text" id="salesName" name="salesName" />&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;销售工号：<input type="text" id="salesNo" name="salesNo" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;销售状态：	<input class="easyui-combobox" 
+			&nbsp;&nbsp;&nbsp;&nbsp;销售状态：	<input class="easyui-combobox" data-options="editable:false" 
 							   id='salesStatus'
 							   name="salesStatus"
 							   url='${ctx}/customerClues/selectUserSalesStatusMethod'

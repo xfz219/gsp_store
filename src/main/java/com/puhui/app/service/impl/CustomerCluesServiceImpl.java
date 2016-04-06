@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import com.puhui.app.service.CustomerCluesService;
 import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
 import com.puhui.uc.api.service.RemoteOrganizationService;
 import com.puhui.uc.vo.RemoteLendAppResultVo;
+import com.puhui.uc.vo.RemoteOrganizationVo;
 
 @Service
 public class CustomerCluesServiceImpl implements CustomerCluesService{
@@ -35,7 +38,6 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	@Override
 	public List<Map<String, Object>> selectCustomerCluesMethod(Map<String, Object> paramMap) throws Exception {
 		List<AppUserToPromote> autpList = appUserToPromoteDao.selectCustomerCluesMethod(paramMap);
-		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(Long.parseLong("4838"));
 		Object salesStatus = paramMap.get("salesStatus");
 		List<Map<String, Object>> list =  new ArrayList<Map<String, Object>>();
 		for(AppUserToPromote autp : autpList){
@@ -48,6 +50,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
     		autpMap.put("branchCode", autp.getBranchCode());
     		autpMap.put("salesName", autp.getSalesName());
     		autpMap.put("salesNo", autp.getSalesNo());
+    		autpMap.put("department", autp.getDepartment());
     		Map<String, Object> map = appCustomerDao.getMobileMethod(autp.getMobile());
     		autpMap.put("registered", map == null ? "未注册" : "已注册");
     		autpMap.put("sales", autp.getSalesNo() == null ? "否" : "是");
@@ -69,6 +72,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 		map.put("id", toPromoteId);
 		map.put("name", remoteLendAppResultVo.getName());
 		map.put("salesNo", selectUserName);
+		map.put("department", remoteLendAppResultVo.getDepartment());
 		appUserToPromoteDao.updateBindingUserMethod(map);
 	}
 
@@ -105,5 +109,26 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 			}
 		}
 		return cityName;
+	}
+	/**
+	 * @comment 查询销售
+	 * @author lichunyue
+	 * @return
+	 */
+	@Override
+	public JSONArray selectUserNameMethod(String department) {
+		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+		List<RemoteOrganizationVo> remoteOrganizationVoList = remoteOrganizationService.queryByCodeLike("rpa");
+		for(RemoteOrganizationVo remoteOrganizationVo : remoteOrganizationVoList){
+//			RPA5370301
+    		Map<String, Object> map = new HashMap<String, Object>();
+    		map.put("selectUserCode", remoteOrganizationVo.getCode());
+    		map.put("selectUserName", "全部");
+    		if(remoteOrganizationVo.getCode().equals("RPA5370301")){
+    			System.out.println("111");
+    		}
+    		listMap.add(map);
+		}
+		return JSONArray.fromObject(listMap);
 	}
 }

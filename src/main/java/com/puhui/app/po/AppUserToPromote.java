@@ -1,6 +1,7 @@
 package com.puhui.app.po;
 
 import java.io.Serializable;
+import java.util.Date;
 
 
 /**
@@ -34,6 +35,10 @@ public class AppUserToPromote implements Serializable {
     private String salesNo;
 
     private String uid;
+    
+    private String department;
+    
+    private Date updateAllotTime;
 
 	public String getName() {
 		return name;
@@ -114,7 +119,21 @@ public class AppUserToPromote implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
+	public Date getUpdateAllotTime() {
+		return updateAllotTime;
+	}
+
+	public void setUpdateAllotTime(Date updateAllotTime) {
+		this.updateAllotTime = updateAllotTime;
+	}
 	
-	
-    
 }
