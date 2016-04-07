@@ -27,7 +27,7 @@ public interface CustomerCluesService {
 	 * @author lichunyue
 	 * @return
 	 */
-	public JSONArray selectUserNameMethod(String department);
+	public JSONArray selectUserNameMethod(String department,String shopCode);
 
 
 }

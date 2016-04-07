@@ -151,7 +151,7 @@ public class CustomerCluesController {
     		RemoteStaffVo staff = (RemoteStaffVo) currStaff.getPrincipal();
 //        	RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(staff.getEmployeeNo());
         	RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod("003192");
-    		JSONArray json = customerCluesService.selectUserNameMethod(department);
+    		JSONArray json = customerCluesService.selectUserNameMethod(department,remoteLendAppResultVo.getShopCode());
     		return json;
     	}catch(Exception e){
     		System.out.println("调用列表失败！");

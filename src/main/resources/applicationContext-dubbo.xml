@@ -15,7 +15,7 @@
  	<dubbo:reference id="remoteLoginService" interface="com.puhui.uc.api.service.RemoteLoginService" loadbalance="random" check="false" />
  	<!-- 获取销售信息 -->
 	<dubbo:reference id="remoteLendAppUserCenterService" interface="com.puhui.uc.api.service.RemoteLendAppUserCenterService" check="false"  timeout="60000" />
-	<!-- uc获取城市-->
-	<dubbo:reference id="remoteOrganizationService " interface="com.puhui.uc.api.service.RemoteOrganizationService"  check="false" />
+	<!-- uc获取销售-->
+	<dubbo:reference id="remoteStaffService " interface="com.puhui.uc.api.service.RemoteStaffService"  check="false" />
 	<!-- UC end -->
 </beans>

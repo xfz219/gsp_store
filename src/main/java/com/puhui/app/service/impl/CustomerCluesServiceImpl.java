@@ -15,9 +15,10 @@ import com.puhui.app.dao.AppUserToPromoteDao;
 import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
 import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
-import com.puhui.uc.api.service.RemoteOrganizationService;
+import com.puhui.uc.api.service.RemoteStaffService;
 import com.puhui.uc.vo.RemoteLendAppResultVo;
 import com.puhui.uc.vo.RemoteOrganizationVo;
+import com.puhui.uc.vo.RemoteStaffVo;
 
 @Service
 public class CustomerCluesServiceImpl implements CustomerCluesService{
@@ -29,7 +30,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	@Autowired
 	private RemoteLendAppUserCenterService remoteLendAppUserCenterService;
 	@Autowired
-	private RemoteOrganizationService remoteOrganizationService;
+	private RemoteStaffService remoteStaffService;
 	/**
 	 * @comment 线索查询
 	 * @author lichunyue
@@ -116,18 +117,23 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	 * @return
 	 */
 	@Override
-	public JSONArray selectUserNameMethod(String department) {
+	public JSONArray selectUserNameMethod(String department,String shopCode) {
 		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
-		List<RemoteOrganizationVo> remoteOrganizationVoList = remoteOrganizationService.queryByCodeLike("rpa");
-		for(RemoteOrganizationVo remoteOrganizationVo : remoteOrganizationVoList){
-//			RPA5370301
-    		Map<String, Object> map = new HashMap<String, Object>();
-    		map.put("selectUserCode", remoteOrganizationVo.getCode());
-    		map.put("selectUserName", "全部");
-    		if(remoteOrganizationVo.getCode().equals("RPA5370301")){
-    			System.out.println("111");
-    		}
-    		listMap.add(map);
+		RemoteStaffVo remoteStaffVo = new RemoteStaffVo();
+		RemoteOrganizationVo organizationVo = new RemoteOrganizationVo();
+		organizationVo.setCode(shopCode+"%");
+//		organizationVo.setName(department);
+		remoteStaffVo.setOrganizationVo(organizationVo);
+		remoteStaffVo.setEnabled(true);//在职
+		remoteStaffVo.setPositionType("SALES");//销售
+		List<RemoteStaffVo> remoteStaffVoList =  remoteStaffService.query(0, 0, remoteStaffVo);
+		for(RemoteStaffVo remoteStaffVoName : remoteStaffVoList){
+			if(remoteStaffVoName.getOrganizationVo().getName().equals(department)){
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("selectUserCode", remoteStaffVoName.getEmployeeNo());
+				map.put("selectUserName", remoteStaffVoName.getRealName());
+				listMap.add(map);
+			}
 		}
 		return JSONArray.fromObject(listMap);
 	}
