@@ -149,8 +149,7 @@ public class CustomerCluesController {
     	try{
     		Subject currStaff = SecurityUtils.getSubject();
     		RemoteStaffVo staff = (RemoteStaffVo) currStaff.getPrincipal();
-//        	RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(staff.getEmployeeNo());
-        	RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod("003192");
+        	RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(staff.getEmployeeNo());
     		JSONArray json = customerCluesService.selectUserNameMethod(department,remoteLendAppResultVo.getShopCode());
     		return json;
     	}catch(Exception e){
