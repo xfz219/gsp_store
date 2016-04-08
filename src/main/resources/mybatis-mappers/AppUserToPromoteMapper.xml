@@ -24,19 +24,16 @@
 				<![CDATA[AND autp.sales_no is null]]>
 			</if>
 			<if test="name != null and name != ''">
-				<![CDATA[AND autp.name = #{name} ]]>
+				<![CDATA[AND autp.name LIKE #{name} ]]>
 			</if>
 			<if test="mobile != null and mobile != ''">
-				<![CDATA[AND autp.mobile = #{mobile} ]]>
-			</if>
-			<if test="branchCode != null and branchCode != ''">
-				<![CDATA[AND autp.branch_code = #{branchCode} ]]>
+				<![CDATA[AND autp.mobile LIKE #{mobile} ]]>
 			</if>
 			<if test="salesName != null and salesName != ''">
-				<![CDATA[AND autp.sales_name = #{salesName} ]]>
+				<![CDATA[AND autp.sales_name LIKE #{salesName} ]]>
 			</if>
 			<if test="salesNo != null and salesNo != ''">
-				<![CDATA[AND autp.sales_no = #{salesNo} ]]>
+				<![CDATA[AND autp.sales_no LIKE #{salesNo} ]]>
 			</if>
 			<if test="branchCode != null and branchCode != ''">
 				<![CDATA[AND autp.branch_code = #{branchCode} ]]>
