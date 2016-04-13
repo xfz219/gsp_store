@@ -16,6 +16,7 @@
 		<result property="uid" column="uid"/>
 		<result property="department" column="department"/>
 		<result property="updateAllotTime" column="update_allot_time"/>
+		<result property="createTime" column="create_time"/>
 	</resultMap>
 	
 	<select id="selectCustomerCluesMethod" parameterType="map" resultMap="appUserToPromoteObj">
@@ -41,8 +42,9 @@
 			<if test="department != null and department != ''">
 				<![CDATA[AND autp.department = #{department} ]]>
 			</if>
+		ORDER BY autp.create_time DESC
 	</select>
-	
+			
 	<update id="updateBindingUserMethod" parameterType="map">
 		update app_user_to_promote set
 		sales_name = #{name},

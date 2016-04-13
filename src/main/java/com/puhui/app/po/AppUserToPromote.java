@@ -39,6 +39,8 @@ public class AppUserToPromote implements Serializable {
     private String department;
     
     private Date updateAllotTime;
+    
+    private Date createTime;
 
 	public String getName() {
 		return name;
@@ -134,6 +136,14 @@ public class AppUserToPromote implements Serializable {
 
 	public void setUpdateAllotTime(Date updateAllotTime) {
 		this.updateAllotTime = updateAllotTime;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 	
 }
