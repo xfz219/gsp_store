@@ -220,7 +220,7 @@ $(document).ready(function () {
 											   />
    		 	<br><br>
    		 	<label>姓名：</label>
-			<input class="easyui-combobox" id='selectUserName' name="selectUserName" data-options="valueField:'selectUserCode', textField:'selectUserName', panelHeight:'auto'" />
+			<input class="easyui-combobox" id='selectUserName' name="selectUserName" data-options="valueField:'selectUserCode', textField:'selectUserName', panelHeight:'auto',editable:'false'" />
 			<br><br>
 			<div style="margin: 0px 0px 0px 50px;">
 				<a href="#" onclick="YES();" class="easyui-linkbutton">确认</a>
