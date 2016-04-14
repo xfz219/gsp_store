@@ -119,7 +119,7 @@ public class CustomerCluesController {
     		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
     		Map<String, Object> map = new HashMap<String, Object>();
     		map.put("salesStatusCode", "");
-    		map.put("salesStatusName", "全部");
+    		map.put("salesStatusName", "请选择");
     		listMap.add(map);
     		Map<String, Object> map1 = new HashMap<String, Object>();
     		map1.put("salesStatusCode", "正常");
@@ -168,7 +168,7 @@ public class CustomerCluesController {
     		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
     		Map<String, Object> map = new HashMap<String, Object>();
     		map.put("departmentCode", "");
-    		map.put("departmentName", "全部");
+    		map.put("departmentName", "请选择");
     		listMap.add(map);
     		Map<String, Object> map1 = new HashMap<String, Object>();
     		map1.put("departmentCode", "一组");
