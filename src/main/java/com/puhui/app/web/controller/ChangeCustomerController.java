@@ -4,10 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.RuntimeErrorException;
+
 import net.sf.json.JSONArray;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.puhui.app.service.ChangeCustomerService;
+import com.puhui.app.service.impl.ChangeCustomerServiceImpl;
 import com.puhui.app.utils.CommonUtils;
 import com.puhui.app.vo.QueryChangeCustomerVo;
 import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
@@ -29,6 +34,7 @@ import com.puhui.uc.vo.RemoteStaffVo;
 @RequestMapping(value = "/changeCustomer")
 public class ChangeCustomerController extends BaseController{
 	
+	private static final Logger logger = LoggerFactory.getLogger(ChangeCustomerController.class);
 	@Autowired
 	private ChangeCustomerService changeCustomerService;
 	@Autowired
@@ -88,11 +94,11 @@ public class ChangeCustomerController extends BaseController{
     	try{
     		
     		 changeCustomerService.updateBindingUserMethod(ids,selectUserName);
-    		 
+    		 changeCustomerService.insertLog(map.get("ids").toString(), staff.getId());
     		 return true; 
     	}catch(Exception e){
-    		System.out.println("绑定失败");
-    		throw new IllegalArgumentException(e);
+    		logger.info("------------绑定失败请稍后再试---------",e);
+    		throw new RuntimeException( "绑定失败请稍后再试");
     	}
 	}
 	

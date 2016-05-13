@@ -25,4 +25,6 @@ public interface ChangeCustomerService {
 	
 	public void updateBindingUserMethod(List<Long> ids,String selectUserName);
 	
+	public void insertLog(String ids, Long staffId);
+	
 }

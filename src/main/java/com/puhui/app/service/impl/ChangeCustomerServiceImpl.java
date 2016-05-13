@@ -12,9 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.puhui.app.api.UserDetailService;
 import com.puhui.app.dao.AppChangeCustomerDao;
+import com.puhui.app.dao.AppInterfaceLogDao;
 import com.puhui.app.dao.AppLendRequestDao;
 import com.puhui.app.service.ChangeCustomerService;
 import com.puhui.app.service.CustomerCluesService;
@@ -51,6 +53,9 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	
 	@Autowired
 	private AppLendRequestDao appLendRequestDao;
+	
+	@Autowired
+	private AppInterfaceLogDao appInterfaceLogDao;
 	@Override
 	public Map<String, Object> selectChangeCustomerMethod(
 			QueryChangeCustomerVo queryChangeCustomerVo) {
@@ -59,7 +64,6 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	       
 	        List<Map<String, Object>> objList =  new ArrayList<Map<String, Object>>();
 	        List<String> listSales = new ArrayList<String>();
-	        //Page page = Page.getPage(queryChangeCustomerVo.getPage(),queryChangeCustomerVo.getRows());
 	        Map<String, Object> paramMap = new HashMap<String, Object>();
 	        int size = queryChangeCustomerVo.getRows();// 查询个数
             int page = queryChangeCustomerVo.getPage();// 页数
@@ -69,22 +73,13 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
             int total = 0;// 总数
             int from = (queryChangeCustomerVo.getPage() - 1) * queryChangeCustomerVo.getRows();
             queryChangeCustomerVo.setPage(from);
-	       // paramMap.put("page", page);
 	        paramMap.put("name", queryChangeCustomerVo.getName() != null? queryChangeCustomerVo.getName()+"%": "");
         	paramMap.put("mobile", queryChangeCustomerVo.getMobile() != null? queryChangeCustomerVo.getMobile()+"%": "");
         	paramMap.put("salesmobile", queryChangeCustomerVo.getSalesMobile() != null? queryChangeCustomerVo.getSalesMobile()+"%": "");
         	paramMap.put("salesName", queryChangeCustomerVo.getSalesName() != null? queryChangeCustomerVo.getSalesName()+"%": "");
         	paramMap.put("salesNo", queryChangeCustomerVo.getSalesNo() != null? queryChangeCustomerVo.getSalesNo()+"%": "");
-        	
-        	paramMap.put("staffCode", queryChangeCustomerVo.getStaffCode() != null? queryChangeCustomerVo.getStaffCode()+"%": "");
-        	/*String shopCode = "";
-        	if(null != queryChangeCustomerVo.getPid()){
-        		shopCode = remoteOrganizationService.queryById(queryChangeCustomerVo.getPid()).getCode();
-        		listSales = this.getSales(shopCode);
-        	}*/
-        	
+        	paramMap.put("staffCode", queryChangeCustomerVo.getStaffCode() != null? queryChangeCustomerVo.getStaffCode()+"%": "");	
         	paramMap.put("listSales", listSales);
-        	Long count = 0L;
 	        try {
 		        
 	        	 list = appChangeCustomerDao.selectChangeCustomerMethod(paramMap);
@@ -119,30 +114,6 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	}
 
 
-	/**
-	 * 
-	 * 获取销售
-	 * @param shopCode
-	 * @return
-	 */
-	/*public List getSales(String shopCode){
-		RemoteStaffVo remoteStaffVo = new RemoteStaffVo();
-		RemoteOrganizationVo organizationVo = new RemoteOrganizationVo();
-		organizationVo.setCode(shopCode+"%");
-//		organizationVo.setName(department);
-		//remoteStaffVo.setEnabled(false);
-		remoteStaffVo.setOrganizationVo(organizationVo);
-		remoteStaffVo.setPositionType("SALES");//销售
-		List<RemoteStaffVo> remoteStaffVoList =  remoteStaffService.query(0, 0, remoteStaffVo);
-		List<String> list = new ArrayList<String>();
-		for(RemoteStaffVo rsv : remoteStaffVoList){
-			list.add(rsv.getEmployeeNo());
-		}
-		
-		return list;
-	}
-*/
-
 	@Override
 	public JSONArray selectUserNameMethod(Long oid) {
 		
@@ -169,6 +140,8 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 
 
 	@Override
+	// 指定回滚
+	@Transactional(rollbackFor=Exception.class) 
 	public void updateBindingUserMethod(List<Long> ids,
 			String selectUserName) {
 		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(selectUserName);
@@ -186,7 +159,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 		this.updateAppLendRequest(ids, remoteLendAppResultVo.getSalesId());
 		appChangeCustomerDao.updateBindingUserMethod(map);
 		
-		this.push(ids, remoteLendAppResultVo.getSalesId());
+		//this.push(ids, remoteLendAppResultVo.getSalesId());
 	}
 	
 	public boolean validate(List<Long> ids) {
@@ -239,5 +212,15 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 		if(null != list && list.size() >0){
 			appLendRequestDao.updateCustomerSalesNo(map);
 		}
+	}
+	
+	public void insertLog(String ids, Long staffId){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("interfaceType", 2);
+		map.put("interfaceTypeName", "更换销售接口");
+		map.put("requestParam", staffId);
+		map.put("isSuccess", 1);
+		map.put("message", "被更换app_customer_id:----"+ids);
+		appInterfaceLogDao.insertLog(map);
 	}
 }
