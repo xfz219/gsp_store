@@ -179,6 +179,7 @@ function NO() {
 $(document).ready(function () {
 	$("#selectUserZu").combobox({
 	onChange: function (n,o) {
+	$('#selectUserName').combobox('clear');
 	$.ajax({
 	    url: '${ctx}/customerClues/selectUserNameMethod',
 	    data:{"department": $('#selectUserZu').combobox('getValue')

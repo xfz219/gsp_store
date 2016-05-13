@@ -28,6 +28,8 @@ public interface CustomerCluesService {
 	 * @return
 	 */
 	public JSONArray selectUserNameMethod(String department,String shopCode);
+	
+	public String getUserInfoMethod(String salesNo,String city) throws Exception;
 
 
 }

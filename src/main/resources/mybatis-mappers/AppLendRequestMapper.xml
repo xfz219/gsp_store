@@ -9,5 +9,22 @@
 	state = 2,audit_state = 0
 		where id = #{id}
 </update>
+		<select id="selectAppLendRequestMethod" parameterType="map" resultType="String">
+		SELECT id FROM app_lend_request 
+
+				where app_customer_id in
+			<foreach collection="ids" item="id" index="index"
+            	open="(" close=")" separator=",">
+           		 #{id}
+        	</foreach>
+	</select>
 	
+	<update id="updateCustomerSalesNo" parameterType="map">
+	update app_lend_request set customer_service_manager_number = #{salesId}
+		where id in
+		<foreach collection="ids" item="id" index="index"
+            	open="(" close=")" separator=",">
+           		 #{id}
+        </foreach>
+</update>
 </mapper>

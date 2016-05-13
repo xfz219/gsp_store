@@ -1,11 +1,11 @@
 package com.puhui.app.utils;
 
 import java.util.Date;
-import java.util.Set;
+
+
 
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 
 @JsonIgnoreProperties(value = { "password", "roles" })
@@ -94,6 +94,8 @@ public class Staff{
      * 该人对应的职位
      */
     private Long positionId;
+
+
 
 	public String getUsername() {
 		return username;

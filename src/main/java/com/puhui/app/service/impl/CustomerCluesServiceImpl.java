@@ -81,8 +81,10 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	 * @comment 查询是否异常
 	 * @author lichunyue
 	 * @return
+	 * @throws Exception 
 	 */
-	public String getUserInfoMethod(String salesNo,String city) throws Exception {
+	@Override
+	public String getUserInfoMethod(String salesNo,String city) throws Exception{
 		boolean salesStatus = false;//false异常/true正常
 		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(salesNo);
 		  if (remoteLendAppResultVo.getCode() == 1) {
