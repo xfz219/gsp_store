@@ -159,7 +159,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 		this.updateAppLendRequest(ids, remoteLendAppResultVo.getSalesId());
 		appChangeCustomerDao.updateBindingUserMethod(map);
 		
-		//this.push(ids, remoteLendAppResultVo.getSalesId());
+		this.push(ids, remoteLendAppResultVo.getSalesId());
 	}
 	
 	public boolean validate(List<Long> ids) {
