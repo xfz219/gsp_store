@@ -85,7 +85,7 @@
                        			    async:false,
                        			 	success: function(data) {
                     			        addChangeMobileDialog.dialog('close');
-                    			        $.messager.alert('提示信息','修改成功');
+                    			        $.messager.alert('提示信息','绑定成功');
                     			    }
                        			});
 	                     	}

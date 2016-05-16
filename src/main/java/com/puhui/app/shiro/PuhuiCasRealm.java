@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.servlet.ServletRequest;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import redis.clients.jedis.Jedis;
 
+import com.puhui.app.utils.Staff;
 import com.puhui.nosql.redis.JedisTemplate;
 import com.puhui.nosql.redis.JedisTemplate.JedisAction;
 import com.puhui.uc.api.service.RemoteUserCentreService;
@@ -53,7 +55,6 @@ public class PuhuiCasRealm extends CasRealm {
         super();
         // 设置认证token的实现类
         setAuthenticationTokenClass(CasToken.class);
-
     }
 
     /**
@@ -92,7 +93,8 @@ public class PuhuiCasRealm extends CasRealm {
             log.info("the realNam is {}", realName);
 
             RemoteStaffVo staffVo = remoteUserCenteCentreService.queryStaffByUsername(realName);
-
+//            Staff staff=new Staff();
+//            BeanUtils.copyProperties(staffVo, staff);
             changeBossOrgCode(staffVo, casToken.getRequest());
 
             Set<String> permissionCode = remoteUserCenteCentreService.queryAllPermissionByStaffId(staffVo.getId());
