@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.puhui.app.dao.AppUserToPromoteDao">
+	<resultMap type="com.puhui.app.po.AppUserToPromote" id="appUserToPromoteObj">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="mobile" column="mobile"/>
+		<result property="city" column="city"/>
+		<result property="cityCode" column="city_code"/>
+		<result property="branch" column="branch"/>
+		<result property="branchCode" column="branch_code"/>
+		<result property="salesName" column="sales_name"/>
+		<result property="salesNo" column="sales_no"/>
+		<result property="uid" column="uid"/>
+		<result property="department" column="department"/>
+		<result property="updateAllotTime" column="update_allot_time"/>
+		<result property="createTime" column="create_time"/>
+	</resultMap>
+	
+	<select id="selectCustomerCluesMethod" parameterType="map" resultMap="appUserToPromoteObj">
+		select * from app_user_to_promote autp where 1 = 1 
+			<if test="radio == 1">
+				<![CDATA[AND autp.sales_no is null]]>
+			</if>
+			<if test="name != null and name != ''">
+				<![CDATA[AND autp.name LIKE #{name} ]]>
+			</if>
+			<if test="mobile != null and mobile != ''">
+				<![CDATA[AND autp.mobile LIKE #{mobile} ]]>
+			</if>
+			<if test="salesName != null and salesName != ''">
+				<![CDATA[AND autp.sales_name LIKE #{salesName} ]]>
+			</if>
+			<if test="salesNo != null and salesNo != ''">
+				<![CDATA[AND autp.sales_no LIKE #{salesNo} ]]>
+			</if>
+			<if test="branchCode != null and branchCode != ''">
+				<![CDATA[AND autp.branch_code = #{branchCode} ]]>
+			</if>
+			<if test="department != null and department != ''">
+				<![CDATA[AND autp.department = #{department} ]]>
+			</if>
+		ORDER BY autp.create_time DESC
+	</select>
+			
+	<update id="updateBindingUserMethod" parameterType="map">
+		update app_user_to_promote set
+		sales_name = #{name},
+		sales_no = #{salesNo},
+		department = #{department},
+		update_allot_time = now()
+		where id = #{id}
+	</update>
+</mapper> 

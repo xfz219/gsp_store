@@ -16,4 +16,6 @@ public interface BaseDao<T> extends Serializable {
      * @return
      */
     public T query(Long id);
+    
+    public void create(T obj);
 }
