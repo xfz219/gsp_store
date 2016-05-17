@@ -55,7 +55,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
     		Map<String, Object> map = appCustomerDao.getMobileMethod(autp.getMobile());
     		autpMap.put("registered", map == null ? "未注册" : "已注册");
     		autpMap.put("sales", autp.getSalesNo() == null ? "否" : "是");
-    		autpMap.put("salesStatus", autp.getSalesNo() == null ? "" : getUserInfoMethod(autp.getSalesNo(),autp.getCity()));
+    		autpMap.put("salesStatus", autp.getSalesNo() == null ? "" : getUserInfoMethod(autp.getSalesNo(),autp.getCityCode()));
     		if(salesStatus != null && salesStatus != ""){
     			if(!salesStatus.equals(autpMap.get("salesStatus"))){
     				continue;
@@ -84,13 +84,13 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	 * @throws Exception 
 	 */
 	@Override
-	public String getUserInfoMethod(String salesNo,String city) throws Exception{
+	public String getUserInfoMethod(String salesNo,String cityCode) throws Exception{
 		boolean salesStatus = false;//false异常/true正常
 		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(salesNo);
 		  if (remoteLendAppResultVo.getCode() == 1) {
 			if (remoteLendAppResultVo.isEnabled() == true
 					&& remoteLendAppResultVo.getPosition().equals("个贷-销售")
-					&& getUserCityNameMethod(city.trim(),remoteLendAppResultVo.getShopName().trim())) {
+					&& getUserCityNameMethod(cityCode.trim(),remoteLendAppResultVo.getShopCode().trim())) {
 				salesStatus = true;
               }
 		  }
@@ -101,11 +101,11 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	 * @author lichunyue
 	 * @return
 	 */
-	public boolean getUserCityNameMethod(String city,String shopName) throws Exception {
+	public boolean getUserCityNameMethod(String cityCode,String shopCode) throws Exception {
 		boolean cityName = true;
-		char[] cityC = city.toCharArray();
-		char[] shopNameC = shopName.toCharArray();
-		for(int i = 0;i < 2;i++){
+		char[] cityC = cityCode.toCharArray();
+		char[] shopNameC = shopCode.toCharArray();
+		for(int i = 0;i < cityC.length;i++){
 			if(cityC[i] != shopNameC[i]){
 				cityName = false;
 				break;
