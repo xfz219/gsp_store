@@ -105,7 +105,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 		boolean cityName = true;
 		char[] cityC = city.toCharArray();
 		char[] shopNameC = shopName.toCharArray();
-		for(int i = 0;i < cityC.length;i++){
+		for(int i = 0;i < 2;i++){
 			if(cityC[i] != shopNameC[i]){
 				cityName = false;
 				break;
