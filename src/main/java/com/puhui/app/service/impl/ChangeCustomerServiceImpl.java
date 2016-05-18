@@ -86,7 +86,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	        	  
 	        	 for(Map<String, Object> ml : list){
 	        		 
-	        		String salesStatus = customerCluesService.getUserInfoMethod(ml.get("salesNo").toString(), ml.get("shopName").toString());
+	        		String salesStatus = customerCluesService.getUserInfoMethod(ml.get("salesNo").toString(), ml.get("shopCode").toString());
 	        		ml.put("salesStatus", salesStatus);
 	        		if(StringUtils.isNotEmpty(queryChangeCustomerVo.getSalesStatus())){
 	        			
@@ -171,7 +171,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
     		 
      		
 			try {
-				salesStatus = customerCluesService.getUserInfoMethod(ml.get("salesNo").toString(), ml.get("shopName").toString());
+				salesStatus = customerCluesService.getUserInfoMethod(ml.get("salesNo").toString(), ml.get("shopCode").toString());
 			} catch (Exception e) {
 				logger.info("查询销售是否异常出错",e);
 			}

@@ -67,7 +67,9 @@
 			
 			ac.shop_name AS shopName,
 			
-			ac.sales_no AS salesNo
+			ac.sales_no AS salesNo,
+			
+			ac.shop_code AS shopCode
 			
 
 			FROM app_customer AS ac
