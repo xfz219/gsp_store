@@ -27,10 +27,10 @@
 			<artifactId>puhui-redis</artifactId>
 			<version>${puhui.version}</version>
 		</dependency>
-	    <dependency>
-    		<groupId>cn.jpush.api</groupId>
-    		<artifactId>jpush-client</artifactId>
-    		<version>3.2.3</version>
+		<dependency>
+			<groupId>cn.jpush.api</groupId>
+			<artifactId>jpush-client</artifactId>
+			<version>3.2.3</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -38,14 +38,14 @@
 			<version>${jstl.version}</version>
 		</dependency>
 		<dependency>
-     		<groupId>com.alibaba</groupId>
-     		<artifactId>fastjson</artifactId>
-     		<version>1.1.28</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.1.28</version>
 		</dependency>
 		<dependency>
-    		<groupId>com.github.fernandospr</groupId>
-    		<artifactId>javapns-jdk16</artifactId>
-    		<version>2.2.1</version>
+			<groupId>com.github.fernandospr</groupId>
+			<artifactId>javapns-jdk16</artifactId>
+			<version>2.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>c3p0</groupId>
@@ -55,63 +55,63 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
+			<version>4.0.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>${spring.version}</version>
+			<version>4.0.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
-			<version>${spring.version}</version>
+			<version>4.0.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-expression</artifactId>
-			<version>${spring.version}</version>
+			<version>4.0.2.RELEASE</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
+			<version>4.0.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
+			<version>4.0.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
-			<version>${spring.version}</version>
+			<version>4.0.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
-			<version>${spring.version}</version>
+			<version>4.0.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
+			<version>4.0.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>${spring.version}</version>
+			<version>4.0.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
-			<version>${spring.version}</version>
+			<version>4.0.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
+			<version>4.0.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -161,15 +161,15 @@
 		</dependency>
 		<!-- Log start -->
 		<dependency>
-        	<groupId>org.slf4j</groupId>
-        	<artifactId>slf4j-log4j12</artifactId>
-        	<version>1.7.5</version>
-    	</dependency>
-    	<dependency>
-        	<groupId>log4j</groupId>
-        	<artifactId>log4j</artifactId>
-        	<version>1.2.16</version>
-    	</dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -212,11 +212,11 @@
 			<version>4.3.6</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.httpcomponents</groupId>
-		    <artifactId>fluent-hc</artifactId>
-		    <version>4.3.6</version>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>fluent-hc</artifactId>
+			<version>4.3.6</version>
 		</dependency>
-		
+
 		<!-- shiro-start -->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
@@ -234,9 +234,9 @@
 			<version>${shiro-ehcache.version}</version>
 		</dependency>
 		<dependency>
-    		<groupId>org.apache.shiro</groupId>
-    		<artifactId>shiro-cas</artifactId>
-    		<version>${shiro-core.version}</version>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-cas</artifactId>
+			<version>${shiro-core.version}</version>
 		</dependency>
 		<!-- shiro-end -->
 		<dependency>
@@ -289,12 +289,12 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 		</dependency>
-		<dependency>   
-		    <groupId>net.sf.json-lib</groupId>    
-		    <artifactId>json-lib</artifactId>    
-		    <version>2.4</version>  
-		    <classifier>jdk15</classifier>    
-		</dependency>    
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -303,6 +303,8 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>${jetty.version}</version>
 				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
 					<scanIntervalSeconds>3</scanIntervalSeconds>
 					<webApp>
 						<contextPath>/${project.artifactId}</contextPath>
@@ -333,7 +335,7 @@
 			</activation>
 			<properties>
 				<casServer.url>http://172.16.7.56:8092</casServer.url>
-<!-- 				<casClient.url>http://172.16.7.85:8095</casClient.url> -->
+				<!-- <casClient.url>http://172.16.7.85:8095</casClient.url> -->
 				<casClient.url>http://localhost:8080</casClient.url>
 				<zookeeper.address>zookeeper://172.16.7.56:40000</zookeeper.address>
 				<casServerTomcat.url>http://172.16.7.56:8092</casServerTomcat.url>
