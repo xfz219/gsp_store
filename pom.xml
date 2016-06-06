@@ -370,9 +370,9 @@
 			<properties>
 				<casServer.url>https://inside.puhuifinance.com</casServer.url>
 				<casClient.url>http://inside.puhuifinance.com</casClient.url>
-				<zookeeper.address>zookeeper.native.puhuifinance.com:40000</zookeeper.address>
-				<casServerTomcat.url>http://passport.native.puhuifinance.com:8092</casServerTomcat.url>
-				<redis.host>redis.native.puhuifinance.com</redis.host>
+				<zookeeper.address>p1.zookeeper.rd.puhuifinance.com:40000</zookeeper.address>
+				<casServerTomcat.url>http://p.nginx.rd.puhuifinance.com/puhui-cas</casServerTomcat.url>
+				<redis.host>p.redis.rd.puhuifinance.com</redis.host>
 				<redis.port>6379</redis.port>
 			</properties>
 		</profile>
