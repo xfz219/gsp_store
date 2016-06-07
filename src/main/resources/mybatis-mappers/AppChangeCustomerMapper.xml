@@ -18,7 +18,7 @@
 
 		LEFT JOIN app_lend_request alr ON ac.id = alr.app_customer_id
 
-		WHERE (alr.state = 1 OR alr.state is NULL)
+		WHERE (alr.state = 1 OR alr.state = 2 OR alr.state is NULL )
 			<if test="name != null and name != ''">
 				<![CDATA[AND ac.customer_name LIKE #{name} ]]>
 			</if>
@@ -42,7 +42,7 @@
            		 #{sales}
         	</foreach>
 			</if>
-			
+			ORDER BY ac.create_time DESC
 	</select>
 
 	<update id="updateBindingUserMethod" parameterType="map">
@@ -50,6 +50,7 @@
 			SET ac.customer_service_manager_number = #{salesId},
 			 ac.sales_name = #{name},
 			 ac.sales_mobile = #{mobile},
+			 ac.shop_name = #{shopName},
 			 ac.sales_no = #{salesNo},
 			 ac.shop_code = #{shopCode},
 			 ac.district_code = #{districtCode},
