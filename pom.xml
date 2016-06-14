@@ -398,7 +398,7 @@
 				<casServer.url>https://inside.puhuifinance.com</casServer.url>
 				<casClient.url>http://inside.puhuifinance.com</casClient.url>
 				<zookeeper.address>p1.zookeeper.rd.puhuifinance.com:40000</zookeeper.address>
-				<casServerTomcat.url>http://p.nginx.rd.puhuifinance.com/puhui-cas</casServerTomcat.url>
+				<casServerTomcat.url>http://p.nginx.rd.puhuifinance.com</casServerTomcat.url>
 				<redis.host>p.redis.rd.puhuifinance.com</redis.host>
 				<redis.port>6379</redis.port>
 			</properties>
