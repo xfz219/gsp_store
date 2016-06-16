@@ -64,10 +64,10 @@ public class ChangeCustomerController extends BaseController{
         queryChangeCustomerVo.setStaffCode(staff.getOrganizationVo().getCode());
     	Map<String, Object> objMap = new HashMap<String, Object>();
     	try{
-    		
+    		logger.info("--------------查询销售绑定列表--------------------");
     		objMap = changeCustomerService.selectChangeCustomerMethod(queryChangeCustomerVo);
     	}catch(Exception e){
-    		System.out.println("查询附件失败");
+    		logger.info("查询列表失败",e);
     		throw new IllegalArgumentException(e);
     	}
     	return objMap;
