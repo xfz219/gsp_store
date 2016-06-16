@@ -86,7 +86,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	        	  
 	        	 for(Map<String, Object> ml : list){
 	        		 
-	        		String salesStatus = customerCluesService.getUserInfoMethod(ml.get("salesNo").toString(), ml.get("shopCode").toString());
+	        		String salesStatus = customerCluesService.getUserInfoMethod(ml.get("salesNo").toString(), ml.get("shopCode") == null ? "" : ml.get("shopCode").toString() );
 	        		ml.put("salesStatus", salesStatus);
 	        		if(StringUtils.isNotEmpty(queryChangeCustomerVo.getSalesStatus())){
 	        			
