@@ -31,7 +31,7 @@
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.springframework.jdbc" level="INFO"/>
     <logger name="com.opensymphony" level="WARN"/>
-    <logger name="java.sql" level="DEBUG"/> 
+    <logger name="java.sql" level="INFO"/> 
     <logger name="org.apache" level="WARN"/>
-    <logger name="com.ibatis" level="DEBUG"/>
+    <logger name="com.ibatis" level="INFO"/>
 </configuration>
