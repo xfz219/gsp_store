@@ -8,6 +8,7 @@ import java.util.Map;
 import net.sf.json.JSONArray;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.util.HSSFColor.BLACK;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.puhui.app.api.UserDetailService;
+import com.puhui.app.common.page.mybatis.Page;
 import com.puhui.app.dao.AppChangeCustomerDao;
 import com.puhui.app.dao.AppInterfaceLogDao;
 import com.puhui.app.dao.AppLendRequestDao;
@@ -65,14 +67,17 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	        List<Map<String, Object>> objList =  new ArrayList<Map<String, Object>>();
 	        List<String> listSales = new ArrayList<String>();
 	        Map<String, Object> paramMap = new HashMap<String, Object>();
-	        int size = queryChangeCustomerVo.getRows();// 查询个数
+	      /*  int size = queryChangeCustomerVo.getRows();// 查询个数
             int page = queryChangeCustomerVo.getPage();// 页数
             if (page == 0) {
                 page = 1;
             }
             int total = 0;// 总数
             int from = (queryChangeCustomerVo.getPage() - 1) * queryChangeCustomerVo.getRows();
-            queryChangeCustomerVo.setPage(from);
+            queryChangeCustomerVo.setPage(from);*/
+            
+            Page page = Page.getPage(queryChangeCustomerVo.getPage(),queryChangeCustomerVo.getRows());
+            paramMap.put("page", page);
 	        paramMap.put("name", queryChangeCustomerVo.getName() != null? queryChangeCustomerVo.getName()+"%": "");
         	paramMap.put("mobile", queryChangeCustomerVo.getMobile() != null? queryChangeCustomerVo.getMobile()+"%": "");
         	paramMap.put("salesmobile", queryChangeCustomerVo.getSalesMobile() != null? queryChangeCustomerVo.getSalesMobile()+"%": "");
@@ -83,32 +88,19 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	        try {
 		        
 	        	 list = appChangeCustomerDao.selectChangeCustomerMethod(paramMap);
-	        	  
+	        	 logger.info("--------------查询销售绑定列表  结束----------------");
 	        	 for(Map<String, Object> ml : list){
 	        		 
-	        		String salesStatus = customerCluesService.getUserInfoMethod(ml.get("salesNo").toString(), ml.get("shopCode") == null ? "" : ml.get("shopCode").toString() );
+	        		String salesStatus = this.getUserInfoMethod(ml.get("salesNo").toString(), ml.get("shopName") == null ?"": ml.get("shopName").toString());
 	        		ml.put("salesStatus", salesStatus);
-	        		if(StringUtils.isNotEmpty(queryChangeCustomerVo.getSalesStatus())){
-	        			
-	        			if(queryChangeCustomerVo.getSalesStatus().equals(salesStatus)){
-	        				total++;
-	                        if (total > (page - 1) * size && objList.size() < size) {
-	        				objList.add(ml);
-	        			}
-                        }
-	        		}else{
-	        			total++;
-                        if (total > (page - 1) * size && objList.size() < size) {
-                        	objList.add(ml);
-                        }
-	        		}
+	        		objList.add(ml);
 	        		
 	        	 }
 	        } catch (Exception e) {
 	            logger.error("query selectChangeCustomerMethod error!" + e);
 	        }
 	       
-	    	map.put("total", total);
+	    	map.put("total", page.getTotalCount());
 	    	map.put("rows", objList);
     return map;
 	}
@@ -171,7 +163,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
     		 
      		
 			try {
-				salesStatus = customerCluesService.getUserInfoMethod(ml.get("salesNo").toString(), ml.get("shopCode").toString());
+				salesStatus = customerCluesService.getUserInfoMethod(ml.get("salesNo").toString(), ml.get("shopName").toString());
 			} catch (Exception e) {
 				logger.info("查询销售是否异常出错",e);
 			}
@@ -222,5 +214,18 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 		map.put("isSuccess", 1);
 		map.put("message", "被更换app_customer_id:----"+ids);
 		appInterfaceLogDao.insertLog(map);
+	}
+	
+	public String getUserInfoMethod(String salesNo,String shopName) throws Exception{
+		boolean salesStatus = false;//false异常/true正常
+		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(salesNo);
+		  if (remoteLendAppResultVo.getCode() == 1) {
+			if (remoteLendAppResultVo.isEnabled() == true
+					&& remoteLendAppResultVo.getPosition().equals("个贷-销售")
+					&& remoteLendAppResultVo.getShopName().equals(shopName)) {
+				salesStatus = true;
+              }
+		  }
+		return salesStatus == false ? "异常" : "正常";
 	}
 }
