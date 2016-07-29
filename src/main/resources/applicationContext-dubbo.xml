@@ -20,5 +20,7 @@
 	<dubbo:reference id="remoteStaffService " interface="com.puhui.uc.api.service.RemoteStaffService"  check="false" />
 	<!-- UC end -->
 	
-	<dubbo:reference id="userDetailService" interface="com.puhui.app.api.UserDetailService" check="false" /> 
+	<dubbo:reference id="userDetailService" interface="com.puhui.app.api.UserDetailService" check="false" />
+	
+	<dubbo:reference id="lendQueryInfoService" interface="com.puhui.lend.api.LendQueryInfoService" check="false" version="2.2.2"/>  
 </beans>

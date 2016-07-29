@@ -4,21 +4,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.sf.json.JSONArray;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.puhui.app.dao.AppCustomerDao;
 import com.puhui.app.dao.AppUserToPromoteDao;
 import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
+import com.puhui.lend.api.LendQueryInfoService;
+import com.puhui.lend.vo.LendShopNameVo;
 import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
 import com.puhui.uc.api.service.RemoteStaffService;
 import com.puhui.uc.vo.RemoteLendAppResultVo;
 import com.puhui.uc.vo.RemoteOrganizationVo;
 import com.puhui.uc.vo.RemoteStaffVo;
+
+import net.sf.json.JSONArray;
 
 @Service
 public class CustomerCluesServiceImpl implements CustomerCluesService{
@@ -31,6 +35,8 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	private RemoteLendAppUserCenterService remoteLendAppUserCenterService;
 	@Autowired
 	private RemoteStaffService remoteStaffService;
+	@Autowired
+	private LendQueryInfoService lendQueryInfoService;
 	/**
 	 * @comment 线索查询
 	 * @author lichunyue
@@ -39,11 +45,12 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	@Override
 	public List<Map<String, Object>> selectCustomerCluesMethod(Map<String, Object> paramMap) throws Exception {
 		List<AppUserToPromote> autpList = appUserToPromoteDao.selectCustomerCluesMethod(paramMap);
-		Object salesStatus = paramMap.get("salesStatus");
 		List<Map<String, Object>> list =  new ArrayList<Map<String, Object>>();
 		for(AppUserToPromote autp : autpList){
     		Map<String, Object> autpMap = new HashMap<String, Object>();
     		autpMap.put("toPromoteId", autp.getId());
+    		autpMap.put("channel", autp.getChannel());
+    		autpMap.put("channelTwo", autp.getChannelTwo());
     		autpMap.put("name", autp.getName());
     		autpMap.put("mobile", autp.getMobile());
     		autpMap.put("city", autp.getCity());
@@ -56,11 +63,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
     		autpMap.put("registered", map == null ? "未注册" : "已注册");
     		autpMap.put("sales", autp.getSalesNo() == null ? "否" : "是");
     		autpMap.put("salesStatus", autp.getSalesNo() == null ? "" : getUserInfoMethod(autp.getSalesNo(),autp.getCityCode()));
-    		if(salesStatus != null && salesStatus != ""){
-    			if(!salesStatus.equals(autpMap.get("salesStatus"))){
-    				continue;
-    			}
-    		}
+    		
     		list.add(autpMap);
     	}
 		return list;
@@ -138,5 +141,54 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 			}
 		}
 		return JSONArray.fromObject(listMap);
+	}
+
+	@Override
+	/**
+	 * 
+	 * 查看客户详细信息
+	 * 
+	 */
+	public AppUserToPromote findCustomerCluesMethod(Long id) {
+		
+		return appUserToPromoteDao.findCustomerCluesMethod(id);
+	}
+
+	@Override
+	public void insertAppUserToPromote(JSONObject jSONObject) {
+		AppUserToPromote appUserToPromote = new AppUserToPromote();
+		List<LendShopNameVo> list = lendQueryInfoService.queryShopName(jSONObject.getString("city"));
+		Random r = new Random();  
+		LendShopNameVo lsv = list.get(r.nextInt(list.size()+1));
+		appUserToPromote.setAmount(jSONObject.getBigDecimal("applyAmount"));
+		appUserToPromote.setName(jSONObject.getString("customerName"));
+		if(null != lsv){
+			appUserToPromote.setCity(lsv.getCityName());
+			appUserToPromote.setCityCode(lsv.getCityCode());
+			appUserToPromote.setBranch(lsv.getShopName());
+			appUserToPromote.setBranchCode(lsv.getShopCode());
+		}else{
+			appUserToPromote.setCity(jSONObject.getString("city"));
+		}
+		appUserToPromote.setProvince(jSONObject.getString("province"));
+		appUserToPromote.setProductName(jSONObject.getString("productName"));
+		appUserToPromote.setIdNo(jSONObject.getString("idNo"));
+		appUserToPromote.setChannel(jSONObject.getString("chanceType"));
+		Map<String,Object> map = this.findChannl(jSONObject.getString("chanceType"));
+		appUserToPromote.setChannelType(map.get("codeValue")+"");
+		appUserToPromote.setChannelTwoType(map.get("channelTwoCode")+"");
+		appUserToPromote.setMobile(jSONObject.getString("telNumber"));
+		appUserToPromote.setIsSettle(jSONObject.getBoolean("isSettle"));
+		appUserToPromote.setSettleTime(jSONObject.getDate("settleTime"));
+		appUserToPromoteDao.insertAppUserToPromote(appUserToPromote);
+	}
+
+	@Override
+	public List<Map<String, Object>> findChannl() {
+		return appUserToPromoteDao.findChannels();
+	}
+	
+	public Map<String, Object> findChannl(String channel) {
+		return appUserToPromoteDao.findChannel(channel);
 	}
 }

@@ -1,6 +1,7 @@
 package com.puhui.app.po;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -41,6 +42,107 @@ public class AppUserToPromote implements Serializable {
     private Date updateAllotTime;
     
     private Date createTime;
+    
+    private String idNo; //身份证
+
+    private BigDecimal amount; // 金额
+    
+    private String productName; //产品
+    
+    private Boolean isSettle;    //是否一次性结清
+    
+    private Date settleTime; //结清日期
+    
+    private String channel;//渠道值
+
+    private String channelTwo;//渠道标示
+
+    private String province;//省
+    
+    private String channelType; //一级渠道类型
+    
+    private String channelTwoType; //二级渠道类型
+    
+    
+	public String getChannelType() {
+		return channelType;
+	}
+
+	public void setChannelType(String channelType) {
+		this.channelType = channelType;
+	}
+
+	public String getChannelTwoType() {
+		return channelTwoType;
+	}
+
+	public void setChannelTwoType(String channelTwoType) {
+		this.channelTwoType = channelTwoType;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getChannelTwo() {
+		return channelTwo;
+	}
+
+	public void setChannelTwo(String channelTwo) {
+		this.channelTwo = channelTwo;
+	}
+
+	public String getIdNo() {
+		return idNo;
+	}
+
+	public void setIdNo(String idNo) {
+		this.idNo = idNo;
+	}
+
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public Boolean getIsSettle() {
+		return isSettle;
+	}
+
+	public void setIsSettle(Boolean isSettle) {
+		this.isSettle = isSettle;
+	}
+
+	public Date getSettleTime() {
+		return settleTime;
+	}
+
+	public void setSettleTime(Date settleTime) {
+		this.settleTime = settleTime;
+	}
+
+	public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
 
 	public String getName() {
 		return name;
