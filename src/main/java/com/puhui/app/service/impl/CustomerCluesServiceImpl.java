@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.puhui.app.dao.AppCustomerDao;
+import com.puhui.app.dao.AppInterfaceLogDao;
 import com.puhui.app.dao.AppUserToPromoteDao;
+import com.puhui.app.listener.CcLendSalesListener;
 import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
 import com.puhui.lend.api.LendQueryInfoService;
@@ -27,6 +31,7 @@ import net.sf.json.JSONArray;
 @Service
 public class CustomerCluesServiceImpl implements CustomerCluesService{
 	
+	private static final Logger logger = LoggerFactory.getLogger(CustomerCluesServiceImpl.class);
 	@Autowired
 	private AppUserToPromoteDao appUserToPromoteDao;
 	@Autowired
@@ -37,6 +42,8 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	private RemoteStaffService remoteStaffService;
 	@Autowired
 	private LendQueryInfoService lendQueryInfoService;
+	@Autowired
+	private AppInterfaceLogDao appInterfaceLogDao;
 	/**
 	 * @comment 线索查询
 	 * @author lichunyue
@@ -151,36 +158,59 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	 */
 	public AppUserToPromote findCustomerCluesMethod(Long id) {
 		
-		return appUserToPromoteDao.findCustomerCluesMethod(id);
+		AppUserToPromote au  = appUserToPromoteDao.findCustomerCluesMethod(id);
+		return au;
 	}
 
 	@Override
 	public void insertAppUserToPromote(JSONObject jSONObject) {
 		AppUserToPromote appUserToPromote = new AppUserToPromote();
-		List<LendShopNameVo> list = lendQueryInfoService.queryShopName(jSONObject.getString("city"));
-		Random r = new Random();  
-		LendShopNameVo lsv = list.get(r.nextInt(list.size()+1));
-		appUserToPromote.setAmount(jSONObject.getBigDecimal("applyAmount"));
-		appUserToPromote.setName(jSONObject.getString("customerName"));
-		if(null != lsv){
-			appUserToPromote.setCity(lsv.getCityName());
-			appUserToPromote.setCityCode(lsv.getCityCode());
-			appUserToPromote.setBranch(lsv.getShopName());
-			appUserToPromote.setBranchCode(lsv.getShopCode());
-		}else{
-			appUserToPromote.setCity(jSONObject.getString("city"));
+		try {
+				List<LendShopNameVo> list = lendQueryInfoService.queryShopName(jSONObject.getString("city"));
+				String idNo = jSONObject.getString("idNo");
+				String mobile = jSONObject.getString("telNumber");
+				if(this.getUserInfoMethodIdNo(idNo) >0 || this.getUserInfoMobile(mobile)>0){
+					logger.info("推送数据身份证号手机号重复,重复数据为{}",jSONObject.toJSONString());
+					return;
+				}
+				if(null == list || list.size()==0){
+					appUserToPromote.setCity(jSONObject.getString("city"));
+					appUserToPromote.setCityCode("RPA");
+					appUserToPromote.setBranchCode("RPA");
+				}else{
+					Random r = new Random();  
+					LendShopNameVo lsv = list.get(r.nextInt(list.size()));
+					appUserToPromote.setCity(lsv.getCityName());
+					appUserToPromote.setCityCode(lsv.getCityCode());
+					appUserToPromote.setBranch(lsv.getShopName());
+					appUserToPromote.setBranchCode(lsv.getShopCode());
+				}
+		
+				appUserToPromote.setAmount(jSONObject.getBigDecimal("applyAmount"));
+				appUserToPromote.setName(jSONObject.getString("customerName"));
+				appUserToPromote.setProvince(jSONObject.getString("province"));
+				appUserToPromote.setProductName(jSONObject.getString("productName"));
+				appUserToPromote.setIdNo(jSONObject.getString("idNo"));
+				appUserToPromote.setChannel(jSONObject.getString("chanceType"));
+				Map<String,Object> map = this.findChannl(jSONObject.getString("chanceType"));
+				appUserToPromote.setChannelType(map.get("codeValue")+"");
+				appUserToPromote.setChannelTwoType(map.get("channelTwoCode")+"");
+				appUserToPromote.setMobile(jSONObject.getString("telNumber"));
+				appUserToPromote.setIsSettle(jSONObject.getBoolean("isSettle"));
+				appUserToPromote.setSettleTime(jSONObject.getDate("settleTime"));
+				appUserToPromoteDao.insertAppUserToPromote(appUserToPromote);
+				logger.info("接收cc推送其它渠道数据结束");
+		
+		} catch (Exception e) {
+			logger.info("接收cc推送其它渠道数据出现异常");
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("interfaceType", 3);
+			map.put("interfaceTypeName", "接收cc推送数据接口出现异常");
+			map.put("isSuccess", 1);
+			map.put("message", jSONObject.toJSONString());
+			appInterfaceLogDao.insertLog(map);
+			throw new RuntimeException(e);
 		}
-		appUserToPromote.setProvince(jSONObject.getString("province"));
-		appUserToPromote.setProductName(jSONObject.getString("productName"));
-		appUserToPromote.setIdNo(jSONObject.getString("idNo"));
-		appUserToPromote.setChannel(jSONObject.getString("chanceType"));
-		Map<String,Object> map = this.findChannl(jSONObject.getString("chanceType"));
-		appUserToPromote.setChannelType(map.get("codeValue")+"");
-		appUserToPromote.setChannelTwoType(map.get("channelTwoCode")+"");
-		appUserToPromote.setMobile(jSONObject.getString("telNumber"));
-		appUserToPromote.setIsSettle(jSONObject.getBoolean("isSettle"));
-		appUserToPromote.setSettleTime(jSONObject.getDate("settleTime"));
-		appUserToPromoteDao.insertAppUserToPromote(appUserToPromote);
 	}
 
 	@Override
@@ -190,5 +220,15 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	
 	public Map<String, Object> findChannl(String channel) {
 		return appUserToPromoteDao.findChannel(channel);
+	}
+
+	@Override
+	public int getUserInfoMethodIdNo(String idNo) {
+		return appUserToPromoteDao.findCustomerCluesMethodIdNo(idNo);
+	}
+
+	@Override
+	public int getUserInfoMobile(String mobile) {
+		return appUserToPromoteDao.findCustomerCluesMethodMobile(mobile);
 	}
 }

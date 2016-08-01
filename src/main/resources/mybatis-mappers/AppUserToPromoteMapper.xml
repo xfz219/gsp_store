@@ -18,6 +18,7 @@
 		<result property="updateAllotTime" column="update_allot_time"/>
 		<result property="idNo" column="id_no"/>
 		<result property="amount" column="amount"/>
+		<result property="productName" column="product_name"/>
 		<result property="isSettle" column="is_settle"/>
 		<result property="settleTime" column="settle_time"/>
 		<result property="channel" column="channel"/>
@@ -80,6 +81,13 @@
 		select * from app_user_to_promote autp where autp.id =#{id,jdbcType=BIGINT}
 	</select>
 	
+	<select id="findCustomerCluesMethodIdNo" parameterType="String" resultType="java.lang.Integer">
+		select count(*) from app_user_to_promote autp where autp.id_no =#{idNo,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="findCustomerCluesMethodMobile" parameterType="String" resultType="java.lang.Integer">
+		select count(*) from app_user_to_promote autp where autp.mobile =#{mobile,jdbcType=VARCHAR}
+	</select>
 	<insert id="insertAppUserToPromote" parameterType="com.puhui.app.po.AppUserToPromote" useGeneratedKeys="true" keyProperty="id">
 		insert into app_user_to_promote 
 		(name,mobile,city,city_code,branch,branch_code,department,sales_name,sales_no,uid,update_allot_time,create_time,update_time,id_no,amount,is_settle,settle_time,channel,province,channel_type,channel_two_type) 

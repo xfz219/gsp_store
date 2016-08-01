@@ -211,9 +211,7 @@ public class CustomerCluesController {
     @RequestMapping(value = "/findUser")
     public Object findUser(Long id) {
         Assert.notNull(id, "id is null");
-        String om = "{\"address\":\"淘宝验证环节流失的客户\",\"batchNo\":\"20160726170430\",\"chanceType\":121,\"city\":\"莆田 \",\"createTime\":1469500105000,\"createrId\":86,\"createrName\":\"赵臻\",\"customerName\":\"杨国清\",\"dataFrom\":\"20160726KANIU\",\"email\":\"\",\"id\":2,\"idNo\":\"\",\"importBatchNo\":\"20160726102825\",\"oneTimeSettle\":false,\"orderLevel\":1,\"province\":\"福建 \",\"settle\":false,\"status\":2,\"supplier\":\"移动 \",\"system\":2,\"telNumber\":\"13799625366\",\"telNumberTwo\":\"\",\"updateTime\":1469524137000}";
-        JSONObject jsonObj = JSONObject.parseObject(om);
-        customerCluesService.insertAppUserToPromote(jsonObj);
+       
         return customerCluesService.findCustomerCluesMethod(id);
     }
     

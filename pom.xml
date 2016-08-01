@@ -24,7 +24,7 @@
 		<dependency>
 			<groupId>com.puhui</groupId>
 			<artifactId>puhui-lend-api</artifactId>
-			<version>1.4.3</version>
+			<version>1.4.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.puhui</groupId>
@@ -404,6 +404,7 @@
 				<casServerTomcat.url>http://10.10.227.155:8092</casServerTomcat.url>
 				<redis.host>10.10.229.48</redis.host>
 				<redis.port>6379</redis.port>
+				<jms.broker.url>failover:(tcp://10.10.227.22:61616)?randomize=false&amp;initialReconnectDelay=100&amp;timeout=5000</jms.broker.url>
 			</properties>
 		</profile>
 		<profile>
@@ -415,6 +416,7 @@
 				<casServerTomcat.url>http://172.16.7.52:8092</casServerTomcat.url>
 				<redis.host>172.16.7.56</redis.host>
 				<redis.port>6379</redis.port>
+				<jms.broker.url>failover:(tcp://10.10.140.247:61616)?randomize=false&amp;initialReconnectDelay=100&amp;timeout=5000</jms.broker.url>
 			</properties>
 		</profile>
 		<profile>
@@ -426,6 +428,7 @@
 				<casServerTomcat.url>http://172.16.7.10:8092</casServerTomcat.url>
 				<redis.host>172.16.7.10</redis.host>
 				<redis.port>6379</redis.port>
+				<jms.broker.url>failover:(tcp://10.10.140.247:61616)?randomize=false&amp;initialReconnectDelay=100&amp;timeout=5000</jms.broker.url>
 			</properties>
 		</profile>
 		<profile>
@@ -437,6 +440,7 @@
 				<casServerTomcat.url>http://passport.native.puhuifinance.com:8092</casServerTomcat.url>
 				<redis.host>redis.native.puhuifinance.com</redis.host>
 				<redis.port>6379</redis.port>
+				<jms.broker.url>failover:(tcp://192.168.111.18:61616,tcp://192.168.111.19:61616)?randomize=false&amp;initialReconnectDelay=100&amp;timeout=5000</jms.broker.url>
 			</properties>
 		</profile>
 		<profile>
@@ -448,6 +452,7 @@
 				<casServerTomcat.url>http://p.nginx.rd.puhuifinance.com</casServerTomcat.url>
 				<redis.host>p.redis.rd.puhuifinance.com</redis.host>
 				<redis.port>6379</redis.port>
+				<jms.broker.url>failover:(tcp://p1.mq.rd.puhuifinance.com:61616,tcp://p2.mq.rd.puhuifinance.com:61616)?randomize=false&amp;initialReconnectDelay=100&amp;timeout=5000</jms.broker.url>
 			</properties>
 		</profile>
 	</profiles>

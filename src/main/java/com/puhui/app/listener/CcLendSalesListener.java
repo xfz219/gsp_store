@@ -1,5 +1,8 @@
 package com.puhui.app.listener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
@@ -32,6 +35,7 @@ public class CcLendSalesListener implements MessageListener{
         		customerCluesService.insertAppUserToPromote(jsonObj);
         	 }
 		} catch (Exception e) {
+			
 			logger.info("接收cc系统推送进件异常,异常原因:{}---------",e);
 		}
     	

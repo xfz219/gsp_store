@@ -58,7 +58,7 @@ $(function(){
 			{field:'mobile',title:'手机号码',align:'center',width:110},
 			{field:'registered',title:'是否注册app',align:'center',width:110},
 			{field:'city',title:'借款城市',align:'center',width:110},
-			{field:'branch',title:'门店',align:'center',width:110},
+			{field:'branch',title:'门店',align:'center',width:147},
 			{field:'sales',title:'是否绑定销售',align:'center',width:110},
 			{field:'salesName',title:'销售姓名',align:'center',width:110},
 			{field:'salesNo',title:'销售工号',align:'center',width:80},
@@ -209,7 +209,7 @@ $(document).ready(function () {
 	});
 	});
 	
-//编辑用户
+//详情
 function checkUser(){
 	var rows = grid.datagrid('getSelections');
     if (rows.length < 1) {
@@ -236,7 +236,7 @@ function checkUser(){
 		            	$("#checkId").val(data.id);
 		            	$("#checkUserName").val(data.name);
 		             	$("#checkUserIdNo").val(data.idNo);
-		             	$("#checkUserAmount").val(data.amout);
+		             	$("#checkUserAmount").val(data.amount);
 		             	$("#checkUserMobile").val(data.mobile);
 		             	$('#checkUserCity').val(data.city);
 		             	$('#checkUserProvince').val(data.province);
@@ -249,8 +249,13 @@ function checkUser(){
 		             		}else{
 		             			$("#checkUserIsSettle").val('否');
 		             		}
+			             	if(data.settleTime){
+			             		$('#checkUserSettleTime').datebox('setValue',myformatter(new Date(data.settleTime)));
+			             		
+			             	}else{
+			             		$('#checkUserSettleTime').datebox('setValue','');
+			             	}
 			             	
-			             	$('#checkUserSettleTime').datebox('setValue',myformatter(new Date(data.settleTime)));
 		             	}
 		             
 		             }

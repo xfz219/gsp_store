@@ -22,6 +22,11 @@ public interface AppUserToPromoteDao extends BaseDao<AppUserToPromote> {
 	
 	public List<Map<String,Object>> findChannels();
 	
+	//查询渠道
 	public Map<String,Object> findChannel(String name);
+	
+	public int findCustomerCluesMethodIdNo(String idNo);
+	
+	public int findCustomerCluesMethodMobile(String mobile);
 
 }

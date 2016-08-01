@@ -35,10 +35,10 @@ public interface CustomerCluesService {
 	public AppUserToPromote findCustomerCluesMethod(Long id);
 	
 	public void insertAppUserToPromote(JSONObject jSONObject);
-	
-	/**
-	 * 获取渠道
-	 * @return
-	 */
+	//获取渠道
 	public List<Map<String,Object>> findChannl();
+	//根据身份证号查询是否存在进件
+	public int getUserInfoMethodIdNo(String idNo);
+	//根据手机号查询是否存在进件
+	public int getUserInfoMobile(String mobile);
 }
