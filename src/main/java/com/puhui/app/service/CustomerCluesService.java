@@ -3,9 +3,10 @@ package com.puhui.app.service;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONArray;
-
+import com.alibaba.fastjson.JSONObject;
 import com.puhui.app.po.AppUserToPromote;
+
+import net.sf.json.JSONArray;
 
 
 public interface CustomerCluesService {
@@ -31,5 +32,13 @@ public interface CustomerCluesService {
 	
 	public String getUserInfoMethod(String salesNo,String city) throws Exception;
 
-
+	public AppUserToPromote findCustomerCluesMethod(Long id);
+	
+	public void insertAppUserToPromote(JSONObject jSONObject);
+	//获取渠道
+	public List<Map<String,Object>> findChannl();
+	//根据身份证号查询是否存在进件
+	public int getUserInfoMethodIdNo(String idNo);
+	//根据手机号查询是否存在进件
+	public int getUserInfoMobile(String mobile);
 }

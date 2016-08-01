@@ -54,15 +54,16 @@ $(function(){
 			{field:'id',title:'id',align:'center',hidden:true},
 			{field:'toPromoteId',title:'toPromoteId',hidden:true},
 			{field:'department',title:'department',hidden:true},
-			{field:'name',title:'客户姓名',align:'center',width : fixWidth(0.1)},
-			{field:'mobile',title:'手机号码',align:'center',width : fixWidth(0.1)},
-			{field:'registered',title:'是否注册app',align:'center',width : fixWidth(0.1)},
-			{field:'city',title:'借款城市',align:'center',width : fixWidth(0.1)},
-			{field:'branch',title:'门店',align:'center',width : fixWidth(0.1)},
-			{field:'sales',title:'是否绑定销售',align:'center',width : fixWidth(0.1)},
-			{field:'salesName',title:'销售姓名',align:'center',width : fixWidth(0.1)},
-			{field:'salesNo',title:'销售工号',align:'center',width : fixWidth(0.1)},
-			{field:'salesStatus',title:'销售状态',align:'center',width : fixWidth(0.1)},
+			{field:'name',title:'客户姓名',align:'center',width:110},
+			{field:'mobile',title:'手机号码',align:'center',width:110},
+			{field:'registered',title:'是否注册app',align:'center',width:110},
+			{field:'city',title:'借款城市',align:'center',width:110},
+			{field:'branch',title:'门店',align:'center',width:147},
+			{field:'sales',title:'是否绑定销售',align:'center',width:110},
+			{field:'salesName',title:'销售姓名',align:'center',width:110},
+			{field:'salesNo',title:'销售工号',align:'center',width:80},
+			{field:'salesStatus',title:'销售状态',align:'center',width:80},
+			{field:'channel',title:'进件渠道',align:'center',width:100},
 			{field:'radio',title:'radio',align:'center',hidden:true}
 	        
 	    ]],
@@ -77,6 +78,13 @@ $(function(){
 		pageSize: 20,
 		toolbar:"#tbLendRequest",
 		onLoadSuccess:function (data){
+		},
+		onSelect: function (rowIndex, rowData) {
+			var rows = $('#datagrid').datagrid('getSelections');
+				$('#checkUser').hide();
+			if (!(rows[0].channelTwo == '1')){
+				$('#checkUser').show();
+			}
 		},
 		onLoadError:function (data) {			
 			$.messager.alert('提示信息',"查询线索管理失败！");
@@ -109,8 +117,9 @@ function searchByConditions(){
 	paramData.mobile = $('#mobile').val();
 	paramData.salesName = $('#salesName').val();
 	paramData.salesNo = $('#salesNo').val();
+	paramData.channel = $('#requestChannel').combobox('getValue');
 	paramData.department = $('#department').combobox('getValue');
-	paramData.salesStatus = $('#salesStatus').combobox('getValue');
+	//paramData.salesStatus = $('#salesStatus').combobox('getValue');
 	grid.datagrid('load', getData(paramData));
 	grid.datagrid('clearSelections'); 
 }
@@ -123,6 +132,7 @@ function resetConditions(){
 	$('#mobile').val('');
 	$('#salesName').val('');
 	$('#salesNo').val('');
+	$('#requestChannel').combobox("setValue", '');
 	$('#department').combobox("setValue", '');
 	$("#salesStatus").combobox("setValue", '');
 }
@@ -199,10 +209,88 @@ $(document).ready(function () {
 	});
 	});
 	
+//详情
+function checkUser(){
+	var rows = grid.datagrid('getSelections');
+    if (rows.length < 1) {
+        $.messager.alert('提示信息', '请选择一条记录！');
+    }else if(rows.length > 1){
+    	$.messager.alert('提示信息','只能选择单条记录！');	
+    }else {
+    	var rows = $('#datagrid').datagrid('getSelections');
+		$("#checkUserDialog").dialog({  
+			iconCls:'icon-search',
+			title:"客户信息",
+			width:550,
+			height:300,
+			modal:true,
+			href:'${ctx}/html/user/userCheck.jsp',
+		    onLoad:function(){
+		    	var id = rows[0].toPromoteId;
+		    	$(document).ready(function(){
+		    	 $.ajax({
+		             url    : "${ctx}/customerClues/findUser?id="+id,
+		             type   : "POST",
+		             async: false, 
+		             success: function (data) { 
+		            	$("#checkId").val(data.id);
+		            	$("#checkUserName").val(data.name);
+		             	$("#checkUserIdNo").val(data.idNo);
+		             	$("#checkUserAmount").val(data.amount);
+		             	$("#checkUserMobile").val(data.mobile);
+		             	$('#checkUserCity').val(data.city);
+		             	$('#checkUserProvince').val(data.province);
+		             	if(data.channel == '326'){
+		             		$('#defect_data1').show();
+		             		$('#defect_data2').show();
+		             		$("#checkUserProductName").val(data.productName);
+		             		if(data.isSettle){
+		             			$("#checkUserIsSettle").val('是');
+		             		}else{
+		             			$("#checkUserIsSettle").val('否');
+		             		}
+			             	if(data.settleTime){
+			             		$('#checkUserSettleTime').datebox('setValue',myformatter(new Date(data.settleTime)));
+			             		
+			             	}else{
+			             		$('#checkUserSettleTime').datebox('setValue','');
+			             	}
+			             	
+		             	}
+		             
+		             }
+		    
+		         });
+		    	 
+      });
+    }
+	})
+    }};
+    
+	function myformatter(date){  
+	    var y = date.getFullYear();  
+	    var m = date.getMonth()+1;  
+	    var d = date.getDate();  
+	    return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);  
+	}  
+	
+	$(document).ready(function(){
+		//查询进件渠道
+		$("#requestChannel").combobox({
+			valueField:'codeValue',
+			textField:'codeName',
+			required:false,
+			url:'${ctx}/customerClues/queryChannel',
+			onSelect:function(data){
+		
+			}
+		}); 
+	});
 </script>
 
 </head>
 <body class="easyui-layout">
+<div id="checkUserDialog"></div>
 <div data-options="region:'center'" style="overflow: hidden;">
 		<table id="datagrid"></table>
 </div>
@@ -248,20 +336,15 @@ $(document).ready(function () {
 			<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;销售姓名：<input type="text" id="salesName" name="salesName" />&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;销售工号：<input type="text" id="salesNo" name="salesNo" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;销售状态：	<input class="easyui-combobox" data-options="editable:false" 
-							   id='salesStatus'
-							   name="salesStatus"
-							   url='${ctx}/customerClues/selectUserSalesStatusMethod'
-							   valueField='salesStatusCode'
-							   textField='salesStatusName'
-							   panelHeight='auto'
-							   />
+			&nbsp;&nbsp;&nbsp;&nbsp;进件渠道：	<select   style="width:168" id="requestChannel" name="requestChannel"  class="easyui-combobox" data-options="editable:false"></select>
 			<a  href="javascript:void(0);" class="easyui-linkbutton search" iconCls="icon-search" plain="true" onclick="searchByConditions();">搜索</a>
 			<span class="datagrid-btn-separator" style="float:none;"></span>
 			<a  href="javascript:void(0);" class="easyui-linkbutton clear" iconCls="icon-remove" plain="true" onclick="resetConditions();">重置</a>
 			<br><br>
 			&nbsp;&nbsp;&nbsp;&nbsp;<a id="addChangeMobileDialog" href="#" class="easyui-linkbutton l-btn" onclick="bindingUserA();"><span class="l-btn-text">绑定</span></a>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a id="checkUser" style="display: none" href="#" class="easyui-linkbutton l-btn" onclick="checkUser();"><span class="l-btn-text">详情</span></a>
 			<br><br>
+			
 	</div>
 	
 </body>

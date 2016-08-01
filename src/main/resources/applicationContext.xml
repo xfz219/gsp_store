@@ -33,5 +33,7 @@
 	<import resource="classpath:applicationContext-shiro.xml" />
 	<!-- redis 配置 -->
 	<import resource="classpath:applicationContext-redis.xml" />
+	<!-- mq配置 -->
+	<import resource="classpath:applicationContext-mq.xml" />
 	
 </beans>

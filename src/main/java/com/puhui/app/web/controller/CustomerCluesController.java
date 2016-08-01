@@ -5,21 +5,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONArray;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.puhui.app.common.page.mybatis.Page;
 import com.puhui.app.service.CustomerCluesService;
+import com.puhui.app.utils.JsonTools;
 import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
 import com.puhui.uc.vo.RemoteLendAppResultVo;
 import com.puhui.uc.vo.RemoteStaffVo;
+
+import net.sf.json.JSONArray;
 
 /**
  * @comment 客户线索
@@ -59,7 +62,7 @@ public class CustomerCluesController {
     		@RequestParam(value = "department", required = false) String department,
     		@RequestParam(value = "salesName", required = false) String salesName,
     		@RequestParam(value = "salesNo", required = false) String salesNo,
-    		@RequestParam(value = "salesStatus", required = false) String salesStatus){
+    		@RequestParam(value = "channel", required = false) String channel){
 		
     	Map<String, Object> objMap = new HashMap<String, Object>();
     	try{
@@ -77,7 +80,7 @@ public class CustomerCluesController {
         	paramMap.put("department", department);
         	paramMap.put("salesName", salesName != null?salesName+"%": "");
         	paramMap.put("salesNo", salesNo != null?salesNo+"%": "");
-        	paramMap.put("salesStatus", salesStatus);
+        	paramMap.put("channel", channel != null? channel :"");
         	RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(staff.getEmployeeNo());
         	paramMap.put("branchCode", remoteLendAppResultVo.getShopCode());
         	List<Map<String, Object>> autpList = customerCluesService.selectCustomerCluesMethod(paramMap);
@@ -198,4 +201,31 @@ public class CustomerCluesController {
     		throw new IllegalArgumentException(e);
     	}
 	}
+	/**
+     * 查询所选用户信息
+     * 
+     * @author yangzhiqiang
+     * @date 2015年10月21日 下午2:24:41
+     */
+    @ResponseBody
+    @RequestMapping(value = "/findUser")
+    public Object findUser(Long id) {
+        Assert.notNull(id, "id is null");
+       
+        return customerCluesService.findCustomerCluesMethod(id);
+    }
+    
+    /**
+     * 查询进件渠道,返回的是json类型的字符串
+     * 
+     * @param request
+     * @return
+     */
+    @RequestMapping("queryChannel")
+    @ResponseBody
+    public String queryChannel() {
+    	List<Map<String,Object>> list = customerCluesService.findChannl();
+    	
+        return JsonTools.fromObjectToJson(list);
+    }
 }

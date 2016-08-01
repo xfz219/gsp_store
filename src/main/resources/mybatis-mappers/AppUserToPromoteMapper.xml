@@ -16,11 +16,30 @@
 		<result property="uid" column="uid"/>
 		<result property="department" column="department"/>
 		<result property="updateAllotTime" column="update_allot_time"/>
-		<result property="createTime" column="create_time"/>
+		<result property="idNo" column="id_no"/>
+		<result property="amount" column="amount"/>
+		<result property="productName" column="product_name"/>
+		<result property="isSettle" column="is_settle"/>
+		<result property="settleTime" column="settle_time"/>
+		<result property="channel" column="channel"/>
+		<result property="channelTwo" column="channel_two"/>
 	</resultMap>
 	
 	<select id="selectCustomerCluesMethod" parameterType="map" resultMap="appUserToPromoteObj">
-		select * from app_user_to_promote autp where 1 = 1 
+		select 	autp.id AS id,
+		autp.name AS name,
+		autp.city AS city,
+		autp.city_code AS cityCode,
+		autp.mobile AS mobile,
+		autp.department AS department,
+		autp.branch AS branch,
+		autp.sales_name AS salesName,
+		autp.sales_no AS salesNo,
+		ac.code_name AS channel,
+		autp.channel As channelTwo
+		from app_user_to_promote autp   
+		LEFT JOIN app_channel ac ON autp.channel = ac.channel
+		where 1=1
 			<if test="radio == 1">
 				<![CDATA[AND autp.sales_no is null]]>
 			</if>
@@ -42,6 +61,10 @@
 			<if test="department != null and department != ''">
 				<![CDATA[AND autp.department = #{department} ]]>
 			</if>
+			<if test="channel != null and channel != ''">
+				<![CDATA[AND autp.channel = #{channel} ]]>
+			</if>
+			
 		ORDER BY autp.create_time DESC
 	</select>
 			
@@ -53,4 +76,39 @@
 		update_allot_time = now()
 		where id = #{id}
 	</update>
+	
+	<select id="findCustomerCluesMethod" parameterType="java.lang.Long" resultMap="appUserToPromoteObj">
+		select * from app_user_to_promote autp where autp.id =#{id,jdbcType=BIGINT}
+	</select>
+	
+	<select id="findCustomerCluesMethodIdNo" parameterType="String" resultType="java.lang.Integer">
+		select count(*) from app_user_to_promote autp where autp.id_no =#{idNo,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="findCustomerCluesMethodMobile" parameterType="String" resultType="java.lang.Integer">
+		select count(*) from app_user_to_promote autp where autp.mobile =#{mobile,jdbcType=VARCHAR}
+	</select>
+	<insert id="insertAppUserToPromote" parameterType="com.puhui.app.po.AppUserToPromote" useGeneratedKeys="true" keyProperty="id">
+		insert into app_user_to_promote 
+		(name,mobile,city,city_code,branch,branch_code,department,sales_name,sales_no,uid,update_allot_time,create_time,update_time,id_no,amount,is_settle,settle_time,channel,province,channel_type,channel_two_type) 
+		values 
+		(#{name,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},
+		#{city,jdbcType=VARCHAR},#{cityCode,jdbcType=VARCHAR},
+		#{branch,jdbcType=VARCHAR},#{branchCode,jdbcType=VARCHAR},
+		#{department,jdbcType=VARCHAR},#{salesName,jdbcType=VARCHAR},
+		#{salesNo,jdbcType=VARCHAR},#{uid,jdbcType=VARCHAR}
+		,now(),now(),now(),
+		#{idNo,jdbcType=VARCHAR},#{amount,jdbcType=DECIMAL},
+		#{isSettle,jdbcType=BIT},#{settleTime,jdbcType=TIMESTAMP},
+		#{channel,jdbcType=VARCHAR},#{province,jdbcType=VARCHAR},
+		#{channelType,jdbcType=VARCHAR},#{channelTwoType,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="findChannels" resultType="java.util.HashMap">
+		SELECT ac.channel AS codeValue,ac.code_name AS codeName FROM app_channel ac
+	</select>
+	
+	<select id="findChannel" parameterType="String" resultType="java.util.HashMap">
+		SELECT ac.code_value AS codeValue,ac.code_name,ac.channel_two_name AS channelTwoName,ac.channel_two_code AS channelTwoCode FROM app_channel ac WHERE ac.channel = #{channel}
+	</select>
 </mapper> 
