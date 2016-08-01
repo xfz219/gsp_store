@@ -9,8 +9,6 @@
 <!-- 		<version>1.0</version> -->
 <!-- 	</parent> -->
 
-
-
 	<artifactId>lend-app-report</artifactId>
 	<groupId>com.puhui</groupId>
 	<name>lend-app-report</name>
