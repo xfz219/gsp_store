@@ -22,5 +22,5 @@
 	
 	<dubbo:reference id="userDetailService" interface="com.puhui.app.api.UserDetailService" check="false" />
 	
-	<dubbo:reference id="lendQueryInfoService" interface="com.puhui.lend.api.LendQueryInfoService" check="false" version="2.2.2"/>  
+	<dubbo:reference id="lendQueryInfoService" interface="com.puhui.lend.api.LendQueryInfoService" check="false"/>  
 </beans>
