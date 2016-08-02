@@ -90,7 +90,7 @@
 	</select>
 	<insert id="insertAppUserToPromote" parameterType="com.puhui.app.po.AppUserToPromote" useGeneratedKeys="true" keyProperty="id">
 		insert into app_user_to_promote 
-		(name,mobile,city,city_code,branch,branch_code,department,sales_name,sales_no,uid,update_allot_time,create_time,update_time,id_no,amount,is_settle,settle_time,channel,province,channel_type,channel_two_type) 
+		(name,mobile,city,city_code,branch,branch_code,department,sales_name,sales_no,uid,update_allot_time,create_time,update_time,id_no,amount,is_settle,settle_time,channel,province,channel_type,channel_two_type,product_name) 
 		values 
 		(#{name,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},
 		#{city,jdbcType=VARCHAR},#{cityCode,jdbcType=VARCHAR},
@@ -101,7 +101,8 @@
 		#{idNo,jdbcType=VARCHAR},#{amount,jdbcType=DECIMAL},
 		#{isSettle,jdbcType=BIT},#{settleTime,jdbcType=TIMESTAMP},
 		#{channel,jdbcType=VARCHAR},#{province,jdbcType=VARCHAR},
-		#{channelType,jdbcType=VARCHAR},#{channelTwoType,jdbcType=VARCHAR})
+		#{channelType,jdbcType=VARCHAR},#{channelTwoType,jdbcType=VARCHAR},
+		#{productName,jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="findChannels" resultType="java.util.HashMap">
