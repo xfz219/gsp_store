@@ -15,7 +15,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.puhui.app.dao.AppCustomerDao;
 import com.puhui.app.dao.AppInterfaceLogDao;
 import com.puhui.app.dao.AppUserToPromoteDao;
-import com.puhui.app.listener.CcLendSalesListener;
 import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
 import com.puhui.lend.api.LendQueryInfoService;
@@ -173,7 +172,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 					logger.info("推送数据身份证号手机号重复,重复数据为{}",jSONObject.toJSONString());
 					return;
 				}
-				if(null == list || list.size()==0){
+				if(null == list || list.size()==0){ 
 					appUserToPromote.setCity(jSONObject.getString("city"));
 					appUserToPromote.setCityCode("RPA");
 					appUserToPromote.setBranchCode("RPA");
@@ -193,8 +192,8 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 				appUserToPromote.setIdNo(jSONObject.getString("idNo"));
 				appUserToPromote.setChannel(jSONObject.getString("chanceType"));
 				Map<String,Object> map = this.findChannl(jSONObject.getString("chanceType"));
-				appUserToPromote.setChannelType(map.get("codeValue")+"");
-				appUserToPromote.setChannelTwoType(map.get("channelTwoCode")+"");
+				appUserToPromote.setChannelType(String.valueOf(map.get("codeValue")));
+				appUserToPromote.setChannelTwoType(String.valueOf(map.get("channelTwoCode")));
 				appUserToPromote.setMobile(jSONObject.getString("telNumber"));
 				appUserToPromote.setIsSettle(jSONObject.getBoolean("isSettle"));
 				appUserToPromote.setSettleTime(jSONObject.getDate("settleTime"));
@@ -209,7 +208,6 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 			map.put("isSuccess", 1);
 			map.put("message", jSONObject.toJSONString());
 			appInterfaceLogDao.insertLog(map);
-			throw new RuntimeException(e);
 		}
 	}
 
