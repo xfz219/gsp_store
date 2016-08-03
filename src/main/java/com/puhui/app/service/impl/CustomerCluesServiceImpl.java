@@ -195,7 +195,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 				appUserToPromote.setChannelType(String.valueOf(map.get("codeValue")));
 				appUserToPromote.setChannelTwoType(String.valueOf(map.get("channelTwoCode")));
 				appUserToPromote.setMobile(jSONObject.getString("telNumber"));
-				appUserToPromote.setIsSettle(jSONObject.getBoolean("isSettle"));
+				appUserToPromote.setIsSettle(jSONObject.getBoolean("settle"));
 				appUserToPromote.setSettleTime(jSONObject.getDate("settleTime"));
 				appUserToPromoteDao.insertAppUserToPromote(appUserToPromote);
 				logger.info("接收cc推送其它渠道数据结束");
