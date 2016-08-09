@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONObject;
 import com.puhui.app.common.page.mybatis.Page;
+import com.puhui.app.dao.AppUserToPromoteDao;
+import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
 import com.puhui.app.utils.JsonTools;
 import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
@@ -36,6 +37,8 @@ public class CustomerCluesController {
 	private CustomerCluesService customerCluesService;
 	@Autowired
 	private RemoteLendAppUserCenterService remoteLendAppUserCenterService;
+	@Autowired
+	private AppUserToPromoteDao appUserToPromoteDao;
 	
 	
 	/**
@@ -103,7 +106,8 @@ public class CustomerCluesController {
 			@RequestParam(value = "toPromoteId", required = false) int toPromoteId,
     		@RequestParam(value = "selectUserName", required = false) String selectUserName){
     	try{
-    		customerCluesService.updateBindingUserMethod(toPromoteId,selectUserName);
+    		AppUserToPromote appUserToPromote = appUserToPromoteDao.findCustomerCluesMethod(Long.parseLong(String.valueOf(toPromoteId)));
+    		customerCluesService.updateBindingUserMethod(appUserToPromote,selectUserName);
     		return JSONArray.fromObject(1); 
     	}catch(Exception e){
     		System.out.println("绑定失败");
