@@ -22,7 +22,7 @@ public interface CustomerCluesService {
 	 * @author lichunyue
 	 * @return
 	 */
-	public void updateBindingUserMethod(Integer toPromoteId, String selectUserName)throws Exception;
+	public void updateBindingUserMethod(AppUserToPromote appUserToPromote, String selectUserName)throws Exception;
 	/**
 	 * @comment 销售查询
 	 * @author lichunyue
