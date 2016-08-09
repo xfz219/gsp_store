@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.puhui.app.api.UserDetailService;
 import com.puhui.app.dao.AppCustomerDao;
 import com.puhui.app.dao.AppInterfaceLogDao;
 import com.puhui.app.dao.AppUserToPromoteDao;
@@ -43,6 +44,8 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	private LendQueryInfoService lendQueryInfoService;
 	@Autowired
 	private AppInterfaceLogDao appInterfaceLogDao;
+	@Autowired
+	private UserDetailService userDetailService;
 	/**
 	 * @comment 线索查询
 	 * @author lichunyue
@@ -79,11 +82,20 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	public void updateBindingUserMethod(Integer toPromoteId,String selectUserName) throws Exception {
 		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(selectUserName);
 		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> mapAll = new HashMap<String, Object>();
+		Map<String, Object> userMap = new HashMap<String, Object>();
 		map.put("id", toPromoteId);
 		map.put("name", remoteLendAppResultVo.getName());
 		map.put("salesNo", selectUserName);
 		map.put("department", remoteLendAppResultVo.getDepartment());
 		appUserToPromoteDao.updateBindingUserMethod(map);
+		AppUserToPromote appUserToPromote = appUserToPromoteDao.findCustomerCluesMethod(Long.parseLong(toPromoteId.toString()));
+		userMap.put("type", 2);
+		userMap.put("name", appUserToPromote.getName());
+		userMap.put("mobile", appUserToPromote.getMobile());
+		userMap.put("sellerNumber", remoteLendAppResultVo.getSalesId());
+		mapAll.put("user", userMap);
+		userDetailService.pushUnwrapMessageMethod(mapAll);// 推送给销售
 	}
 
 	/**
