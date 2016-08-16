@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.puhui.app.service.ChangeCustomerService;
-import com.puhui.app.service.impl.ChangeCustomerServiceImpl;
 import com.puhui.app.utils.CommonUtils;
 import com.puhui.app.vo.QueryChangeCustomerVo;
-import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
 import com.puhui.uc.vo.RemoteStaffVo;
 
 /**
@@ -37,8 +35,6 @@ public class ChangeCustomerController extends BaseController{
 	private static final Logger logger = LoggerFactory.getLogger(ChangeCustomerController.class);
 	@Autowired
 	private ChangeCustomerService changeCustomerService;
-	@Autowired
-	private RemoteLendAppUserCenterService remoteLendAppUserCenterService;
 	
 	/**
 	 * 页面跳转
