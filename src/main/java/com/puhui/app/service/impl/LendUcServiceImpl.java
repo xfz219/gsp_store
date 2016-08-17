@@ -38,5 +38,23 @@ public class LendUcServiceImpl implements LendUcService{
 	        return or;
 	}
 	
+	@Override
+	public Object getOrgTreeShop(String organizationCode) {
+		  List<OrganizationVo> or=new ArrayList<OrganizationVo>();
+	        List<RemoteOrganizationVo> organizationList = remoteOrganizationService.queryByCodeLike(organizationCode);
+	        if (!CollectionUtils.isEmpty(organizationList)) {
+	            for (RemoteOrganizationVo remoteOrganizationVo : organizationList) {
+	            	OrganizationVo oe = new OrganizationVo();
+	                BeanUtils.copyProperties(remoteOrganizationVo, oe);
+	                if (remoteOrganizationVo.getParentVo() != null) {
+	                    oe.setPid(remoteOrganizationVo.getParentVo().getId());
+	                    oe.setpName(remoteOrganizationVo.getParentVo().getName());
+	                }
+	                or.add(oe);
+	            }
+	        }
+	        return or;
+	}
+	
 	
 }

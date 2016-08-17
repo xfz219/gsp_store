@@ -36,5 +36,22 @@ public class AppUtilController extends BaseController{
             return null;
         }
 	}
+    /**
+     * 获取机构门店
+     * 
+     * @author lichunyue
+     * @date 2016年8月17日14:08:42
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getOrgTreeShop")
+    public Object getOrgTreeShop() {
+        Subject currStaff = SecurityUtils.getSubject();
+        RemoteStaffVo staff = (RemoteStaffVo) currStaff.getPrincipal(); 
+        if (staff != null) {
+            return lendUcService.getOrgTreeShop(staff.getOrganizationVo().getCode());
+        } else {
+            return null;
+        }
+	}
 
 }

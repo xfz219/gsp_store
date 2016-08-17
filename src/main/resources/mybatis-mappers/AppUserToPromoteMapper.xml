@@ -56,10 +56,7 @@
 				<![CDATA[AND autp.sales_no LIKE #{salesNo} ]]>
 			</if>
 			<if test="branchCode != null and branchCode != ''">
-				<![CDATA[AND autp.branch_code = #{branchCode} ]]>
-			</if>
-			<if test="department != null and department != ''">
-				<![CDATA[AND autp.department = #{department} ]]>
+				<![CDATA[AND autp.branch_code LIKE #{branchCode} ]]>
 			</if>
 			<if test="channel != null and channel != ''">
 				<![CDATA[AND autp.channel = #{channel} ]]>
@@ -67,13 +64,19 @@
 			
 		ORDER BY autp.create_time DESC
 	</select>
-			
+
 	<update id="updateBindingUserMethod" parameterType="map">
-		update app_user_to_promote set
+		update
+		app_user_to_promote set
 		sales_name = #{name},
 		sales_no = #{salesNo},
 		department = #{department},
-		update_allot_time = now()
+		city = #{city},
+		city_code = #{cityCode},
+		branch = #{branch},
+		branch_code = #{branchCode},
+		update_allot_time =
+		now()
 		where id = #{id}
 	</update>
 	

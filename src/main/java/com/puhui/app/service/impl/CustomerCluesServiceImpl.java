@@ -21,6 +21,7 @@ import com.puhui.app.service.CustomerCluesService;
 import com.puhui.lend.api.LendQueryInfoService;
 import com.puhui.lend.vo.LendShopNameVo;
 import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
+import com.puhui.uc.api.service.RemoteOrganizationService;
 import com.puhui.uc.api.service.RemoteStaffService;
 import com.puhui.uc.vo.RemoteLendAppResultVo;
 import com.puhui.uc.vo.RemoteOrganizationVo;
@@ -46,6 +47,8 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	private AppInterfaceLogDao appInterfaceLogDao;
 	@Autowired
 	private UserDetailService userDetailService;
+	@Autowired
+	private RemoteOrganizationService remoteOrganizationService;
 	/**
 	 * @comment 线索查询
 	 * @author lichunyue
@@ -81,6 +84,9 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	@Override
 	public void updateBindingUserMethod(AppUserToPromote appUserToPromote,String selectUserName) {
 		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(selectUserName);
+		String cityCode = remoteLendAppResultVo.getShopCode();
+		cityCode = cityCode.substring(0,cityCode.length()-2);
+		List<RemoteOrganizationVo> list = remoteOrganizationService.queryByCodeLike(cityCode);
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> mapAll = new HashMap<String, Object>();
 		Map<String, Object> userMap = new HashMap<String, Object>();
@@ -89,6 +95,10 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 			map.put("name", remoteLendAppResultVo.getName());
 			map.put("salesNo", selectUserName);
 			map.put("department", remoteLendAppResultVo.getDepartment());
+			map.put("city", list.get(0).getName());
+			map.put("cityCode", cityCode);
+			map.put("branch", remoteLendAppResultVo.getShopName());
+			map.put("branchCode", remoteLendAppResultVo.getShopCode());
 			appUserToPromoteDao.updateBindingUserMethod(map);
 			userMap.put("type", 2);
 			userMap.put("name", appUserToPromote.getName());
