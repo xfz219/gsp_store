@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,9 @@ import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
 import com.puhui.app.utils.JsonTools;
 import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
+import com.puhui.uc.api.service.RemoteOrganizationService;
 import com.puhui.uc.vo.RemoteLendAppResultVo;
+import com.puhui.uc.vo.RemoteOrganizationVo;
 import com.puhui.uc.vo.RemoteStaffVo;
 
 import net.sf.json.JSONArray;
@@ -39,6 +42,8 @@ public class CustomerCluesController {
 	private RemoteLendAppUserCenterService remoteLendAppUserCenterService;
 	@Autowired
 	private AppUserToPromoteDao appUserToPromoteDao;
+	@Autowired
+	private RemoteOrganizationService remoteOrganizationService;
 	
 	
 	/**
@@ -62,7 +67,7 @@ public class CustomerCluesController {
     		@RequestParam(value = "radio", required = false) String radio,
     		@RequestParam(value = "name", required = false) String name,
     		@RequestParam(value = "mobile", required = false) String mobile,
-    		@RequestParam(value = "department", required = false) String department,
+    		@RequestParam(value = "shopCode", required = false) String shopCode,
     		@RequestParam(value = "salesName", required = false) String salesName,
     		@RequestParam(value = "salesNo", required = false) String salesNo,
     		@RequestParam(value = "channel", required = false) String channel){
@@ -80,17 +85,19 @@ public class CustomerCluesController {
         	paramMap.put("radio", radio);
         	paramMap.put("name", name != null?name+"%": "");
         	paramMap.put("mobile", mobile != null?mobile+"%": "");
-        	paramMap.put("department", department);
         	paramMap.put("salesName", salesName != null?salesName+"%": "");
         	paramMap.put("salesNo", salesNo != null?salesNo+"%": "");
         	paramMap.put("channel", channel != null? channel :"");
-        	RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(staff.getEmployeeNo());
-        	paramMap.put("branchCode", remoteLendAppResultVo.getShopCode());
+        	if(StringUtils.isBlank(shopCode)){
+        		paramMap.put("branchCode", staff.getOrganizationVo().getCode()+"%");
+        	}else{
+        		RemoteOrganizationVo remoteOrganizationVo = remoteOrganizationService.queryById(Long.parseLong(shopCode));
+        		paramMap.put("branchCode", remoteOrganizationVo.getCode()+"%");
+        	}
         	List<Map<String, Object>> autpList = customerCluesService.selectCustomerCluesMethod(paramMap);
         	objMap.put("total", page.getTotalCount());
         	objMap.put("rows", autpList);
     	}catch(Exception e){
-    		System.out.println("查询附件失败");
     		throw new IllegalArgumentException(e);
     	}
     	return objMap;
@@ -159,7 +166,6 @@ public class CustomerCluesController {
     		JSONArray json = customerCluesService.selectUserNameMethod(department,remoteLendAppResultVo.getShopCode());
     		return json;
     	}catch(Exception e){
-    		System.out.println("调用列表失败！");
     		throw new IllegalArgumentException(e);
     	}
 	}
@@ -201,7 +207,6 @@ public class CustomerCluesController {
     		return json;
     		
     	}catch(Exception e){
-    		System.out.println("调用列表失败！");
     		throw new IllegalArgumentException(e);
     	}
 	}

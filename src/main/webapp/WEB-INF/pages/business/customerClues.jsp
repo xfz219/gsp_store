@@ -118,8 +118,7 @@ function searchByConditions(){
 	paramData.salesName = $('#salesName').val();
 	paramData.salesNo = $('#salesNo').val();
 	paramData.channel = $('#requestChannel').combobox('getValue');
-	paramData.department = $('#department').combobox('getValue');
-	//paramData.salesStatus = $('#salesStatus').combobox('getValue');
+	paramData.shopCode = $('#shopCode').combobox('getValue');
 	grid.datagrid('load', getData(paramData));
 	grid.datagrid('clearSelections'); 
 }
@@ -154,7 +153,7 @@ function bindingUserA() {
 	
 function YES() {
 	var rows = $('#datagrid').datagrid('getSelections');
- 	if(typeof $('#selectUserZu').combobox('getValue') != '' && $('#selectUserName').combobox('getValue') != ''){
+ 	if(typeof $('#pid').combobox('getValue') != '' && $('#selectUserName').combobox('getValue') != ''){
     	$.messager.confirm('确定','您确定要绑定吗？',function(r){
         	if(r){
        			$.ajax({
@@ -186,28 +185,28 @@ function NO() {
 	});
 }
 
-$(document).ready(function () {
-	$("#selectUserZu").combobox({
-	onChange: function (n,o) {
-	$('#selectUserName').combobox('clear');
-	$.ajax({
-	    url: '${ctx}/customerClues/selectUserNameMethod',
-	    data:{"department": $('#selectUserZu').combobox('getValue')
-	    },
-	    type: 'POST',
-	    cache: false,
-	    dataType: "json",//返回值类型  
-	    async:false,
-	    success: function(data) {
-	    	$("#selectUserName").combobox("loadData", data);
-	    },
-	    error: function(XMLHttpRequest, textStatus, errorThrown) {
-	        $.messager.alert('提示信息', "请求出现错误！");
-	    }
-	});
-	}
-	});
-	});
+// $(document).ready(function () {
+// 	$("#selectUserZu").combobox({
+// 	onChange: function (n,o) {
+// 	$('#selectUserName').combobox('clear');
+// 	$.ajax({
+// 	    url: '${ctx}/customerClues/selectUserNameMethod',
+// 	    data:{"department": $('#selectUserZu').combobox('getValue')
+// 	    },
+// 	    type: 'POST',
+// 	    cache: false,
+// 	    dataType: "json",//返回值类型  
+// 	    async:false,
+// 	    success: function(data) {
+// 	    	$("#selectUserName").combobox("loadData", data);
+// 	    },
+// 	    error: function(XMLHttpRequest, textStatus, errorThrown) {
+// 	        $.messager.alert('提示信息', "请求出现错误！");
+// 	    }
+// 	});
+// 	}
+// 	});
+// 	});
 	
 //详情
 function checkUser(){
@@ -267,6 +266,66 @@ function checkUser(){
 	})
     }};
     
+    $(document).ready(function(){
+   	 //产生一个在下拉框中的树，也就是组合树
+   	$('#pid').combotree({
+   	        url : '${ctx}/appUtil/getOrgTreeShop',
+   	        idFiled:'id',
+   	        textFiled:'name', 
+   	        parentField : 'pid',
+   	        checkbox:true,
+   	        lines : true,
+   	        panelHeight : '300',
+   	        onLoadSuccess: function (node, data) {
+   	            $('#pid').combotree('tree').tree("collapseAll"); 
+   	            
+   	        	$("#pid").combobox({
+   	        		onChange: function (n,o) {
+   	        			
+   	        		$('#selectUserName').combobox('clear');
+   	        		$.ajax({
+   	        		    url: '${ctx}/changeCustomer/selectUserNameMethod',
+   	        		    data:{"oid": $('#pid').combobox('getValue')
+   	        		    },
+   	        		    type: 'POST',
+   	        		    cache: false,
+   	        		    dataType: "json",//返回值类型  
+   	        		    async:false,
+   	        		    success: function(data) {
+   	        		    	$("#selectUserName").combobox("loadData", data);
+   	        		    },
+   	        		    error: function(XMLHttpRequest, textStatus, errorThrown) {
+   	        		        $.messager.alert('提示信息', "请求出现错误！");
+   	        		    }
+   	        		});
+   	        		}
+   	        		});
+          }
+   	});
+   });
+    
+    $(document).ready(function () {
+    	$("#pid").combobox({
+    	onChange: function (n,o) {
+    	$.ajax({
+    	    url: '${ctx}/customerClues/selectUserNameMethod',
+    	    data:{"department": $('#pid').combobox('getValue')
+    	    },
+    	    type: 'POST',
+    	    cache: false,
+    	    dataType: "json",//返回值类型  
+    	    async:false,
+    	    success: function(data) {
+    	    	$("#selectUserName").combobox("loadData", data);
+    	    },
+    	    error: function(XMLHttpRequest, textStatus, errorThrown) {
+    	        $.messager.alert('提示信息', "请求出现错误！");
+    	    }
+    	});
+    	}
+    	});
+    	}); 
+    
 	function myformatter(date){  
 	    var y = date.getFullYear();  
 	    var m = date.getMonth()+1;  
@@ -286,6 +345,44 @@ function checkUser(){
 			}
 		}); 
 	});
+	
+	 $(document).ready(function(){
+	   	 //产生一个在下拉框中的树，也就是组合树
+	   	$('#shopCode').combotree({
+	   	        url : '${ctx}/appUtil/getOrgTreeShop',
+	   	        idFiled:'id',
+	   	        textFiled:'name', 
+	   	        parentField : 'pid',
+	   	        checkbox:true,
+	   	        lines : true,
+	   	        panelHeight : '300',
+	   	        onLoadSuccess: function (node, data) {
+	   	            $('#shopCode').combotree('tree').tree("collapseAll"); 
+	   	            
+	   	        	$("#shopCode").combobox({
+	   	        		onChange: function (n,o) {
+	   	        			
+	   	        		$('#selectUserName').combobox('clear');
+	   	        		$.ajax({
+	   	        		    url: '${ctx}/changeCustomer/selectUserNameMethod',
+	   	        		    data:{"oid": $('#shopCode').combobox('getValue')
+	   	        		    },
+	   	        		    type: 'POST',
+	   	        		    cache: false,
+	   	        		    dataType: "json",//返回值类型  
+	   	        		    async:false,
+	   	        		    success: function(data) {
+	   	        		    	$("#selectUserName").combobox("loadData", data);
+	   	        		    },
+	   	        		    error: function(XMLHttpRequest, textStatus, errorThrown) {
+	   	        		        $.messager.alert('提示信息', "请求出现错误！");
+	   	        		    }
+	   	        		});
+	   	        		}
+	   	        		});
+	          }
+	   	});
+	   });
 </script>
 
 </head>
@@ -298,15 +395,16 @@ function checkUser(){
    		 <div style="margin: 20px 0px 0px 80px;">
    		 	<label style="margin: 0px 0px 0px 50px;">请选择需要绑定的销售</label>
    		 	<br><br><br>
-   		 	<label>组别：</label>
-				<input class="easyui-combobox" data-options="editable:false" 
-											   id='selectUserZu'
-											   name="selectUserZu"
-											   url='${ctx}/customerClues/selectUserMethod'
-											   valueField='departmentCode'
-											   textField='departmentName'
-											   panelHeight='auto'
-											   />
+   		 	<label>机构：</label>
+<!-- 				<input class="easyui-combobox" data-options="editable:false"  -->
+<!-- 											   id='selectUserZu' -->
+<!-- 											   name="selectUserZu" -->
+<%-- 											   url='${ctx}/customerClues/selectUserMethod' --%>
+<!-- 											   valueField='departmentCode' -->
+<!-- 											   textField='departmentName' -->
+<!-- 											   panelHeight='auto' -->
+<!-- 											   /> -->
+			   <input class="easyui-combobox" data-options="editable:false" id='pid'/>
    		 	<br><br>
    		 	<label>姓名：</label>
 			<input class="easyui-combobox" id='selectUserName' name="selectUserName" data-options="valueField:'selectUserCode', textField:'selectUserName', panelHeight:'auto',editable:false" />
@@ -325,14 +423,8 @@ function checkUser(){
         <br><br>
 			&nbsp;&nbsp;&nbsp;&nbsp;客户姓名：<input type="text" id="name" name="name" />&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;客户手机：<input type="text" id="mobile" name="mobile" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;门店机构： <input class="easyui-combobox" data-options="editable:false" 
-							   id='department'
-							   name="department"
-							   url='${ctx}/customerClues/selectUserMethod'
-							   valueField='departmentCode'
-							   textField='departmentName'
-							   panelHeight='auto'
-							   />
+			&nbsp;&nbsp;&nbsp;&nbsp;门店机构： 
+			<input class="easyui-combobox" data-options="editable:false" id='shopCode'/>
 			<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;销售姓名：<input type="text" id="salesName" name="salesName" />&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;销售工号：<input type="text" id="salesNo" name="salesNo" />&nbsp;&nbsp;&nbsp;&nbsp;

@@ -7,6 +7,15 @@ public interface LendUcService {
      */
     public Object getOrgTree(String organizationCode);
     
+	
+    /**
+     * 获取机构门店
+     * 
+     * @author lichunyue
+     * @date 2016年8月17日14:08:42
+     */
+    public Object getOrgTreeShop(String organizationCode);
+    
 
     
 }
