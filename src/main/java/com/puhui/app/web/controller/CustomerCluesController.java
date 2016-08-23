@@ -117,7 +117,6 @@ public class CustomerCluesController {
     		customerCluesService.updateBindingUserMethod(appUserToPromote,selectUserName);
     		return JSONArray.fromObject(1); 
     	}catch(Exception e){
-    		System.out.println("绑定失败");
     		throw new IllegalArgumentException(e);
     	}
 	}
