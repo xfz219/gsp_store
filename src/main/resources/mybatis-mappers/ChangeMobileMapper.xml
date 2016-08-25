@@ -46,12 +46,12 @@
 	</select>
 	
 	<!-- 删除app_user_token表中数据 -->
-	<delete id="deleteAppUserToken" parameterType="long">
+	<delete id="deleteAppUserToken" parameterType="string">
 		DELETE
 		FROM
 			app_user_token 
 		WHERE
-			id = #{id}
+			sales_no = #{id}
 	</delete>
 	
 	<!-- 插入app_user_token_change_record表中数据 -->

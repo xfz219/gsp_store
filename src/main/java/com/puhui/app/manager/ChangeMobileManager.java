@@ -25,9 +25,8 @@ public class ChangeMobileManager{
 	 * @param vo
 	 * @throws Exception
 	 */
-	public void doChangeMobile(AppUserTokenChangeRecordVo vo)throws Exception{
-		this.changeMobileDao.deleteAppUserToken(vo.getId());
-		this.changeMobileDao.createAppUserTokenChangeRecord(vo);
+	public void doChangeMobile(String salesNo)throws Exception{
+		this.changeMobileDao.deleteAppUserToken(salesNo);
 	}
 
 	

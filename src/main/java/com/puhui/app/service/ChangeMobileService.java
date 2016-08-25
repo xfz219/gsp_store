@@ -43,5 +43,5 @@ public interface ChangeMobileService {
 	 * @param list 
 	 * @throws Exception
 	 */
-	public void changeMobile(List<AppUserTokenChangeRecordVo> list)throws Exception;
+	public void changeMobile(String salesNo)throws Exception;
 }

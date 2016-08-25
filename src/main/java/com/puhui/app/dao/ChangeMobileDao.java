@@ -52,5 +52,5 @@ public interface ChangeMobileDao extends BaseDao<AppUserTokenChangeRecordVo>{
 	 * @param id 主键
 	 * @throws Exception
 	 */
-	public void deleteAppUserToken(Long id)throws Exception;
+	public void deleteAppUserToken(String salesNo)throws Exception;
 }
