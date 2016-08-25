@@ -53,10 +53,8 @@ public class ChangeMobileServiceImpl implements ChangeMobileService{
 	}
 
 	@Override
-	public void changeMobile(List<AppUserTokenChangeRecordVo> list) throws Exception {
-		if(CollectionUtils.isNotEmpty(list)&&list.size()==1){
-			changeMobileManager.doChangeMobile(list.get(0));
-		}
+	public void changeMobile(String salesNo) throws Exception {
+			changeMobileManager.doChangeMobile(salesNo);
 	}
 
 }

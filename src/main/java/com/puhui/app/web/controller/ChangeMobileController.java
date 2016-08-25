@@ -99,12 +99,7 @@ public class ChangeMobileController {
             returnEntity = new ReturnEntity(false, "员工编号为空！");
         } else{
         	try {
-            	List<AppUserTokenChangeRecordVo> list = this.changeMobileService.queryAppUserToken(salesNo);
-            	if(CollectionUtils.isEmpty(list)||list.size()!=1){
-            		returnEntity = new ReturnEntity(false, "目前员工编号["+salesNo+"]在app_user_token表中激活状态的数据不唯一！");
-            	}else{
-            		this.changeMobileService.changeMobile(list);
-            	}
+            		this.changeMobileService.changeMobile(salesNo);
             } catch (Exception e) {
                 logger.error("销售人员手机设备变更失败", e);
                 returnEntity = new ReturnEntity(false, "销售人员手机设备变更失败！");
