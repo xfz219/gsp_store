@@ -61,7 +61,7 @@ public class PaginationInterceptor implements Interceptor {
         Configuration configuration = (Configuration) metaStatementHandler.getValue("delegate.configuration");
         dialect = configuration.getVariables().getProperty("dialect");
         if (null == dialect || "".equals(dialect)) {
-            logger.warn("Property dialect is not setted,use default 'mysql' ");
+//            logger.warn("Property dialect is not setted,use default 'mysql' ");
             dialect = defaultDialect;
         }
     	MappedStatement mappedStatement = (MappedStatement) metaStatementHandler.getValue("delegate.mappedStatement");
