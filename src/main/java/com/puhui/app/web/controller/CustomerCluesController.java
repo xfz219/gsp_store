@@ -102,6 +102,7 @@ public class CustomerCluesController {
         	objMap.put("rows", autpList);
     	}catch(Exception e){
     		logger.error("线索管理查询失败:",e);
+    		throw new IllegalArgumentException(e);
     	}
     	return objMap;
 	}

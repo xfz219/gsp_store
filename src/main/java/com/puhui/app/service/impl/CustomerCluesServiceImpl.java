@@ -71,8 +71,8 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
     		autpMap.put("salesName", autp.getSalesName());
     		autpMap.put("salesNo", autp.getSalesNo());
     		autpMap.put("department", autp.getDepartment());
-    		Map<String, Object> map = appCustomerDao.getMobileMethod(autp.getMobile());
-    		autpMap.put("registered", map == null ? "未注册" : "已注册");
+    		List<Map<String, Object>> listMap = appCustomerDao.getMobileMethod(autp.getMobile());
+    		autpMap.put("registered", listMap.isEmpty() ? "未注册" : "已注册");
     		autpMap.put("sales", autp.getSalesNo() == null ? "否" : "是");
     		autpMap.put("salesStatus", autp.getSalesNo() == null ? "" : getUserInfoMethod(autp.getSalesNo(),autp.getCityCode()));
     		
