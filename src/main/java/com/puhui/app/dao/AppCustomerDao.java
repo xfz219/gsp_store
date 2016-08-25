@@ -1,5 +1,6 @@
 package com.puhui.app.dao;
 
+import java.util.List;
 import java.util.Map;
 
 public interface AppCustomerDao extends BaseDao {
@@ -9,6 +10,6 @@ public interface AppCustomerDao extends BaseDao {
 	 * @author lichunyue
 	 * @return
 	 */
-	public Map<String, Object> getMobileMethod(String mobile);
+	public List<Map<String, Object>> getMobileMethod(String mobile);
 
 }

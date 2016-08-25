@@ -4,7 +4,7 @@
 <!-- namespace必须指向Dao接口 -->
 <mapper namespace="com.puhui.app.dao.AppCustomerDao">
 	
-	<select id="getMobileMethod" parameterType="string" resultType="map">
+	<select id="getMobileMethod" parameterType="string" resultType="list">
 		select * from app_customer where mobile = #{mobile}
 	</select>
 	
