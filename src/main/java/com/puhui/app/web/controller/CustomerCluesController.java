@@ -8,6 +8,8 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -19,6 +21,7 @@ import com.puhui.app.common.page.mybatis.Page;
 import com.puhui.app.dao.AppUserToPromoteDao;
 import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
+import com.puhui.app.service.impl.CustomerCluesServiceImpl;
 import com.puhui.app.utils.JsonTools;
 import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
 import com.puhui.uc.api.service.RemoteOrganizationService;
@@ -35,7 +38,7 @@ import net.sf.json.JSONArray;
 @Controller
 @RequestMapping(value = "/customerClues")
 public class CustomerCluesController {
-	
+	private static final Logger logger = LoggerFactory.getLogger(CustomerCluesController.class);
 	@Autowired
 	private CustomerCluesService customerCluesService;
 	@Autowired
@@ -98,7 +101,7 @@ public class CustomerCluesController {
         	objMap.put("total", page.getTotalCount());
         	objMap.put("rows", autpList);
     	}catch(Exception e){
-    		throw new IllegalArgumentException(e);
+    		logger.error("线索管理查询失败:",e);
     	}
     	return objMap;
 	}
@@ -117,6 +120,7 @@ public class CustomerCluesController {
     		customerCluesService.updateBindingUserMethod(appUserToPromote,selectUserName);
     		return JSONArray.fromObject(1); 
     	}catch(Exception e){
+    		logger.error("绑定失败！",e);
     		throw new IllegalArgumentException(e);
     	}
 	}
@@ -146,7 +150,7 @@ public class CustomerCluesController {
     		return json;
     		
     	}catch(Exception e){
-    		System.out.println("调用列表失败！");
+    		logger.error("调用列表失败！",e);
     		throw new IllegalArgumentException(e);
     	}
 	}
