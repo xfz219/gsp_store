@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.puhui.app.dao.AppCustomerTokenDao">
+	<resultMap id="appCustomerTokenObj" type="appCustomerToken">
+		<id property="id" column="id"/>
+		<result property="appCustomerId" column="app_customer_id"/>
+		<result property="appKeyId" column="app_key_id"/>
+		<result property="pid" column="pid"/>
+		<result property="clientType" column="client_type"/>
+		<result property="loginStatus" column="login_status"/>
+		<result property="token" column="token"/>
+		<result property="version" column="version"/>
+		<result property="isEnable" column="is_enable"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+	</resultMap>
+
+	<select id="getAppCustomerTokenByPID" parameterType="appCustomerToken" resultMap="appCustomerTokenObj">
+		select DISTINCT(act.alias) from app_customer_token act
+		WHERE act.alias IS NOT NULL
+		AND act.app_customer_id IS NOT NULL
+		<if test="pid != null and pid != ''">
+			AND act.pid = #{pid}
+		</if>
+	</select>
+</mapper> 
