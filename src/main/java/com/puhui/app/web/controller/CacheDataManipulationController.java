@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.puhui.app.common.constant.Select;
 import com.puhui.app.common.page.mybatis.Page;
+import com.puhui.app.service.AppPushService;
 import com.puhui.app.service.DataCachingOperationsService;
+import com.puhui.app.vo.AppPushMessageVo;
+import com.puhui.app.vo.ReturnEntity;
 
 /**
  * @comment 缓存数据操作
@@ -24,6 +26,8 @@ public class CacheDataManipulationController {
 	
 	@Autowired
 	private DataCachingOperationsService dataCachingOperationsService;
+	@Autowired
+	private AppPushService appPushService;
 	
 	
 	/**
@@ -64,7 +68,6 @@ public class CacheDataManipulationController {
         	objMap.put("total", page.getTotalCount());
         	objMap.put("rows", list);
     	}catch(Exception e){
-    		System.out.println("查询附件失败");
     		throw new IllegalArgumentException(e);
     	}
     	return objMap;
@@ -94,7 +97,6 @@ public class CacheDataManipulationController {
     		updateMap.put("id", id);
     		dataCachingOperationsService.updateDataServer(updateMap);
     	}catch(Exception e){
-    		System.out.println("更新失败");
     		throw new IllegalArgumentException(e);
     	}
 	}
@@ -111,7 +113,7 @@ public class CacheDataManipulationController {
     		@RequestParam(value = "codeValue", required = false) String codeValue,
     		@RequestParam(value = "meaning", required = false) String meaning,
     		@RequestParam(value = "message", required = false) String message){
-		Map<String, Object> addMap = new HashMap<String, Object>(); 
+		Map<String, Object> addMap = new HashMap<>(); 
     	try{
     		addMap.put("className", className);
     		addMap.put("attribution", attribution);
@@ -121,7 +123,31 @@ public class CacheDataManipulationController {
     		addMap.put("message", message);
     		dataCachingOperationsService.addDataServer(addMap);
     	}catch(Exception e){
-    		System.out.println("新增失败");
+    		throw new IllegalArgumentException(e);
+    	}
+	}
+	
+	/**
+	 * @comment 个人用户推送
+	 * @author lichunyue
+	 */
+	@RequestMapping(value = "/pushCustomerMethod")
+	@ResponseBody
+	public Object pushCustomerMethod(
+			@RequestParam(value = "message", required = false) String message,
+    		@RequestParam(value = "otherMessage", required = false) String otherMessage){
+    	try{
+    		ReturnEntity returnEntity = new ReturnEntity();
+    		AppPushMessageVo appPushMessageVo = new AppPushMessageVo();
+    		appPushMessageVo.setPushType(2);// 推送类型1、销售2、客户
+    		appPushMessageVo.setType(1000);// 公告标识 1000
+    		appPushMessageVo.setMessage(message);// 标题
+    		appPushMessageVo.setOtherMessage(otherMessage);// 内容
+    		appPushService.pushMessageCustomer(appPushMessageVo);
+    		returnEntity.setSuccess(true);
+            returnEntity.setMsg("推送成功！");
+            return returnEntity;
+    	}catch(Exception e){
     		throw new IllegalArgumentException(e);
     	}
 	}

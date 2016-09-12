@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>线索管理</title>
+<title>解绑管理</title>
 <style>
 .box table{
  	width:100% !important; 

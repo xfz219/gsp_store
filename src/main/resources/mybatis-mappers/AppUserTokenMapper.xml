@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.puhui.app.dao.AppUserTokenDao">
+	<resultMap id="appUserTokenObj" type="appUserToken">
+		<id property="id" column="id"/>
+		<result property="sellerNumber" column="seller_number"/>
+		<result property="salesNo" column="sales_no"/>
+		<result property="appKeyId" column="app_key_id"/>
+		<result property="pid" column="pid"/>
+		<result property="clientType" column="client_type"/>
+		<result property="loginStatus" column="login_status"/>
+		<result property="token" column="token"/>
+		<result property="version" column="version"/>
+		<result property="isEnable" column="is_enable"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+	</resultMap>
+	
+	<select id="getAppUserTokenDistrictCodeList" parameterType="appUserToken" resultMap="appUserTokenObj">
+		select distinct aut.* from app_user_token as aut 
+	</select>
+	
+</mapper> 

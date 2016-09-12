@@ -188,6 +188,47 @@ function saveuser() {
 		searchByConditions();
 		}
 
+function openHK() {
+	$('#open').dialog({
+		title: "获客推送",
+	   	width: 300,
+	   	height: 250,
+	   	modal: true,
+	   	closed:false
+	});
+}
+	
+function YES() {
+ 	if(typeof $('#message').val() != '' && $('#otherMessage').val() != ''){
+    	$.messager.confirm('确定','您确定要推送吗？',function(r){
+        	if(r){
+       			$.ajax({
+       			    url: '${ctx}/dataCaching/pushCustomerMethod',
+       			    data:{"message": $('#message').val(),"otherMessage": $('#otherMessage').val()
+       			    },
+       			    type: 'POST',
+       			    cache: false,
+       			    dataType: "json",//返回值类型  
+       			    async:false,
+       			    success: function(data, textStatus, jqXHR) {
+       			        	$('#open').dialog('close');
+       			    },
+       			    error: function(XMLHttpRequest, textStatus, errorThrown) {
+       			        $.messager.alert('提示信息', "请求出现错误！");
+       			    }
+       			});
+         	}
+      	});
+   	}else{
+   		$.messager.alert('提示信息', '标题与消息不可为空！');
+   	}
+}
+
+function NO() {
+	$('#open').dialog({
+	   	closed:true
+	});
+}
 
 </script>
 
@@ -196,7 +237,6 @@ function saveuser() {
 <div data-options="region:'center'" style="overflow: hidden;">
 		<table id="datagrid"></table>
 </div>
-	
 <div id="addBlacklistDialog"></div>	
 <div id="modifyDialog"></div>
 	<div id="tbLendRequest">
@@ -212,6 +252,25 @@ function saveuser() {
 			<a  href="javascript:void(0);" class="easyui-linkbutton clear" iconCls="icon-edit" plain="true" onclick="edituser('update');">修改</a>
 			<span class="datagrid-btn-separator" style="float:none;"></span>
 			<a  href="javascript:void(0);" class="easyui-linkbutton clear" iconCls="icon-add" plain="true" onclick="edituser('add');">添加</a>
+			<span class="datagrid-btn-separator" style="float:none;"></span>
+			<a  href="javascript:void(0);" class="easyui-linkbutton clear" iconCls="icon-add" plain="true" onclick="openHK();">获客</a>
+	</div>
+	<div id="open" class="easyui-dialog" title="获客推送" data-options="iconCls:'icon-save',resizable:true,closed:true" >
+   		 <div style="margin: 20px 0px 0px 40px;">
+   		 	<label style="margin: 0px 0px 0px 80px;">请填写内容</label>
+   		 	<br><br><br>
+   		 	<label>标题：</label>
+   		 	<input type="text" id="message" name="message" />
+   		 	<br><br>
+   		 	<label>消息：</label>
+			<textarea rows="3" cols="30" style="width:170px" id="otherMessage" name="otherMessage"> </textarea>
+			<br><br>
+			<div style="margin: 0px 0px 0px 50px;">
+				<a href="#" onclick="YES();" class="easyui-linkbutton">确认</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="#" onclick="NO();" class="easyui-linkbutton">取消</a>
+			</div>
+   		 </div>
 	</div>
 	<div id="dlg" class="easyui-dialog" style="width: 400px; height: 380px; padding: 10px 20px;" closed="true" buttons="#dlg-buttons">
 		<form id="fm" method="post">

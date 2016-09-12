@@ -91,7 +91,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	        	 logger.info("--------------查询销售绑定列表  结束----------------");
 	        	 for(Map<String, Object> ml : list){
 	        		 
-	        		String salesStatus = this.getUserInfoMethod(ml.get("salesNo").toString(), ml.get("shopName") == null ?"": ml.get("shopName").toString());
+	        		String salesStatus = this.getUserInfoMethod(ml.get("salesNo") == null ? "":ml.get("salesNo").toString(), ml.get("shopName") == null ?"": ml.get("shopName").toString());
 	        		ml.put("salesStatus", salesStatus);
 	        		objList.add(ml);
 	        		
