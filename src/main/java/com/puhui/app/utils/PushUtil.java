@@ -122,7 +122,7 @@ public class PushUtil extends Thread{
 		//设置发送平台为android
 		b.setPlatform(Platform.android());
 		//判断是否群发
-		if(aliases != null && aliases.size() > 0){
+		if(aliases != null && !aliases.isEmpty()){
 			logger.info("推送[android]消息到[{}]用户",aliases.size());
 			b.setAudience(Audience.alias(aliases));
 		}else{

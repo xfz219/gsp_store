@@ -14,6 +14,7 @@ import com.puhui.app.common.page.mybatis.Page;
 import com.puhui.app.service.AppPushService;
 import com.puhui.app.service.DataCachingOperationsService;
 import com.puhui.app.vo.AppPushMessageVo;
+import com.puhui.app.vo.ReturnEntity;
 
 /**
  * @comment 缓存数据操作
@@ -132,16 +133,20 @@ public class CacheDataManipulationController {
 	 */
 	@RequestMapping(value = "/pushCustomerMethod")
 	@ResponseBody
-	public void pushCustomerMethod(
+	public Object pushCustomerMethod(
 			@RequestParam(value = "message", required = false) String message,
     		@RequestParam(value = "otherMessage", required = false) String otherMessage){
     	try{
+    		ReturnEntity returnEntity = new ReturnEntity();
     		AppPushMessageVo appPushMessageVo = new AppPushMessageVo();
     		appPushMessageVo.setPushType(2);// 推送类型1、销售2、客户
     		appPushMessageVo.setType(1000);// 公告标识 1000
     		appPushMessageVo.setMessage(message);// 标题
     		appPushMessageVo.setOtherMessage(otherMessage);// 内容
     		appPushService.pushMessageCustomer(appPushMessageVo);
+    		returnEntity.setSuccess(true);
+            returnEntity.setMsg("推送成功！");
+            return returnEntity;
     	}catch(Exception e){
     		throw new IllegalArgumentException(e);
     	}

@@ -98,7 +98,7 @@ public class AppPushServiceImpl implements AppPushService {
 						aliasAndroidList.add(token.getAlias());
 				}
 			}
-			if (type == 1000 && !aliasIOSList.isEmpty()) {
+			if (!aliasIOSList.isEmpty()) {
 				pushModels.put("mid", String.valueOf(mid));
 				pushModels.put("type", String.valueOf(type));
 				PushUtil.sendMsg2IOS(aliasIOSList, pushModel, 1, pushModels, "IOS" + pushType);

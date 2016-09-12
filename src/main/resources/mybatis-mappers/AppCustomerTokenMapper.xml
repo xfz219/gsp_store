@@ -18,7 +18,7 @@
 	</resultMap>
 
 	<select id="getAppCustomerToken" parameterType="appCustomerToken" resultMap="appCustomerTokenObj">
-		select DISTINCT(act.alias) from app_customer_token act
+		select DISTINCT(act.alias),act.client_type from app_customer_token act
 		WHERE act.alias IS NOT NULL
 		AND act.app_customer_id IS NOT NULL
 		<if test="pid != null and pid != ''">

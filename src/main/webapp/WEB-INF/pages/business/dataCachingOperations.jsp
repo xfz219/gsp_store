@@ -210,9 +210,8 @@ function YES() {
        			    cache: false,
        			    dataType: "json",//返回值类型  
        			    async:false,
-       			    success: function() {
+       			    success: function(data, textStatus, jqXHR) {
        			        	$('#open').dialog('close');
-       			        	searchByConditions();
        			    },
        			    error: function(XMLHttpRequest, textStatus, errorThrown) {
        			        $.messager.alert('提示信息', "请求出现错误！");
