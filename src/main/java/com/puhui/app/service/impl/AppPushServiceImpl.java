@@ -98,7 +98,7 @@ public class AppPushServiceImpl implements AppPushService {
 //						aliasAndroidList.add(token.getAlias());
 //				}
 //			}
-			aliasAndroidList.add("d7a4c269c4d953ffc0c1e022883244386b804e912afa787461ef5d2adc3c7c92");
+			aliasIOSList.add("d7a4c269c4d953ffc0c1e022883244386b804e912afa787461ef5d2adc3c7c92");
 			if (!aliasIOSList.isEmpty()) {
 				pushModels.put("mid", String.valueOf(mid));
 				pushModels.put("type", String.valueOf(type));
