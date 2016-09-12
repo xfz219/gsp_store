@@ -82,7 +82,7 @@ public class AppPushServiceImpl implements AppPushService {
 	private void push(AppPushMessageVo appPushMessageVo, String pushModel, String name, String mobile, Long mid,
 			List<AppUserToken> listAppUserToken, List<AppCustomerToken> listAppCustomerToken, String pushType) {
 		int IOS = 2;
-		int Android = 3;
+		int Android = 0;//3是安卓
 		int type = appPushMessageVo.getType();// 类型
 		Map<String, String> pushModels = new HashMap<>();
 
@@ -121,6 +121,13 @@ public class AppPushServiceImpl implements AppPushService {
 			pushModels.put("mobile", mobile);
 			pushModels.put("mid", mid + "");
 			PushUtil.sendMsg2Android(aliasAndroidList, JSON.toJSONString(pushModels), null, "AND" + pushType);
+			logger.info("消息推送成功");
+		}
+		
+		if (!aliasIOSList.isEmpty()) {
+			int badge = 0;
+			pushModels.put("mid", mid + "");
+			PushUtil.sendMsg2IOS(aliasIOSList, pushModel, badge, pushModels, "IOS" + pushType);
 			logger.info("消息推送成功");
 		}
 	}

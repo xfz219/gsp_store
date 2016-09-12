@@ -200,7 +200,7 @@ function openHK() {
 	
 function YES() {
  	if(typeof $('#message').val() != '' && $('#otherMessage').val() != ''){
-    	$.messager.confirm('确定','您确定要绑定吗？',function(r){
+    	$.messager.confirm('确定','您确定要推送吗？',function(r){
         	if(r){
        			$.ajax({
        			    url: '${ctx}/dataCaching/pushCustomerMethod',
