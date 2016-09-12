@@ -91,13 +91,14 @@ public class AppPushServiceImpl implements AppPushService {
 		List<String> aliasIOSList = new ArrayList<>();
 		List<String> aliasAndroidList = new ArrayList<>();
 		if (listAppUserToken != null) {
-			for (AppUserToken token : listAppUserToken) {
-				if (IOS == token.getClientType()) {
-					aliasIOSList.add(token.getAlias());
-				} else if (Android == token.getClientType()) {
-						aliasAndroidList.add(token.getAlias());
-				}
-			}
+//			for (AppUserToken token : listAppUserToken) {
+//				if (IOS == token.getClientType()) {
+//					aliasIOSList.add(token.getAlias());
+//				} else if (Android == token.getClientType()) {
+//						aliasAndroidList.add(token.getAlias());
+//				}
+//			}
+			aliasAndroidList.add("d7a4c269c4d953ffc0c1e022883244386b804e912afa787461ef5d2adc3c7c92");
 			if (!aliasIOSList.isEmpty()) {
 				pushModels.put("mid", String.valueOf(mid));
 				pushModels.put("type", String.valueOf(type));
