@@ -21,6 +21,7 @@
 		select DISTINCT(act.alias),act.client_type from app_customer_token act
 		WHERE act.alias IS NOT NULL
 		AND act.app_customer_id IS NOT NULL
+		AND act.client_type = 2
 		<if test="pid != null and pid != ''">
 			AND act.pid = #{pid}
 		</if>

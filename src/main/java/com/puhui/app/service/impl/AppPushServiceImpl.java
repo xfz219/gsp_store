@@ -73,8 +73,6 @@ public class AppPushServiceImpl implements AppPushService {
 					appCustomerTokenList.clear();
 				}
 			}
-			
-
 	}
 
 
