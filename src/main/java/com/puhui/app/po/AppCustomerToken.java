@@ -2,14 +2,14 @@ package com.puhui.app.po;
 
 import java.util.Date;
 
-import com.puhui.app.po.BaseBean;
+import com.puhui.app.vo.Pages;
 
 /**
  * 客户token
  * @author xiaobowen
  *
  */
-public class AppCustomerToken extends BaseBean{
+public class AppCustomerToken extends Pages{
     private static final long serialVersionUID = -6304432282460137514L;
     
     /**
