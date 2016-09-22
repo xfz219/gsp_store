@@ -58,7 +58,7 @@ public class ChangeCustomerController extends BaseController{
         RemoteStaffVo staff = (RemoteStaffVo) currStaff.getPrincipal();
         queryChangeCustomerVo.setStaffId(staff.getId());
         queryChangeCustomerVo.setStaffCode(staff.getOrganizationVo().getCode());
-    	Map<String, Object> objMap = new HashMap<String, Object>();
+    	Map<String, Object> objMap = new HashMap<>();
     	try{
     		logger.info("--------------查询销售绑定列表--------------------");
     		objMap = changeCustomerService.selectChangeCustomerMethod(queryChangeCustomerVo);
