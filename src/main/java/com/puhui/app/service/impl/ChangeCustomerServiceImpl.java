@@ -83,7 +83,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
         	paramMap.put("salesmobile", queryChangeCustomerVo.getSalesMobile() != null? queryChangeCustomerVo.getSalesMobile()+"%": "");
         	paramMap.put("salesName", queryChangeCustomerVo.getSalesName() != null? queryChangeCustomerVo.getSalesName()+"%": "");
         	paramMap.put("salesNo", queryChangeCustomerVo.getSalesNo() != null? queryChangeCustomerVo.getSalesNo()+"%": "");
-        	paramMap.put("staffCode", queryChangeCustomerVo.getStaffCode() != null? queryChangeCustomerVo.getStaffCode()+"%": "");	
+        	paramMap.put("staffCode", !queryChangeCustomerVo.getStaffCode().equals("RPA") ? queryChangeCustomerVo.getStaffCode()+"%": "");	
         	paramMap.put("listSales", listSales);
 	        try {
 		        
