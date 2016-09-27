@@ -80,7 +80,7 @@ public class AppPushServiceImpl implements AppPushService {
 	private void push(AppPushMessageVo appPushMessageVo, String pushModel, String name, String mobile, Long mid,
 			List<AppUserToken> listAppUserToken, List<AppCustomerToken> listAppCustomerToken, String pushType) {
 		int IOS = 2;
-		int Android = 0;//3是安卓
+		int Android = 3;//3是安卓
 		int type = appPushMessageVo.getType();// 类型
 		Map<String, String> pushModels = new HashMap<>();
 
