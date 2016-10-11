@@ -67,7 +67,7 @@ public class AppPushServiceImpl implements AppPushService {
 			List<AppCustomerToken> list = appCustomerTokenDao.getAppCustomerToken(AppCustomerToken);
 			for(int i = 0;i < list.size(); i++){
 				appCustomerTokenList.add(list.get(i));
-				if(appCustomerTokenList.size() > 4000 || i == list.size()-1){
+				if(appCustomerTokenList.size() > 1000 || i == list.size()-1){
 					new Thread(new Runner(appPushMessageVo, appPushMessageVo.getOtherMessage(), "", "",
 							1L, null, list, pushType)).start();
 					appCustomerTokenList.clear();
