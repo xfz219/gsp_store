@@ -64,6 +64,7 @@ $(function(){
 			{field:'salesNo',title:'销售工号',align:'center',width:80},
 			{field:'salesStatus',title:'销售状态',align:'center',width:80},
 			{field:'channel',title:'进件渠道',align:'center',width:100},
+			{field:'shareGuidance',title:'引导分享',align:'center',width:100},
 			{field:'radio',title:'radio',align:'center',hidden:true}
 	        
 	    ]],
@@ -185,29 +186,6 @@ function NO() {
 	});
 }
 
-// $(document).ready(function () {
-// 	$("#selectUserZu").combobox({
-// 	onChange: function (n,o) {
-// 	$('#selectUserName').combobox('clear');
-// 	$.ajax({
-// 	    url: '${ctx}/customerClues/selectUserNameMethod',
-// 	    data:{"department": $('#selectUserZu').combobox('getValue')
-// 	    },
-// 	    type: 'POST',
-// 	    cache: false,
-// 	    dataType: "json",//返回值类型  
-// 	    async:false,
-// 	    success: function(data) {
-// 	    	$("#selectUserName").combobox("loadData", data);
-// 	    },
-// 	    error: function(XMLHttpRequest, textStatus, errorThrown) {
-// 	        $.messager.alert('提示信息', "请求出现错误！");
-// 	    }
-// 	});
-// 	}
-// 	});
-// 	});
-	
 //详情
 function checkUser(){
 	var rows = grid.datagrid('getSelections');
@@ -396,14 +374,6 @@ function checkUser(){
    		 	<label style="margin: 0px 0px 0px 50px;">请选择需要绑定的销售</label>
    		 	<br><br><br>
    		 	<label>机构：</label>
-<!-- 				<input class="easyui-combobox" data-options="editable:false"  -->
-<!-- 											   id='selectUserZu' -->
-<!-- 											   name="selectUserZu" -->
-<%-- 											   url='${ctx}/customerClues/selectUserMethod' --%>
-<!-- 											   valueField='departmentCode' -->
-<!-- 											   textField='departmentName' -->
-<!-- 											   panelHeight='auto' -->
-<!-- 											   /> -->
 			   <input class="easyui-combobox" data-options="editable:false" id='pid'/>
    		 	<br><br>
    		 	<label>姓名：</label>

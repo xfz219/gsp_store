@@ -23,6 +23,7 @@
 		<result property="settleTime" column="settle_time"/>
 		<result property="channel" column="channel"/>
 		<result property="channelTwo" column="channel_two"/>
+		<result property="shareGuidance" column="share_guidance"/>
 	</resultMap>
 	
 	<select id="selectCustomerCluesMethod" parameterType="map" resultMap="appUserToPromoteObj">
@@ -36,7 +37,8 @@
 		autp.sales_name AS salesName,
 		autp.sales_no AS salesNo,
 		ac.code_name AS channel,
-		autp.channel As channelTwo
+		autp.channel As channelTwo,
+		autp.share_guidance
 		from app_user_to_promote autp   
 		LEFT JOIN app_channel ac ON autp.channel = ac.channel
 		where 1=1

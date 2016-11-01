@@ -58,6 +58,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	public List<Map<String, Object>> selectCustomerCluesMethod(Map<String, Object> paramMap) throws Exception {
 		List<AppUserToPromote> autpList = appUserToPromoteDao.selectCustomerCluesMethod(paramMap);
 		List<Map<String, Object>> list =  new ArrayList<Map<String, Object>>();
+		String shareGuidance = "客户经理";//引导分享
 		for(AppUserToPromote autp : autpList){
     		Map<String, Object> autpMap = new HashMap<String, Object>();
     		autpMap.put("toPromoteId", autp.getId());
@@ -75,7 +76,19 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
     		autpMap.put("registered", listMap.isEmpty() ? "未注册" : "已注册");
     		autpMap.put("sales", autp.getSalesNo() == null ? "否" : "是");
     		autpMap.put("salesStatus", autp.getSalesNo() == null ? "" : getUserInfoMethod(autp.getSalesNo(),autp.getCityCode()));
-    		
+    		if(autp.getShareGuidance() != null){
+    			switch (autp.getShareGuidance()) {
+				case 2:
+					shareGuidance = "客服引导";
+					break;
+				case 3:
+					shareGuidance = "自发分享";
+					break;
+				default:
+					break;
+				}
+    		}
+    		autpMap.put("shareGuidance", shareGuidance);
     		list.add(autpMap);
     	}
 		return list;
