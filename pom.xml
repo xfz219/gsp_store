@@ -18,12 +18,12 @@
 		<dependency>
 			<groupId>com.puhui</groupId>
 			<artifactId>puhui-uc-api</artifactId>
-			<version>1.0</version>
+			<version>2.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.puhui</groupId>
 			<artifactId>puhui-lend-api</artifactId>
-			<version>1.4.4</version>
+			<version>2.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.puhui</groupId>
@@ -229,6 +229,18 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>fluent-hc</artifactId>
 			<version>4.3.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.puhui.cloud</groupId>
+			<artifactId>puhui-oauth-template</artifactId>
+			<version>1.0.0</version>
+			<exclusions>
+				<!--忽略Spring框架依赖 -->
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- shiro-start -->

@@ -18,8 +18,6 @@ import com.puhui.app.dao.AppInterfaceLogDao;
 import com.puhui.app.dao.AppUserToPromoteDao;
 import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
-import com.puhui.lend.api.LendQueryInfoService;
-import com.puhui.lend.vo.LendShopNameVo;
 import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
 import com.puhui.uc.api.service.RemoteOrganizationService;
 import com.puhui.uc.api.service.RemoteStaffService;
@@ -41,8 +39,6 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	private RemoteLendAppUserCenterService remoteLendAppUserCenterService;
 	@Autowired
 	private RemoteStaffService remoteStaffService;
-	@Autowired
-	private LendQueryInfoService lendQueryInfoService;
 	@Autowired
 	private AppInterfaceLogDao appInterfaceLogDao;
 	@Autowired
