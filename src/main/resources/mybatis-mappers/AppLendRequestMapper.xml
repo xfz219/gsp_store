@@ -3,28 +3,51 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.puhui.app.dao.AppLendRequestDao">
-
-<update id="updateCustomerEntryState" parameterType="long">
-	update app_lend_request set 
-	state = 2,audit_state = 0
+	<resultMap id="appLendRequestObj" type="appLendRequest" >
+		<id property="id" column="id"/>
+		<result property="appCustomerId" column="app_customer_id"/>
+		<result property="customerServiceManagerNumber" column="customer_service_manager_number"/>
+		<result property="state" column="state"/>
+		<result property="auditState" column="audit_state"/>
+		<result property="firstStartTime" column="first_start_time"/>
+		<result property="startTime" column="start_time"/>
+		<result property="endTime" column="end_time"/>
+		<result property="approvalAmount" column="approval_amount"/>
+		<result property="approvalLoanPeriod" column="approval_loan_period"/>
+		<result property="approvalMonthlyRepay" column="approval_monthly_repay"/>
+		<result property="createTime" column="create_time"/>
+		<result property="loanAmount" column="loan_amount"/>
+		<result property="dataCenterId" column="data_center_id"/>
+		<result property="salesNo" column="sales_no"/>
+		<result property="updateTime" column="update_time"/>
+	</resultMap>
+	<update id="updateCustomerEntryState" parameterType="long">
+		update app_lend_request set
+		state = 2,audit_state = 0
 		where id = #{id}
-</update>
-		<select id="selectAppLendRequestMethod" parameterType="map" resultType="String">
-		SELECT id FROM app_lend_request 
+	</update>
+	<select id="selectAppLendRequestMethod" parameterType="map"
+		resultType="String">
+		SELECT id FROM app_lend_request
 
-				where app_customer_id in
-			<foreach collection="ids" item="id" index="index"
-            	open="(" close=")" separator=",">
-           		 #{id}
-        	</foreach>
+		where app_customer_id in
+		<foreach collection="ids" item="id" index="index" open="("
+			close=")" separator=",">
+			#{id}
+		</foreach>
 	</select>
-	
+
 	<update id="updateCustomerSalesNo" parameterType="map">
-	update app_lend_request set customer_service_manager_number = #{salesId}
+		update app_lend_request set customer_service_manager_number =
+		#{salesId}
 		where id in
-		<foreach collection="ids" item="id" index="index"
-            	open="(" close=")" separator=",">
-           		 #{id}
-        </foreach>
-</update>
+		<foreach collection="ids" item="id" index="index" open="("
+			close=")" separator=",">
+			#{id}
+		</foreach>
+	</update>
+	
+	<select id="getAppLendRequestByCustomerId" parameterType="long" resultMap="appLendRequestObj">
+		select id,state,audit_state,loan_amount,data_center_id,update_time from app_lend_request where app_customer_id = #{customerId} order by create_time desc limit 1
+	</select>
 </mapper>
