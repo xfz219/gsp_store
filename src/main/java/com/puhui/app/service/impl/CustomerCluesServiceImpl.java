@@ -18,6 +18,7 @@ import com.puhui.app.dao.AppInterfaceLogDao;
 import com.puhui.app.dao.AppUserToPromoteDao;
 import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
+import com.puhui.app.utils.DateUtil;
 import com.puhui.lend.api.LendQueryInfoService;
 import com.puhui.lend.vo.LendShopNameVo;
 import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
@@ -89,6 +90,8 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 				}
     		}
     		autpMap.put("shareGuidance", shareGuidance);
+    		autpMap.put("createTime", DateUtil.getDay(autp.getCreateTime()));
+    		autpMap.put("updateAllotTime", DateUtil.getDay(autp.getUpdateAllotTime()));
     		list.add(autpMap);
     	}
 		return list;
