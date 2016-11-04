@@ -90,8 +90,8 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 				}
     		}
     		autpMap.put("shareGuidance", shareGuidance);
-    		autpMap.put("createTime", DateUtil.getDay(autp.getCreateTime()));
-    		autpMap.put("updateAllotTime", DateUtil.getDay(autp.getUpdateAllotTime()));
+    		autpMap.put("createTime", DateUtil.toDateTimeString(autp.getCreateTime()));
+    		autpMap.put("updateAllotTime", DateUtil.toDateTimeString(autp.getUpdateAllotTime()));
     		list.add(autpMap);
     	}
 		return list;

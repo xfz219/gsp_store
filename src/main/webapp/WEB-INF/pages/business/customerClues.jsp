@@ -64,8 +64,8 @@ $(function(){
 			{field:'salesNo',title:'销售工号',align:'center',width:80},
 			{field:'salesStatus',title:'销售状态',align:'center',width:80},
 			{field:'channel',title:'进件渠道',align:'center',width:100},
-			{field:'createTime',title:'创建时间',align:'center',width:100},
-			{field:'updateAllotTime',title:'分配时间',align:'center',width:100},
+			{field:'createTime',title:'创建时间',align:'center',width:150},
+			{field:'updateAllotTime',title:'分配时间',align:'center',width:150},
 			{field:'radio',title:'radio',align:'center',hidden:true}
 	        
 	    ]],
