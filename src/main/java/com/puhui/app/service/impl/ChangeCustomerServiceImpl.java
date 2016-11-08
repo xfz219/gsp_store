@@ -18,11 +18,8 @@ import com.puhui.app.dao.AppLendRequestDao;
 import com.puhui.app.service.AppPushService;
 import com.puhui.app.service.ChangeCustomerService;
 import com.puhui.app.service.CustomerCluesService;
+import com.puhui.app.service.SwaggerService;
 import com.puhui.app.vo.QueryChangeCustomerVo;
-import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
-import com.puhui.uc.api.service.RemoteOrganizationService;
-import com.puhui.uc.api.service.RemoteStaffService;
-import com.puhui.uc.vo.RemoteLendAppResultVo;
 import com.puhui.uc.vo.RemoteOrganizationVo;
 import com.puhui.uc.vo.RemoteStaffVo;
 
@@ -40,13 +37,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	private CustomerCluesService customerCluesService;
 	
 	@Autowired
-	private RemoteOrganizationService remoteOrganizationService;
-	
-	@Autowired
-	private RemoteStaffService remoteStaffService;
-	
-	@Autowired
-	private RemoteLendAppUserCenterService remoteLendAppUserCenterService;
+	private SwaggerService swaggerService;
 	
 	@Autowired
 	private AppPushService appPushService;
@@ -107,7 +98,8 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	@Override
 	public JSONArray selectUserNameMethod(Long oid) {
 		
-		String shopCode = remoteOrganizationService.queryById(oid).getCode();
+		
+		String shopCode = swaggerService.ucId(oid).getOrganizationVo().getParentVo().getCode();
 		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
 		RemoteStaffVo remoteStaffVo = new RemoteStaffVo();
 		RemoteOrganizationVo organizationVo = new RemoteOrganizationVo();
@@ -116,9 +108,8 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 		remoteStaffVo.setOrganizationVo(organizationVo);
 		remoteStaffVo.setEnabled(true);//在职
 		remoteStaffVo.setPositionType("SALES");//销售
-		List<RemoteStaffVo> remoteStaffVoList =  remoteStaffService.query(0, 0, remoteStaffVo);
+		List<RemoteStaffVo> remoteStaffVoList = swaggerService.ucPage(0, 0, remoteStaffVo);
 		for(RemoteStaffVo remoteStaffVoName : remoteStaffVoList){
-			
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("selectUserCode", remoteStaffVoName.getEmployeeNo());
 				map.put("selectUserName", remoteStaffVoName.getRealName());
@@ -134,22 +125,21 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	@Transactional(rollbackFor=Exception.class) 
 	public void updateBindingUserMethod(List<Long> ids,
 			String selectUserName) {
-		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(selectUserName);
+		RemoteStaffVo remoteStaffVo = swaggerService.employeeNo(selectUserName);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ids", ids);
-		map.put("name", remoteLendAppResultVo.getName());
-		map.put("mobile", remoteLendAppResultVo.getMobile());
-		map.put("salesNo", remoteLendAppResultVo.getSalesNo());
-		map.put("salesId", remoteLendAppResultVo.getSalesId());
-		map.put("shopCode",remoteLendAppResultVo.getShopCode());
-		map.put("shopName",remoteLendAppResultVo.getShopName());
-		map.put("districtCode",remoteLendAppResultVo.getDistrictCode());
-		map.put("districtName",remoteLendAppResultVo.getDistrictName());
+		map.put("name", remoteStaffVo.getRealName());
+		map.put("mobile", remoteStaffVo.getMobile());
+		map.put("salesNo", remoteStaffVo.getEmployeeNo());
+		map.put("salesId", remoteStaffVo.getId());
+		map.put("shopCode",remoteStaffVo.getOrganizationVo().getParentVo().getCode());
+		map.put("shopName",remoteStaffVo.getOrganizationVo().getParentVo().getName());
+		map.put("districtCode",remoteStaffVo.getOrganizationVo().getParentVo().getCode().substring(0, 4));
 		
-		this.updateAppLendRequest(ids, remoteLendAppResultVo.getSalesId());
+		this.updateAppLendRequest(ids, remoteStaffVo.getId());
 		appChangeCustomerDao.updateBindingUserMethod(map);
 		
-		this.push(ids, remoteLendAppResultVo.getSalesId());
+		this.push(ids, remoteStaffVo.getId());
 	}
 	
 	public boolean validate(List<Long> ids) {
@@ -216,14 +206,12 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	
 	public String getUserInfoMethod(String salesNo,String shopName) throws Exception{
 		boolean salesStatus = false;//false异常/true正常
-		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(salesNo);
-		  if (remoteLendAppResultVo.getCode() == 1) {
-			if (remoteLendAppResultVo.isEnabled() == true
-					&& remoteLendAppResultVo.getPosition().equals("个贷-销售")
-					&& remoteLendAppResultVo.getShopName().equals(shopName)) {
+		RemoteStaffVo remoteStaffVo = swaggerService.employeeNo(salesNo);
+		if (remoteStaffVo.getEnabled() == true
+					&& remoteStaffVo.getPositionName().equals("个贷-销售")
+					&& remoteStaffVo.getOrganizationVo().getParentVo().getName().equals(shopName)) {
 				salesStatus = true;
-              }
-		  }
+          }
 		return salesStatus == false ? "异常" : "正常";
 	}
 }

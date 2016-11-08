@@ -12,16 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.puhui.app.api.UserDetailService;
 import com.puhui.app.dao.AppCustomerDao;
 import com.puhui.app.dao.AppInterfaceLogDao;
 import com.puhui.app.dao.AppUserToPromoteDao;
 import com.puhui.app.po.AppUserToPromote;
+import com.puhui.app.service.AppPushService;
 import com.puhui.app.service.CustomerCluesService;
-import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
-import com.puhui.uc.api.service.RemoteOrganizationService;
-import com.puhui.uc.api.service.RemoteStaffService;
-import com.puhui.uc.vo.RemoteLendAppResultVo;
+import com.puhui.app.service.SwaggerService;
 import com.puhui.uc.vo.RemoteOrganizationVo;
 import com.puhui.uc.vo.RemoteStaffVo;
 
@@ -36,15 +33,11 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	@Autowired
 	private AppCustomerDao appCustomerDao;
 	@Autowired
-	private RemoteLendAppUserCenterService remoteLendAppUserCenterService;
-	@Autowired
-	private RemoteStaffService remoteStaffService;
-	@Autowired
 	private AppInterfaceLogDao appInterfaceLogDao;
 	@Autowired
-	private UserDetailService userDetailService;
+	private SwaggerService swaggerService;
 	@Autowired
-	private RemoteOrganizationService remoteOrganizationService;
+	private AppPushService appPushService;
 	/**
 	 * @comment 线索查询
 	 * @author lichunyue
@@ -92,29 +85,29 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	
 	@Override
 	public void updateBindingUserMethod(AppUserToPromote appUserToPromote,String selectUserName) {
-		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(selectUserName);
-		String cityCode = remoteLendAppResultVo.getShopCode();
+		RemoteStaffVo remoteStaffVo = swaggerService.employeeNo(selectUserName);
+		String cityCode = remoteStaffVo.getOrganizationVo().getParentVo().getCode();
 		cityCode = cityCode.substring(0,cityCode.length()-2);
-		List<RemoteOrganizationVo> list = remoteOrganizationService.queryByCodeLike(cityCode);
+		List<RemoteOrganizationVo> list = swaggerService.like(cityCode);
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> mapAll = new HashMap<String, Object>();
 		Map<String, Object> userMap = new HashMap<String, Object>();
 		try {
 			map.put("id", appUserToPromote.getId());
-			map.put("name", remoteLendAppResultVo.getName());
+			map.put("name", remoteStaffVo.getRealName());
 			map.put("salesNo", selectUserName);
-			map.put("department", remoteLendAppResultVo.getDepartment());
+			map.put("department", remoteStaffVo.getOrganizationVo().getName());
 			map.put("city", list.get(0).getName());
 			map.put("cityCode", cityCode);
-			map.put("branch", remoteLendAppResultVo.getShopName());
-			map.put("branchCode", remoteLendAppResultVo.getShopCode());
+			map.put("branch", remoteStaffVo.getOrganizationVo().getParentVo().getName());
+			map.put("branchCode", remoteStaffVo.getOrganizationVo().getParentVo().getCode());
 			appUserToPromoteDao.updateBindingUserMethod(map);
 			userMap.put("type", 2);
 			userMap.put("name", appUserToPromote.getName());
 			userMap.put("mobile", appUserToPromote.getMobile());
-			userMap.put("sellerNumber", remoteLendAppResultVo.getSalesId());
+			userMap.put("sellerNumber", remoteStaffVo.getId());
 			mapAll.put("user", userMap);
-			userDetailService.pushUnwrapMessageMethod(mapAll);// 推送给销售
+			appPushService.pushUnwrapMessageMethod(map);//推送给销售
 		} catch (Exception e) {
 			logger.info("接收cc推送其它渠道数据出现异常");
 		}
@@ -129,14 +122,12 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	@Override
 	public String getUserInfoMethod(String salesNo,String cityCode) throws Exception{
 		boolean salesStatus = false;//false异常/true正常
-		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(salesNo);
-		  if (remoteLendAppResultVo.getCode() == 1) {
-			if (remoteLendAppResultVo.isEnabled() == true
-					&& remoteLendAppResultVo.getPosition().equals("个贷-销售")
-					&& getUserCityNameMethod(cityCode.trim(),remoteLendAppResultVo.getShopCode().trim())) {
-				salesStatus = true;
-              }
-		  }
+		RemoteStaffVo remoteStaffVo = swaggerService.employeeNo(salesNo);
+		if (remoteStaffVo.getEnabled() == true
+				&& remoteStaffVo.getPositionName().equals("个贷-销售")
+				&& getUserCityNameMethod(cityCode.trim(),remoteStaffVo.getOrganizationVo().getParentVo().getCode())) {
+			salesStatus = true;
+          }
 		return salesStatus == false ? "异常" : "正常";
 	}
 	/**
@@ -171,7 +162,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 		remoteStaffVo.setOrganizationVo(organizationVo);
 		remoteStaffVo.setEnabled(true);//在职
 		remoteStaffVo.setPositionType("SALES");//销售
-		List<RemoteStaffVo> remoteStaffVoList =  remoteStaffService.query(0, 0, remoteStaffVo);
+		List<RemoteStaffVo> remoteStaffVoList = swaggerService.ucPage(0, 0, remoteStaffVo);
 		for(RemoteStaffVo remoteStaffVoName : remoteStaffVoList){
 			if(remoteStaffVoName.getOrganizationVo().getName().equals(department)){
 				Map<String, Object> map = new HashMap<String, Object>();

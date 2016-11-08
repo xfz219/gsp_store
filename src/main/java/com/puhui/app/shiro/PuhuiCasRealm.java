@@ -21,9 +21,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.puhui.app.service.SwaggerService;
 import com.puhui.nosql.redis.JedisTemplate;
 import com.puhui.nosql.redis.JedisTemplate.JedisAction;
-import com.puhui.uc.api.service.RemoteUserCentreService;
 import com.puhui.uc.vo.RemoteRbacRoleVo;
 import com.puhui.uc.vo.RemoteStaffVo;
 
@@ -45,7 +45,7 @@ public class PuhuiCasRealm extends CasRealm {
     public static final String ALGORITHM_NAME = "md5";
 
     @Autowired
-    private RemoteUserCentreService remoteUserCenteCentreService;
+    private SwaggerService swaggerService;
 
     private JedisTemplate jedisTemplate;
 
@@ -71,7 +71,7 @@ public class PuhuiCasRealm extends CasRealm {
             }
             Set<String> permissionCode = null;
             if (isPermissionInfoNotInRedisCacheByStaffId(staff.getId())) {
-                permissionCode = remoteUserCenteCentreService.queryAllPermissionByStaffId(staff.getId());
+                permissionCode = swaggerService.permissions(staff.getId());
                 setStaffPermissionInfoInRedisCache(staff.getId(), permissionCode);
             } else {
                 permissionCode = jedisTemplate.smembers("staff-" + String.valueOf(staff.getId()));
@@ -89,11 +89,9 @@ public class PuhuiCasRealm extends CasRealm {
             PuhuiCasToken casToken = (PuhuiCasToken) token;
             String realName = (String) casToken.getPrincipal();
             log.info("the realNam is {}", realName);
-
-            RemoteStaffVo staffVo = remoteUserCenteCentreService.queryStaffByUsername(realName);
+            RemoteStaffVo staffVo = swaggerService.username(realName);
             changeBossOrgCode(staffVo, casToken.getRequest());
-
-            Set<String> permissionCode = remoteUserCenteCentreService.queryAllPermissionByStaffId(staffVo.getId());
+            Set<String> permissionCode = swaggerService.permissions(staffVo.getId());
             setStaffPermissionInfoInRedisCache(staffVo.getId(), permissionCode);
 
             log.info("PuhuiCasRealm AuthenticationInfo end ..");
@@ -103,107 +101,6 @@ public class PuhuiCasRealm extends CasRealm {
             throw new AuthenticationException(e);
         }
     }
-
-    /**
-     * 将Ｖｏ对象转成实体对象
-     * 
-     * @author ZhangMing
-     * @param staffVo
-     * @param staff
-     */
-    // private void remoteStaffVoToStaffEntity(RemoteStaffVo staffVo, Staff
-    // staff) {
-    // staff.setId(staffVo.getId());
-    // staff.setUsername(staffVo.getUsername());
-    // staff.setPassword(staffVo.getPassword());
-    // staff.setRealName(staffVo.getRealName());
-    // staff.setEmployeeNo(staffVo.getEmployeeNo());
-    // staff.setEmail(staffVo.getEmail());
-    // staff.setEnabled(staffVo.isEnabled());
-    // staff.setMobile(staffVo.getMobile());
-    // staff.setPhone(staffVo.getPhone());
-    // staff.setEntryTime(staffVo.getEntryTime());
-    // staff.setDisabledTime(staffVo.getDisabledTime());
-    // staff.setCreateTime(staffVo.getCreateTime());
-    // staff.setUpdateTime(staffVo.getUpdateTime());
-    // staff.setLastLoginTime(staffVo.getLastLoginTime());
-    // staff.setResignationTime(staffVo.getResignationTime());
-    // staff.setIssueCertStatus(StaffCertStatus.valueOf(staffVo.getIssueCertStatus()));
-    // staff.setSendMail(staffVo.getSendMail());
-    // staff.setCertEnable(staffVo.getCertEnable());
-    // staff.setSslCertImportPassword(staffVo.getSslCertImportPassword());
-    // staff.setPassword(staffVo.getPassword());
-    // staff.setModifyPasswordTime(staffVo.getModifyPasswordTime());
-    // staff.setPositionId(staffVo.getPositionId());
-    // staff.setPositionType(PositionType.valueOf(staffVo.getPositionType()));
-    //
-    // RemoteOrganizationVo organizationVo = staffVo.getOrganizationVo();
-    // Organization organization = new Organization();
-    // organization.setId(organizationVo.getId());
-    // organization.setName(organizationVo.getName());
-    // organization.setLevel(organizationVo.getLevel());
-    // organization.setBranchName(organization.getBranchName());
-    // organization.setCreateTime(organizationVo.getCreateTime());
-    // organization.setUpdateTime(organizationVo.getUpdateTime());
-    // organization.setDeleted(organizationVo.getDeleted());
-    // organization.setOrganizationType(OrganizationType.valueOf(organizationVo.getOrganizationType()));
-    // organization.setCode(organizationVo.getCode());
-    // organization.setAreaShopCode(organization.getAreaShopCode());
-    // organization.setAreaName(organizationVo.getAreaName());
-    // organization.setOnline(organizationVo.isOnline());
-    //
-    // if (null != staffVo.getOrganizationVo().getParentVo()) {
-    // Organization parentOrganization = new Organization();
-    // parentOrganization.setId(organizationVo.getParentVo().getId());
-    // parentOrganization.setName(organizationVo.getParentVo().getName());
-    // parentOrganization.setLevel(organizationVo.getParentVo().getLevel());
-    // parentOrganization.setBranchName(organization.getBranchName());
-    // parentOrganization.setCreateTime(organizationVo.getParentVo().getCreateTime());
-    // parentOrganization.setUpdateTime(organizationVo.getParentVo().getUpdateTime());
-    // parentOrganization.setDeleted(organizationVo.getParentVo().getDeleted());
-    // parentOrganization.setOrganizationType(OrganizationType.valueOf(organizationVo.getParentVo()
-    // .getOrganizationType()));
-    // parentOrganization.setCode(organizationVo.getParentVo().getCode());
-    // parentOrganization.setAreaShopCode(organization.getAreaShopCode());
-    // parentOrganization.setAreaName(organizationVo.getParentVo().getAreaName());
-    // parentOrganization.setOnline(organizationVo.getParentVo().isOnline());
-    // organization.setParent(parentOrganization);
-    // }
-    //
-    // staff.setOrganization(organization);
-    //
-    // Set<RemoteRbacRoleVo> remoteRbacRoleVos = staffVo.getRoles();
-    // Set<RbacRole> roles = Sets.newHashSet();
-    // if (null != remoteRbacRoleVos && remoteRbacRoleVos.size() > 0) {
-    // Iterator<RemoteRbacRoleVo> iterator = remoteRbacRoleVos.iterator();
-    // while (iterator.hasNext()) {
-    // roles.add(RemoteRbacRoleVoToRbacRole(iterator.next()));
-    //
-    // }
-    // }
-    // staff.setRoles(roles);
-    //
-    // }
-
-    /**
-     * 将Ｖｏ对象转成实体对象
-     * 
-     * @author ZhangMing
-     * @param role
-     * @return
-     */
-
-    // private RbacRole RemoteRbacRoleVoToRbacRole(RemoteRbacRoleVo roleVo) {
-    // RbacRole role = new RbacRole();
-    // role.setId(roleVo.getId());
-    // role.setName(roleVo.getName());
-    // role.setDefaulted(roleVo.getDefaulted());
-    // role.setDeleted(roleVo.getDefaulted());
-    // role.setDescription(role.getDescription());
-    // role.setUpdateTime(roleVo.getUpdateTime());
-    // role.setCreateTime(roleVo.getCreateTime());
-    // return role;
-    // }
 
     /**
      * 更改boss的orgCode，让其在任何一个系统都是老大

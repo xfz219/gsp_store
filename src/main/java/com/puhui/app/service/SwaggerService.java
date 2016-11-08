@@ -2,6 +2,7 @@ package com.puhui.app.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,6 +88,28 @@ public class SwaggerService {
 			remoteStaffVo = (RemoteStaffVo) responseVo.getResult();
 		}
 		return remoteStaffVo;
+	}
+	
+	/**
+	 * uc
+	 * @param id
+	 * @return
+	 */
+	public Set<String> permissions(Long id) {
+		String url = HttpUtils.PUHUI_LEND_URL_PERMISSIONS;
+        ResponseVo<Set<String>> responseVo = oauthService.jsonGet(url, new ParameterizedTypeReference<ResponseVo<Set<String>>>(){}, new Object[]{id});
+		return responseVo.getResult();
+	}
+	
+	/**
+	 * username
+	 * @param realName
+	 * @return
+	 */
+	public RemoteStaffVo username(String realName) {
+		String url = HttpUtils.PUHUI_LEND_URL_USERNAME;
+        ResponseVo<RemoteStaffVo> responseVo = oauthService.jsonGet(url, new ParameterizedTypeReference<ResponseVo<RemoteStaffVo>>(){}, new Object[]{realName});
+        return responseVo.getResult();
 	}
 	
 	/**

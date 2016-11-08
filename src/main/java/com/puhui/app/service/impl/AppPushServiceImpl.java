@@ -90,7 +90,6 @@ public class AppPushServiceImpl implements AppPushService {
 				}
 			}
 	}
-	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void pushUnwrapMessage(Map<String, Object> map, int pushType) {

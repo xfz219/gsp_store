@@ -21,12 +21,8 @@ import com.puhui.app.common.page.mybatis.Page;
 import com.puhui.app.dao.AppUserToPromoteDao;
 import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
-import com.puhui.app.service.impl.CustomerCluesServiceImpl;
+import com.puhui.app.service.SwaggerService;
 import com.puhui.app.utils.JsonTools;
-import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
-import com.puhui.uc.api.service.RemoteOrganizationService;
-import com.puhui.uc.vo.RemoteLendAppResultVo;
-import com.puhui.uc.vo.RemoteOrganizationVo;
 import com.puhui.uc.vo.RemoteStaffVo;
 
 import net.sf.json.JSONArray;
@@ -42,11 +38,9 @@ public class CustomerCluesController {
 	@Autowired
 	private CustomerCluesService customerCluesService;
 	@Autowired
-	private RemoteLendAppUserCenterService remoteLendAppUserCenterService;
-	@Autowired
 	private AppUserToPromoteDao appUserToPromoteDao;
 	@Autowired
-	private RemoteOrganizationService remoteOrganizationService;
+	private SwaggerService swaggerService;
 	
 	
 	/**
@@ -94,8 +88,8 @@ public class CustomerCluesController {
         	if(StringUtils.isBlank(shopCode)){
         		paramMap.put("branchCode", staff.getOrganizationVo().getCode()+"%");
         	}else{
-        		RemoteOrganizationVo remoteOrganizationVo = remoteOrganizationService.queryById(Long.parseLong(shopCode));
-        		paramMap.put("branchCode", remoteOrganizationVo.getCode()+"%");
+        		String branchCode = swaggerService.ucId(Long.parseLong(shopCode)).getOrganizationVo().getCode();
+        		paramMap.put("branchCode", branchCode+"%");
         	}
         	List<Map<String, Object>> autpList = customerCluesService.selectCustomerCluesMethod(paramMap);
         	objMap.put("total", page.getTotalCount());
@@ -166,8 +160,8 @@ public class CustomerCluesController {
     	try{
     		Subject currStaff = SecurityUtils.getSubject();
     		RemoteStaffVo staff = (RemoteStaffVo) currStaff.getPrincipal();
-        	RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(staff.getEmployeeNo());
-    		JSONArray json = customerCluesService.selectUserNameMethod(department,remoteLendAppResultVo.getShopCode());
+        	RemoteStaffVo remoteStaffVo = swaggerService.employeeNo(staff.getEmployeeNo());
+    		JSONArray json = customerCluesService.selectUserNameMethod(department,remoteStaffVo.getOrganizationVo().getParentVo().getCode());
     		return json;
     	}catch(Exception e){
     		throw new IllegalArgumentException(e);
