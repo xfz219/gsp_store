@@ -5,21 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONArray;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.util.HSSFColor.BLACK;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.puhui.app.api.UserDetailService;
 import com.puhui.app.common.page.mybatis.Page;
 import com.puhui.app.dao.AppChangeCustomerDao;
 import com.puhui.app.dao.AppInterfaceLogDao;
 import com.puhui.app.dao.AppLendRequestDao;
+import com.puhui.app.service.AppPushService;
 import com.puhui.app.service.ChangeCustomerService;
 import com.puhui.app.service.CustomerCluesService;
 import com.puhui.app.vo.QueryChangeCustomerVo;
@@ -29,6 +25,8 @@ import com.puhui.uc.api.service.RemoteStaffService;
 import com.puhui.uc.vo.RemoteLendAppResultVo;
 import com.puhui.uc.vo.RemoteOrganizationVo;
 import com.puhui.uc.vo.RemoteStaffVo;
+
+import net.sf.json.JSONArray;
 
 @Service
 public class ChangeCustomerServiceImpl implements ChangeCustomerService {
@@ -51,7 +49,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	private RemoteLendAppUserCenterService remoteLendAppUserCenterService;
 	
 	@Autowired
-	private UserDetailService userDetailService;
+	private AppPushService appPushService;
 	
 	@Autowired
 	private AppLendRequestDao appLendRequestDao;
@@ -192,7 +190,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	
 		map.put("user", map1);
 		map.put("customer", ids);
-		userDetailService.pushUnwrapMessageMethod(map);
+		appPushService.pushUnwrapMessageMethod(map);
 	}
 	
 	public void updateAppLendRequest(List<Long> ids,Long salesId){

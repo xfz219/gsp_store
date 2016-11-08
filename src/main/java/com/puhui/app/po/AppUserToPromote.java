@@ -63,7 +63,17 @@ public class AppUserToPromote implements Serializable {
     
     private String channelTwoType; //二级渠道类型
     
+    private Integer shareGuidance; //引导分享
     
+    
+	public Integer getShareGuidance() {
+		return shareGuidance;
+	}
+
+	public void setShareGuidance(Integer shareGuidance) {
+		this.shareGuidance = shareGuidance;
+	}
+
 	public String getChannelType() {
 		return channelType;
 	}

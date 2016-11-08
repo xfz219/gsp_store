@@ -3,9 +3,42 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须指向Dao接口 -->
 <mapper namespace="com.puhui.app.dao.AppCustomerDao">
+<resultMap id="appCustomerObj" type="appCustomer">
+		<id property="id" column="id"/>
+		<result property="customerName" column="customer_name"/>
+		<result property="idNo" column="id_no"/>
+		<result property="customerPassword" column="customer_password"/>
+		<result property="customerServiceManagerNumber" column="customer_service_manager_number"/>
+		<result property="email" column="email"/>
+		<result property="mobile" column="mobile"/>
+		<result property="isEnable" column="is_enable"/>
+		<result property="isExistChildren" column="is_exist_children"/>
+		<result property="isProvideHouseProperty" column="is_provide_house_property"/>
+		<result property="gender" column="gender"/>
+		<result property="marriage" column="marriage"/>
+		<result property="childrenNumber" column="children_number"/>
+		<result property="occupationNature" column="occupation_nature"/>
+		<result property="disableTime" column="disable_time"/>
+		<result property="salesName" column="sales_name"/>
+		<result property="salesMobile" column="sales_mobile"/>
+		<result property="accumulationFund" column="accumulation_fund"/>
+		<result property="salaryGetForm" column="salary_get_form"/>
+		<result property="salesNo" column="sales_no"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="shopCode" column="shop_code"/>
+		<result property="shopName" column="shop_name"/>
+		<result property="districtCode" column="district_code"/>
+		<result property="districtName" column="district_name"/>
+		<result property="logInId" column="log_in_id"/>
+		<result property="award" column="award"/>
+	</resultMap>
 	
 	<select id="getMobileMethod" parameterType="string" resultType="list">
 		select * from app_customer where mobile = #{mobile}
+	</select>
+	<select id="query" parameterType="long" resultMap="appCustomerObj">
+		select * from app_customer where id = #{id}
 	</select>
 	
 </mapper> 

@@ -2,8 +2,6 @@ package com.puhui.app.po;
 
 import java.util.Date;
 
-import com.puhui.app.po.BaseBean;
-
 /**
  * 员工消息
  * @author yupeng

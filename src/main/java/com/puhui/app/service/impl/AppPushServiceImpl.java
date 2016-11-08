@@ -10,19 +10,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.puhui.app.dao.AppCustomerDao;
 import com.puhui.app.dao.AppCustomerMessageDao;
 import com.puhui.app.dao.AppCustomerTokenDao;
+import com.puhui.app.dao.AppLendRequestDao;
+import com.puhui.app.dao.AppLendTemplateDao;
 import com.puhui.app.dao.AppUserMessageDao;
 import com.puhui.app.dao.AppUserTokenDao;
+import com.puhui.app.po.AppCustomer;
+import com.puhui.app.po.AppCustomerMessage;
 import com.puhui.app.po.AppCustomerToken;
+import com.puhui.app.po.AppLendRequest;
+import com.puhui.app.po.AppLendTemplate;
 import com.puhui.app.po.AppUserMessage;
 import com.puhui.app.po.AppUserToken;
 import com.puhui.app.service.AppPushService;
+import com.puhui.app.utils.BasisUtils;
 import com.puhui.app.utils.PushUtil;
 import com.puhui.app.vo.AppPushMessageVo;
+import com.puhui.uc.vo.RemoteStaffVo;
 
 @Service
 public class AppPushServiceImpl implements AppPushService {
@@ -34,9 +43,13 @@ public class AppPushServiceImpl implements AppPushService {
 	@Autowired
 	private AppUserTokenDao appUserTokenDao;
 	@Autowired
-	private AppCustomerMessageDao appCustomerMessageDao;
-	@Autowired
 	private AppUserMessageDao appUserMessageDao;
+	@Autowired
+	private AppLendTemplateDao appLendTemplateDao;
+	@Autowired
+	private AppLendRequestDao appLendRequestDao;
+	@Autowired
+	private AppCustomerMessageDao appCustomerMessageDao;
 
 	@Override
 	public void pushMessageUser(AppPushMessageVo appPushMessageVo) {
@@ -62,9 +75,9 @@ public class AppPushServiceImpl implements AppPushService {
 	public void pushMessageCustomer(AppPushMessageVo appPushMessageVo) {
 		List<AppCustomerToken> appCustomerTokenList = new ArrayList<>();
 		String pushType = appPushMessageVo.getPushType() == 1 ? "toUser" : "toCustomer";
-		AppCustomerToken AppCustomerToken = new AppCustomerToken();
+		AppCustomerToken appCustomerToken = new AppCustomerToken();
 			// 查询设备
-			List<AppCustomerToken> list = appCustomerTokenDao.getAppCustomerToken(AppCustomerToken);
+			List<AppCustomerToken> list = appCustomerTokenDao.getAppCustomerToken(appCustomerToken);
 			for(int i = 0;i < list.size(); i++){
 				appCustomerTokenList.add(list.get(i));
 				if(appCustomerTokenList.size() > 998 || i == list.size()-1){
@@ -74,6 +87,104 @@ public class AppPushServiceImpl implements AppPushService {
 				}
 			}
 	}
+	
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void pushUnwrapMessage(Map<String, Object> map, int pushType) {
+		String pushModel;
+		if (pushType == 1) {// 推送给销售经理
+			AppPushMessageVo appPushMessageVo = new AppPushMessageVo();
+			if (map.get("type") != null) {
+				AppLendTemplate appLendTemplate = appLendTemplateDao.getAppLendTemplateMethod(BasisUtils.THREADUSER);//线索管理
+					pushModel = appLendTemplate.getTempletContent();
+					pushModel = pushModel.replaceAll("<name>", map.get("name").toString());
+					pushModel = pushModel.replaceAll("<mobile>", map.get("mobile").toString());
+			} else {
+				AppLendTemplate appLendTemplate = appLendTemplateDao.getAppLendTemplateMethod(BasisUtils.UNWRAPUSER);//解绑模板
+				pushModel = appLendTemplate.getTempletContent();
+				String number = map.get("number").toString();// 分配数量
+				pushModel = pushModel.replaceAll("<number>", number);
+				}
+			// 向消息表插入消息
+			AppUserMessage appUserMessage = new AppUserMessage();
+			appUserMessage.setSellerNumber(Integer.parseInt(map.get("sellerNumber").toString()));// 员工编号
+			appUserMessage.setContext(pushModel);// 消息内容
+			appUserMessage.setIsRead(2);// (2：未读；1：已读；)
+			appUserMessage.setSendStatus(1);// 是否已经推送(0：未推送；1：已推送；)
+			appUserMessage.setMessageType(2);// 2原来是银行
+			appUserMessageDao.insertUserMessage(appUserMessage);
+			logger.info("发送消息成功");
+			// 查询设备
+			AppUserToken appUserToken = new AppUserToken();
+			appUserToken.setSellerNumber(appUserMessage.getSellerNumber());
+			List<AppUserToken> list = appUserTokenDao.getAppUserToken(appUserToken);
+			appPushMessageVo.setSellerNumber(appUserMessage.getSellerNumber());
+			appPushMessageVo.setAppLendRequestId((long) 0);
+			new Thread(
+					new Runner(appPushMessageVo, pushModel, null, null, appUserMessage.getId(), list, null, "toUser"))
+							.start();
+
+		} else {// 推送给客户
+			AppPushMessageVo appPushMessageVo = new AppPushMessageVo();
+			AppLendTemplate appLendTemplate = appLendTemplateDao.getAppLendTemplateMethod(BasisUtils.UNWRAPCUSTOMER);//解绑模板
+			pushModel = appLendTemplate.getTempletContent();
+			AppCustomer appCustomer = appCustomerDao.query(Long.parseLong(map.get("uid").toString()));// 获取AppCustomer对象
+			RemoteStaffVo remoteStaffVo = null;
+//			RemoteStaffVo remoteStaffVo = swaggerService.ucId(Long.parseLong(map.get("sellerNumber").toString()));
+			String customerName = appCustomer.getCustomerName();// 用户姓名
+			String shopName = remoteStaffVo.getOrganizationVo().getParentVo().getName();// 门店名字
+			String salesName = remoteStaffVo.getRealName();// 销售姓名
+			String moblie = remoteStaffVo.getMobile();// 销售手机号
+			// 获取进件信息
+			AppLendRequest appLendRequest = appLendRequestDao.getAppLendRequestByCustomerId(Long.parseLong(map.get("uid").toString()));
+			if (appLendRequest != null) {
+				appPushMessageVo.setAppLendRequestId(appLendRequest.getId());
+			} else {
+				appPushMessageVo.setAppLendRequestId((long) 0);
+			}
+			// 替换模板
+			pushModel = pushModel.replaceAll("<customerName>", customerName);
+			pushModel = pushModel.replaceFirst("<shopName>", shopName);
+			pushModel = pushModel.replaceFirst("<salesName>", salesName);
+			pushModel = pushModel.replaceFirst("<salesMoblie>", moblie);
+			// 向消息表插入消息
+			AppCustomerMessage appCustomerMessage = new AppCustomerMessage();
+			appCustomerMessage.setCustomerId(Integer.parseInt(appCustomer.getId().toString()));// uid编号
+			appCustomerMessage.setContext(pushModel);// 消息内容
+			appCustomerMessage.setIsRead(2);// 是否已读(2：未读；1：已读；)
+			appCustomerMessage.setSendStatus(1);// 是否已经推送(0：未推送；1：已推送；)
+			appCustomerMessage.setMessageType(2);// 2原来是银行
+			appCustomerMessageDao.insertCustomerMessage(appCustomerMessage);
+			logger.info("发送消息成功");
+			// 查询设备
+			AppCustomerToken appCustomerToken = new AppCustomerToken();
+			appCustomerToken.setPid(appCustomer.getId().toString());
+			List<AppCustomerToken> list = appCustomerTokenDao.getAppCustomerToken(appCustomerToken);
+			new Thread(new Runner(appPushMessageVo, pushModel, appCustomer.getSalesName(), moblie,
+					appCustomerMessage.getId(), null, list, "toCustomer")).start();
+		}
+	}
+	
+	/**
+	 * 推送解绑消息
+	 * @return
+	 * @author lichunyue
+	 * @date 2016年5月9日
+	 */
+	@Override
+	public void pushUnwrapMessageMethod(Map<String,Object> map) {
+		//推送消息
+		Map<String, Object> userMap = (Map<String, Object>) map.get("user");
+		this.pushUnwrapMessage(userMap,1);// 推送给销售
+		List<Long> listMap = (List<Long>) map.get("customer");
+		Map<String, Object> mapUid = new HashMap<>();
+		for(Long uid : listMap){
+			mapUid.put("uid", uid);
+			mapUid.put("sellerNumber", userMap.get("sellerNumber"));
+			// 推送给客户
+			this.pushUnwrapMessage(mapUid,2);// 推送给客户
+			}
+		}
 
 
 

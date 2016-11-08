@@ -2,19 +2,16 @@ package com.puhui.app.po;
 
 import java.util.Date;
 
-import com.puhui.app.po.BaseBean;
-
 /**
  * 销售token
- * @author lichunyue
- *
+ *@author lcy
  */
 public class AppUserToken extends BaseBean{
     private static final long serialVersionUID = 1697870832155269358L;
     /**
      * 销售员工id
      */
-    private Long sellerNumber;
+    private Integer sellerNumber;
     
     /**
      * 销售员工号
@@ -67,11 +64,12 @@ public class AppUserToken extends BaseBean{
      */
     private String alias;
     
-	public Long getSellerNumber() {
+
+	public Integer getSellerNumber() {
 		return sellerNumber;
 	}
 
-	public void setSellerNumber(Long sellerNumber) {
+	public void setSellerNumber(Integer sellerNumber) {
 		this.sellerNumber = sellerNumber;
 	}
 

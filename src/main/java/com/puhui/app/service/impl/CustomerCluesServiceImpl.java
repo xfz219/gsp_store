@@ -18,6 +18,7 @@ import com.puhui.app.dao.AppInterfaceLogDao;
 import com.puhui.app.dao.AppUserToPromoteDao;
 import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
+import com.puhui.app.utils.DateUtil;
 import com.puhui.lend.api.LendQueryInfoService;
 import com.puhui.lend.vo.LendShopNameVo;
 import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
@@ -58,6 +59,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	public List<Map<String, Object>> selectCustomerCluesMethod(Map<String, Object> paramMap) throws Exception {
 		List<AppUserToPromote> autpList = appUserToPromoteDao.selectCustomerCluesMethod(paramMap);
 		List<Map<String, Object>> list =  new ArrayList<Map<String, Object>>();
+		String shareGuidance = "客户经理";//引导分享
 		for(AppUserToPromote autp : autpList){
     		Map<String, Object> autpMap = new HashMap<String, Object>();
     		autpMap.put("toPromoteId", autp.getId());
@@ -75,7 +77,21 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
     		autpMap.put("registered", listMap.isEmpty() ? "未注册" : "已注册");
     		autpMap.put("sales", autp.getSalesNo() == null ? "否" : "是");
     		autpMap.put("salesStatus", autp.getSalesNo() == null ? "" : getUserInfoMethod(autp.getSalesNo(),autp.getCityCode()));
-    		
+    		if(autp.getShareGuidance() != null){
+    			switch (autp.getShareGuidance()) {
+				case 2:
+					shareGuidance = "客服引导";
+					break;
+				case 3:
+					shareGuidance = "自发分享";
+					break;
+				default:
+					break;
+				}
+    		}
+    		autpMap.put("shareGuidance", shareGuidance);
+    		autpMap.put("createTime", DateUtil.toDateTimeString(autp.getCreateTime()));
+    		autpMap.put("updateAllotTime", DateUtil.toDateTimeString(autp.getUpdateAllotTime()));
     		list.add(autpMap);
     	}
 		return list;

@@ -64,7 +64,8 @@ $(function(){
 			{field:'salesName',title:'销售姓名',align:'center',width:120},
 			{field:'salesNo',title:'销售工号',align:'center',width:120},
 			{field:'salesMobile',title:'销售手机号',align:'center',width:130},
-			{field:'salesStatus',title:'销售状态',align:'center',width:100}
+			{field:'salesStatus',title:'销售状态',align:'center',width:100},
+			{field:'createTime',title:'创建时间',align:'center',width:100}
 	        
 	    ]],
 		idField:'id',
