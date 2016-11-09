@@ -6,10 +6,5 @@
  
 	<dubbo:application name="puhui-lend-app-report" />
 	<dubbo:registry protocol="zookeeper" address="${zookeeper.address}" client="zkclient" timeout="5000" />
-	<!-- <dubbo:protocol name="dubbo" port="20830" threads="200" threadpool="fixed" accepts="100" /> -->
 	
- 	<!-- 获取销售信息 -->
-	<dubbo:reference id="remoteLendAppUserCenterService" interface="com.puhui.uc.api.service.RemoteLendAppUserCenterService" check="false"  timeout="60000" />
-	
-	<dubbo:reference id="lendQueryInfoService" interface="com.puhui.lend.api.LendQueryInfoService" check="false"/>  
 </beans>

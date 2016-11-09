@@ -28,7 +28,7 @@
 	<!-- DB 配置管理 -->
 	<import resource="classpath:applicationContext-mybatis.xml" />
 	<!-- dubbo配置 -->
-	<import resource="classpath:applicationContext-dubbo.xml" />
+<!-- 	<import resource="classpath:applicationContext-dubbo.xml" /> -->
 	<!-- shiro配置 -->
 	<import resource="classpath:applicationContext-shiro.xml" />
 	<!-- redis 配置 -->

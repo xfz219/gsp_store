@@ -19,6 +19,7 @@ import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.AppPushService;
 import com.puhui.app.service.CustomerCluesService;
 import com.puhui.app.service.SwaggerService;
+import com.puhui.app.utils.CitySet;
 import com.puhui.uc.vo.RemoteOrganizationVo;
 import com.puhui.uc.vo.RemoteStaffVo;
 
@@ -190,41 +191,39 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	public void insertAppUserToPromote(JSONObject jSONObject) {
 		AppUserToPromote appUserToPromote = new AppUserToPromote();
 		try {
-				List<LendShopNameVo> list = lendQueryInfoService.queryShopName(jSONObject.getString("city"));
-				String idNo = jSONObject.getString("idNo");
-				String mobile = jSONObject.getString("telNumber");
-				if(this.getUserInfoMethodIdNo(idNo) >0 || this.getUserInfoMobile(mobile)>0){
-					logger.info("推送数据身份证号手机号重复,重复数据为{}",jSONObject.toJSONString());
-					return;
+				List<RemoteOrganizationVo> list = swaggerService.like("rpa");
+				List<Map<String, Object>> listMapCity = CitySet.getCityMap(list);
+				for (Map<String, Object> listMapCityMap : listMapCity) {
+					if(jSONObject.getString("city").equals(listMapCityMap.get("cityName"))){
+						List<RemoteOrganizationVo> listShop = swaggerService.orgId(Long.parseLong(String.valueOf(listMapCityMap.get("id"))));
+						String idNo = jSONObject.getString("idNo");
+						String mobile = jSONObject.getString("telNumber");
+						if(this.getUserInfoMethodIdNo(idNo) >0 || this.getUserInfoMobile(mobile)>0){
+							logger.info("推送数据身份证号手机号重复,重复数据为{}",jSONObject.toJSONString());
+							return;
+						}
+						Random r = new Random();  
+						RemoteOrganizationVo lsv = list.get(r.nextInt(listShop.size()));
+						appUserToPromote.setCity(String.valueOf(listMapCityMap.get("cityName")));
+						appUserToPromote.setCityCode(String.valueOf(listMapCityMap.get("cityCode")));
+						appUserToPromote.setBranch(lsv.getName());
+						appUserToPromote.setBranchCode(lsv.getCode());
+						appUserToPromote.setAmount(jSONObject.getBigDecimal("applyAmount"));
+						appUserToPromote.setName(jSONObject.getString("customerName"));
+						appUserToPromote.setProvince(jSONObject.getString("province"));
+						appUserToPromote.setProductName(jSONObject.getString("productName"));
+						appUserToPromote.setIdNo(jSONObject.getString("idNo"));
+						appUserToPromote.setChannel(jSONObject.getString("chanceType"));
+						Map<String,Object> map = this.findChannl(jSONObject.getString("chanceType"));
+						appUserToPromote.setChannelType(String.valueOf(map.get("codeValue")));
+						appUserToPromote.setChannelTwoType(String.valueOf(map.get("channelTwoCode")));
+						appUserToPromote.setMobile(jSONObject.getString("telNumber"));
+						appUserToPromote.setIsSettle(jSONObject.getBoolean("settle"));
+						appUserToPromote.setSettleTime(jSONObject.getDate("settleTime"));
+						appUserToPromoteDao.insertAppUserToPromote(appUserToPromote);
+						logger.info("接收cc推送其它渠道数据结束");
+					}
 				}
-				if(null == list || list.size()==0){ 
-					appUserToPromote.setCity(jSONObject.getString("city"));
-					appUserToPromote.setCityCode("RPA");
-					appUserToPromote.setBranchCode("RPA");
-				}else{
-					Random r = new Random();  
-					LendShopNameVo lsv = list.get(r.nextInt(list.size()));
-					appUserToPromote.setCity(lsv.getCityName());
-					appUserToPromote.setCityCode(lsv.getCityCode());
-					appUserToPromote.setBranch(lsv.getShopName());
-					appUserToPromote.setBranchCode(lsv.getShopCode());
-				}
-		
-				appUserToPromote.setAmount(jSONObject.getBigDecimal("applyAmount"));
-				appUserToPromote.setName(jSONObject.getString("customerName"));
-				appUserToPromote.setProvince(jSONObject.getString("province"));
-				appUserToPromote.setProductName(jSONObject.getString("productName"));
-				appUserToPromote.setIdNo(jSONObject.getString("idNo"));
-				appUserToPromote.setChannel(jSONObject.getString("chanceType"));
-				Map<String,Object> map = this.findChannl(jSONObject.getString("chanceType"));
-				appUserToPromote.setChannelType(String.valueOf(map.get("codeValue")));
-				appUserToPromote.setChannelTwoType(String.valueOf(map.get("channelTwoCode")));
-				appUserToPromote.setMobile(jSONObject.getString("telNumber"));
-				appUserToPromote.setIsSettle(jSONObject.getBoolean("settle"));
-				appUserToPromote.setSettleTime(jSONObject.getDate("settleTime"));
-				appUserToPromoteDao.insertAppUserToPromote(appUserToPromote);
-				logger.info("接收cc推送其它渠道数据结束");
-		
 		} catch (Exception e) {
 			logger.info("接收cc推送其它渠道数据出现异常");
 			Map<String, Object> map = new HashMap<String, Object>();
