@@ -5,10 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,11 +27,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.puhui.app.service.StaffService;
+import com.puhui.app.service.SwaggerService;
 import com.puhui.app.utils.CommonUtils;
 import com.puhui.app.vo.EasyuiTreeNode;
 import com.puhui.app.vo.NumberUtil;
 import com.puhui.nosql.redis.JedisTemplate;
-import com.puhui.uc.api.service.RemoteLoginService;
 import com.puhui.uc.vo.RemoteRbacPermissionVo;
 import com.puhui.uc.vo.RemoteStaffVo;
 
@@ -53,7 +51,7 @@ public class LoginController extends BaseController {
     @Autowired
     private StaffService staffService;
     @Autowired
-    private RemoteLoginService remoteLoginService;
+    private SwaggerService swaggerService;
     /**
      * 主页
      * 
@@ -111,106 +109,6 @@ public class LoginController extends BaseController {
         }
     }
 
-//    /**
-//     * 生成左侧菜单树
-//     * 
-//     * @param request
-//     * @return
-//     */
-//    @RequestMapping("treeView")
-//    @ResponseBody
-//    public String treeView(HttpServletRequest request) {
-//        try {
-//            List<EasyuiTreeNode> nodeList = new ArrayList<EasyuiTreeNode>();
-//            Subject currStaff = SecurityUtils.getSubject();
-//            Staff staff = (Staff) currStaff.getPrincipal();
-//            Comparator<EasyuiTreeNode> comparator = new Comparator<EasyuiTreeNode>() {
-//                @Override
-//                public int compare(EasyuiTreeNode o1, EasyuiTreeNode o2) {
-//                    EasyuiTreeNode p1 = (EasyuiTreeNode) o1;
-//                    EasyuiTreeNode p2 = (EasyuiTreeNode) o2;
-//                    if (p1.getSort() == null || p2.getSort() == null) {
-//                        return Integer.parseInt(p1.getId()) - Integer.parseInt(p2.getId());
-//                    } else {
-//                        if (NumberUtil.doubleSubtract(p1.getSort(), p2.getSort()) > 0) {
-//                            return 1;
-//                        } else {
-//                            return -1;
-//                        }
-//                    }
-//                }
-//            };
-//
-//            String id = request.getParameter("id");
-//            EasyuiTreeNode treeNode = null;
-//            RbacPermission per = null;
-//            List<Integer> prList = null;
-//            Set<RbacRole> setRbc = staff.getRoles();
-//            Iterator<RbacRole> it1 = setRbc.iterator();
-//            List<Long> roldIds = new ArrayList<Long>();
-//            RbacRole role = null;
-//            String path = request.getContextPath();
-//            while (it1.hasNext()) {
-//                role = it1.next();
-//                roldIds.add(role.getId());
-//            }
-//
-//            if (StringUtils.isBlank(id)) { // id为空，查询所有的一级菜单
-//                List<RbacPermission> list = staffService.getFirstPermissionsByStaffId(staff.getId(), path);
-//                for (int i = 0; i < list.size(); i++) {
-//                    per = list.get(i);
-//                    if (per.getPermissionType().name().equals("FUNCTION")) {// 是功能
-//                        treeNode = new EasyuiTreeNode(per.getId() + "", id, per.getName(), per.getIconCls(),
-//                                per.getSort());
-//                        Map<String, String> map = new HashMap<String, String>();
-//                        map.put("url", per.getUrl());
-//                        treeNode.setAttributes(map);
-//                        nodeList.add(treeNode);
-//                    } else {// 是菜单
-//                        treeNode = new EasyuiTreeNode(per.getId() + "", id, per.getName(), "closed", per.getIconCls(),
-//                                per.getSort());
-//                        nodeList.add(treeNode);
-//                    }
-//                }
-//                Collections.sort(nodeList, comparator);
-//            } else {
-//                // 查询出当前选中的权限
-//                per = rbacPermissionService.getPermission(Long.parseLong(id));
-//                prList = rbacPermissionService.getPermissionsIdByParent(per, roldIds);
-//                Set<RbacPermission> setP = per.getChildren();
-//                Iterator<RbacPermission> iter = null;
-//                if (setP != null && setP.size() > 0) {
-//                    iter = setP.iterator();
-//                    RbacPermission per1 = null;
-//                    while (iter.hasNext()) {
-//                        per1 = iter.next();
-//                        for (int i = 0; i < prList.size(); i++) {
-//                            if ((per1.getId() + "").equals(prList.get(i) + "")) {
-//                                if (per1.getPermissionType().name().equals("FUNCTION")) {// 是功能
-//                                    treeNode = new EasyuiTreeNode(per1.getId() + "", id, per1.getName(),
-//                                            per1.getIconCls(), per1.getSort());
-//                                    Map<String, String> map = new HashMap<String, String>();
-//                                    map.put("url", per1.getUrl());
-//                                    treeNode.setAttributes(map);
-//                                    nodeList.add(treeNode);
-//                                } else {// 是菜单
-//                                    treeNode = new EasyuiTreeNode(per1.getId() + "", id, per1.getName(), "closed",
-//                                            per1.getIconCls(), per1.getSort());
-//                                    nodeList.add(treeNode);
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            // 排序，因为从set里取出来的值是无序的
-//            Collections.sort(nodeList, comparator);
-//            return new ObjectMapper().writeValueAsString(nodeList);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "";
-//        }
-//    }
     /**
      * 生成左侧菜单树
      * 
@@ -247,7 +145,7 @@ public class LoginController extends BaseController {
       if (StringUtils.isBlank(id)) { // id为空，查询所有的一级菜单
     	if (currStaff != null) {
     		RemoteStaffVo staff = CommonUtils.getLoginStaff();
-    		List<RemoteRbacPermissionVo> list =  remoteLoginService.queryTopMenusByStaffIdAndUrl(staff.getId(),path);
+    		List<RemoteRbacPermissionVo> list =  swaggerService.top(staff.getId(),path);
     		for (int i = 0; i < list.size(); i++) {
               per = list.get(i);
               if (per.getPermissionType().equals("FUNCTION")) {// 是功能
@@ -267,12 +165,12 @@ public class LoginController extends BaseController {
       }else{
     	// 查询出当前选中的权限
   		RemoteStaffVo staff = CommonUtils.getLoginStaff();
-  		List<RemoteRbacPermissionVo> list =  remoteLoginService.querySubMenusByParentId(staff.getId(),Long.parseLong(id));
+  		List<RemoteRbacPermissionVo> list =  swaggerService.sub(staff.getId(),Long.parseLong(id));
   		for (int i = 0; i < list.size(); i++) {
             per = list.get(i);
             if (per.getPermissionType().equals("FUNCTION")) {// 是功能
                 treeNode = new EasyuiTreeNode(per.getId() + "", staff.getId().toString(), per.getName(), per.getIconCls(),per.getSort());
-                Map<String, String> map = new HashMap<String, String>();
+                Map<String, String> map = new HashMap<>();
                 map.put("url", per.getUrl());
                 treeNode.setAttributes(map);
                 nodeList.add(treeNode);
@@ -282,37 +180,6 @@ public class LoginController extends BaseController {
                 nodeList.add(treeNode);
             }
         }
-  		
-  		
-//      per = rbacPermissionService.getPermission(Long.parseLong(id));
-//      prList = rbacPermissionService.getPermissionsIdByParent(per, roldIds);
-//      Set<RbacPermission> setP = per.getChildren();
-//      Iterator<RbacPermission> iter = null;
-//      if (setP != null && setP.size() > 0) {
-//          iter = setP.iterator();
-//          RbacPermission per1 = null;
-//          while (iter.hasNext()) {
-//              per1 = iter.next();
-//              for (int i = 0; i < prList.size(); i++) {
-//                  if ((per1.getId() + "").equals(prList.get(i) + "")) {
-//                      if (per1.getPermissionType().name().equals("FUNCTION")) {// 是功能
-//                          treeNode = new EasyuiTreeNode(per1.getId() + "", id, per1.getName(),
-//                                  per1.getIconCls(), per1.getSort());
-//                          Map<String, String> map = new HashMap<String, String>();
-//                          map.put("url", per1.getUrl());
-//                          treeNode.setAttributes(map);
-//                          nodeList.add(treeNode);
-//                      } else {// 是菜单
-//                          treeNode = new EasyuiTreeNode(per1.getId() + "", id, per1.getName(), "closed",
-//                                  per1.getIconCls(), per1.getSort());
-//                          nodeList.add(treeNode);
-//                      }
-//                  }
-//              }
-//          }
-//      }
-  		
-  		
       }
       // 排序，因为从set里取出来的值是无序的
       Collections.sort(nodeList, comparator);
