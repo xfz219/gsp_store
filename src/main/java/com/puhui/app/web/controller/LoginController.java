@@ -122,15 +122,14 @@ public class LoginController extends BaseController {
 	  Subject currStaff = SecurityUtils.getSubject();
 	  String id = request.getParameter("id");
 	  List<EasyuiTreeNode> nodeList = new ArrayList<EasyuiTreeNode>();
-      EasyuiTreeNode treeNode = null;
-      RemoteRbacPermissionVo per = null;
-      List<Integer> prList = null;
+      EasyuiTreeNode treeNode;
+      RemoteRbacPermissionVo per;
       String path = request.getContextPath();
       Comparator<EasyuiTreeNode> comparator = new Comparator<EasyuiTreeNode>() {
           @Override
           public int compare(EasyuiTreeNode o1, EasyuiTreeNode o2) {
-              EasyuiTreeNode p1 = (EasyuiTreeNode) o1;
-              EasyuiTreeNode p2 = (EasyuiTreeNode) o2;
+              EasyuiTreeNode p1 = o1;
+              EasyuiTreeNode p2 = o2;
               if (p1.getSort() == null || p2.getSort() == null) {
                   return Integer.parseInt(p1.getId()) - Integer.parseInt(p2.getId());
               } else {
@@ -165,7 +164,7 @@ public class LoginController extends BaseController {
       }else{
     	// 查询出当前选中的权限
   		RemoteStaffVo staff = CommonUtils.getLoginStaff();
-  		List<RemoteRbacPermissionVo> list =  swaggerService.sub(staff.getId(),Long.parseLong(id));
+  		List<RemoteRbacPermissionVo> list =  swaggerService.sub(Long.parseLong(id),staff.getId());
   		for (int i = 0; i < list.size(); i++) {
             per = list.get(i);
             if (per.getPermissionType().equals("FUNCTION")) {// 是功能
