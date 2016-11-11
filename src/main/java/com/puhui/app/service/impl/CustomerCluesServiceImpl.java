@@ -20,6 +20,7 @@ import com.puhui.app.service.AppPushService;
 import com.puhui.app.service.CustomerCluesService;
 import com.puhui.app.service.SwaggerService;
 import com.puhui.app.utils.CitySet;
+import com.puhui.app.utils.DateUtil;
 import com.puhui.uc.vo.RemoteOrganizationVo;
 import com.puhui.uc.vo.RemoteStaffVo;
 
@@ -79,6 +80,8 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 				}
     		}
     		autpMap.put("shareGuidance", shareGuidance);
+    		autpMap.put("createTime", DateUtil.toDateTimeString(autp.getCreateTime()));
+    		autpMap.put("updateAllotTime", DateUtil.toDateTimeString(autp.getUpdateAllotTime()));
     		list.add(autpMap);
     	}
 		return list;

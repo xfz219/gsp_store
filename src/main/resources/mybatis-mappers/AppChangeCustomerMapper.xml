@@ -13,6 +13,7 @@
 			ac.sales_name AS salesName,
 			ac.sales_no AS salesNo,
 			ac.sales_mobile As salesMobile,
+			date_format(ac.create_time,'%Y-%c-%d') As createTime,
 			IF(alr.state IS NULL , '未录件' , '录件中') AS status
 		FROM app_customer AS ac
 
