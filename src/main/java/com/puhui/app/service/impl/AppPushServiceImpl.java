@@ -31,7 +31,8 @@ import com.puhui.app.service.AppPushService;
 import com.puhui.app.utils.BasisUtils;
 import com.puhui.app.utils.PushUtil;
 import com.puhui.app.vo.AppPushMessageVo;
-import com.puhui.uc.vo.RemoteStaffVo;
+import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
+import com.puhui.uc.vo.RemoteLendAppResultVo;
 
 @Service
 public class AppPushServiceImpl implements AppPushService {
@@ -50,6 +51,8 @@ public class AppPushServiceImpl implements AppPushService {
 	private AppLendRequestDao appLendRequestDao;
 	@Autowired
 	private AppCustomerMessageDao appCustomerMessageDao;
+	@Autowired
+	private RemoteLendAppUserCenterService remoteLendAppUserCenterService;
 
 	@Override
 	public void pushMessageUser(AppPushMessageVo appPushMessageVo) {
@@ -129,12 +132,13 @@ public class AppPushServiceImpl implements AppPushService {
 			AppLendTemplate appLendTemplate = appLendTemplateDao.getAppLendTemplateMethod(BasisUtils.UNWRAPCUSTOMER);//解绑模板
 			pushModel = appLendTemplate.getTempletContent();
 			AppCustomer appCustomer = appCustomerDao.query(Long.parseLong(map.get("uid").toString()));// 获取AppCustomer对象
-			RemoteStaffVo remoteStaffVo = null;
+			RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(Long.parseLong(map.get("sellerNumber").toString()));
+//			RemoteStaffVo remoteStaffVo = null;
 //			RemoteStaffVo remoteStaffVo = swaggerService.ucId(Long.parseLong(map.get("sellerNumber").toString()));
 			String customerName = appCustomer.getCustomerName();// 用户姓名
-			String shopName = remoteStaffVo.getOrganizationVo().getParentVo().getName();// 门店名字
-			String salesName = remoteStaffVo.getRealName();// 销售姓名
-			String moblie = remoteStaffVo.getMobile();// 销售手机号
+			String shopName = remoteLendAppResultVo.getShopName();// 门店名字
+			String salesName = remoteLendAppResultVo.getName();// 销售姓名
+			String moblie = remoteLendAppResultVo.getMobile();// 销售手机号
 			// 获取进件信息
 			AppLendRequest appLendRequest = appLendRequestDao.getAppLendRequestByCustomerId(Long.parseLong(map.get("uid").toString()));
 			if (appLendRequest != null) {
