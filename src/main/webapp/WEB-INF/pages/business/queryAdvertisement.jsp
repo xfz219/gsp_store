@@ -1,4 +1,3 @@
-<%@page import="com.puhui.model.uc.Staff"%>
 <%@page import="org.apache.shiro.SecurityUtils"%>
 <%@page import="org.apache.shiro.subject.Subject"%>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -32,6 +31,42 @@
 
 </head>
 <body class="easyui-layout">
+	<div data-options="region:'north',title:'搜索条件',split:true"  style="overflow: hidden;height:100px;">
+		<form id="queryNoticeForm" class="easyui-form">
+			<table class="query">
+				<tr>
+					<td class="label">客户身份：</td>
+					<td>
+						<select id="customerIdentity" name="customerIdentity" class="easyui-combobox" style="width:150px;" data-options="editable:false">
+								<option value=""></option>
+								<option value="0">薪类</option>
+								<option value="1">商类</option>
+						</select>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+					</td>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<td class="label">是否启用：</td>
+					<td>
+						<select id="enabled" name="enabled" class="easyui-combobox" style="width:130px;" data-options="editable:false">
+								<option value="3"></option>
+								<option value="0">否</option>
+								<option value="1">是</option>
+						</select>
+					</td>
+					<td colspan="2" style="text-align:center;">
+						&nbsp;&nbsp;&nbsp;&nbsp;
+		    			<a id="searchByConditions"  href="#" class="easyui-linkbutton" onclick="searchByConditions();">搜索</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    			<a id="resetConditions"  href="#" class="easyui-linkbutton" onclick="resetConditions();">重置</a>
+    				</td>
+				</tr>
+
+			</table>
+		</form>
+	</div>
+	<div data-options="region:'center',title:'搜索结果',split:true">
+		<div id="qryAdDatagrid" ></div>
+	</div>
+
 	<div id="tbLendAdvertisement">
 		<span>
 			<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-reload" plain="true" id="refresh">刷新</a>
@@ -80,9 +115,6 @@
 					}
 				},
 				{field:'sort',title:'排位',width:60,align:'left'},
-				{field:'updateTime',title:'更新时间',width:220,align:'left',formatter:function(value,data){
-					return new Date(data.updateTime).formate("yyyy-MM-dd HH:mm");
-				}},
 				{field:'enabled',title:'是否启用',width:80,align:'left',
 					formatter:function(value,rowData,rowIndex){
 						if(value=='0'){
@@ -107,7 +139,6 @@
 			onClickRow: function (rowIndex, rowData) {
 				var row = $('#qryAdDatagrid').datagrid('getSelections');
 				if(row.length>1){
-
 					$("#edit").linkbutton("disable");
 					$("#search").linkbutton("disable");
 					for(var i=0;i<row.length;i++){
@@ -384,30 +415,11 @@
 		}
 	}
 
-	//Enter搜索
-	$('#queryNoticeForm').keypress(function(e){
-		var keynum; //字符的ASCII码。
-		if(window.event){ // IE
-			keynum = e.keyCode;
-		}else if(e.which){ //其他浏览器
-			keynum = e.which;
-		}
-
-		if(keynum == 13){ //按下“Enter”键
-			$('#searchByConditions').focus();
-			$('#searchByConditions').click();
-		}
-	});
-
 	var paramData = {};
 	//搜索
 	function searchByConditions(){
-		paramData.name = $('#name').val(); 
 		paramData.customerIdentity = $('#customerIdentity').combobox('getValue');
-		paramData.customerLendStatus = $('#customerLendStatus').combobox('getValue');
 		paramData.enabled = $('#enabled').combobox('getValue');
-		paramData.startTime = $('#startTime').combobox('getValue');
-		paramData.endTime = $('#endTime').combobox('getValue');
 		grid.datagrid('load', getData(paramData));
 		grid.datagrid('clearSelections');   
 	}

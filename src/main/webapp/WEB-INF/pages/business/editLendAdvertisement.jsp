@@ -1,4 +1,3 @@
-<%@page import="com.puhui.model.uc.Staff"%>
 <%@page import="org.apache.shiro.SecurityUtils"%>
 <%@page import="org.apache.shiro.subject.Subject"%>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -97,15 +96,6 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="one">客户进件状态：</td>
-							<td class="two">
-								<select id="customerLendStatus" class="easyui-combobox" name="customerLendStatus">
-									<option value="0">非放款成功</option>
-									<option value="1">放款成功</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
 							<td class="one">是否启用：</td>
 							<td class="two">
 								<select id="enabled" class="easyui-combobox" name="enabled">
@@ -190,7 +180,6 @@
 		$(document).ready(function() {
 			
 			$('#customerIdentity').combobox('select','${lendAdvertisement.customerIdentity}');
-			$('#customerLendStatus').combobox('select','${lendAdvertisement.customerLendStatus}');
 			$('#enabled').combobox('select','${lendAdvertisement.enabled}');
 			
 	        //添加
