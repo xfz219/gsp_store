@@ -18,10 +18,10 @@
 		<result property="updateTime" column="update_time"/>
 	</resultMap>
 	
-	<select id="getAppUserTokenDistrictCodeList" parameterType="appUserToken" resultMap="appUserTokenObj">
+	<select id="getAppUserToken" parameterType="appUserToken" resultMap="appUserTokenObj">
 		select distinct aut.* from app_user_token aut where aut.alias is not null
 		<if test="sellerNumber != null and sellerNumber != ''">
-			AND aut.sellerNumber = #{sellerNumber}
+			AND aut.seller_number = #{sellerNumber}
 		</if>
 	</select>
 </mapper> 

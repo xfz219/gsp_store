@@ -2,8 +2,6 @@ package com.puhui.app.po;
 
 import java.util.Date;
 
-import com.puhui.app.po.BaseBean;
-
 /**
  * 客户
  * 
@@ -176,8 +174,18 @@ public class AppCustomer extends BaseBean {
      * 登陆id
      */
     private Long logInId;
+    
+    private int award;
+    
+    public int getAward() {
+		return award;
+	}
 
-    public Long getId() {
+	public void setAward(int award) {
+		this.award = award;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
