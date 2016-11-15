@@ -32,5 +32,11 @@ public class AppLendAdvertisementVoServiceImpl implements AppLendAdvertisementVo
 	public AppLendAdvertisementVo selectLendAdvertisementById(Long id) {
 		return appLendAdvertisementDao.selectLendAdvertisementById(id);
 	}
+
+	@Override
+	public AppLendAdvertisementVo getLendAdvertisementByIdentityAndStatus(AppLendAdvertisementVo lendAd) {
+		
+		return null;
+	}
 	
 }

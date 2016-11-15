@@ -71,7 +71,7 @@ public class SwaggerService {
 		String url = HttpUtils.PUHUI_LEND_URL_EMPLOYEENO;
 		ResponseVo<RemoteStaffVo> responseVo = oauthService.jsonGet(url, new ParameterizedTypeReference<ResponseVo<RemoteStaffVo>>(){}, new Object[] {salesNo});
 		if(responseVo.getCode().equals(SUCCEED)){
-			remoteStaffVo = (RemoteStaffVo) responseVo.getResult();
+			remoteStaffVo = responseVo.getResult();
 		}
 		return remoteStaffVo;
 	}
@@ -171,7 +171,7 @@ public class SwaggerService {
 	public List<RemoteOrganizationVo> like(String code) {
 		String url = HttpUtils.PUHUI_LEND_URL_LIKE;
 		ResponseVo<List<RemoteOrganizationVo>> responseVo = oauthService.jsonGet(url, new ParameterizedTypeReference<ResponseVo<List<RemoteOrganizationVo>>>(){}, new Object[] {code});
-		List<RemoteOrganizationVo> list = (List<RemoteOrganizationVo>) responseVo.getResult();
+		List<RemoteOrganizationVo> list = responseVo.getResult();
 		return list;
 	}
 	
@@ -183,7 +183,7 @@ public class SwaggerService {
 	public List<RemoteOrganizationVo> orgId(Long id) {
 		String url = HttpUtils.PUHUI_LEND_URL_ORGID;
 		ResponseVo<List<RemoteOrganizationVo>> responseVo = oauthService.jsonGet(url, new ParameterizedTypeReference<ResponseVo<List<RemoteOrganizationVo>>>(){}, new Object[] {id});
-		List<RemoteOrganizationVo> list = (List<RemoteOrganizationVo>) responseVo.getResult();
+		List<RemoteOrganizationVo> list = responseVo.getResult();
 		return list;
 	}
 	
@@ -195,7 +195,7 @@ public class SwaggerService {
 	public List<RemoteStaffVo> ucPage(Integer page,Integer rows,RemoteStaffVo remoteStaffVo) {
 		String url = HttpUtils.PUHUI_LEND_URL_UCPAGE;
 		ResponseVo<DataGrid<RemoteStaffVo>> responseVo = oauthService.jsonPost(url+"?page="+page+"&rows="+rows, remoteStaffVo , new ParameterizedTypeReference<ResponseVo<DataGrid<RemoteStaffVo>>>(){});
-		List<RemoteStaffVo> remoteStaffVoList = ((DataGrid) responseVo.getResult()).getList();
+		List<RemoteStaffVo> remoteStaffVoList = responseVo.getResult().getList();
 		return remoteStaffVoList;
 	}
 	

@@ -144,7 +144,7 @@ public class LoginController extends BaseController {
       if (StringUtils.isBlank(id)) { // id为空，查询所有的一级菜单
     	if (currStaff != null) {
     		RemoteStaffVo staff = CommonUtils.getLoginStaff();
-    		List<RemoteRbacPermissionVo> list =  swaggerService.top(staff.getId(),path);
+    		List<RemoteRbacPermissionVo> list = swaggerService.top(staff.getId(),path);
     		for (int i = 0; i < list.size(); i++) {
               per = list.get(i);
               if (per.getPermissionType().equals("FUNCTION")) {// 是功能

@@ -7,13 +7,11 @@ import java.io.FileInputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -190,51 +188,51 @@ public class AppLendAdvertisementController extends BaseController {
 		model.addAttribute("lendAdvertisement", lendAdvertisement);
 		return "business/viewLendAdvertisement";
 	}
-	/**
-	 * 
-	 * @param lendAdvertisement
-	 * @return
-	 */
-	@RequestMapping(value="/saveLendAdvertisement")
-	@ResponseBody
-	public Map<String, Object> saveLendAdvertisement(AppLendAdvertisementVo lendAdvertisement){
-		Map<String, Object> map = new HashMap<>();
-		Long id = lendAdvertisement.getId();
-		if(null != id && id > 0){
-			try {
-				AppLendAdvertisementVo lendAd = appLendAdvertisementVoService.selectLendAdvertisementById(id);
-				BeanUtils.copyProperty(lendAd, "name", lendAdvertisement.getName());
-				BeanUtils.copyProperty(lendAd, "url", lendAdvertisement.getUrl());
-				BeanUtils.copyProperty(lendAd, "enabled", lendAdvertisement.getEnabled());
-				//原来用户类型的广告位排位大于更改用户类型的广告位的排位时，原来的广告位排位大于更改用户类型的广告位排位的广告为的排位都减1
-				AppLendAdvertisementVo av = appLendAdvertisementVoService.getLendAdvertisementByIdentityAndStatus(lendAd);
-				for(LendAdvertisement lendAd1 : list){
-					if(lendAd1.getSort() > lendAd.getSort()){
-						lendAd1.setSort(lendAd1.getSort() - 1);
-						lendAdvertisementService.updateLendAdvertisement(lendAd1);
-					}
-				}
-				
-				BeanUtils.copyProperty(lendAd, "customerIdentity", lendAdvertisement.getCustomerIdentity());
-				BeanUtils.copyProperty(lendAd, "customerLendStatus", lendAdvertisement.getCustomerLendStatus());
-				//如果用户类型改变，排位要变
-			    int maxSort = lendAdvertisementService.getMaxSortByIdentityAndStatus(lendAdvertisement);
-				int sort = maxSort >= 1 ? (maxSort+1):1;
-				BeanUtils.copyProperty(lendAd, "sort", sort);
-				lendAdvertisementService.updateLendAdvertisement(lendAd);
-				map.put("status", "success");
-	            map.put("result", "更新广告位成功!");
-			} catch (Exception e) {
-				logger.error("更新广告位失败", e);
-				map.put("status", "false");
-	            map.put("result", "更新广告位失败!");
-			}
-		}else{
-			map.put("status", "false");
-            map.put("result", "图片没有上传，添加广告位失败!");
-		}
-		return map;
-	}
+//	/**
+//	 * 
+//	 * @param lendAdvertisement
+//	 * @return
+//	 */
+//	@RequestMapping(value="/saveLendAdvertisement")
+//	@ResponseBody
+//	public Map<String, Object> saveLendAdvertisement(AppLendAdvertisementVo lendAdvertisement){
+//		Map<String, Object> map = new HashMap<>();
+//		Long id = lendAdvertisement.getId();
+//		if(null != id && id > 0){
+//			try {
+//				AppLendAdvertisementVo lendAd = appLendAdvertisementVoService.selectLendAdvertisementById(id);
+//				BeanUtils.copyProperty(lendAd, "name", lendAdvertisement.getName());
+//				BeanUtils.copyProperty(lendAd, "url", lendAdvertisement.getUrl());
+//				BeanUtils.copyProperty(lendAd, "enabled", lendAdvertisement.getEnabled());
+//				//原来用户类型的广告位排位大于更改用户类型的广告位的排位时，原来的广告位排位大于更改用户类型的广告位排位的广告为的排位都减1
+//				AppLendAdvertisementVo av = appLendAdvertisementVoService.getLendAdvertisementByIdentityAndStatus(lendAd);
+//				for(LendAdvertisement lendAd1 : list){
+//					if(lendAd1.getSort() > lendAd.getSort()){
+//						lendAd1.setSort(lendAd1.getSort() - 1);
+//						lendAdvertisementService.updateLendAdvertisement(lendAd1);
+//					}
+//				}
+//				
+//				BeanUtils.copyProperty(lendAd, "customerIdentity", lendAdvertisement.getCustomerIdentity());
+//				BeanUtils.copyProperty(lendAd, "customerLendStatus", lendAdvertisement.getCustomerLendStatus());
+//				//如果用户类型改变，排位要变
+//			    int maxSort = lendAdvertisementService.getMaxSortByIdentityAndStatus(lendAdvertisement);
+//				int sort = maxSort >= 1 ? (maxSort+1):1;
+//				BeanUtils.copyProperty(lendAd, "sort", sort);
+//				lendAdvertisementService.updateLendAdvertisement(lendAd);
+//				map.put("status", "success");
+//	            map.put("result", "更新广告位成功!");
+//			} catch (Exception e) {
+//				logger.error("更新广告位失败", e);
+//				map.put("status", "false");
+//	            map.put("result", "更新广告位失败!");
+//			}
+//		}else{
+//			map.put("status", "false");
+//            map.put("result", "图片没有上传，添加广告位失败!");
+//		}
+//		return map;
+//	}
 	
 //	@RequestMapping(value="/deleteLendAdvertisement")
 //	public Object deleteLendAdvertisement(Long id){
