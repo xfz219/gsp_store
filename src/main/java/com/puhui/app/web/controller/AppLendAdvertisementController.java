@@ -133,11 +133,12 @@ public class AppLendAdvertisementController extends BaseController {
         String filestyle = path.substring(path.lastIndexOf(".") + 1);
         String contentType = null;
         try {
-            if ("jpg".equals(filestyle.toLowerCase()) || "png".equals(filestyle.toLowerCase())
-                    || "gif".equals(filestyle.toLowerCase()) || "jepg".equals(filestyle.toLowerCase())
-                    || "bmp".equals(filestyle.toLowerCase())) {
-                contentType = "image/" + filestyle.toLowerCase() + ";charset=UTF-8";
-                response.setContentType("application/" + filestyle.toLowerCase() + ";charset=UTF-8");
+        	String lowerCase = filestyle.toLowerCase();
+            if ("jpg".equals(lowerCase) || "png".equals(lowerCase)
+                    || "gif".equals(lowerCase) || "jepg".equals(lowerCase)
+                    || "bmp".equals(lowerCase)) {
+                contentType = "image/" + lowerCase + ";charset=UTF-8";
+                response.setContentType("application/" + lowerCase + ";charset=UTF-8");
             }
 
             request.setCharacterEncoding("UTF-8");
@@ -145,7 +146,7 @@ public class AppLendAdvertisementController extends BaseController {
             BufferedOutputStream bos;
             long fileLength = new File(path).length();
             response.setContentType(contentType);
-            response.setHeader("Content-disposition", "inline;filename=abc." + filestyle.toLowerCase() + "");
+            response.setHeader("Content-disposition", "inline;filename=abc." + lowerCase + "");
             response.setHeader("Content-Length", String.valueOf(fileLength));
             bis = new BufferedInputStream(new FileInputStream(path));
             bos = new BufferedOutputStream(response.getOutputStream());
