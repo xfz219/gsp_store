@@ -1,7 +1,11 @@
 package com.puhui.app.service;
 
+import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
@@ -11,6 +15,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -21,7 +27,7 @@ import com.alibaba.fastjson.JSON;
  * dongchen
  */
 @Component
-public class OauthService {
+public class OauthService implements InitializingBean{
     @Autowired
     @Qualifier("restTemplate")
     private OAuth2RestTemplate restTemplate;
@@ -39,6 +45,25 @@ public class OauthService {
     public OauthService(OAuth2RestTemplate restTemplate) {
         super();
         this.restTemplate = restTemplate;
+    }
+    
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        modifyConverter();
+    }
+
+    private void modifyConverter(){
+        List<HttpMessageConverter<?>> converterList = this.restTemplate.getMessageConverters();
+        for (HttpMessageConverter<?> converter : converterList) {
+            if (converter instanceof MappingJacksonHttpMessageConverter) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                MappingJacksonHttpMessageConverter jsonConverter = (MappingJacksonHttpMessageConverter) converter;
+                jsonConverter.setObjectMapper(objectMapper);
+                converter =  jsonConverter;
+            }
+        }
     }
 
     /**
