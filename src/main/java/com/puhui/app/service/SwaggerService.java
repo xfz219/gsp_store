@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 import com.puhui.app.utils.HttpUtils;
 import com.puhui.lend.vo.LendRequestVo;
 import com.puhui.lend.vo.ResponseVo;
+import com.puhui.lend.vo.userCenter.UCRbacPermissionVo;
 import com.puhui.uc.vo.DataGrid;
 import com.puhui.uc.vo.RemoteOrganizationVo;
-import com.puhui.uc.vo.RemoteRbacPermissionVo;
 import com.puhui.uc.vo.RemoteStaffVo;
 
 /**
@@ -82,10 +82,10 @@ public class SwaggerService {
 	 * @param contextUrl
 	 * @return
 	 */
-	public List<RemoteRbacPermissionVo> top(Long staffId,String contextUrl) {
-		List<RemoteRbacPermissionVo> remoteRbacPermissionVo = null;
+	public List<UCRbacPermissionVo> top(Long staffId,String contextUrl) {
+		List<UCRbacPermissionVo> remoteRbacPermissionVo = null;
 		String url = HttpUtils.PUHUI_LEND_URL_TOP;
-		ResponseVo<List<RemoteRbacPermissionVo>> responseVo = oauthService.jsonGet(url+"?staffId="+staffId+"&contextUrl="+contextUrl, new ParameterizedTypeReference<ResponseVo<List<RemoteRbacPermissionVo>>>(){}, new Object[] {});
+		ResponseVo<List<UCRbacPermissionVo>> responseVo = oauthService.jsonGet(url+"?staffId="+staffId+"&contextUrl="+contextUrl, new ParameterizedTypeReference<ResponseVo<List<UCRbacPermissionVo>>>(){}, new Object[] {});
 		if(responseVo.getCode().equals(SUCCEED)){
 			remoteRbacPermissionVo = responseVo.getResult();
 		}
@@ -98,10 +98,10 @@ public class SwaggerService {
 	 * @param staffId
 	 * @return
 	 */
-	public List<RemoteRbacPermissionVo> sub(Long menusId,Long staffId) {
-		List<RemoteRbacPermissionVo> remoteRbacPermissionVo = null;
+	public List<UCRbacPermissionVo> sub(Long menusId,Long staffId) {
+		List<UCRbacPermissionVo> remoteRbacPermissionVo = null;
 		String url = HttpUtils.PUHUI_LEND_URL_SUB;
-		ResponseVo<List<RemoteRbacPermissionVo>> responseVo = oauthService.jsonGet(url+"?staffId="+staffId, new ParameterizedTypeReference<ResponseVo<List<RemoteRbacPermissionVo>>>(){}, new Object[] {menusId});
+		ResponseVo<List<UCRbacPermissionVo>> responseVo = oauthService.jsonGet(url+"?staffId="+staffId, new ParameterizedTypeReference<ResponseVo<List<UCRbacPermissionVo>>>(){}, new Object[] {menusId});
 		if(responseVo.getCode().equals(SUCCEED)){
 			remoteRbacPermissionVo = responseVo.getResult();
 		}

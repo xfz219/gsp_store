@@ -31,8 +31,8 @@ import com.puhui.app.service.SwaggerService;
 import com.puhui.app.utils.CommonUtils;
 import com.puhui.app.vo.EasyuiTreeNode;
 import com.puhui.app.vo.NumberUtil;
+import com.puhui.lend.vo.userCenter.UCRbacPermissionVo;
 import com.puhui.nosql.redis.JedisTemplate;
-import com.puhui.uc.vo.RemoteRbacPermissionVo;
 import com.puhui.uc.vo.RemoteStaffVo;
 
 /**
@@ -123,7 +123,7 @@ public class LoginController extends BaseController {
 	  String id = request.getParameter("id");
 	  List<EasyuiTreeNode> nodeList = new ArrayList<EasyuiTreeNode>();
       EasyuiTreeNode treeNode;
-      RemoteRbacPermissionVo per;
+      UCRbacPermissionVo per;
       String path = request.getContextPath();
       Comparator<EasyuiTreeNode> comparator = new Comparator<EasyuiTreeNode>() {
           @Override
@@ -144,7 +144,7 @@ public class LoginController extends BaseController {
       if (StringUtils.isBlank(id)) { // id为空，查询所有的一级菜单
     	if (currStaff != null) {
     		RemoteStaffVo staff = CommonUtils.getLoginStaff();
-    		List<RemoteRbacPermissionVo> list = swaggerService.top(staff.getId(),path);
+    		List<UCRbacPermissionVo> list = swaggerService.top(staff.getId(),path);
     		for (int i = 0; i < list.size(); i++) {
               per = list.get(i);
               if (per.getPermissionType().equals("FUNCTION")) {// 是功能
@@ -164,7 +164,7 @@ public class LoginController extends BaseController {
       }else{
     	// 查询出当前选中的权限
   		RemoteStaffVo staff = CommonUtils.getLoginStaff();
-  		List<RemoteRbacPermissionVo> list =  swaggerService.sub(Long.parseLong(id),staff.getId());
+  		List<UCRbacPermissionVo> list =  swaggerService.sub(Long.parseLong(id),staff.getId());
   		for (int i = 0; i < list.size(); i++) {
             per = list.get(i);
             if (per.getPermissionType().equals("FUNCTION")) {// 是功能
