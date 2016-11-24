@@ -43,15 +43,65 @@
 		LIMIT 5
 	</select>
 
-	<select id="selectLendAdvertisementById" parameterType="appLendAdvertisementVo"	resultMap="appLendAdvertisementVoObj">
+	<select id="selectLendAdvertisementById" resultMap="appLendAdvertisementVoObj">
 		SELECT
 		pic_address_url,
 		name,
 		url,
 		customer_identity,
-		enabled
+		enabled,
+		sort
 		FROM
 		app_lend_advertisement
 		WHERE id = #{id}
 	</select>
+	
+	<update id="updateLendAdvertisementFALSE">
+		update app_lend_advertisement set enabled = 0
+		where id = #{id}
+	</update>
+	
+	<update id="updateLendAdvertisementTRUE">
+		update app_lend_advertisement set enabled = 1
+		where id = #{id}
+	</update>
+	
+	<update id="updateLendAdvertisementFront">
+		update app_lend_advertisement set sort = sort-1
+		where id = #{id}
+	</update>
+	
+	<update id="updateLendAdvertisementBehind">
+		update app_lend_advertisement set sort = sort+1
+		where id = #{id}
+	</update>
+	
+	<insert id="addLendAdvertisement" parameterType="appLendAdvertisementVo" useGeneratedKeys="true" keyProperty="id">
+		insert into app_lend_advertisement(
+			name,
+			customer_identity,
+			url,
+			pic_size,
+			original_pic_name,
+			pic_access_url,
+			pic_address_url,
+			sort,
+			enabled,
+			create_time
+		)values(
+			#{name},
+			#{customerIdentity},
+			#{url},
+			#{picSize},
+			#{originalPicName},
+			#{picAccessUrl},
+			#{picAddressUrl},
+			#{sort},
+			#{enabled}
+			,now())
+	</insert>
+	
+	<delete id="deleteLendAdvertisementById">
+		DELETE FROM app_lend_advertisement WHERE id = #{id}
+	</delete>
 </mapper> 

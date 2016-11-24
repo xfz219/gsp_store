@@ -48,7 +48,7 @@
 					<td class="label">是否启用：</td>
 					<td>
 						<select id="enabled" name="enabled" class="easyui-combobox" style="width:130px;" data-options="editable:false">
-								<option value="3"></option>
+								<option value=""></option>
 								<option value="0">否</option>
 								<option value="1">是</option>
 						</select>
@@ -72,8 +72,6 @@
 			<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-reload" plain="true" id="refresh">刷新</a>
 			<span class="datagrid-btn-separator" style="float:none;"></span>
 			<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add'>添加</a>
-			<span class="datagrid-btn-separator" style="float:none;"></span>
-			<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id='edit' onclick="edit()">编辑</a>
 			<span class="datagrid-btn-separator" style="float:none;"></span>
 			<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" plain="true" id='search'  onclick="view()">查看</a>
 			<span class="datagrid-btn-separator" style="float:none;"></span>
@@ -200,24 +198,6 @@
 		});
 	});
 
-
-	//编辑
-	function edit(){
-		var row = $('#qryAdDatagrid').datagrid('getSelections');
-		if(row.length<1){
-			$.messager.alert('提示信息','请选择一条记录！');
-			return false;
-			}
-		if(row.length>1){
-			$.messager.alert('提示信息','只能选择单条记录进行修改！');
-			return false;
-			}
-		parent.$("#tabs").tabs("add",{
-			closable:true,
-			title:'编辑广告位',
-			content : '<iframe name="editAdvertisement" id="editAdvertisement" scrolling="no" frameborder="0"  src="${ctx}/lendAdvertisement/lendAdvertisementDetail/'+row[0].id+'" width="100%" height="99%"></iframe>'
-		});
-	}
 
 	//查看
 	function view(){
@@ -387,7 +367,7 @@
 			$.messager.confirm('提示信息','确认删除吗?',function(r){
     		if(r){
     			$.ajax({
-					url:"./lendAdvertisement/deleteLendAdvertisement",
+					url:"${ctx}/lendAdvertisement/deleteLendAdvertisement",
 					type: "POST",
 					async: false,
 					data:{'id':row[0].id},
