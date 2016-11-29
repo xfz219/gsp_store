@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -105,6 +106,89 @@ public class AppLendAdvertisementController extends BaseController {
 		}
         
 		return new ReturnEntity(true, "上传图片成功", returnId);
+	}
+	
+	@RequestMapping(value="/saveLendAdvertisement")
+	@ResponseBody
+	public Map<String, Object> saveLendAdvertisement(AppLendAdvertisementVo lendAdvertisement){
+		Map<String, Object> map = new HashMap<String, Object>();
+		Long id = lendAdvertisement.getId();
+//		if(null != id && id > 0){
+//			try {
+//				AppLendAdvertisementVo lendAd = lendAdvertisementService.selectLendAdvertisementById(id);
+//				
+//				/*编辑后启用：
+//				1 ，原来未启用
+//				        启用后的用户类型广告位数量是否超过五个
+//				2,原来已启用
+//				      用户类型改变，查询改变后的用户类型数量是否超过五个*/
+//				if("1".equals(lendAdvertisement.getEnabled())){
+//					if("1".equals(lendAd.getEnabled())){
+//						if(!(lendAdvertisement.getCustomerIdentity().equals(lendAd.getCustomerIdentity()) && lendAdvertisement.getCustomerLendStatus().equals(lendAd.getCustomerLendStatus()))){
+//							int count = lendAdvertisementService.selectCountByIdentityAndStatus(lendAdvertisement);
+//							if(count>=5){
+//								map.put("status", "false");
+//					            map.put("result", "该类型广告位已经启用的数量已经达到5个!");
+//					            return map;
+//							}
+//						}
+//					}else{
+//						int count = lendAdvertisementService.selectCountByIdentityAndStatus(lendAdvertisement);
+//						if(count>=5){
+//							map.put("status", "false");
+//				            map.put("result", "该类型广告位已经启用的数量已经达到5个!");
+//				            return map;
+//						}
+//					}
+//				}
+//				
+//				BeanUtils.copyProperty(lendAd, "name", lendAdvertisement.getName());
+//				BeanUtils.copyProperty(lendAd, "url", lendAdvertisement.getUrl());
+//				BeanUtils.copyProperty(lendAd, "enabled", lendAdvertisement.getEnabled());
+//				if(lendAdvertisement.getCustomerIdentity().equals(lendAd.getCustomerIdentity()) && lendAdvertisement.getCustomerLendStatus().equals(lendAd.getCustomerLendStatus())){
+//					
+//				}else{
+//					//原来用户类型的广告位排位大于更改用户类型的广告位的排位时，原来的广告位排位大于更改用户类型的广告位排位的广告为的排位都减1
+//					List<LendAdvertisement> list = lendAdvertisementService.getLendAdvertisementByIdentityAndStatus(lendAd);
+//					for(LendAdvertisement lendAd1 : list){
+//						if(lendAd1.getSort() > lendAd.getSort()){
+//							lendAd1.setSort(lendAd1.getSort() - 1);
+//							lendAdvertisementService.updateLendAdvertisement(lendAd1);
+//						}
+//					}
+//					
+//					BeanUtils.copyProperty(lendAd, "customerIdentity", lendAdvertisement.getCustomerIdentity());
+//					BeanUtils.copyProperty(lendAd, "customerLendStatus", lendAdvertisement.getCustomerLendStatus());
+//					//如果用户类型改变，排位要变
+//				    int maxSort = lendAdvertisementService.getMaxSortByIdentityAndStatus(lendAdvertisement);
+//					int sort = maxSort >= 1 ? (maxSort+1):1;
+//					BeanUtils.copyProperty(lendAd, "sort", sort);
+//				}
+//				lendAdvertisementService.updateLendAdvertisement(lendAd);
+//				map.put("status", "success");
+//	            map.put("result", "更新广告位成功!");
+//			} catch (Exception e) {
+//				logger.error("更新广告位失败", e);
+//				map.put("status", "false");
+//	            map.put("result", "更新广告位失败!");
+//			}
+//		}else{
+			map.put("status", "false");
+            map.put("result", "图片没有上传，添加广告位失败!");
+			/*try {
+				int maxSort = lendAdvertisementService.getMaxSortByIdentityAndStatus(lendAdvertisement);
+				int sort = maxSort >= 1 ? (maxSort+1):1;
+				BeanUtils.copyProperty(lendAdvertisement, "sort", sort);
+				lendAdvertisementService.addAdvertisement(lendAdvertisement);
+				map.put("status", "success");
+	            map.put("result", "添加广告位成功!");
+			} catch (Exception e) {
+				logger.error("添加广告位失败", e);
+				map.put("status", "false");
+	            map.put("result", "添加广告位失败!");
+			}*/
+//		}
+		return map;
 	}
 	
 	/**
