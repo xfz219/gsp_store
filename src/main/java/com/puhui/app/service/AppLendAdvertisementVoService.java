@@ -67,5 +67,11 @@ public interface AppLendAdvertisementVoService {
 	 * @param id
 	 */
 	public void updateLendAdvertisementBehind(long id);
+
+	/**
+	 * 更新公告内容
+	 * @param lendAd
+	 */
+	public void updateLendAdvertisement(AppLendAdvertisementVo lendAd);
 	
 }

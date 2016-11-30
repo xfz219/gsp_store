@@ -45,7 +45,7 @@ public interface AppLendAdvertisementDao extends BaseDao<Object>{
 	 * @param appLendAdvertisementVo
 	 * @return
 	 */
-	public AppLendAdvertisementVo addLendAdvertisement(AppLendAdvertisementVo appLendAdvertisementVo);
+	public void addLendAdvertisement(AppLendAdvertisementVo appLendAdvertisementVo);
 
 	/**
 	 * 删除
@@ -64,4 +64,10 @@ public interface AppLendAdvertisementDao extends BaseDao<Object>{
 	 * @param id
 	 */
 	public void updateLendAdvertisementBehind(@Param("id") long id);
+
+	/**
+	 * 更新公告内容
+	 * @param lendAd
+	 */
+	public void updateLendAdvertisement(AppLendAdvertisementVo lendAd);
 }

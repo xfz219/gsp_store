@@ -147,22 +147,16 @@
 			    			id: $('#id').val(),
 						};
 
-			    	//图片回现
-			    	/* previewImage(file); */
-
 			    	//清空缓存参数
 			    	jQuery("#file_upload").data("uploadify").settings.formData = {};
 			    	//设置参数
 			   		jQuery("#file_upload").uploadify('settings', 'formData',paramData);
 			    },
 				'onUploadSuccess' : function(file, data, response) {
-					alert(data);
 					data = $.parseJSON(data);
 					$.messager.alert('提示信息','<span style="line-height:150%;">'+data.msg+'</span>');
 					if(data.success){
-						$('#id').val(data.result);
-						/* $('#file_mgmt').datagrid('reload'); */
-						/* previewImage(file); */
+						$('#id').val(data.obj);
 					}
 				},
 				'onSelectError': function (file, errorCode, errorMsg) {

@@ -45,12 +45,7 @@
 
 	<select id="selectLendAdvertisementById" resultMap="appLendAdvertisementVoObj">
 		SELECT
-		pic_address_url,
-		name,
-		url,
-		customer_identity,
-		enabled,
-		sort
+		*
 		FROM
 		app_lend_advertisement
 		WHERE id = #{id}
@@ -100,6 +95,20 @@
 			#{enabled}
 			,now())
 	</insert>
+	
+	<update id="updateLendAdvertisement" parameterType="appLendAdvertisementVo">
+		update app_lend_advertisement set 
+			name = #{name},
+			customer_identity = #{customerIdentity},
+			url = #{url},
+			pic_size = #{picSize},
+			original_pic_name = #{originalPicName},
+			pic_access_url = #{picAccessUrl},
+			pic_address_url = #{picAddressUrl},
+			sort = #{sort},
+			enabled = #{enabled}
+		where id = #{id}
+	</update>
 	
 	<delete id="deleteLendAdvertisementById">
 		DELETE FROM app_lend_advertisement WHERE id = #{id}

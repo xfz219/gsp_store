@@ -60,6 +60,7 @@ public class AppLendAdvertisementVoServiceImpl implements AppLendAdvertisementVo
         String repStr = new StringBuffer().append(File.separator).append("upload").append(File.separator).append("puhui-lend").toString();
         String picAccessUrl = savePath.replace(repStr, "");
         lendAdvertisement.setPicAccessUrl(picAccessUrl);
+        lendAdvertisement.setSort(1);
     	//添加
     	appLendAdvertisementDao.addLendAdvertisement(lendAdvertisement);
         return lendAdvertisement.getId();
@@ -136,6 +137,15 @@ public class AppLendAdvertisementVoServiceImpl implements AppLendAdvertisementVo
 	@Override
 	public void updateLendAdvertisementBehind(long id) {
 		appLendAdvertisementDao.updateLendAdvertisementBehind(id);
+	}
+
+	/**
+	 * 更新公告内容
+	 * @param lendAd
+	 */
+	@Override
+	public void updateLendAdvertisement(AppLendAdvertisementVo lendAd) {
+		appLendAdvertisementDao.updateLendAdvertisement(lendAd);
 	}
 	
 }
