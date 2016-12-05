@@ -23,7 +23,7 @@
 	</resultMap>
 	<update id="updateCustomerEntryState" parameterType="long">
 		update app_lend_request set
-		state = 2,audit_state = 0
+		state = 3,audit_state = 6
 		where id = #{id}
 	</update>
 	<select id="selectAppLendRequestMethod" parameterType="map"
