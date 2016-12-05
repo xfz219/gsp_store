@@ -148,9 +148,9 @@ public class AppPushServiceImpl implements AppPushService {
 			}
 			// 替换模板
 			pushModel = pushModel.replaceAll("<customerName>", customerName);
-			pushModel = pushModel.replaceFirst("<shopName>", shopName);
-			pushModel = pushModel.replaceFirst("<salesName>", salesName);
-			pushModel = pushModel.replaceFirst("<salesMoblie>", moblie);
+			pushModel = pushModel.replaceAll("<shopName>", shopName);
+			pushModel = pushModel.replaceAll("<salesName>", salesName);
+			pushModel = pushModel.replaceAll("<salesMoblie>", moblie);
 			// 向消息表插入消息
 			AppCustomerMessage appCustomerMessage = new AppCustomerMessage();
 			appCustomerMessage.setCustomerId(Integer.parseInt(appCustomer.getId().toString()));// uid编号
