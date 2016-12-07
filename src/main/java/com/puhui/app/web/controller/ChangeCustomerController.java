@@ -4,10 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.management.RuntimeErrorException;
-
-import net.sf.json.JSONArray;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -22,6 +18,8 @@ import com.puhui.app.service.ChangeCustomerService;
 import com.puhui.app.utils.CommonUtils;
 import com.puhui.app.vo.QueryChangeCustomerVo;
 import com.puhui.uc.vo.RemoteStaffVo;
+
+import net.sf.json.JSONArray;
 
 /**
  * 更换销售绑定
@@ -70,7 +68,7 @@ public class ChangeCustomerController extends BaseController{
 	}
 	
 	/**
-	 * @comment 绑定
+	 * @comment 更换销售绑定
 	 * @author lichunyue
 	 */
 	@RequestMapping(value = "/updateBindingUserMethod")
@@ -88,10 +86,9 @@ public class ChangeCustomerController extends BaseController{
 	    	 if(!falg) throw new RuntimeException("   “正常”的销售不可更换绑定     ");
 	     }
     	try{
-    		
     		 changeCustomerService.updateBindingUserMethod(ids,selectUserName);
     		 changeCustomerService.insertLog(map.get("ids").toString(), staff.getId());
-    		 return true; 
+    		 return true;
     	}catch(Exception e){
     		logger.info("------------绑定失败请稍后再试---------",e);
     		throw new RuntimeException( "绑定失败请稍后再试");

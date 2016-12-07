@@ -141,6 +141,7 @@ public class AppPushServiceImpl implements AppPushService {
 			AppLendRequest appLendRequest = appLendRequestDao.getAppLendRequestByCustomerId(Long.parseLong(map.get("uid").toString()));
 			if (appLendRequest != null) {
 				appPushMessageVo.setAppLendRequestId(appLendRequest.getId());
+				appPushMessageVo.setType(2);
 			} else {
 				appPushMessageVo.setAppLendRequestId((long) 0);
 			}

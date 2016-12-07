@@ -12,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.puhui.app.api.UserDetailService;
 import com.puhui.app.dao.AppCustomerDao;
 import com.puhui.app.dao.AppInterfaceLogDao;
 import com.puhui.app.dao.AppUserToPromoteDao;
 import com.puhui.app.po.AppUserToPromote;
+import com.puhui.app.service.AppPushService;
 import com.puhui.app.service.CustomerCluesService;
 import com.puhui.app.utils.DateUtil;
 import com.puhui.lend.api.LendQueryInfoService;
@@ -47,7 +47,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	@Autowired
 	private AppInterfaceLogDao appInterfaceLogDao;
 	@Autowired
-	private UserDetailService userDetailService;
+	private AppPushService appPushService;
 	@Autowired
 	private RemoteOrganizationService remoteOrganizationService;
 	/**
@@ -104,7 +104,6 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 		cityCode = cityCode.substring(0,cityCode.length()-2);
 		List<RemoteOrganizationVo> list = remoteOrganizationService.queryByCodeLike(cityCode);
 		Map<String, Object> map = new HashMap<String, Object>();
-		Map<String, Object> mapAll = new HashMap<String, Object>();
 		Map<String, Object> userMap = new HashMap<String, Object>();
 		try {
 			map.put("id", appUserToPromote.getId());
@@ -120,13 +119,12 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 			userMap.put("name", appUserToPromote.getName());
 			userMap.put("mobile", appUserToPromote.getMobile());
 			userMap.put("sellerNumber", remoteLendAppResultVo.getSalesId());
-			mapAll.put("user", userMap);
-			userDetailService.pushUnwrapMessageMethod(mapAll);// 推送给销售
+			appPushService.pushUnwrapMessage(userMap, 1);// 推送给销售
 		} catch (Exception e) {
 			logger.info("接收cc推送其它渠道数据出现异常");
 		}
 	}
-
+	
 	/**
 	 * @comment 查询是否异常
 	 * @author lichunyue
