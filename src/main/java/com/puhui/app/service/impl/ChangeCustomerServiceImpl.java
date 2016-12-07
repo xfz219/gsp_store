@@ -132,8 +132,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	@Override
 	// 指定回滚
 	@Transactional(rollbackFor=Exception.class) 
-	public void updateBindingUserMethod(List<Long> ids,
-			String selectUserName) {
+	public void updateBindingUserMethod(List<Long> ids,	String selectUserName) {
 		RemoteLendAppResultVo remoteLendAppResultVo = remoteLendAppUserCenterService.getUserInfoMethod(selectUserName);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ids", ids);
@@ -145,10 +144,8 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 		map.put("shopName",remoteLendAppResultVo.getShopName());
 		map.put("districtCode",remoteLendAppResultVo.getDistrictCode());
 		map.put("districtName",remoteLendAppResultVo.getDistrictName());
-		
 		this.updateAppLendRequest(ids, remoteLendAppResultVo.getSalesId());
 		appChangeCustomerDao.updateBindingUserMethod(map);
-		
 		this.push(ids, remoteLendAppResultVo.getSalesId());
 	}
 	
@@ -181,13 +178,11 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 		return appChangeCustomerDao.selectAppCustomerMethod(map);
 	}
 	
-	public void push(List<Long> ids,
-			Long salesId){
+	public void push(List<Long> ids,Long salesId){
 		Map<String, Object> map = new HashMap<>();
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("number", ids.size());
 		map1.put("sellerNumber", salesId);
-	
 		map.put("user", map1);
 		map.put("customer", ids);
 		appPushService.pushUnwrapMessageMethod(map);
