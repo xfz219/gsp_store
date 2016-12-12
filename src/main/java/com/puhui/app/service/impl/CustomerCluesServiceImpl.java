@@ -94,7 +94,6 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 		cityCode = cityCode.substring(0,cityCode.length()-2);
 		List<RemoteOrganizationVo> list = swaggerService.like(cityCode);
 		Map<String, Object> map = new HashMap<String, Object>();
-		Map<String, Object> mapAll = new HashMap<String, Object>();
 		Map<String, Object> userMap = new HashMap<String, Object>();
 		try {
 			map.put("id", appUserToPromote.getId());
@@ -110,13 +109,12 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 			userMap.put("name", appUserToPromote.getName());
 			userMap.put("mobile", appUserToPromote.getMobile());
 			userMap.put("sellerNumber", remoteStaffVo.getId());
-			mapAll.put("user", userMap);
-			appPushService.pushUnwrapMessageMethod(map);//推送给销售
+			appPushService.pushUnwrapMessage(userMap, 1);// 推送给销售
 		} catch (Exception e) {
 			logger.info("接收cc推送其它渠道数据出现异常");
 		}
 	}
-
+	
 	/**
 	 * @comment 查询是否异常
 	 * @author lichunyue

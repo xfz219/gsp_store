@@ -140,14 +140,15 @@ public class AppPushServiceImpl implements AppPushService {
 			AppLendRequest appLendRequest = appLendRequestDao.getAppLendRequestByCustomerId(Long.parseLong(map.get("uid").toString()));
 			if (appLendRequest != null) {
 				appPushMessageVo.setAppLendRequestId(appLendRequest.getId());
+				appPushMessageVo.setType(2);
 			} else {
 				appPushMessageVo.setAppLendRequestId((long) 0);
 			}
 			// 替换模板
 			pushModel = pushModel.replaceAll("<customerName>", customerName);
-			pushModel = pushModel.replaceFirst("<shopName>", shopName);
-			pushModel = pushModel.replaceFirst("<salesName>", salesName);
-			pushModel = pushModel.replaceFirst("<salesMoblie>", moblie);
+			pushModel = pushModel.replaceAll("<shopName>", shopName);
+			pushModel = pushModel.replaceAll("<salesName>", salesName);
+			pushModel = pushModel.replaceAll("<salesMoblie>", moblie);
 			// 向消息表插入消息
 			AppCustomerMessage appCustomerMessage = new AppCustomerMessage();
 			appCustomerMessage.setCustomerId(Integer.parseInt(appCustomer.getId().toString()));// uid编号

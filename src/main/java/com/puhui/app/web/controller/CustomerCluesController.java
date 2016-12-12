@@ -73,9 +73,12 @@ public class CustomerCluesController {
     	try{
     		Subject currStaff = SecurityUtils.getSubject();
     		RemoteStaffVo staff = (RemoteStaffVo) currStaff.getPrincipal();
-    		int pageNo = Integer.valueOf(pageMap.get("page").toString());// 当前页
-    		int pageSize= Integer.valueOf(pageMap.get("rows").toString());// 当前页大小
-            Page page = Page.getPage(pageNo,pageSize);
+    		Page page = null;
+    		if(pageMap.get("page") != null && pageMap.get("rows") != null){
+    			int pageNo = Integer.parseInt(pageMap.get("page").toString());// 当前页
+    			int pageSize= Integer.parseInt(pageMap.get("rows").toString());// 当前页大小
+    			page = Page.getPage(pageNo,pageSize);
+    		}
             //查询条件参数
             Map<String, Object> paramMap = new HashMap<String, Object>(); 
         	paramMap.put("page", page);
@@ -102,7 +105,7 @@ public class CustomerCluesController {
 	}
 	
 	/**
-	 * @comment 绑定
+	 * @comment 线索管理绑定
 	 * @author lichunyue
 	 */
 	@RequestMapping(value = "/updateBindingUserMethod")
@@ -176,28 +179,28 @@ public class CustomerCluesController {
 	@ResponseBody
 	public JSONArray selectUserMethod(){
     	try{
-    		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
-    		Map<String, Object> map = new HashMap<String, Object>();
+    		List<Map<String, Object>> listMap = new ArrayList<>();
+    		Map<String, Object> map = new HashMap<>();
     		map.put("departmentCode", "");
     		map.put("departmentName", "请选择");
     		listMap.add(map);
-    		Map<String, Object> map1 = new HashMap<String, Object>();
+    		Map<String, Object> map1 = new HashMap<>();
     		map1.put("departmentCode", "一组");
     		map1.put("departmentName", "一组");
     		listMap.add(map1);
-    		Map<String, Object> map2 = new HashMap<String, Object>();
+    		Map<String, Object> map2 = new HashMap<>();
     		map2.put("departmentCode", "二组");
     		map2.put("departmentName", "二组");
     		listMap.add(map2);
-    		Map<String, Object> map3 = new HashMap<String, Object>();
+    		Map<String, Object> map3 = new HashMap<>();
     		map3.put("departmentCode", "三组");
     		map3.put("departmentName", "三组");
     		listMap.add(map3);
-    		Map<String, Object> map4 = new HashMap<String, Object>();
+    		Map<String, Object> map4 = new HashMap<>();
     		map4.put("departmentCode", "四组");
     		map4.put("departmentName", "四组");
     		listMap.add(map4);
-    		Map<String, Object> map5 = new HashMap<String, Object>();
+    		Map<String, Object> map5 = new HashMap<>();
     		map5.put("departmentCode", "五组");
     		map5.put("departmentName", "五组");
     		listMap.add(map5);

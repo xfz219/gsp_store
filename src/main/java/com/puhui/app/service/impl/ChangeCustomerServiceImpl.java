@@ -138,7 +138,6 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 		
 		this.updateAppLendRequest(ids, remoteStaffVo.getId());
 		appChangeCustomerDao.updateBindingUserMethod(map);
-		
 		this.push(ids, remoteStaffVo.getId());
 	}
 	
@@ -171,13 +170,11 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 		return appChangeCustomerDao.selectAppCustomerMethod(map);
 	}
 	
-	public void push(List<Long> ids,
-			Long salesId){
+	public void push(List<Long> ids,Long salesId){
 		Map<String, Object> map = new HashMap<>();
 		Map<String, Object> map1 = new HashMap<>();
 		map1.put("number", ids.size());
 		map1.put("sellerNumber", salesId);
-	
 		map.put("user", map1);
 		map.put("customer", ids);
 		appPushService.pushUnwrapMessageMethod(map);
