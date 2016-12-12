@@ -203,12 +203,14 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	
 	public String getUserInfoMethod(String salesNo,String shopName) throws Exception{
 		boolean salesStatus = false;//false异常/true正常
-		RemoteStaffVo remoteStaffVo = swaggerService.employeeNo(salesNo);
-		if (remoteStaffVo.getEnabled() == true
+		if(!salesNo.equals("")){
+			RemoteStaffVo remoteStaffVo = swaggerService.employeeNo(salesNo);
+			if (remoteStaffVo.getEnabled() == true
 					&& remoteStaffVo.getPositionName().equals("个贷-销售")
 					&& remoteStaffVo.getOrganizationVo().getParentVo().getName().equals(shopName)) {
 				salesStatus = true;
-          }
+			}
+		}
 		return salesStatus == false ? "异常" : "正常";
 	}
 }
