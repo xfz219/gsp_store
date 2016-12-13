@@ -20,7 +20,11 @@
 <div id="tbChangeMobileListGrid">
 	<span>
 		<span class="datagrid-btn-separator" style="float:none;"></span>
-		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add' onclick="showChangeMobileDialog();" >修改客户录件状态</a>
+		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add' onclick="showChangeMobileDialog();" >修改客户录件状态（拒贷）</a>
+		<span class="datagrid-btn-separator" style="float:none;"></span>
+		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add' onclick="showChangeMobilePushDialog();" >修改客户录件状态（推送）</a>
+		<span class="datagrid-btn-separator" style="float:none;"></span>
+		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add' onclick="showChangeMobileDelDialog();" >删除客户信息</a>
 		<span class="datagrid-btn-separator" style="float:none;"></span>
 	</span>
 	<div style="clear:both;"></div>
@@ -61,7 +65,7 @@
 	function showChangeMobileDialog() {
 		var contentData = '<div style="margin: 20px 0px 0px 50px;"><label>客户进件号：</label><input id="id" class="easyui-validatebox textbox" data-options="required:true"/></div>';
 		addChangeMobileDialog.dialog({
-	    	title: "修改客户录件状态",
+	    	title: "修改客户录件状态（拒贷）",
 	       	width: 350,
 	       	height: 130,
 	       	modal: true,
@@ -85,13 +89,103 @@
                        			    async:false,
                        			 	success: function(data) {
                     			        addChangeMobileDialog.dialog('close');
-                    			        $.messager.alert('提示信息','绑定成功');
+                    			        $.messager.alert('提示信息','成功');
                     			    }
                        			});
 	                     	}
                       	});
                    	}else{
                    		$.messager.alert('提示信息', '请输入客户进件号！');
+                   	}
+              	}},
+              	{
+                    text: '取消',
+                    handler: function() {
+                    	addChangeMobileDialog.dialog('close');
+                    }
+                }]
+		});
+	}
+	
+	function showChangeMobilePushDialog() {
+		var contentData = '<div style="margin: 20px 0px 0px 50px;"><label>客户进件号：</label><input id="ip" class="easyui-validatebox textbox" data-options="required:true"/></div>';
+		addChangeMobileDialog.dialog({
+	    	title: "修改客户录件状态（推送）",
+	       	width: 350,
+	       	height: 130,
+	       	modal: true,
+	       	content: contentData,
+	       	buttons: [{
+	        	text: '确定',
+	          	handler: function() {
+	            	var thisButton = $(this);
+	             	if(typeof $('#ip').val() != 'undefined' && $('#ip').val() != '' && $('#ip').val() != null){
+	                	$.messager.confirm('确定','您确定修改客户录件状态吗？',function(r){
+	                    	if(r){
+	                        	thisButton.linkbutton('disable');
+                       			$.ajax({
+                       			    url: '${ctx}/updateCustomerEntryState/showChangeMobilePushDialog',
+                       			    data: {
+                       			        "id": $('#ip').val()
+                       			    },
+                       			    type: 'POST',
+                       			    cache: false,
+                       			    dataType: "json",
+                       			    async:false,
+                       			 	success: function(data) {
+                    			        addChangeMobileDialog.dialog('close');
+                    			        $.messager.alert('提示信息','成功');
+                    			    }
+                       			});
+	                     	}
+                      	});
+                   	}else{
+                   		$.messager.alert('提示信息', '请输入客户进件号！');
+                   	}
+              	}},
+              	{
+                    text: '取消',
+                    handler: function() {
+                    	addChangeMobileDialog.dialog('close');
+                    }
+                }]
+		});
+	}
+	
+	function showChangeMobileDelDialog() {
+		var contentData = '<div style="margin: 20px 0px 0px 50px;"><label>客户手机号：</label><input id="mobile" class="easyui-validatebox textbox" data-options="required:true"/></div>';
+		addChangeMobileDialog.dialog({
+	    	title: "删除客户信息",
+	       	width: 350,
+	       	height: 130,
+	       	modal: true,
+	       	content: contentData,
+	       	buttons: [{
+	        	text: '确定',
+	          	handler: function() {
+	            	var thisButton = $(this);
+	             	if(typeof $('#mobile').val() != 'undefined' && $('#mobile').val() != '' && $('#mobile').val() != null){
+	                	$.messager.confirm('确定','您确定要删除客户信息吗？',function(r){
+	                    	if(r){
+	                        	thisButton.linkbutton('disable');
+                       			$.ajax({
+                       			    url: '${ctx}/updateCustomerEntryState/showChangeMobileDelDialog',
+                       			    data: {
+                       			        "id": $('#mobile').val()
+                       			    },
+                       			    type: 'POST',
+                       			    cache: false,
+                       			    dataType: "json",
+                       			    async:false,
+                       			 	success: function(data) {
+                    			        addChangeMobileDialog.dialog('close');
+                    			        $.messager.alert('提示信息','删除成功');
+                    			    }
+                       			});
+	                     	}
+                      	});
+                   	}else{
+                   		$.messager.alert('提示信息', '请输入客户手机号！');
                    	}
               	}},
               	{

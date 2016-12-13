@@ -36,7 +36,7 @@ public class UpdateCustomerEntryStateController {
 	}
 	
 	/**
-	 * 质回未上传
+	 * 质回拒贷
 	 * @author lichunyue
 	 * @return 
 	 * @return
@@ -47,6 +47,45 @@ public class UpdateCustomerEntryStateController {
 			HttpServletResponse response,HttpServletRequest request){
 		try{
 			updateCustomerEntryStateService.updateCustomerEntryState(id);
+		}catch(Exception e){
+			logger.error("系统异常：",e);
+    		throw new IllegalArgumentException(e);
+		}
+		return true;
+		}
+	
+	/**
+	 * 质回未上传
+	 * @author lichunyue
+	 * @return 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/showChangeMobilePushDialog")
+	public boolean showChangeMobilePushDialog(@RequestParam(value = "id" , required = false) long id,
+			HttpServletResponse response,HttpServletRequest request){
+		try{
+			updateCustomerEntryStateService.showChangeMobilePushDialog(id);
+		}catch(Exception e){
+			logger.error("系统异常：",e);
+    		throw new IllegalArgumentException(e);
+		}
+		return true;
+		}
+	
+	/**
+	 * 删除客户信息
+	 * @author lichunyue
+	 * @return 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/showChangeMobileDelDialog")
+	public boolean showChangeMobileDelDialog(@RequestParam(value = "id" , required = false) long id,
+			HttpServletResponse response,HttpServletRequest request){
+		String mobile = String.valueOf(id);
+		try{
+			updateCustomerEntryStateService.showChangeMobileDelDialog(mobile);
 		}catch(Exception e){
 			logger.error("系统异常：",e);
     		throw new IllegalArgumentException(e);

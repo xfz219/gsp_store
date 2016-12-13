@@ -26,6 +26,17 @@
 		state = 3,audit_state = 6
 		where id = #{id}
 	</update>
+	<update id="showChangeMobilePushDialog" parameterType="long">
+		update app_lend_request set
+		state = 2,audit_state = 0
+		where id = #{id}
+	</update>
+	<delete id="showChangeMobileDelDialog" parameterType="long">
+		DELETE FROM app_customer WHERE mobile = #{mobile}
+	</delete>
+	<delete id="showChangeMobileDelLoginDialog" parameterType="long">
+		DELETE FROM app_customer_log_in WHERE mobile = #{mobile}
+	</delete>
 	<select id="selectAppLendRequestMethod" parameterType="map"
 		resultType="String">
 		SELECT id FROM app_lend_request
