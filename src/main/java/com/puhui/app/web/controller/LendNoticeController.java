@@ -47,6 +47,11 @@ public class LendNoticeController extends BaseController {
         return lendNoticeService.qryLendNoticeList(vo);
     }
 
+    @RequestMapping("/index")
+    public String goAccessoryResetMethod(){
+        return "LendNotice/queryLendNotice";
+    }
+
     /**
      * 新建公告
      * 

@@ -1,6 +1,5 @@
 package com.puhui.app.service.impl;
 
-import com.puhui.app.api.UserDetailService;
 import com.puhui.app.dao.LendNoticeDao;
 import com.puhui.app.po.LendNotice;
 import com.puhui.app.service.LendNoticeService;
@@ -30,9 +29,6 @@ public class LendNoticeServiceImpl implements LendNoticeService {
 
     @Autowired
     private LendNoticeDao lendNoticeDao;
-
-    @Autowired
-    private UserDetailService userDetailService;
 
     /**
      * 获取dagraid组装数据
@@ -106,7 +102,7 @@ public class LendNoticeServiceImpl implements LendNoticeService {
 		    AppUserNoticeVo userNoticeVo = new AppUserNoticeVo();
         	logger.info("开始推送id为:{}的系统公告", id);
             PropertyUtils.copyProperties(userNoticeVo, lendNotice);
-            userDetailService.insertNoticeDetailMethod(userNoticeVo);
+//            userDetailService.insertNoticeDetailMethod(userNoticeVo);
             logger.info("id为:{}的系统公告推送成功", id);
             returnEntity = new ReturnEntity(true, "发布系统公告成功");
         } catch (Exception e) {
