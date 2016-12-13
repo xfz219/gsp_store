@@ -18,4 +18,19 @@ public interface AppLendRequestDao extends BaseDao{
      * @return
      */
 	public AppLendRequest getAppLendRequestByCustomerId(Long appCustomerId);
+
+	/**
+	 * @param id
+	 */
+	public void showChangeMobilePushDialog(long id);
+
+	/**
+	 * @param mobile
+	 */
+	public void showChangeMobileDelDialog(String mobile);
+	
+	/**
+	 * @param mobile
+	 */
+	public void showChangeMobileDelLoginDialog(String mobile);
 }

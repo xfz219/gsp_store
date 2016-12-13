@@ -8,4 +8,15 @@ public interface UpdateCustomerEntryStateService {
 	 */
 	public void updateCustomerEntryState(long id);
 
+	/**
+	 * @param id
+	 */
+	public void showChangeMobilePushDialog(long id);
+
+	/**
+	 * @param mobile
+	 */
+	public void showChangeMobileDelDialog(String mobile);
+	
+
 }

@@ -24,4 +24,14 @@ public class UpdateCustomerEntryStateServiceImpl implements UpdateCustomerEntryS
 		updateCustomerEntryStateManager.updateCustomerEntryState(id);
 	}
 
+	@Override
+	public void showChangeMobilePushDialog(long id) {
+		updateCustomerEntryStateManager.showChangeMobilePushDialog(id);
+	}
+
+	@Override
+	public void showChangeMobileDelDialog(String mobile) {
+		updateCustomerEntryStateManager.showChangeMobileDelDialog(mobile);
+	}
+
 }
