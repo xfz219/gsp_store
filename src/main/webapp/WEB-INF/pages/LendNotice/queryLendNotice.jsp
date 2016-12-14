@@ -196,7 +196,7 @@ var grid;
 				ids.push(row[i].id);
 			}); */
 			$.ajax({
-				url:"./AppLendNotice/isuseLendNotice",
+				url:"${ctx}/AppLendNotice/isuseLendNotice",
 				type: "POST",
 				async: false,
 				data:{'id':row[0].id},

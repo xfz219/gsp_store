@@ -125,7 +125,7 @@ public class LendNoticeServiceImpl implements LendNoticeService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, readOnly = false)
     public ReturnEntity isuseLendNotice(Long id) {
-    	ReturnEntity returnEntity = new ReturnEntity(true, "");
+    	ReturnEntity returnEntity;
     	try {
 			AppLendNotice appLendNotice = appLendNoticeDao.queryById(id);
 		    appLendNotice.setNoticeStatus(LendNoticeStatus.YI_FA_BU);
@@ -134,7 +134,6 @@ public class LendNoticeServiceImpl implements LendNoticeService {
 		    AppUserNoticeVo userNoticeVo = new AppUserNoticeVo();
         	logger.info("开始推送id为:{}的系统公告", id);
             PropertyUtils.copyProperties(userNoticeVo, appLendNotice);
-//            userDetailService.insertNoticeDetailMethod(userNoticeVo);
             logger.info("id为:{}的系统公告推送成功", id);
             returnEntity = new ReturnEntity(true, "发布系统公告成功");
         } catch (Exception e) {

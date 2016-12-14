@@ -1,38 +1,21 @@
 package com.puhui.app.service.impl;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.alibaba.fastjson.JSON;
-import com.puhui.app.dao.AppCustomerDao;
-import com.puhui.app.dao.AppCustomerMessageDao;
-import com.puhui.app.dao.AppCustomerTokenDao;
-import com.puhui.app.dao.AppLendRequestDao;
-import com.puhui.app.dao.AppLendTemplateDao;
-import com.puhui.app.dao.AppUserMessageDao;
-import com.puhui.app.dao.AppUserTokenDao;
-import com.puhui.app.po.AppCustomer;
-import com.puhui.app.po.AppCustomerMessage;
-import com.puhui.app.po.AppCustomerToken;
-import com.puhui.app.po.AppLendRequest;
-import com.puhui.app.po.AppLendTemplate;
-import com.puhui.app.po.AppUserMessage;
-import com.puhui.app.po.AppUserToken;
+import com.puhui.app.dao.*;
+import com.puhui.app.po.*;
 import com.puhui.app.service.AppPushService;
 import com.puhui.app.utils.BasisUtils;
 import com.puhui.app.utils.PushUtil;
 import com.puhui.app.vo.AppPushMessageVo;
 import com.puhui.uc.api.service.RemoteLendAppUserCenterService;
 import com.puhui.uc.vo.RemoteLendAppResultVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
 
 @Service
 public class AppPushServiceImpl implements AppPushService {
@@ -189,6 +172,25 @@ public class AppPushServiceImpl implements AppPushService {
 			}
 		}
 
+	@Override
+	public boolean pushNotice(final AppPushMessageVo appPushMessageVo) {
+		new Thread(() -> {
+			// 查询设备
+			List<AppUserToken> list = new ArrayList<>();
+			String noticeDepartment = appPushMessageVo.getOtherMessage();// 大区
+			String[] noticeDepartments = noticeDepartment.split(",");
+			for (String noticeDepartment1 : noticeDepartments) {
+				List<AppUserToken> appUserToken = appUserTokenDao
+						.getAppUserTokenDistrictCodeList(noticeDepartment1);
+				if (!appUserToken.isEmpty()) {
+					list.addAll(appUserToken);
+				}
+			}
+			push(appPushMessageVo, appPushMessageVo.getMessage(), null, null,
+					appPushMessageVo.getAppLendRequestId(), list, null, "toUser");
+		}).start();
+		return true;
+	}
 
 
 	private void push(AppPushMessageVo appPushMessageVo, String pushModel, String name, String mobile, Long mid,
