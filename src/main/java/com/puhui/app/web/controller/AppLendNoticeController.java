@@ -1,6 +1,7 @@
 package com.puhui.app.web.controller;
 
-import com.puhui.app.po.LendNotice;
+import com.puhui.app.po.AppLendNotice;
+import com.puhui.app.search.AppLendNoticeSearch;
 import com.puhui.app.service.LendNoticeService;
 import com.puhui.app.service.LendUcService;
 import com.puhui.app.vo.ReturnEntity;
@@ -22,29 +23,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.*;
 
 @Controller
-@RequestMapping("/LendNotice")
-public class LendNoticeController extends BaseController {
-	private static final Logger log = LoggerFactory.getLogger(LendNoticeController.class);
+@RequestMapping("/AppLendNotice")
+public class AppLendNoticeController extends BaseController {
+	private static final Logger log = LoggerFactory.getLogger(AppLendNoticeController.class);
     @Autowired
     private LendNoticeService lendNoticeService;
 
     @Autowired
     private LendUcService lendUcService;
     @Autowired
-    private RemoteUserCentreService lendCenterUcService;
+    private RemoteUserCentreService remoteUserCentreService;
     @Autowired
     private RemoteOrganizationService remoteOrganizationService;
 
     /**
      * 查询公告列表
      * 
-     * @param vo
-     * @return
+     * @param appLendNoticeSearch 搜索条件
+     * @return 公告列表
      */
     @ResponseBody
     @RequestMapping(value = "/qryNoticeList")
-    public Map<String, Object> qryNoticeList(LendNotice vo) {
-        return lendNoticeService.qryLendNoticeList(vo);
+    public Map<String, Object> qryNoticeList(AppLendNoticeSearch appLendNoticeSearch) {
+        return lendNoticeService.qryLendNoticeList(appLendNoticeSearch);
     }
 
     @RequestMapping("/index")
@@ -52,22 +53,27 @@ public class LendNoticeController extends BaseController {
         return "LendNotice/queryLendNotice";
     }
 
+    @RequestMapping("/toAdd")
+    public String toAddLendNotice(){
+        return "LendNotice/addLendNotice";
+    }
+
     /**
      * 新建公告
      * 
-     * @param lendNotice
+     * @param appLendNotice
      * @return
      */
     @RequestMapping(value = "/addLendNotice")
     @ResponseBody
-    public Map<String, Object> addLendNotice(LendNotice lendNotice) {
-        Map<String, Object> map = new HashMap<String, Object>();
+    public Map<String, Object> addLendNotice(AppLendNotice appLendNotice) {
+        Map<String, Object> map = new HashMap<>();
         try {
-        	String noticeDepartment = lendNotice.getNoticeDepartment();
+        	String noticeDepartment = appLendNotice.getNoticeDepartment();
         	//将lendNotice中的noticeDepartment由id换成code（id所在的organization为门店时）
         	String codeStr = getShopCodeByIDs(noticeDepartment);
-        	lendNotice.setNoticeDepartment(codeStr);
-            lendNoticeService.updateOrSaveLendNotice(lendNotice, "add");
+        	appLendNotice.setNoticeDepartment(codeStr);
+            lendNoticeService.updateOrSaveLendNotice(appLendNotice, "add");
             map.put("status", "success");
             map.put("result", "添加公告成功!");
         } catch (Exception e) {
@@ -96,35 +102,35 @@ public class LendNoticeController extends BaseController {
     @RequestMapping(value = "/getLendNoticeById/{id}/{flag}")
     public String getLendNoticeById(@PathVariable(value = "id") Long id, @PathVariable(value = "flag") String flag,
             ModelMap map) {
-        String url = "lend/editLendNotice";
-        if (flag.equals("look")) {
-            url = "lend/lookLendNotice";
+        String url = "LendNotice/editLendNotice";
+        if (Objects.equals("look",flag)) {
+            url = "LendNotice/lookLendNotice";
         }
-        LendNotice lendNotice = lendNoticeService.getLendNoticeById(id);
-        String noticeDepartment = lendNotice.getNoticeDepartment();
+        AppLendNotice appLendNotice = lendNoticeService.getLendNoticeById(id);
+        String noticeDepartment = appLendNotice.getNoticeDepartment();
     	//将lendNotice中的noticeDepartment由code换成id（id所在的organization为门店时）
-        String idStr = getShopCodeByIDs(noticeDepartment);
-    	lendNotice.setNoticeDepartment(idStr);
-        map.addAttribute("lendNotice", lendNotice);
+        String idStr = getShopIdByCodes(noticeDepartment);
+    	appLendNotice.setNoticeDepartment(idStr);
+        map.addAttribute("appLendNotice", appLendNotice);
         return url;
     }
 
     /**
      * 编辑公告
      * 
-     * @param lendNotice
+     * @param appLendNotice
      * @return
      */
     @RequestMapping(value = "/editLendNotice")
     @ResponseBody
-    public Map<String, Object> editLendNotice(LendNotice lendNotice) {
-        Map<String, Object> map = new HashMap<String, Object>();
+    public Map<String, Object> editLendNotice(AppLendNotice appLendNotice) {
+        Map<String, Object> map = new HashMap<>();
         try {
-        	String noticeDepartment = lendNotice.getNoticeDepartment();
+        	String noticeDepartment = appLendNotice.getNoticeDepartment();
         	//将lendNotice中的noticeDepartment由id换成code（id所在的organization为门店时）
         	String codeStr = getShopCodeByIDs(noticeDepartment);
-        	lendNotice.setNoticeDepartment(codeStr);
-            lendNoticeService.updateOrSaveLendNotice(lendNotice, "edit");
+        	appLendNotice.setNoticeDepartment(codeStr);
+            lendNoticeService.updateOrSaveLendNotice(appLendNotice, "edit");
             map.put("status", "success");
             map.put("result", "编辑公告成功!");
         } catch (Exception e) {
@@ -155,7 +161,6 @@ public class LendNoticeController extends BaseController {
 
     private String getShopCodeByIDs(String noticeDepartment) {
         List<Long> list;
-        list = new ArrayList<Long>();
         if(StringUtils.isNotBlank(noticeDepartment)){
             String[] strArr = StringUtils.split(noticeDepartment,",");
             Long[] arr = (Long[]) ConvertUtils.convert(strArr, Long.class);
@@ -166,6 +171,23 @@ public class LendNoticeController extends BaseController {
                 if (remoteOrganizationVo.getOrganizationType().equals("SHOP")) {
                     stringBuilder.append(remoteOrganizationVo.getCode()).append(",");
                 }
+            });
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+            return stringBuilder.toString();
+        }
+        return StringUtils.EMPTY;
+    }
+
+
+    private String getShopIdByCodes(String codes) {
+        List<String> list;
+        StringBuilder stringBuilder = new StringBuilder();
+        if(StringUtils.isNotBlank(codes)){
+            String[] strArr = StringUtils.split(codes,",");
+            list = Arrays.asList(strArr);
+            list.forEach(code -> {
+                RemoteOrganizationVo remoteOrganizationVo = remoteOrganizationService.queryByCode(code);
+                stringBuilder.append(remoteOrganizationVo.getId()).append(",");
             });
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
             return stringBuilder.toString();

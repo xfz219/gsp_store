@@ -1,6 +1,5 @@
 package com.puhui.app.po;
 
-import com.puhui.uc.vo.RemoteStaffVo;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.util.Date;
@@ -9,9 +8,9 @@ import java.util.Objects;
 /**
  * @author dongchen
  */
-public class LendNotice{
+public class AppLendNotice {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 14324234L;
 
     /**
      * 主键
@@ -41,11 +40,11 @@ public class LendNotice{
     /**
      * 创建人
      */
-    private RemoteStaffVo createUser;
+    private Long createUser;
     /**
      * 更新人
      */
-    private RemoteStaffVo updateUser;
+    private Long updateUser;
     /**
      * 公告摘要
      */
@@ -54,6 +53,11 @@ public class LendNotice{
      * 公告内容
      */
     private String noticeContent;
+
+    /**
+     * 作者姓名
+     */
+    private String authorName;
 
     public Long getId() {
         return id;
@@ -119,27 +123,35 @@ public class LendNotice{
         this.updateTime = updateTime;
     }
 
-    public RemoteStaffVo getCreateUser() {
+    public Long getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(RemoteStaffVo createUser) {
+    public void setCreateUser(Long createUser) {
         this.createUser = createUser;
     }
 
-    public RemoteStaffVo getUpdateUser() {
+    public Long getUpdateUser() {
         return updateUser;
     }
 
-    public void setUpdateUser(RemoteStaffVo updateUser) {
+    public void setUpdateUser(Long updateUser) {
         this.updateUser = updateUser;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LendNotice that = (LendNotice) o;
+        AppLendNotice that = (AppLendNotice) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(noticeTitle, that.noticeTitle) &&
                 Objects.equals(noticeStatus, that.noticeStatus) &&

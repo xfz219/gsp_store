@@ -97,7 +97,7 @@
 							<tr style="height:413px">
 							<td class="one" >内容：</td>
 							<td class="two">
-								  <script type="text/plain" id="myEditor" style="width:1200px;height:400px;margin:30spx 4px;margin-left: ">${noticeContent}</script>  
+								  <script type="text/plain" id="myEditor" style="width:1200px;height:400px;margin:30spx 4px;margin-left: "></script>
 							</td>
 							</tr>
 							</table>
@@ -110,14 +110,14 @@
 			</div>
 			</div>
 			</form>
-
+</div>
 </body>
 
 <script type="text/javascript">
 	$(document).ready(function(){
 		 //产生一个在下拉框中的树，也就是组合树
 		$('#noticeDepartment').combotree({
-		        url : '${ctx}/userManage/getOrgShopTree',
+		        url : '${ctx}/appUtil/getOrgTree',
 		        idFiled:'id',
 		        textFiled:'name', 
 		        parentField : 'pid',
@@ -143,10 +143,10 @@
             
             //添加
             $('#add').click(function(){
-            	$.messager.confirm('提示信息','确认保存吗?',function(r){  
+            	$.messager.confirm('提示信息','确认保存吗?',function(r){
             		if(r){
             	$('#addNoticeForm').form('submit',{
-            		 url:'./LendNotice/addLendNotice',
+            		 url:'${ctx}/AppLendNotice/addLendNotice',
             		 onSubmit: function(){ 
             			 if($('#addNoticeForm').form('validate')){
             				 if(!editor.hasContents()){
@@ -202,7 +202,7 @@
            
            
         });  
-  
-    </script>  
+
+    </script>
 </html>
 

@@ -8,7 +8,6 @@
 <title>公告查询</title>
 
 <style type="text/css">
-	<style type="text/css">
 	.query{
 		padding:5px 10px;
 	}
@@ -35,7 +34,7 @@
 				<tr>
 					<td class="label">作者：</td>
 					<td>
-						<input id="userName" name="userName" class="easyui-textbox"/>
+						<input id="userName" name="authorName" class="easyui-textbox"/>
 					</td>
 					
 					<td class="label">当前状态：</td>
@@ -48,9 +47,9 @@
 					</td>
 					<td class="label">更新时间：</td>
 					<td>
-						<input  id="lendNoticeStartTime" name="lendNoticeStartTime" class="easyui-datebox" data-options="width:200,required:false,editable:false"/>
+						<input  id="lendNoticeStartTime" name="startDate" class="easyui-datebox" data-options="width:200,required:false,editable:false"/>
 						<label >——</label>
-						<input  id="lendNoticeEndTime" name="lendNoticeEndTime" class="easyui-datebox" data-options="width:200,required:false,editable:false"/>
+						<input  id="lendNoticeEndTime" name="endDate" class="easyui-datebox" data-options="width:200,required:false,editable:false"/>
 					</td>
 					
 				</tr>
@@ -96,14 +95,14 @@ var grid;
 			nowrap: false,
 			striped: true,
 			fit: true,
-			url:'${ctx}/LendNotice/qryNoticeList',
+			url:'${ctx}/AppLendNotice/qryNoticeList',
 			idField:'id',
 			singleSelect:true,
 			columns:[
 			[
 			{field:'id',hidden:true},
 			{field:'noticeTitle',title:'标题',width:270,align:'left'},
-			{field:'createUser.realName',title:'作者',width:180,align:'left'},
+			{field:'createUserVo.realName',title:'作者',width:180,align:'left'},
 			{field:'updateTime',title:'更新时间',width:220,align:'left',formatter:function(value,data){
 				return new Date(data.updateTime).formate("yyyy-MM-dd HH:mm");
 			}},
@@ -175,7 +174,7 @@ var grid;
 			parent.$("#tabs").tabs("add",{
 				closable:true,
 				title:'添加公告',
-				content : '<iframe name="addNotice" id="addNotice" scrolling="no" frameborder="0"  src="${ctx}/addLendNotice" width="100%" height="99%"></iframe>'
+				content : '<iframe name="addNotice" id="addNotice" scrolling="no" frameborder="0"  src="AppLendNotice/toAdd" width="100%" height="99%"></iframe>'
 			});
 	});
 });
@@ -197,7 +196,7 @@ var grid;
 				ids.push(row[i].id);
 			}); */
 			$.ajax({
-				url:"./LendNotice/isuseLendNotice",
+				url:"./AppLendNotice/isuseLendNotice",
 				type: "POST",
 				async: false,
 				data:{'id':row[0].id},
@@ -233,7 +232,7 @@ var grid;
 		parent.$("#tabs").tabs("add",{
 			closable:true,
 			title:'编辑公告',
-			content : '<iframe name="editNotice" id="editNotice" scrolling="no" frameborder="0"  src="${ctx}/LendNotice/getLendNoticeById/'+row[0].id+'/edit" width="100%" height="99%"></iframe>'
+			content : '<iframe name="editNotice" id="editNotice" scrolling="no" frameborder="0"  src="${ctx}/AppLendNotice/getLendNoticeById/'+row[0].id+'/edit" width="100%" height="99%"></iframe>'
 		});
 	}
 	
@@ -251,7 +250,7 @@ function searchNotice(){
 	parent.$("#tabs").tabs("add",{
 		closable:true,
 		title:'查看公告',
-		content : '<iframe name="editNotice" id="editNotice" scrolling="no" frameborder="0"  src="${ctx}/LendNotice/getLendNoticeById/'+row[0].id+'/look" width="100%" height="99%"></iframe>'
+		content : '<iframe name="editNotice" id="editNotice" scrolling="no" frameborder="0"  src="${ctx}/AppLendNotice/getLendNoticeById/'+row[0].id+'/look" width="100%" height="99%"></iframe>'
 	});
 	}
 	//删除
@@ -268,11 +267,8 @@ function searchNotice(){
 		}
 		$.messager.confirm('提示信息','确认删除吗?',function(r){  
     		if(r){
-    			/* $.each(row, function(i, k) {
-    				ids.push(row[i].id);
-    			}); */
     			$.ajax({
-					url:"./LendNotice/deleteLendNotice",
+					url:"${ctx}/AppLendNotice/deleteLendNotice",
 					type: "POST",
 					async: false,
 					data:{'id':row[0].id},
@@ -311,15 +307,15 @@ $('#queryNoticeForm').keypress(function(e){
 //搜索
 function searchByConditions(){
 	var dataObj = {};
-	var lendNoticeStartTime=$('#lendNoticeStartTime').datebox('getValue'),
-		lendNoticeEndTime=$('#lendNoticeEndTime').datebox('getValue'); 
-	dataObj.userName = $('#userName').val(); 
+	var startDate=$('#lendNoticeStartTime').datebox('getValue'),
+			endDate=$('#lendNoticeEndTime').datebox('getValue');
+	dataObj.authorName = $('#userName').val();
 	dataObj.noticeStatus = $('#noticeStatus').combobox('getValue');
-	if(lendNoticeStartTime){
-		dataObj.lendNoticeStartTime =lendNoticeStartTime;
+	if(startDate){
+		dataObj.startDate =startDate;
 	}
-if(lendNoticeEndTime){
-	dataObj.lendNoticeEndTime =lendNoticeEndTime; 
+if(endDate){
+	dataObj.endDate =endDate;
 }
 	$("#qryNoticeDatagrid").datagrid('load',dataObj); 
 	$('#qryNoticeDatagrid').datagrid('clearSelections'); 

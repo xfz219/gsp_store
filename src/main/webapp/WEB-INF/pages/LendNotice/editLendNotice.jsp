@@ -122,22 +122,21 @@
             });  
             editor.render("myEditor"); 
             editor.ready(function(){
-           	 editor.setContent('${lendNotice.noticeContent}');
+           	 editor.setContent('${appLendNotice.noticeContent}');
            });
-            $("#id").val("${lendNotice.id}");
-            $("#noticeStatus").val("${lendNotice.noticeStatus}");
-            $("#noticeTitle").val("${lendNotice.noticeTitle}");
-            $("#noticeAbstract").html("${lendNotice.noticeAbstract}");
-            /* $('#noticeDepartment').combobox('setValues','${lendNotice.noticeDepartment}'.split(',')); */
-            var arr = '${lendNotice.noticeDepartment}'.split(',');
-            $('#createTime').val("${lendNotice.createTime}");
+            $("#id").val("${appLendNotice.id}");
+            $("#noticeStatus").val("${appLendNotice.noticeStatus}");
+            $("#noticeTitle").val("${appLendNotice.noticeTitle}");
+            $("#noticeAbstract").html("${appLendNotice.noticeAbstract}");
+            var arr = '${appLendNotice.noticeDepartment}'.split(',');
+            $('#createTime').val("${appLendNotice.createTime}");
            
             //添加
             $('#add').click(function(){
             	$.messager.confirm('提示信息','确认保存吗?',function(r){  
             		if(r){
             	$('#editNoticeForm').form('submit',{
-            		 url:'${ctx}/LendNotice/editLendNotice',
+            		 url:'${ctx}/AppLendNotice/editLendNotice',
             		 onSubmit: function(){ 
             			 if($('#editNoticeForm').form('validate')){
             				 if(!editor.hasContents()){
@@ -190,7 +189,7 @@
             
           //产生一个在下拉框中的树，也就是组合树
 	   		$('#noticeDepartment').combotree({
-	   		        url : '${ctx}/userManage/getOrgShopTree',
+					url: '${ctx}/appUtil/getOrgTree',
 	   		        idFiled:'id',
 	   		        textFiled:'name', 
 	   		        parentField : 'pid',

@@ -109,17 +109,16 @@
 			</div>
 			</div>
 			</form>
-
+</div>
 </body>
 
 <script language="javascript">  
   
 	$(document).ready(function() {  
-		$("#content").html('${lendNotice.noticeContent}');
-	    $("#noticeTitle").val("${lendNotice.noticeTitle}");
-	    $("#noticeAbstract").val("${lendNotice.noticeAbstract}");
-	    /* $('#noticeDepartment').combobox('setValues','${lendNotice.noticeDepartment}'.split(',')); */
-	    var arr = '${lendNotice.noticeDepartment}'.split(',');
+		$("#content").html('${appLendNotice.noticeContent}');
+	    $("#noticeTitle").val("${appLendNotice.noticeTitle}");
+	    $("#noticeAbstract").val("${appLendNotice.noticeAbstract}");
+	    var arr = '${appLendNotice.noticeDepartment}'.split(',');
 	   
 	    //关闭
 	    $('#close').click(function(){
@@ -130,27 +129,26 @@
 			});
 	    	
 	    });
-	    	
-		//产生一个在下拉框中的树，也就是组合树
-		$('#noticeDepartment').combotree({
-		        url : '${ctx}/userManage/getOrgShopTree',
-		        idFiled:'id',
-		        textFiled:'name', 
-		        parentField : 'pid',
-		        checkbox:true,
-		        disabled:true,
-		        lines : true,
-		        panelHeight : '300',
-		        onLoadSuccess: function (node, data) {
-		           /*  $('#noticeDepartment').combotree('tree').tree("collapseAll");  */
-		        	for (var i=0;i<arr.length ;i++ ){
-                        node=$('#noticeDepartment').combotree('tree').tree('find',arr[i]);
-                        $('#noticeDepartment').combotree('tree').tree('check',node.target);
-                        $('#noticeDepartment').combotree('tree').tree('expandAll', node.target);
-               		}
-	           }
-		}); 
-		 
+
+	//产生一个在下拉框中的树，也就是组合树
+	$('#noticeDepartment').combotree({
+		url: '${ctx}/appUtil/getOrgTree',
+		idFiled: 'id',
+		textFiled: 'name',
+		parentField: 'pid',
+		checkbox: true,
+		disabled: true,
+		lines: true,
+		panelHeight: '300',
+		onLoadSuccess: function (node, data) {
+			/*  $('#noticeDepartment').combotree('tree').tree("collapseAll");  */
+			for (var i = 0; i < arr.length; i++) {
+				node = $('#noticeDepartment').combotree('tree').tree('find', arr[i]);
+				$('#noticeDepartment').combotree('tree').tree('check', node.target);
+				$('#noticeDepartment').combotree('tree').tree('expandAll', node.target);
+			}
+		}
+	});
 	});
 </script>
     
