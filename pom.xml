@@ -27,11 +27,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.puhui</groupId>
-			<artifactId>lend-app-server-api</artifactId>
-			<version>1.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.puhui</groupId>
 			<artifactId>puhui-redis</artifactId>
 			<version>1.0</version>
 		</dependency>
