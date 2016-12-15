@@ -97,9 +97,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 
 	@Override
 	public JSONArray selectUserNameMethod(Long oid) {
-		
-		
-		String shopCode = swaggerService.ucId(oid).getOrganizationVo().getParentVo().getCode();
+		String shopCode = swaggerService.ucId(oid).getOrganizationVo().getCode();
 		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
 		RemoteStaffVo remoteStaffVo = new RemoteStaffVo();
 		RemoteOrganizationVo organizationVo = new RemoteOrganizationVo();

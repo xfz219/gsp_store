@@ -160,7 +160,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 		RemoteStaffVo remoteStaffVo = new RemoteStaffVo();
 		RemoteOrganizationVo organizationVo = new RemoteOrganizationVo();
 		organizationVo.setCode(shopCode+"%");
-//		organizationVo.setName(department);
+		organizationVo.setName(department);
 		remoteStaffVo.setOrganizationVo(organizationVo);
 		remoteStaffVo.setEnabled(true);//在职
 		remoteStaffVo.setPositionType("SALES");//销售
