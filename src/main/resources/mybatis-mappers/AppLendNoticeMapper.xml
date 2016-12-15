@@ -21,6 +21,11 @@
 		VALUES (#{noticeTitle}, #{noticeStatus}, #{noticeDepartment},#{authorName}, #{createTime}, #{createUser}, #{updateUser},
 				#{noticeAbstract}, #{noticeContent}, #{updateTime});
 	</insert>
+
+	<update id="updateNotice">
+		UPDATE app_lend_notice SET notice_status = #{noticeStatus},update_time = #{updateTime},update_user=#{updateUser},notice_department=#{noticeDepartment},notice_title=#{noticeTitle},notice_abstract=#{noticeAbstract},notice_content=#{noticeContent} WHERE id = #{id}
+	</update>
+
 	<delete id="delete">
 		DELETE FROM app_lend_notice WHERE id = #{id}
 	</delete>

@@ -21,4 +21,6 @@ public interface AppLendNoticeDao {
     AppLendNotice queryById(Long id);
 
     void addLendNotice(AppLendNotice appLendNotice);
+
+    void updateNotice(AppLendNotice appLendNotice);
 }

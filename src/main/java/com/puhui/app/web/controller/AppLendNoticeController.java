@@ -111,6 +111,7 @@ public class AppLendNoticeController extends BaseController {
     	//将lendNotice中的noticeDepartment由code换成id（id所在的organization为门店时）
         String idStr = getShopIdByCodes(noticeDepartment);
     	appLendNotice.setNoticeDepartment(idStr);
+        appLendNotice.setCreateTime(null);
         map.addAttribute("appLendNotice", appLendNotice);
         return url;
     }

@@ -5,15 +5,15 @@ import com.puhui.app.dao.AppLendNoticeDao;
 import com.puhui.app.po.AppLendNotice;
 import com.puhui.app.po.AppLendNoticeVo;
 import com.puhui.app.search.AppLendNoticeSearch;
+import com.puhui.app.service.AppPushService;
 import com.puhui.app.service.LendNoticeService;
 import com.puhui.app.utils.BeanMapper;
 import com.puhui.app.utils.CommonUtils;
 import com.puhui.app.utils.LendNoticeStatus;
+import com.puhui.app.vo.AppPushMessageVo;
 import com.puhui.app.vo.AppUserNoticeVo;
 import com.puhui.app.vo.ReturnEntity;
-import com.puhui.uc.api.service.RemoteOrganizationService;
 import com.puhui.uc.api.service.RemoteStaffService;
-import com.puhui.uc.api.service.RemoteUserCentreService;
 import com.puhui.uc.vo.RemoteStaffVo;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -34,13 +34,10 @@ public class LendNoticeServiceImpl implements LendNoticeService {
     private AppLendNoticeDao appLendNoticeDao;
 
     @Autowired
-    private RemoteOrganizationService remoteOrganizationService;
-
-    @Autowired
-    private RemoteUserCentreService remoteUserCentreService;
-
-    @Autowired
     private RemoteStaffService remoteStaffService;
+
+    @Autowired
+    private AppPushService appPushService;
 
     /**
      * 获取dagraid组装数据
@@ -83,7 +80,7 @@ public class LendNoticeServiceImpl implements LendNoticeService {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, readOnly = false)
     public void updateOrSaveLendNotice(AppLendNotice appLendNotice, String flag) {
         RemoteStaffVo loginStaff = CommonUtils.getLoginStaff();
-        if (flag.equals("add")) {
+        if (Objects.equals(flag, "add")) {
             appLendNotice.setCreateTime(new Date());
             appLendNotice.setNoticeStatus(LendNoticeStatus.CAO_GAO);
             appLendNotice.setCreateUser(loginStaff.getId());
@@ -93,12 +90,9 @@ public class LendNoticeServiceImpl implements LendNoticeService {
         } else {
             appLendNotice.setUpdateUser(loginStaff.getId());
             appLendNotice.setUpdateTime(new Date());
+            appLendNoticeDao.updateNotice(appLendNotice);
+
         }
-//        try {
-//            appLendNoticeDao.saveOrUpdate(appLendNotice);
-//        } catch (Exception e) {
-//        	logger.error("add AppLendNotice error!" + e);
-//        }
     }
 
 
@@ -130,17 +124,29 @@ public class LendNoticeServiceImpl implements LendNoticeService {
 			AppLendNotice appLendNotice = appLendNoticeDao.queryById(id);
 		    appLendNotice.setNoticeStatus(LendNoticeStatus.YI_FA_BU);
 		    appLendNotice.setUpdateTime(new Date());
-		    appLendNoticeDao.saveOrUpdate(appLendNotice);
+		    appLendNoticeDao.updateNotice(appLendNotice);
 		    AppUserNoticeVo userNoticeVo = new AppUserNoticeVo();
         	logger.info("开始推送id为:{}的系统公告", id);
             PropertyUtils.copyProperties(userNoticeVo, appLendNotice);
             logger.info("id为:{}的系统公告推送成功", id);
+            AppPushMessageVo appPushMessageVo = generatePushMessageVo(appLendNotice);
+            appPushService.pushNotice(appPushMessageVo);
             returnEntity = new ReturnEntity(true, "发布系统公告成功");
         } catch (Exception e) {
         	logger.error("id为:{}的系统公告推送异常", id, e);
-        	throw new RuntimeException("系统公告推送异常");
+        	throw new IllegalStateException("系统公告推送异常");
         }
     	return returnEntity;
+    }
+
+    private AppPushMessageVo generatePushMessageVo(AppLendNotice noticeVo) {
+        AppPushMessageVo appPushMessageVoToUser = new AppPushMessageVo();// 推送给销售经理
+        appPushMessageVoToUser.setAppLendRequestId(noticeVo.getId());// 进件id
+        appPushMessageVoToUser.setPushType(1);// 推送类型
+        appPushMessageVoToUser.setType(1000);// 公告标识 1000
+        appPushMessageVoToUser.setMessage(noticeVo.getNoticeTitle());// 标题
+        appPushMessageVoToUser.setOtherMessage(noticeVo.getNoticeDepartment());//大区
+        return appPushMessageVoToUser;
     }
     
 }
