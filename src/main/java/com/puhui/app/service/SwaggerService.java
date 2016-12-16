@@ -118,7 +118,7 @@ public class SwaggerService {
 		String url = HttpUtils.PUHUI_LEND_URL_UCID;
 		ResponseVo<RemoteStaffVo> responseVo = oauthService.jsonGet(url, new ParameterizedTypeReference<ResponseVo<RemoteStaffVo>>(){}, new Object[] {id});
 		if(responseVo.getCode().equals(SUCCEED)){
-			remoteStaffVo = (RemoteStaffVo) responseVo.getResult();
+			remoteStaffVo = responseVo.getResult();
 		}
 		return remoteStaffVo;
 	}
@@ -176,15 +176,27 @@ public class SwaggerService {
 	}
 	
 	/**
+	 * 根据机构ID获取下属机构信息
+	 * @param id
+	 * @return
+	 */
+	public List<RemoteOrganizationVo> orgIdSub(Long id) {
+		String url = HttpUtils.PUHUI_LEND_URL_ORGID_SUB;
+		ResponseVo<List<RemoteOrganizationVo>> responseVo = oauthService.jsonGet(url, new ParameterizedTypeReference<ResponseVo<List<RemoteOrganizationVo>>>(){}, new Object[] {id});
+		List<RemoteOrganizationVo> list = responseVo.getResult();
+		return list;
+	}
+	
+	/**
 	 * 根据机构code模糊查询机构
 	 * @param id
 	 * @return
 	 */
-	public List<RemoteOrganizationVo> orgId(Long id) {
+	public RemoteOrganizationVo orgId(Long id) {
 		String url = HttpUtils.PUHUI_LEND_URL_ORGID;
-		ResponseVo<List<RemoteOrganizationVo>> responseVo = oauthService.jsonGet(url, new ParameterizedTypeReference<ResponseVo<List<RemoteOrganizationVo>>>(){}, new Object[] {id});
-		List<RemoteOrganizationVo> list = responseVo.getResult();
-		return list;
+		ResponseVo<RemoteOrganizationVo> responseVo = oauthService.jsonGet(url, new ParameterizedTypeReference<ResponseVo<RemoteOrganizationVo>>(){}, new Object[] {id});
+		RemoteOrganizationVo remoteOrganizationVo = responseVo.getResult();
+		return remoteOrganizationVo;
 	}
 	
 	/**

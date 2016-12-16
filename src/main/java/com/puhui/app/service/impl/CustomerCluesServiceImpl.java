@@ -160,7 +160,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 		RemoteStaffVo remoteStaffVo = new RemoteStaffVo();
 		RemoteOrganizationVo organizationVo = new RemoteOrganizationVo();
 		organizationVo.setCode(shopCode+"%");
-		organizationVo.setName(department);
+//		organizationVo.setName(department);
 		remoteStaffVo.setOrganizationVo(organizationVo);
 		remoteStaffVo.setEnabled(true);//在职
 		remoteStaffVo.setPositionType("SALES");//销售
@@ -196,7 +196,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 				List<Map<String, Object>> listMapCity = CitySet.getCityMap(list);
 				for (Map<String, Object> listMapCityMap : listMapCity) {
 					if(jSONObject.getString("city").equals(listMapCityMap.get("cityName"))){
-						List<RemoteOrganizationVo> listShop = swaggerService.orgId(Long.parseLong(String.valueOf(listMapCityMap.get("id"))));
+						List<RemoteOrganizationVo> listShop = swaggerService.orgIdSub(Long.parseLong(String.valueOf(listMapCityMap.get("id"))));
 						String idNo = jSONObject.getString("idNo");
 						String mobile = jSONObject.getString("telNumber");
 						if(this.getUserInfoMethodIdNo(idNo) >0 || this.getUserInfoMobile(mobile)>0){

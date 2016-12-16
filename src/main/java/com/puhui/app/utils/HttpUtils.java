@@ -17,7 +17,8 @@ public class HttpUtils {
     public static final String PUHUI_LEND_URL_UCID = PUHUI_LEND_DEDUCTION_URL + "/api/uc/v1/staff/{id}/id"; //根据ID获取UC中用户信息
     public static final String PUHUI_LEND_URL_CHANGEPWD = PUHUI_LEND_DEDUCTION_URL + "/api/uc/v1/staff/{staffId}/changePwd"; //根据用户ID修改用户密码
     public static final String PUHUI_LEND_URL_LIKE = PUHUI_LEND_DEDUCTION_URL + "/api/uc/v1/org/{code}/like"; //根据机构code模糊查询机构
-    public static final String PUHUI_LEND_URL_ORGID = PUHUI_LEND_DEDUCTION_URL + "/api/uc/v1/org/{id}/sub"; //根据机构ID获取下属机构信息
+    public static final String PUHUI_LEND_URL_ORGID_SUB = PUHUI_LEND_DEDUCTION_URL + "/api/uc/v1/org/{id}/sub"; //根据机构ID获取下属机构信息
+    public static final String PUHUI_LEND_URL_ORGID = PUHUI_LEND_DEDUCTION_URL + "/api/uc/v1/org/{id}"; //根据机构ID获取机构信息
     public static final String PUHUI_LEND_URL_UCPAGE = PUHUI_LEND_DEDUCTION_URL + "/api/uc/v1/staff/page"; //根据用户信息查询用户分页列表
     public static final String PUHUI_LEND_URL_PERMISSIONS = PUHUI_LEND_DEDUCTION_URL + "/api/uc/v1/staff/{staffId}/roles/permissions";
     public static final String PUHUI_LEND_URL_USERNAME = PUHUI_LEND_DEDUCTION_URL + "/api/uc/v1/staff/{username}/username";
