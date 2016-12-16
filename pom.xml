@@ -404,8 +404,8 @@
 			<properties>
 				<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 				<casServer.url>http://10.10.227.155:8092</casServer.url>
-<!--  				<casClient.url>http://10.10.242.252:8095</casClient.url>  -->
-				<casClient.url>http://localhost:8080</casClient.url>
+ 				<casClient.url>http://10.10.242.252:8095</casClient.url> 
+<!-- 				<casClient.url>http://localhost:8080</casClient.url> -->
 				<zookeeper.address>zookeeper://10.10.216.111:40000</zookeeper.address>
 				<casServerTomcat.url>http://10.10.227.155:8092</casServerTomcat.url>
 				<redis.host>10.10.229.48</redis.host>
