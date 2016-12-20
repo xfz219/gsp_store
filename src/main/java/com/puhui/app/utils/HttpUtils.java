@@ -5,7 +5,8 @@ package com.puhui.app.utils;
  */
 public class HttpUtils {
 
-    private static final String PUHUI_LEND_DEDUCTION_URL = "http://ut1.zuul.pub.puhuifinance.com:8765/puhui-lend-server";
+    private static final String PUHUI_LEND_DEDUCTION_URL = "https://api.puhuifinance.com/puhui-lend-server";
+//    private static final String PUHUI_LEND_DEDUCTION_URL = "http://ut1.zuul.pub.puhuifinance.com:8765/puhui-lend-server";
     
     public static final String PUHUI_LEND_URL_ID = PUHUI_LEND_DEDUCTION_URL + "/api/v1/{appLendRequestId}/appLendRequest"; //通过app进件号获取进件信息
     public static final String PUHUI_LEND_URL_IDNO = PUHUI_LEND_DEDUCTION_URL + "/api/v1/lendRequestVos/{idNo}/idNo"; //通过身份证获取进件信息 
