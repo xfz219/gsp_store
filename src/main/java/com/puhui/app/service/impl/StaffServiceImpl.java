@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.puhui.app.service.StaffService;
+import com.puhui.app.service.SwaggerService;
 import com.puhui.app.utils.CommonUtils;
 import com.puhui.app.vo.ReturnEntity;
-import com.puhui.uc.api.service.RemoteLoginService;
 import com.puhui.uc.vo.RemoteStaffVo;
 
 @Service
@@ -16,7 +16,7 @@ public class StaffServiceImpl implements StaffService{
     private static final Logger logger = LoggerFactory.getLogger(StaffServiceImpl.class);
 
     @Autowired
-    private RemoteLoginService remoteLoginService;
+    private SwaggerService swaggerService;
     
     @Override
     public ReturnEntity<Object> changePwd(String pwd, String oldPwd) {
@@ -28,7 +28,7 @@ public class StaffServiceImpl implements StaffService{
         }else{
             try {
                 logger.info("-----------修改用户密码开始。登录用户：{}---------------",currStaff.getUsername());
-                this.remoteLoginService.changePassword(currStaff.getId(), oldPwd, pwd);
+                this.swaggerService.changePwd(currStaff.getId(), oldPwd, pwd);
                 returnEntity = new ReturnEntity<Object>(true,"修改密码成功！");
             } catch (Exception e) {
                 logger.error(e.toString(),e);

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.puhui.app.service.LendUcService;
+import com.puhui.app.service.SwaggerService;
 import com.puhui.app.vo.OrganizationVo;
-import com.puhui.uc.api.service.RemoteOrganizationService;
 import com.puhui.uc.vo.RemoteOrganizationVo;
 
 
@@ -18,12 +18,12 @@ import com.puhui.uc.vo.RemoteOrganizationVo;
 public class LendUcServiceImpl implements LendUcService{
 
 	@Autowired
-	private RemoteOrganizationService remoteOrganizationService;
+	private SwaggerService swaggerService;
 	
 	@Override
 	public Object getOrgTree(String organizationCode) {
 		  List<OrganizationVo> or=new ArrayList<OrganizationVo>();
-	        List<RemoteOrganizationVo> organizationList = remoteOrganizationService.queryByCodeLike(organizationCode);
+	        List<RemoteOrganizationVo> organizationList = swaggerService.like(organizationCode);
 	        if (!CollectionUtils.isEmpty(organizationList)) {
 	            for (RemoteOrganizationVo remoteOrganizationVo : organizationList) {
 	            	OrganizationVo oe = new OrganizationVo();
@@ -40,8 +40,8 @@ public class LendUcServiceImpl implements LendUcService{
 	
 	@Override
 	public Object getOrgTreeShop(String organizationCode) {
-		  List<OrganizationVo> or=new ArrayList<OrganizationVo>();
-	        List<RemoteOrganizationVo> organizationList = remoteOrganizationService.queryByCodeLike(organizationCode);
+		  List<OrganizationVo> or=new ArrayList<>();
+		  List<RemoteOrganizationVo> organizationList = swaggerService.like(organizationCode);
 	        if (!CollectionUtils.isEmpty(organizationList)) {
 	            for (RemoteOrganizationVo remoteOrganizationVo : organizationList) {
 	            	OrganizationVo oe = new OrganizationVo();

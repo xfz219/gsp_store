@@ -6,7 +6,6 @@
  
 	<dubbo:application name="puhui-lend-app-report" />
 	<dubbo:registry protocol="zookeeper" address="${zookeeper.address}" client="zkclient" timeout="5000" />
-	<!-- <dubbo:protocol name="dubbo" port="20830" threads="200" threadpool="fixed" accepts="100" /> -->
 	
 	<!-- UC start -->
 	<dubbo:reference id="remoteOrganizationService" interface="com.puhui.uc.api.service.RemoteOrganizationService" check="false" />
