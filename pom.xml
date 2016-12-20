@@ -18,17 +18,12 @@
 		<dependency>
 			<groupId>com.puhui</groupId>
 			<artifactId>puhui-uc-api</artifactId>
-			<version>1.0</version>
+			<version>2.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.puhui</groupId>
 			<artifactId>puhui-lend-api</artifactId>
-			<version>1.4.4</version>
-		</dependency>
-		<dependency>
-			<groupId>com.puhui</groupId>
-			<artifactId>lend-app-server-api</artifactId>
-			<version>1.2</version>
+			<version>2.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.puhui</groupId>
@@ -230,6 +225,18 @@
 			<artifactId>fluent-hc</artifactId>
 			<version>4.3.6</version>
 		</dependency>
+		<dependency>
+			<groupId>com.puhui.cloud</groupId>
+			<artifactId>puhui-oauth-template</artifactId>
+			<version>1.0.0</version>
+			<exclusions>
+				<!--忽略Spring框架依赖 -->
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
 		<!-- shiro-start -->
 		<dependency>
@@ -397,8 +404,8 @@
 			<properties>
 				<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 				<casServer.url>http://10.10.227.155:8092</casServer.url>
-<!--  				<casClient.url>http://10.10.242.252:8095</casClient.url>  -->
-				<casClient.url>http://localhost:8080</casClient.url>
+ 				<casClient.url>http://10.10.242.252:8095</casClient.url> 
+<!-- 				<casClient.url>http://localhost:8080</casClient.url> -->
 				<zookeeper.address>zookeeper://10.10.216.111:40000</zookeeper.address>
 				<casServerTomcat.url>http://10.10.227.155:8092</casServerTomcat.url>
 				<redis.host>10.10.229.48</redis.host>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.puhui.app.dao.AppLendAdvertisementDao">
+
+	<resultMap id="appLendAdvertisementVoObj" type="appLendAdvertisementVo">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="customerIdentity" column="customer_identity" />
+		<result property="url" column="url" />
+		<result property="picSize" column="pic_size" />
+		<result property="originalPicName" column="original_pic_name" />
+		<result property="picAccessUrl" column="pic_access_url" />
+		<result property="picAddressUrl" column="pic_address_url" />
+		<result property="sort" column="sort" />
+		<result property="enabled" column="enabled" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<select id="queryLendAdvertisementList" parameterType="appLendAdvertisementVo" resultType="java.util.HashMap">
+		SELECT
+		id,
+		name,
+		original_pic_name as pictureName,
+		pic_access_url as
+		advertisementUrl,
+		url,
+		sort,
+		original_pic_name as originalPicName,
+		enabled,
+		customer_identity as customerIdentity
+		FROM
+		app_lend_advertisement
+		WHERE 1 = 1
+		<if test="customerIdentity != null and customerIdentity != ''">
+			AND customer_identity = #{customerIdentity}
+		</if>
+		<if test="enabled != null">
+			AND enabled = #{enabled}
+		</if>
+		ORDER BY
+		sort
+		LIMIT 5
+	</select>
+
+	<select id="selectLendAdvertisementById" resultMap="appLendAdvertisementVoObj">
+		SELECT
+		*
+		FROM
+		app_lend_advertisement
+		WHERE id = #{id}
+	</select>
+	
+	<update id="updateLendAdvertisementFALSE">
+		update app_lend_advertisement set enabled = 0
+		where id = #{id}
+	</update>
+	
+	<update id="updateLendAdvertisementTRUE">
+		update app_lend_advertisement set enabled = 1
+		where id = #{id}
+	</update>
+	
+	<update id="updateLendAdvertisementFront">
+		update app_lend_advertisement set sort = sort-1
+		where id = #{id}
+	</update>
+	
+	<update id="updateLendAdvertisementBehind">
+		update app_lend_advertisement set sort = sort+1
+		where id = #{id}
+	</update>
+	
+	<insert id="addLendAdvertisement" parameterType="appLendAdvertisementVo" useGeneratedKeys="true" keyProperty="id">
+		insert into app_lend_advertisement(
+			name,
+			customer_identity,
+			url,
+			pic_size,
+			original_pic_name,
+			pic_access_url,
+			pic_address_url,
+			sort,
+			enabled,
+			create_time
+		)values(
+			#{name},
+			#{customerIdentity},
+			#{url},
+			#{picSize},
+			#{originalPicName},
+			#{picAccessUrl},
+			#{picAddressUrl},
+			#{sort},
+			#{enabled}
+			,now())
+	</insert>
+	
+	<update id="updateLendAdvertisement" parameterType="appLendAdvertisementVo">
+		update app_lend_advertisement set 
+			name = #{name},
+			customer_identity = #{customerIdentity},
+			url = #{url},
+			pic_size = #{picSize},
+			original_pic_name = #{originalPicName},
+			pic_access_url = #{picAccessUrl},
+			pic_address_url = #{picAddressUrl},
+			sort = #{sort},
+			enabled = #{enabled}
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteLendAdvertisementById">
+		DELETE FROM app_lend_advertisement WHERE id = #{id}
+	</delete>
+</mapper> 

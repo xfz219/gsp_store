@@ -17,8 +17,8 @@
 	
 	<insert id="insertUserMessage" parameterType="appUserMessage" useGeneratedKeys="true" keyProperty="id">
 		insert into app_user_message 
-		(seller_number,context,is_read,message_type,create_time,update_time) 
+		(seller_number,context,is_read,message_type,create_time) 
 		values 
-		(#{sellerNumber},#{context},#{isRead},#{messageType},#{createTime},#{updateTime})
+		(#{sellerNumber},#{context},#{isRead},#{messageType},now())
 	</insert>
 </mapper> 

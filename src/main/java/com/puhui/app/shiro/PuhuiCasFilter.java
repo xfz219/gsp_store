@@ -28,16 +28,6 @@ public class PuhuiCasFilter extends CasFilter {
         RemoteStaffVo staff = (RemoteStaffVo) subject.getPrincipal();
         // 添加登入成功的系统日志
         Date now = new Date();
-        // SystemLog log = new SystemLog();
-        // log.setProject(request.getServletContext().getContextPath().replaceAll("/",
-        // ""));
-        // log.setCreateTime(now);
-        // log.setType(SystemLogType.LOGIN);
-        // log.setNotes("登入");
-        // log.setStaffId(staff.getId());
-        // log.setIp(UtilTools.getIpAddr((HttpServletRequest) request));
-        // log.setStaffName(staff.getUsername());
-        // systemLogService.addUcSystemLog(log);
         // 输出日志
         logger.info("{} - 登入 - {}", staff.getUsername(), now);
         return super.onLoginSuccess(token, subject, request, response);
@@ -46,17 +36,9 @@ public class PuhuiCasFilter extends CasFilter {
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException ae, ServletRequest request,
             ServletResponse response) {
-
         CasToken casToken = (CasToken) token;
         // 添加尝试登入的系统日志
         Date now = new Date();
-        // SystemLog log = new SystemLog();
-        // log.setCreateTime(now);
-        // log.setNotes("尝试登入");
-        // log.setStaffId(-1l);
-        // log.setIp(UtilTools.getIpAddr((HttpServletRequest) request));
-        // log.setStaffName((String) token.getPrincipal());
-
         // 输出日志
         logger.info("{} - 尝试登入 - {}", (String) casToken.getPrincipal(), now);
         return super.onLoginFailure(token, ae, request, response);

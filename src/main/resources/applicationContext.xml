@@ -16,7 +16,7 @@
     default-autowire="byName">
 
 	<!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
-	<context:component-scan base-package="com.puhui.app">
+	<context:component-scan base-package="com.puhui">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 		<context:exclude-filter type="annotation"
@@ -28,7 +28,7 @@
 	<!-- DB 配置管理 -->
 	<import resource="classpath:applicationContext-mybatis.xml" />
 	<!-- dubbo配置 -->
-	<import resource="classpath:applicationContext-dubbo.xml" />
+<!-- 	<import resource="classpath:applicationContext-dubbo.xml" /> -->
 	<!-- shiro配置 -->
 	<import resource="classpath:applicationContext-shiro.xml" />
 	<!-- redis 配置 -->
