@@ -69,7 +69,7 @@ public class CustomerCluesController {
     		@RequestParam(value = "salesNo", required = false) String salesNo,
     		@RequestParam(value = "channel", required = false) String channel){
 		
-    	Map<String, Object> objMap = new HashMap<String, Object>();
+    	Map<String, Object> objMap = new HashMap<>();
     	try{
     		Subject currStaff = SecurityUtils.getSubject();
     		RemoteStaffVo staff = (RemoteStaffVo) currStaff.getPrincipal();
@@ -80,7 +80,7 @@ public class CustomerCluesController {
     			page = Page.getPage(pageNo,pageSize);
     		}
             //查询条件参数
-            Map<String, Object> paramMap = new HashMap<String, Object>(); 
+            Map<String, Object> paramMap = new HashMap<>(); 
         	paramMap.put("page", page);
         	paramMap.put("radio", radio);
         	paramMap.put("name", name != null?name+"%": "");
@@ -91,7 +91,7 @@ public class CustomerCluesController {
         	if(StringUtils.isBlank(shopCode)){
         		paramMap.put("branchCode", staff.getOrganizationVo().getCode()+"%");
         	}else{
-        		String branchCode = swaggerService.ucId(Long.parseLong(shopCode)).getOrganizationVo().getCode();
+        		String branchCode = swaggerService.orgId(Long.parseLong(shopCode)).getCode();
         		paramMap.put("branchCode", branchCode+"%");
         	}
         	List<Map<String, Object>> autpList = customerCluesService.selectCustomerCluesMethod(paramMap);

@@ -29,6 +29,9 @@
 			<if test="salesName != null and salesName != ''">
 				<![CDATA[AND ac.sales_name LIKE #{salesName} ]]>
 			</if>
+			<if test="salesmobile != null and salesmobile != ''">
+				<![CDATA[AND ac.sales_mobile LIKE #{salesmobile} ]]>
+			</if>
 			<if test="salesNo != null and salesNo != ''">
 				<![CDATA[AND ac.sales_no LIKE #{salesNo} ]]>
 			</if>		
