@@ -21,6 +21,7 @@ import com.puhui.app.service.CustomerCluesService;
 import com.puhui.app.service.SwaggerService;
 import com.puhui.app.utils.CitySet;
 import com.puhui.app.utils.DateUtil;
+import com.puhui.app.utils.LendAesUtil;
 import com.puhui.uc.vo.RemoteOrganizationVo;
 import com.puhui.uc.vo.RemoteStaffVo;
 
@@ -56,7 +57,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
     		autpMap.put("channel", autp.getChannel());
     		autpMap.put("channelTwo", autp.getChannelTwo());
     		autpMap.put("name", autp.getName());
-    		autpMap.put("mobile", autp.getMobile());
+    		autpMap.put("mobile", LendAesUtil.decrypt(autp.getMobile()));
     		autpMap.put("city", autp.getCity());
     		autpMap.put("branch", autp.getBranch());
     		autpMap.put("branchCode", autp.getBranchCode());

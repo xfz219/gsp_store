@@ -19,6 +19,7 @@ import com.puhui.app.service.AppPushService;
 import com.puhui.app.service.ChangeCustomerService;
 import com.puhui.app.service.CustomerCluesService;
 import com.puhui.app.service.SwaggerService;
+import com.puhui.app.utils.LendAesUtil;
 import com.puhui.app.vo.QueryChangeCustomerVo;
 import com.puhui.uc.vo.RemoteOrganizationVo;
 import com.puhui.uc.vo.RemoteStaffVo;
@@ -68,7 +69,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
             Page page = Page.getPage(queryChangeCustomerVo.getPage(),queryChangeCustomerVo.getRows());
             paramMap.put("page", page);
 	        paramMap.put("name", queryChangeCustomerVo.getName() != null? queryChangeCustomerVo.getName()+"%": "");
-        	paramMap.put("mobile", queryChangeCustomerVo.getMobile() != null? queryChangeCustomerVo.getMobile()+"%": "");
+        	paramMap.put("mobile", queryChangeCustomerVo.getMobile() != null? LendAesUtil.encrypt(queryChangeCustomerVo.getMobile())+"%": "");
         	paramMap.put("salesmobile", queryChangeCustomerVo.getSalesMobile() != null? queryChangeCustomerVo.getSalesMobile()+"%": "");
         	paramMap.put("salesName", queryChangeCustomerVo.getSalesName() != null? queryChangeCustomerVo.getSalesName()+"%": "");
         	paramMap.put("salesNo", queryChangeCustomerVo.getSalesNo() != null? queryChangeCustomerVo.getSalesNo()+"%": "");
@@ -82,6 +83,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	        		 
 	        		String salesStatus = this.getUserInfoMethod(ml.get("salesNo") == null ? "":ml.get("salesNo").toString(), ml.get("shopName") == null ?"": ml.get("shopName").toString());
 	        		ml.put("salesStatus", salesStatus);
+	        		ml.put("mobile", LendAesUtil.decrypt(String.valueOf(ml.get("mobile"))));
 	        		objList.add(ml);
 	        		
 	        	 }

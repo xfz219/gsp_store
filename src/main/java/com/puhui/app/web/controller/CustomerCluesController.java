@@ -23,6 +23,7 @@ import com.puhui.app.po.AppUserToPromote;
 import com.puhui.app.service.CustomerCluesService;
 import com.puhui.app.service.SwaggerService;
 import com.puhui.app.utils.JsonTools;
+import com.puhui.app.utils.LendAesUtil;
 import com.puhui.uc.vo.RemoteStaffVo;
 
 import net.sf.json.JSONArray;
@@ -84,7 +85,7 @@ public class CustomerCluesController {
         	paramMap.put("page", page);
         	paramMap.put("radio", radio);
         	paramMap.put("name", name != null?name+"%": "");
-        	paramMap.put("mobile", mobile != null?mobile+"%": "");
+        	paramMap.put("mobile", mobile != null?LendAesUtil.encrypt(mobile)+"%": "");
         	paramMap.put("salesName", salesName != null?salesName+"%": "");
         	paramMap.put("salesNo", salesNo != null?salesNo+"%": "");
         	paramMap.put("channel", channel != null? channel :"");

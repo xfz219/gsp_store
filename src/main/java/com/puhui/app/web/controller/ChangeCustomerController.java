@@ -45,6 +45,7 @@ public class ChangeCustomerController extends BaseController{
 	}
 	
 	/**
+	 * 解绑管理
 	 * @comment 
 	 * @author yangzq
 	 * @return
