@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.puhui.app.service.UpdateCustomerEntryStateService;
+import com.puhui.app.utils.LendAesUtil;
 
 /**
  * @comment 修改客户录件状态
@@ -83,7 +84,7 @@ public class UpdateCustomerEntryStateController {
 	@RequestMapping("/showChangeMobileDelDialog")
 	public boolean showChangeMobileDelDialog(@RequestParam(value = "id" , required = false) long id,
 			HttpServletResponse response,HttpServletRequest request){
-		String mobile = String.valueOf(id);
+		String mobile = LendAesUtil.encrypt(String.valueOf(id));
 		try{
 			updateCustomerEntryStateService.showChangeMobileDelDialog(mobile);
 		}catch(Exception e){
