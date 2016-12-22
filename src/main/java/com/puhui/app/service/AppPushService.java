@@ -1,9 +1,9 @@
 package com.puhui.app.service;
 
 
-import java.util.Map;
-
 import com.puhui.app.vo.AppPushMessageVo;
+
+import java.util.Map;
 
 public interface AppPushService {
 
@@ -40,5 +40,12 @@ public interface AppPushService {
 	 * @date 2016年5月9日
 	 */
 	public void pushUnwrapMessageMethod(Map<String,Object> map);
+
+	/**
+	 * 推送公告
+	 * @param appPushMessageVo 推送实体
+	 * @return 是否推送成功
+	 */
+	boolean pushNotice(final AppPushMessageVo appPushMessageVo);
 
 }

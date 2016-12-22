@@ -188,6 +188,25 @@ public class AppPushServiceImpl implements AppPushService {
 			}
 		}
 
+	@Override
+	public boolean pushNotice(final AppPushMessageVo appPushMessageVo) {
+		new Thread(() -> {
+			// 查询设备
+			List<AppUserToken> list = new ArrayList<>();
+			String noticeDepartment = appPushMessageVo.getOtherMessage();// 大区
+			String[] noticeDepartments = noticeDepartment.split(",");
+			for (String noticeDepartment1 : noticeDepartments) {
+				List<AppUserToken> appUserToken = appUserTokenDao
+						.getAppUserTokenDistrictCodeList(noticeDepartment1);
+				if (!appUserToken.isEmpty()) {
+					list.addAll(appUserToken);
+				}
+			}
+			push(appPushMessageVo, appPushMessageVo.getMessage(), null, null,
+					appPushMessageVo.getAppLendRequestId(), list, null, "toUser");
+		}).start();
+		return true;
+	}
 
 
 	private void push(AppPushMessageVo appPushMessageVo, String pushModel, String name, String mobile, Long mid,

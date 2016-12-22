@@ -24,4 +24,10 @@
 			AND aut.seller_number = #{sellerNumber}
 		</if>
 	</select>
+
+	<select id="getAppUserTokenDistrictCodeList" parameterType="String" resultMap="appUserTokenObj">
+		select distinct aut.* from app_user_token as aut
+		left JOIN app_customer ac on ac.customer_service_manager_number = aut.seller_number
+		where aut.login_status = 1 and ac.shop_code = #{districtCode} and aut.sales_no != ''
+	</select>
 </mapper> 
