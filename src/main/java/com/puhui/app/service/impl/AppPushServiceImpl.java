@@ -196,8 +196,7 @@ public class AppPushServiceImpl implements AppPushService {
 			String noticeDepartment = appPushMessageVo.getOtherMessage();// 大区
 			String[] noticeDepartments = noticeDepartment.split(",");
 			for (String noticeDepartment1 : noticeDepartments) {
-				List<AppUserToken> appUserToken = appUserTokenDao
-						.getAppUserTokenDistrictCodeList(noticeDepartment1);
+				List<AppUserToken> appUserToken = appUserTokenDao.getAppUserTokenDistrictCodeList(noticeDepartment1);
 				if (!appUserToken.isEmpty()) {
 					list.addAll(appUserToken);
 				}

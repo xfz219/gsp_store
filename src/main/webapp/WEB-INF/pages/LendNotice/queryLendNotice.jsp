@@ -45,12 +45,6 @@
 								<option value="1">已发布</option>
 						</select>
 					</td>
-					<td class="label">更新时间：</td>
-					<td>
-						<input  id="lendNoticeStartTime" name="startDate" class="easyui-datebox" data-options="width:200,required:false,editable:false"/>
-						<label >——</label>
-						<input  id="lendNoticeEndTime" name="endDate" class="easyui-datebox" data-options="width:200,required:false,editable:false"/>
-					</td>
 					
 				</tr>
 				

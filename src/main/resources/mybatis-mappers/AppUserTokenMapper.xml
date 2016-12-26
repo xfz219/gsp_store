@@ -26,8 +26,8 @@
 	</select>
 
 	<select id="getAppUserTokenDistrictCodeList" parameterType="String" resultMap="appUserTokenObj">
-		select distinct aut.* from app_user_token as aut
-		left JOIN app_customer ac on ac.customer_service_manager_number = aut.seller_number
-		where aut.login_status = 1 and ac.shop_code = #{districtCode} and aut.sales_no != ''
+		SELECT aut.alias FROM app_user_token aut WHERE aut.seller_number in
+		(SELECT DISTINCT(ac.customer_service_manager_number) FROM app_customer
+		ac WHERE ac.shop_code = #{districtCode}) AND aut.alias IS NOT NULL;
 	</select>
 </mapper> 
