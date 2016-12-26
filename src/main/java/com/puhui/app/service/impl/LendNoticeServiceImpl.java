@@ -1,20 +1,13 @@
 package com.puhui.app.service.impl;
 
-import com.puhui.app.common.page.mybatis.Page;
-import com.puhui.app.dao.AppLendNoticeDao;
-import com.puhui.app.po.AppLendNotice;
-import com.puhui.app.po.AppLendNoticeVo;
-import com.puhui.app.search.AppLendNoticeSearch;
-import com.puhui.app.service.AppPushService;
-import com.puhui.app.service.LendNoticeService;
-import com.puhui.app.utils.BeanMapper;
-import com.puhui.app.utils.CommonUtils;
-import com.puhui.app.utils.LendNoticeStatus;
-import com.puhui.app.vo.AppPushMessageVo;
-import com.puhui.app.vo.AppUserNoticeVo;
-import com.puhui.app.vo.ReturnEntity;
-import com.puhui.uc.api.service.RemoteStaffService;
-import com.puhui.uc.vo.RemoteStaffVo;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -24,7 +17,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import com.puhui.app.common.page.mybatis.Page;
+import com.puhui.app.dao.AppLendNoticeDao;
+import com.puhui.app.po.AppLendNotice;
+import com.puhui.app.po.AppLendNoticeVo;
+import com.puhui.app.search.AppLendNoticeSearch;
+import com.puhui.app.service.AppPushService;
+import com.puhui.app.service.LendNoticeService;
+import com.puhui.app.service.SwaggerService;
+import com.puhui.app.utils.BeanMapper;
+import com.puhui.app.utils.CommonUtils;
+import com.puhui.app.utils.LendNoticeStatus;
+import com.puhui.app.vo.AppPushMessageVo;
+import com.puhui.app.vo.AppUserNoticeVo;
+import com.puhui.app.vo.ReturnEntity;
+import com.puhui.uc.vo.RemoteStaffVo;
 
 @Service
 public class LendNoticeServiceImpl implements LendNoticeService {
@@ -34,7 +41,7 @@ public class LendNoticeServiceImpl implements LendNoticeService {
     private AppLendNoticeDao appLendNoticeDao;
 
     @Autowired
-    private RemoteStaffService remoteStaffService;
+    private SwaggerService swaggerService;
 
     @Autowired
     private AppPushService appPushService;
@@ -58,10 +65,10 @@ public class LendNoticeServiceImpl implements LendNoticeService {
             list.forEach(appLendNotice -> {
                 AppLendNoticeVo map1 = BeanMapper.map(appLendNotice, AppLendNoticeVo.class);
                 Long createUserId = appLendNotice.getCreateUser();
-                RemoteStaffVo createUser = remoteStaffService.queryByStaffId(createUserId);
+                RemoteStaffVo createUser = swaggerService.ucId(createUserId);
                 Long updateUserId = appLendNotice.getUpdateUser();
                 if (updateUserId != null) {
-                    RemoteStaffVo updateUser = remoteStaffService.queryByStaffId(updateUserId);
+                    RemoteStaffVo updateUser = swaggerService.ucId(updateUserId);
                     map1.setUpdateUserVo(updateUser);
                 }
                 map1.setCreateUserVo(createUser);

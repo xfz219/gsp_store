@@ -1,13 +1,11 @@
 package com.puhui.app.web.controller;
 
-import com.puhui.app.po.AppLendNotice;
-import com.puhui.app.search.AppLendNoticeSearch;
-import com.puhui.app.service.LendNoticeService;
-import com.puhui.app.service.LendUcService;
-import com.puhui.app.vo.ReturnEntity;
-import com.puhui.uc.api.service.RemoteOrganizationService;
-import com.puhui.uc.api.service.RemoteUserCentreService;
-import com.puhui.uc.vo.RemoteOrganizationVo;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -20,7 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.*;
+import com.puhui.app.po.AppLendNotice;
+import com.puhui.app.search.AppLendNoticeSearch;
+import com.puhui.app.service.LendNoticeService;
+import com.puhui.app.service.SwaggerService;
+import com.puhui.app.vo.ReturnEntity;
+import com.puhui.uc.vo.RemoteOrganizationVo;
 
 @Controller
 @RequestMapping("/AppLendNotice")
@@ -30,11 +33,7 @@ public class AppLendNoticeController extends BaseController {
     private LendNoticeService lendNoticeService;
 
     @Autowired
-    private LendUcService lendUcService;
-    @Autowired
-    private RemoteUserCentreService remoteUserCentreService;
-    @Autowired
-    private RemoteOrganizationService remoteOrganizationService;
+    private SwaggerService swaggerService;
 
     /**
      * 查询公告列表
@@ -168,7 +167,7 @@ public class AppLendNoticeController extends BaseController {
             list = Arrays.asList(arr);
             StringBuilder stringBuilder = new StringBuilder();
             list.forEach(id -> {
-                RemoteOrganizationVo remoteOrganizationVo = remoteOrganizationService.queryById(id);
+                RemoteOrganizationVo remoteOrganizationVo = swaggerService.orgId(id);
                 if (remoteOrganizationVo.getOrganizationType().equals("SHOP")) {
                     stringBuilder.append(remoteOrganizationVo.getCode()).append(",");
                 }
@@ -187,7 +186,7 @@ public class AppLendNoticeController extends BaseController {
             String[] strArr = StringUtils.split(codes,",");
             list = Arrays.asList(strArr);
             list.forEach(code -> {
-                RemoteOrganizationVo remoteOrganizationVo = remoteOrganizationService.queryByCode(code);
+                RemoteOrganizationVo remoteOrganizationVo = swaggerService.orgCode(code);
                 stringBuilder.append(remoteOrganizationVo.getId()).append(",");
             });
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
