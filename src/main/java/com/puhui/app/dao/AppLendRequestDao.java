@@ -33,4 +33,9 @@ public interface AppLendRequestDao extends BaseDao{
 	 * @param mobile
 	 */
 	public void showChangeMobileDelLoginDialog(String mobile);
+
+	/**
+	 * @param id
+	 */
+	public void showChangeIdDelDialog(long id);
 }

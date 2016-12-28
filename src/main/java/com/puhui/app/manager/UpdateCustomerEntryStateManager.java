@@ -30,6 +30,14 @@ public class UpdateCustomerEntryStateManager {
 		appLendRequestDao.showChangeMobileDelDialog(mobile);
 		appLendRequestDao.showChangeMobileDelLoginDialog(mobile);
 	}
+
+
+	/**
+	 * @param id
+	 */
+	public void showChangeIdDelDialog(long id) {
+		appLendRequestDao.showChangeIdDelDialog(id);
+	}
 	
 	
 

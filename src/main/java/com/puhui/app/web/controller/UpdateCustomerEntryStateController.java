@@ -92,4 +92,23 @@ public class UpdateCustomerEntryStateController {
 		}
 		return true;
 		}
+	
+	/**
+	 * 删除获客信息
+	 * @author lichunyue
+	 * @return 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/showChangeIdDelDialog")
+	public boolean showChangeIdDelDialog(@RequestParam(value = "id" , required = false) long id,
+			HttpServletResponse response,HttpServletRequest request){
+		try{
+			updateCustomerEntryStateService.showChangeIdDelDialog(id);
+		}catch(Exception e){
+			logger.error("系统异常：",e);
+    		throw new IllegalArgumentException(e);
+		}
+		return true;
+		}
 	}
