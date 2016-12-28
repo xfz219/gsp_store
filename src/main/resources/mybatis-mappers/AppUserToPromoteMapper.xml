@@ -44,7 +44,7 @@
 		autp.create_time
 		from app_user_to_promote autp   
 		LEFT JOIN app_channel ac ON autp.channel = ac.channel
-		where 1=1
+		where autp.channel_type != 'PROMOTE'
 			<if test="radio == 1">
 				<![CDATA[AND autp.sales_no is null]]>
 			</if>

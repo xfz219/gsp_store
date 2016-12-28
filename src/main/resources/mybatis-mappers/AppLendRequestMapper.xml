@@ -37,6 +37,9 @@
 	<delete id="showChangeMobileDelLoginDialog" parameterType="long">
 		DELETE FROM app_customer_log_in WHERE mobile = #{mobile}
 	</delete>
+	<delete id="showChangeIdDelDialog" parameterType="long">
+		DELETE FROM app_user_to_promote WHERE id = #{id}
+	</delete>
 	<select id="selectAppLendRequestMethod" parameterType="map"
 		resultType="String">
 		SELECT id FROM app_lend_request
