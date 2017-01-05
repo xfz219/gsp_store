@@ -94,7 +94,7 @@
 	</select>
 	
 	<select id="findCustomerCluesMethodMobile" parameterType="String" resultType="java.lang.Integer">
-		select count(*) from app_user_to_promote autp where autp.mobile =#{mobile,jdbcType=VARCHAR}
+		select count(*) from app_user_to_promote autp where autp.mobile =#{mobile,jdbcType=VARCHAR} AND autp.channel_type = 'PROMOTE'
 	</select>
 	<insert id="insertAppUserToPromote" parameterType="com.puhui.app.po.AppUserToPromote" useGeneratedKeys="true" keyProperty="id">
 		insert into app_user_to_promote 
