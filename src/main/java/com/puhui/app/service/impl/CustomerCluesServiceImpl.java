@@ -214,7 +214,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 						appUserToPromote.setName(jSONObject.getString("customerName"));
 						appUserToPromote.setProvince(jSONObject.getString("province"));
 						appUserToPromote.setProductName(jSONObject.getString("productName"));
-						appUserToPromote.setIdNo(jSONObject.getString("idNo"));
+						appUserToPromote.setIdNo(LendAesUtil.encrypt(jSONObject.getString("idNo")));
 						appUserToPromote.setChannel(jSONObject.getString("chanceType"));
 						Map<String,Object> map = this.findChannl(jSONObject.getString("chanceType"));
 						appUserToPromote.setChannelType(String.valueOf(map.get("codeValue")));
