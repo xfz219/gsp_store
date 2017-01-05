@@ -21,6 +21,7 @@ import com.puhui.app.service.CustomerCluesService;
 import com.puhui.app.service.SwaggerService;
 import com.puhui.app.utils.CitySet;
 import com.puhui.app.utils.DateUtil;
+import com.puhui.app.utils.LendAesUtil;
 import com.puhui.uc.vo.RemoteOrganizationVo;
 import com.puhui.uc.vo.RemoteStaffVo;
 
@@ -197,8 +198,8 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 				for (Map<String, Object> listMapCityMap : listMapCity) {
 					if(jSONObject.getString("city").equals(listMapCityMap.get("cityName"))){
 						List<RemoteOrganizationVo> listShop = swaggerService.orgIdSub(Long.parseLong(String.valueOf(listMapCityMap.get("id"))));
-						String idNo = jSONObject.getString("idNo");
-						String mobile = jSONObject.getString("telNumber");
+						String idNo = LendAesUtil.decrypt(jSONObject.getString("idNo"));
+						String mobile = LendAesUtil.decrypt(jSONObject.getString("telNumber"));
 						if(this.getUserInfoMethodIdNo(idNo) >0 || this.getUserInfoMobile(mobile)>0){
 							logger.info("推送数据身份证号手机号重复,重复数据为{}",jSONObject.toJSONString());
 							return;
@@ -213,12 +214,12 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 						appUserToPromote.setName(jSONObject.getString("customerName"));
 						appUserToPromote.setProvince(jSONObject.getString("province"));
 						appUserToPromote.setProductName(jSONObject.getString("productName"));
-						appUserToPromote.setIdNo(jSONObject.getString("idNo"));
+						appUserToPromote.setIdNo(idNo);
 						appUserToPromote.setChannel(jSONObject.getString("chanceType"));
 						Map<String,Object> map = this.findChannl(jSONObject.getString("chanceType"));
 						appUserToPromote.setChannelType(String.valueOf(map.get("codeValue")));
 						appUserToPromote.setChannelTwoType(String.valueOf(map.get("channelTwoCode")));
-						appUserToPromote.setMobile(jSONObject.getString("telNumber"));
+						appUserToPromote.setMobile(mobile);
 						appUserToPromote.setIsSettle(jSONObject.getBoolean("settle"));
 						appUserToPromote.setSettleTime(jSONObject.getDate("settleTime"));
 						appUserToPromoteDao.insertAppUserToPromote(appUserToPromote);
