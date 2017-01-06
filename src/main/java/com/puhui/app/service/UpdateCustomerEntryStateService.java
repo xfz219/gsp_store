@@ -22,6 +22,11 @@ public interface UpdateCustomerEntryStateService {
 	 * @param id
 	 */
 	public void showChangeIdDelDialog(long id);
+
+	/**
+	 * 洗数据
+	 */
+	public void updateAppUserToPromote();
 	
 
 }

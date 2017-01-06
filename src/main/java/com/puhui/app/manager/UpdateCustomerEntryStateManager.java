@@ -38,7 +38,6 @@ public class UpdateCustomerEntryStateManager {
 	public void showChangeIdDelDialog(long id) {
 		appLendRequestDao.showChangeIdDelDialog(id);
 	}
-	
-	
+
 
 }
