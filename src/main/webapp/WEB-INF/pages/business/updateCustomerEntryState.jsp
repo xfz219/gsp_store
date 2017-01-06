@@ -28,6 +28,8 @@
 		<span class="datagrid-btn-separator" style="float:none;"></span>
 		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add' onclick="showChangeIdDelDialog();" >删除获客信息</a>
 		<span class="datagrid-btn-separator" style="float:none;"></span>
+				<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add' onclick="updateAppUserToPromote();" >洗漱</a>
+		<span class="datagrid-btn-separator" style="float:none;"></span>
 	</span>
 	<div style="clear:both;"></div>
 </div>
@@ -241,6 +243,20 @@
                     	addChangeMobileDialog.dialog('close');
                     }
                 }]
+		});
+	}
+
+	function updateAppUserToPromote() {
+		$.ajax({
+			url : '${ctx}/updateCustomerEntryState/updateAppUserToPromote',
+			type : 'POST',
+			cache : false,
+			dataType : "json",
+			async : false,
+			success : function(data) {
+				addChangeMobileDialog.dialog('close');
+				$.messager.alert('提示信息', '成功');
+			}
 		});
 	}
 </script>
