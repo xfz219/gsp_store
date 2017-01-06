@@ -205,7 +205,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 							return;
 						}
 						Random r = new Random();  
-						RemoteOrganizationVo lsv = list.get(r.nextInt(listShop.size()));
+						RemoteOrganizationVo lsv = listShop.get(r.nextInt(listShop.size()));
 						appUserToPromote.setCity(String.valueOf(listMapCityMap.get("cityName")));
 						appUserToPromote.setCityCode(String.valueOf(listMapCityMap.get("cityCode")));
 						appUserToPromote.setBranch(lsv.getName());

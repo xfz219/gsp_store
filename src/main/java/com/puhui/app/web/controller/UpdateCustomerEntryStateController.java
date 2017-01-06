@@ -111,4 +111,22 @@ public class UpdateCustomerEntryStateController {
 		}
 		return true;
 		}
+
+	/**
+	 * 洗数据
+	 * @author lichunyue
+	 * @return 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/updateAppUserToPromote")
+	public boolean updateAppUserToPromote(){
+		try{
+			updateCustomerEntryStateService.updateAppUserToPromote();
+		}catch(Exception e){
+			logger.error("系统异常：",e);
+			throw new IllegalArgumentException(e);
+		}
+		return true;
+		}
 	}
