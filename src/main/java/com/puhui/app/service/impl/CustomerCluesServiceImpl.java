@@ -126,7 +126,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	public String getUserInfoMethod(String salesNo,String cityCode) throws Exception{
 		boolean salesStatus = false;//false异常/true正常
 		RemoteStaffVo remoteStaffVo = swaggerService.employeeNo(salesNo);
-		if (remoteStaffVo.getEnabled() == true
+		if (remoteStaffVo != null && remoteStaffVo.getEnabled() == true
 				&& remoteStaffVo.getPositionName().equals("个贷-销售")
 				&& getUserCityNameMethod(cityCode.trim(),remoteStaffVo.getOrganizationVo().getParentVo().getCode())) {
 			salesStatus = true;
