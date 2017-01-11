@@ -93,4 +93,41 @@ public class UpdateCustomerEntryStateController {
 		}
 		return true;
 		}
+	
+	/**
+	 * 删除获客信息
+	 * @author lichunyue
+	 * @return 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/showChangeIdDelDialog")
+	public boolean showChangeIdDelDialog(@RequestParam(value = "id" , required = false) long id,
+			HttpServletResponse response,HttpServletRequest request){
+		try{
+			updateCustomerEntryStateService.showChangeIdDelDialog(id);
+		}catch(Exception e){
+			logger.error("系统异常：",e);
+    		throw new IllegalArgumentException(e);
+		}
+		return true;
+		}
+
+	/**
+	 * 洗数据
+	 * @author lichunyue
+	 * @return 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/updateAppUserToPromote")
+	public boolean updateAppUserToPromote(){
+		try{
+			updateCustomerEntryStateService.updateAppUserToPromote();
+		}catch(Exception e){
+			logger.error("系统异常：",e);
+			throw new IllegalArgumentException(e);
+		}
+		return true;
+		}
 	}

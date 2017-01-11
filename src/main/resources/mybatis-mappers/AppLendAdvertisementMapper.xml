@@ -38,9 +38,6 @@
 		<if test="enabled != null">
 			AND enabled = #{enabled}
 		</if>
-		ORDER BY
-		sort
-		LIMIT 5
 	</select>
 
 	<select id="selectLendAdvertisementById" resultMap="appLendAdvertisementVoObj">

@@ -280,6 +280,11 @@
 			<artifactId>poi-scratchpad</artifactId>
 			<version>3.9</version>
 		</dependency>
+	  	<dependency>
+   			 <groupId>com.puhui</groupId>
+   			 <artifactId>puhui-aes</artifactId>
+    		 <version>1.1</version>
+		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>

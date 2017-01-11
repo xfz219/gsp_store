@@ -26,6 +26,10 @@
 		<span class="datagrid-btn-separator" style="float:none;"></span>
 		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add' onclick="showChangeMobileDelDialog();" >删除客户信息</a>
 		<span class="datagrid-btn-separator" style="float:none;"></span>
+		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add' onclick="showChangeIdDelDialog();" >删除获客信息</a>
+		<span class="datagrid-btn-separator" style="float:none;"></span>
+				<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add' onclick="updateAppUserToPromote();" >洗漱</a>
+		<span class="datagrid-btn-separator" style="float:none;"></span>
 	</span>
 	<div style="clear:both;"></div>
 </div>
@@ -194,6 +198,65 @@
                     	addChangeMobileDialog.dialog('close');
                     }
                 }]
+		});
+	}
+	
+	function showChangeIdDelDialog() {
+		var contentData = '<div style="margin: 20px 0px 0px 50px;"><label>获客id：</label><input id="promoteId" class="easyui-validatebox textbox" data-options="required:true"/></div>';
+		addChangeMobileDialog.dialog({
+	    	title: "删除客户获客信息",
+	       	width: 350,
+	       	height: 130,
+	       	modal: true,
+	       	content: contentData,
+	       	buttons: [{
+	        	text: '确定',
+	          	handler: function() {
+	            	var thisButton = $(this);
+	             	if(typeof $('#promoteId').val() != 'undefined' && $('#promoteId').val() != '' && $('#promoteId').val() != null){
+	                	$.messager.confirm('确定','您确定要删除获客信息吗？',function(r){
+	                    	if(r){
+	                        	thisButton.linkbutton('disable');
+                       			$.ajax({
+                       			    url: '${ctx}/updateCustomerEntryState/showChangeIdDelDialog',
+                       			    data: {
+                       			        "id": $('#promoteId').val()
+                       			    },
+                       			    type: 'POST',
+                       			    cache: false,
+                       			    dataType: "json",
+                       			    async:false,
+                       			 	success: function(data) {
+                    			        addChangeMobileDialog.dialog('close');
+                    			        $.messager.alert('提示信息','删除成功');
+                    			    }
+                       			});
+	                     	}
+                      	});
+                   	}else{
+                   		$.messager.alert('提示信息', '请输入获客信息id！');
+                   	}
+              	}},
+              	{
+                    text: '取消',
+                    handler: function() {
+                    	addChangeMobileDialog.dialog('close');
+                    }
+                }]
+		});
+	}
+
+	function updateAppUserToPromote() {
+		$.ajax({
+			url : '${ctx}/updateCustomerEntryState/updateAppUserToPromote',
+			type : 'POST',
+			cache : false,
+			dataType : "json",
+			async : false,
+			success : function(data) {
+				addChangeMobileDialog.dialog('close');
+				$.messager.alert('提示信息', '成功');
+			}
 		});
 	}
 </script>

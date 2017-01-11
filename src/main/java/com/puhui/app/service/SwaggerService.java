@@ -171,8 +171,7 @@ public class SwaggerService {
 	public List<RemoteOrganizationVo> like(String code) {
 		String url = HttpUtils.PUHUI_LEND_URL_LIKE;
 		ResponseVo<List<RemoteOrganizationVo>> responseVo = oauthService.jsonGet(url, new ParameterizedTypeReference<ResponseVo<List<RemoteOrganizationVo>>>(){}, new Object[] {code});
-		List<RemoteOrganizationVo> list = responseVo.getResult();
-		return list;
+		return responseVo.getResult();
 	}
 	
 	/**

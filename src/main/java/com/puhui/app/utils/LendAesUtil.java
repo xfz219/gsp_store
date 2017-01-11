@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class LendAesUtil {
-    private static final Logger log = LoggerFactory.getLogger(LendAesUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(LendAesUtil.class);
 
 	/**
 	 * 加密

@@ -198,14 +198,14 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 				for (Map<String, Object> listMapCityMap : listMapCity) {
 					if(jSONObject.getString("city").equals(listMapCityMap.get("cityName"))){
 						List<RemoteOrganizationVo> listShop = swaggerService.orgIdSub(Long.parseLong(String.valueOf(listMapCityMap.get("id"))));
-						String idNo = jSONObject.getString("idNo");
-						String mobile = jSONObject.getString("telNumber");
+						String idNo = LendAesUtil.decrypt(jSONObject.getString("idNo"));
+						String mobile = LendAesUtil.decrypt(jSONObject.getString("telNumber"));
 						if(this.getUserInfoMethodIdNo(idNo) >0 || this.getUserInfoMobile(mobile)>0){
 							logger.info("推送数据身份证号手机号重复,重复数据为{}",jSONObject.toJSONString());
 							return;
 						}
 						Random r = new Random();  
-						RemoteOrganizationVo lsv = list.get(r.nextInt(listShop.size()));
+						RemoteOrganizationVo lsv = listShop.get(r.nextInt(listShop.size()));
 						appUserToPromote.setCity(String.valueOf(listMapCityMap.get("cityName")));
 						appUserToPromote.setCityCode(String.valueOf(listMapCityMap.get("cityCode")));
 						appUserToPromote.setBranch(lsv.getName());
@@ -219,7 +219,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 						Map<String,Object> map = this.findChannl(jSONObject.getString("chanceType"));
 						appUserToPromote.setChannelType(String.valueOf(map.get("codeValue")));
 						appUserToPromote.setChannelTwoType(String.valueOf(map.get("channelTwoCode")));
-						appUserToPromote.setMobile(jSONObject.getString("telNumber"));
+						appUserToPromote.setMobile(mobile);
 						appUserToPromote.setIsSettle(jSONObject.getBoolean("settle"));
 						appUserToPromote.setSettleTime(jSONObject.getDate("settleTime"));
 						appUserToPromoteDao.insertAppUserToPromote(appUserToPromote);
