@@ -188,7 +188,10 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 		AppUserToPromote au  = appUserToPromoteDao.findCustomerCluesMethod(id);
 		return au;
 	}
-
+	/**
+	 * lcy
+	 * 接受获客
+	 */
 	@Override
 	public void insertAppUserToPromote(JSONObject jSONObject) {
 		AppUserToPromote appUserToPromote = new AppUserToPromote();
