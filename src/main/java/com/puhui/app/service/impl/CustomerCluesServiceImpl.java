@@ -31,6 +31,7 @@ import net.sf.json.JSONArray;
 public class CustomerCluesServiceImpl implements CustomerCluesService{
 	
 	private static final Logger logger = LoggerFactory.getLogger(CustomerCluesServiceImpl.class);
+	private static final String SHOPCODE = "RPA6220102,RPA2530301,RPA5370201,RPA3530501";
 	@Autowired
 	private AppUserToPromoteDao appUserToPromoteDao;
 	@Autowired
@@ -194,6 +195,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	 */
 	@Override
 	public void insertAppUserToPromote(JSONObject jSONObject) {
+		List<RemoteOrganizationVo> listRo = new ArrayList<>();
 		AppUserToPromote appUserToPromote = new AppUserToPromote();
 		try {
 				List<RemoteOrganizationVo> list = swaggerService.like("rpa");
@@ -201,6 +203,12 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 				for (Map<String, Object> listMapCityMap : listMapCity) {
 					if(jSONObject.getString("city").equals(listMapCityMap.get("cityName"))){
 						List<RemoteOrganizationVo> listShop = swaggerService.orgIdSub(Long.parseLong(String.valueOf(listMapCityMap.get("id"))));
+						for(RemoteOrganizationVo ro : listShop){
+							if(SHOPCODE.contains(ro.getCode())){
+								continue;
+							}
+							listRo.add(ro);
+						}
 						String idNo = LendAesUtil.decrypt(jSONObject.getString("idNo"));
 						String mobile = LendAesUtil.decrypt(jSONObject.getString("telNumber"));
 						if(this.getUserInfoMethodIdNo(idNo) >0 || this.getUserInfoMobile(mobile)>0){
@@ -208,7 +216,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 							return;
 						}
 						Random r = new Random();  
-						RemoteOrganizationVo lsv = listShop.get(r.nextInt(listShop.size()));
+						RemoteOrganizationVo lsv = listRo.get(r.nextInt(listRo.size()));
 						appUserToPromote.setCity(String.valueOf(listMapCityMap.get("cityName")));
 						appUserToPromote.setCityCode(String.valueOf(listMapCityMap.get("cityCode")));
 						appUserToPromote.setBranch(lsv.getName());
