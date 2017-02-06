@@ -45,17 +45,14 @@
 								<option value="1">已发布</option>
 						</select>
 					</td>
-					
-				</tr>
-				
-				
-				<tr >
 					<td colspan="16" align="left">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	    			<a id="searchByConditions"  href="#" class="easyui-linkbutton" onclick="searchByConditions();">搜索</a>
 	    			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	    			<a id="resetConditions"  href="#" class="easyui-linkbutton" onclick="resetConditions();">重置</a>
     			</td>
 				</tr>
+				
 			</table>
 		</form>
 	</div>
@@ -89,18 +86,17 @@ var grid;
 			nowrap: false,
 			striped: true,
 			fit: true,
-			url:'${ctx}/AppLendNotice/qryNoticeList',
+			url:'${ctx}/AppWeixiinArticle/qryArticleList',
 			idField:'id',
 			singleSelect:true,
 			columns:[
 			[
-			{field:'id',hidden:true},
-			{field:'noticeTitle',title:'标题',width:270,align:'left'},
-			{field:'createUserVo.realName',title:'作者',width:180,align:'left'},
+			{field:'article',title:'标题',width:270,align:'left'},
+			{field:'authorName',title:'作者',width:180,align:'left'},
 			{field:'updateTime',title:'更新时间',width:220,align:'left',formatter:function(value,data){
 				return new Date(data.updateTime).formate("yyyy-MM-dd HH:mm");
 			}},
-			{field:'noticeStatus',title:'当前状态',width:200,align:'left',
+			{field:'articleStatus',title:'当前状态',width:200,align:'left',
 				formatter:function(fieldVal,rowData,rowIndex){
 					if(fieldVal=='1'){
 						return '已发布';
@@ -108,7 +104,8 @@ var grid;
 						return '草稿';
 					}
 				}
-			}
+			},
+			{field:'id',title:'文章地址id',width:180,align:'left'}
 			]],
 			pagination:true,
 			rownumbers:true,
@@ -116,11 +113,11 @@ var grid;
 			onClickRow: function (rowIndex, rowData) {
 				var row = $('#qryNoticeDatagrid').datagrid('getSelections');
 				if(row.length>1){
-				
+					alert(2);
 					$("#edit").linkbutton("disable");
 					$("#search").linkbutton("disable");
 					for(var i=0;i<row.length;i++){
-						if(row[i].noticeStatus=='1'){
+						if(row[i].articleStatus=='1'){
 							$("#issue").linkbutton("disable");
 							$("#delete").linkbutton("disable");
 							return false;
@@ -130,13 +127,14 @@ var grid;
 						}
 					}
 				}if(row.length==0){
+					alert(3);
 					$("#edit").linkbutton("disable");
 					$("#search").linkbutton("disable");
 					$("#delete").linkbutton("disable");
 					$("#issue").linkbutton("disable");
 				} else if(row.length==1){
 					$("#search").linkbutton("enable");
- 					if(row[0].noticeStatus=='1'){
+ 					if(row[0].articleStatus=='1'){
  					$("#issue").linkbutton("disable");
  					$("#delete").linkbutton("disable");
  					$("#edit").linkbutton("disable");
@@ -168,7 +166,7 @@ var grid;
 			parent.$("#tabs").tabs("add",{
 				closable:true,
 				title:'添加公告',
-				content : '<iframe name="addNotice" id="addNotice" scrolling="no" frameborder="0"  src="AppLendNotice/toAdd" width="100%" height="99%"></iframe>'
+				content : '<iframe name="addNotice" id="addNotice" scrolling="no" frameborder="0"  src="AppWeixiinArticle/toAdd" width="100%" height="99%"></iframe>'
 			});
 	});
 });
@@ -186,11 +184,8 @@ var grid;
 		}
 		$.messager.confirm('提示信息','确认发布吗?',function(r){  
 		if(r){
-			/* $.each(row, function(i, k) {
-				ids.push(row[i].id);
-			}); */
 			$.ajax({
-				url:"${ctx}/AppLendNotice/isuseLendNotice",
+				url:"${ctx}/AppWeixiinArticle/isuseLendNotice",
 				type: "POST",
 				async: false,
 				data:{'id':row[0].id},
@@ -226,7 +221,7 @@ var grid;
 		parent.$("#tabs").tabs("add",{
 			closable:true,
 			title:'编辑公告',
-			content : '<iframe name="editNotice" id="editNotice" scrolling="no" frameborder="0"  src="${ctx}/AppLendNotice/getLendNoticeById/'+row[0].id+'/edit" width="100%" height="99%"></iframe>'
+			content : '<iframe name="editNotice" id="editNotice" scrolling="no" frameborder="0"  src="${ctx}/AppWeixiinArticle/getLendNoticeById/'+row[0].id+'/edit" width="100%" height="99%"></iframe>'
 		});
 	}
 	
@@ -244,7 +239,7 @@ function searchNotice(){
 	parent.$("#tabs").tabs("add",{
 		closable:true,
 		title:'查看公告',
-		content : '<iframe name="editNotice" id="editNotice" scrolling="no" frameborder="0"  src="${ctx}/AppLendNotice/getLendNoticeById/'+row[0].id+'/look" width="100%" height="99%"></iframe>'
+		content : '<iframe name="editNotice" id="editNotice" scrolling="no" frameborder="0"  src="${ctx}/AppWeixiinArticle/getLendNoticeById/'+row[0].id+'/look" width="100%" height="99%"></iframe>'
 	});
 	}
 	//删除
@@ -262,7 +257,7 @@ function searchNotice(){
 		$.messager.confirm('提示信息','确认删除吗?',function(r){  
     		if(r){
     			$.ajax({
-					url:"${ctx}/AppLendNotice/deleteLendNotice",
+					url:"${ctx}/AppWeixiinArticle/deleteLendNotice",
 					type: "POST",
 					async: false,
 					data:{'id':row[0].id},
@@ -301,16 +296,8 @@ $('#queryNoticeForm').keypress(function(e){
 //搜索
 function searchByConditions(){
 	var dataObj = {};
-	var startDate=$('#lendNoticeStartTime').datebox('getValue'),
-			endDate=$('#lendNoticeEndTime').datebox('getValue');
-	dataObj.authorName = $('#userName').val();
 	dataObj.noticeStatus = $('#noticeStatus').combobox('getValue');
-	if(startDate){
-		dataObj.startDate =startDate;
-	}
-if(endDate){
-	dataObj.endDate =endDate;
-}
+	dataObj.authorName = $('#userName').val();
 	$("#qryNoticeDatagrid").datagrid('load',dataObj); 
 	$('#qryNoticeDatagrid').datagrid('clearSelections'); 
 }

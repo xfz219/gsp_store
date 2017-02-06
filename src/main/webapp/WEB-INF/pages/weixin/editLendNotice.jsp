@@ -69,37 +69,29 @@
 <div id="lookdialog" style="text-align:center;padding-top:20px;"></div>
 		<form id="editNoticeForm" class="easyui-form" method="post" data-options="novalidate:true">
 		<input type="hidden" id="id" name="id"/>
-		<input type="hidden" id="noticeStatus" name="noticeStatus"/>
-		<input type="hidden" id="createTime" name="createTime"/>
+		<input type="hidden" id="articleStatus" name="articleStatus"/>
 			<div title="" style="padding: 10px;">
 			
 				<fieldset>
-					<legend>编辑公告 &nbsp;&nbsp;&nbsp;<font color="red">*必填</font></legend>
+					<legend>编辑文章 &nbsp;&nbsp;&nbsp;<font color="red">*必填</font></legend>
 					<table>
 						<tr>
 						
 							<td class="one">标题：</td>
 							<td class="two">
-								<input id="noticeTitle" name="noticeTitle" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
+								<input id="article" name="article" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
 							</td>
 							</tr>
 							<tr style="height: 183px">
-							<td class="one">摘要：</td>
+							<td class="one">作者：</td>
 							<td class="two">
-								<textarea id="noticeAbstract" name="noticeAbstract" class="easyui-validatebox" style="width: 590px;height: 126px"  data-options="required:true"></textarea>
-							</td>
-							</tr>
-							<tr style="height: 23px">
-							<td class="one">通知部门：</td>
-							<td class="two">
-								<select id="noticeDepartment" name="noticeDepartment" class="easyui-combotree" style="width:800px;" data-options="multiple:true,required:true,panelHeight:120,editable:false"></select>
-						</select>
+								<input id="authorName" name="authorName" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
 							</td>
 							</tr>
 							<tr style="height:413px">
 							<td class="one" >内容：</td>
 							<td class="two">
-								  <script type="text/plain" id="myEditor" style="width:1200px;height:400px;margin:30spx 4px;margin-left: ">${noticeContent}</script>  
+								  <script type="text/plain" id="myEditor" style="width:1200px;height:400px;margin:30spx 4px;margin-left: ">${notice}</script>  
 							</td>
 							</tr>
 							</table>
@@ -118,25 +110,23 @@
   
         $(document).ready(function() {  
             var editor = new baidu.editor.ui.Editor({  
-                textarea : 'noticeContent'  
+                textarea : 'notice'  
             });  
             editor.render("myEditor"); 
             editor.ready(function(){
-           	 editor.setContent('${appLendNotice.noticeContent}');
+           	 editor.setContent('${appWeixiinArticle.notice}');
            });
-            $("#id").val("${appLendNotice.id}");
-            $("#noticeStatus").val("${appLendNotice.noticeStatus}");
-            $("#noticeTitle").val("${appLendNotice.noticeTitle}");
-            $("#noticeAbstract").html("${appLendNotice.noticeAbstract}");
-            var arr = '${appLendNotice.noticeDepartment}'.split(',');
-            $('#createTime').val("${appLendNotice.createTime}");
-           
+            $("#id").val("${appWeixiinArticle.id}");
+    		$("#article").val('${appWeixiinArticle.article}');
+    	    $("#authorName").val("${appWeixiinArticle.authorName}");
+    	    $("#articleStatus").val("${appWeixiinArticle.articleStatus}");
+            
             //添加
             $('#add').click(function(){
             	$.messager.confirm('提示信息','确认保存吗?',function(r){  
             		if(r){
             	$('#editNoticeForm').form('submit',{
-            		 url:'${ctx}/AppLendNotice/editLendNotice',
+            		 url:'${ctx}/AppWeixiinArticle/editLendNotice',
             		 onSubmit: function(){ 
             			 if($('#editNoticeForm').form('validate')){
             				 if(!editor.hasContents()){
@@ -153,7 +143,7 @@
             			  data=eval("(" + data+ ")");
             			  if(data.status=='success'){
             				  $.messager.alert('提示信息',data.result,'info',function(){
-  				        		var tab = parent.$("#tabs").tabs("getTab","系统公告");
+  				        		var tab = parent.$("#tabs").tabs("getTab","微信文章");
   					        	var url = $(tab.panel('options').content).attr('src');
   					        	parent.$('#tabs').tabs('update', {
   					        	      tab : tab,
@@ -161,8 +151,8 @@
   					        	      	src : url
   					        	      }
   					        	});
-  					        	parent.$("#tabs").tabs("select","系统公告");
-  					        	parent.$("#tabs").tabs("close","编辑公告");
+  					        	parent.$("#tabs").tabs("select","微信文章");
+  					        	parent.$("#tabs").tabs("close","编辑文章");
   				        	});
             			  }else{
             				  $.messager.alert('提示信息',data.result);
@@ -185,27 +175,6 @@
         		    });
             	
             });
-           
-            
-          //产生一个在下拉框中的树，也就是组合树
-	   		$('#noticeDepartment').combotree({
-					url: '${ctx}/appUtil/getOrgTree',
-	   		        idFiled:'id',
-	   		        textFiled:'name', 
-	   		        parentField : 'pid',
-	   		        checkbox:true,
-	   		        lines : true,
-	   		        panelHeight : '300',
-	   		        onLoadSuccess: function (node, data) {
-	   		           /*  $('#noticeDepartment').combotree('tree').tree("collapseAll");  */
-	   		        	for (var i=0;i<arr.length ;i++ ){
-	                           node=$('#noticeDepartment').combotree('tree').tree('find',arr[i]);
-	                           $('#noticeDepartment').combotree('tree').tree('check',node.target);
-	                           $('#noticeDepartment').combotree('tree').tree('expandAll', node.target);
-	                  		}
-	   	           }
-	   		});
-           
         });  
   
     </script>  

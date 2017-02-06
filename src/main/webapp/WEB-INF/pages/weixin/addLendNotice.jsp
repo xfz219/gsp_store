@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>公告查询</title>
+<title>微信文章</title>
 <style type="text/css">
 	fieldset{
 		width:1665px;
@@ -71,27 +71,19 @@
 			<div title="" style="padding: 10px;">
 			
 				<fieldset>
-					<legend>添加公告 &nbsp;&nbsp;&nbsp;<font color="red">*必填</font></legend>
+					<legend>添加文章 &nbsp;&nbsp;&nbsp;<font color="red">*必填</font></legend>
 					<table>
 						<tr>
 						
 							<td class="one">标题：</td>
 							<td class="two">
-								<input id="noticeTitle" name="noticeTitle" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
+								<input id="article" name="article" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
 							</td>
 							</tr>
 							<tr style="height: 183px">
-							<td class="one">摘要：</td>
+							<td class="one">作者：</td>
 							<td class="two">
-								<textarea id="noticeAbstract" name="noticeAbstract" class="easyui-validatebox" style="width: 590px;height: 126px"  data-options="required:true"></textarea>
-							</td>
-							</tr>
-							<tr style="height: 23px">
-							<td class="one">通知部门：</td>
-							<td class="two">
-								<!-- <input type="text" id="noticeDepartment" name="noticeDepartment" /> -->
-								<select id="noticeDepartment" name="noticeDepartment" class="easyui-combotree" style="width:260px;" data-options="multiple:true,required:true,panelHeight:120, editable:false"></select>  
-								<!-- <select id="noticeDepartment" name="noticeDepartment" class="easyui-combobox" style="width:260px;" data-options="multiple:true,required:true,panelHeight:120, editable:false"></select> -->
+								<input id="authorName" name="authorName" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
 							</td>
 							</tr>
 							<tr style="height:413px">
@@ -113,30 +105,11 @@
 </div>
 </body>
 
-<script type="text/javascript">
-	$(document).ready(function(){
-		 //产生一个在下拉框中的树，也就是组合树
-		$('#noticeDepartment').combotree({
-		        url : '${ctx}/appUtil/getOrgTree',
-		        idFiled:'id',
-		        textFiled:'name', 
-		        parentField : 'pid',
-		        checkbox:true,
-		        lines : true,
-		        panelHeight : '300',
-		        onLoadSuccess: function (node, data) {
-		            $('#noticeDepartment').combotree('tree').tree("collapseAll"); 
-	            }
-		}); 
-		 
-	});
-</script>
-
 <script language="javascript">  
   
-        $(document).ready(function() {  
+        $(document).ready(function() {
             var editor = new baidu.editor.ui.Editor({  
-                textarea : 'noticeContent'  
+                textarea : 'notice'  
             });  
             editor.render("myEditor"); 
             
@@ -146,12 +119,12 @@
             	$.messager.confirm('提示信息','确认保存吗?',function(r){
             		if(r){
             	$('#addNoticeForm').form('submit',{
-            		 url:'${ctx}/AppLendNotice/addLendNotice',
+            		 url:'${ctx}/AppWeixiinArticle/addLendNotice',
             		 onSubmit: function(){ 
             			 if($('#addNoticeForm').form('validate')){
             				 if(!editor.hasContents()){
             					 $.messager.alert('提示信息','请编辑内容！');
-                     			return false; 
+                     			return false;
             				 }else{
             					 return true;
             				 }
@@ -183,13 +156,6 @@
             	});
             	});
             	
-         
-						      
-            
-           
-            
-           
-           
             //关闭
             $('#close').click(function(){
             	$.messager.confirm('提示信息',"确认关闭吗？",function(r){    

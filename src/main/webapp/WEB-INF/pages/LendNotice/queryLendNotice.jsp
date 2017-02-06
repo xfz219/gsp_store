@@ -301,16 +301,8 @@ $('#queryNoticeForm').keypress(function(e){
 //搜索
 function searchByConditions(){
 	var dataObj = {};
-	var startDate=$('#lendNoticeStartTime').datebox('getValue'),
-			endDate=$('#lendNoticeEndTime').datebox('getValue');
 	dataObj.authorName = $('#userName').val();
 	dataObj.noticeStatus = $('#noticeStatus').combobox('getValue');
-	if(startDate){
-		dataObj.startDate =startDate;
-	}
-if(endDate){
-	dataObj.endDate =endDate;
-}
 	$("#qryNoticeDatagrid").datagrid('load',dataObj); 
 	$('#qryNoticeDatagrid').datagrid('clearSelections'); 
 }

@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.puhui.app.po.AppLendNotice;
+import com.puhui.app.po.AppWeixiinArticle;
 import com.puhui.app.search.AppLendNoticeSearch;
-import com.puhui.app.service.LendNoticeService;
+import com.puhui.app.service.AppWeixiinArticleService;
 import com.puhui.app.service.SwaggerService;
 import com.puhui.app.vo.ReturnEntity;
 import com.puhui.uc.vo.RemoteOrganizationVo;
@@ -30,7 +30,7 @@ import com.puhui.uc.vo.RemoteOrganizationVo;
 public class AppWeixiinArticleController extends BaseController {
 	private static final Logger log = LoggerFactory.getLogger(AppWeixiinArticleController.class);
     @Autowired
-    private LendNoticeService lendNoticeService;
+    private AppWeixiinArticleService appWeixiinArticleService;
 
     @Autowired
     private SwaggerService swaggerService;
@@ -42,19 +42,19 @@ public class AppWeixiinArticleController extends BaseController {
      * @return 公告列表
      */
     @ResponseBody
-    @RequestMapping(value = "/qryNoticeList")
-    public Map<String, Object> qryNoticeList(AppLendNoticeSearch appLendNoticeSearch) {
-        return lendNoticeService.qryLendNoticeList(appLendNoticeSearch);
+    @RequestMapping(value = "/qryArticleList")
+    public Map<String, Object> qryArticleList(AppLendNoticeSearch appLendNoticeSearch) {
+        return appWeixiinArticleService.qryLendNoticeList(appLendNoticeSearch);
     }
 
     @RequestMapping("/index")
     public String goAccessoryResetMethod(){
-        return "LendNotice/queryLendNotice";
+        return "weixin/queryLendNotice";
     }
 
     @RequestMapping("/toAdd")
     public String toAddLendNotice(){
-        return "LendNotice/addLendNotice";
+        return "weixin/addLendNotice";
     }
 
     /**
@@ -65,14 +65,10 @@ public class AppWeixiinArticleController extends BaseController {
      */
     @RequestMapping(value = "/addLendNotice")
     @ResponseBody
-    public Map<String, Object> addLendNotice(AppLendNotice appLendNotice) {
+    public Map<String, Object> addLendNotice(AppWeixiinArticle appWeixiinArticle) {
         Map<String, Object> map = new HashMap<>();
         try {
-        	String noticeDepartment = appLendNotice.getNoticeDepartment();
-        	//将lendNotice中的noticeDepartment由id换成code（id所在的organization为门店时）
-        	String codeStr = getShopCodeByIDs(noticeDepartment);
-        	appLendNotice.setNoticeDepartment(codeStr);
-            lendNoticeService.updateOrSaveLendNotice(appLendNotice, "add");
+        	appWeixiinArticleService.updateOrSaveLendNotice(appWeixiinArticle, "add");
             map.put("status", "success");
             map.put("result", "添加公告成功!");
         } catch (Exception e) {
@@ -85,7 +81,7 @@ public class AppWeixiinArticleController extends BaseController {
     }
 
     /**
-     * 删除公告
+     * 删除文章
      * 
      * @return
      */
@@ -94,24 +90,19 @@ public class AppWeixiinArticleController extends BaseController {
     public Object deleteLendNotice(String id) {
     	ReturnEntity returnEntity;
         Assert.notNull(id, "选择删除id不能为空！");
-        returnEntity = lendNoticeService.deleteLendNotice(Long.valueOf(id));
+        returnEntity = appWeixiinArticleService.deleteLendNotice(Long.valueOf(id));
         return returnEntity;
     }
 
     @RequestMapping(value = "/getLendNoticeById/{id}/{flag}")
     public String getLendNoticeById(@PathVariable(value = "id") Long id, @PathVariable(value = "flag") String flag,
             ModelMap map) {
-        String url = "LendNotice/editLendNotice";
+        String url = "weixin/editLendNotice";
         if (Objects.equals("look",flag)) {
-            url = "LendNotice/lookLendNotice";
+            url = "weixin/lookLendNotice";
         }
-        AppLendNotice appLendNotice = lendNoticeService.getLendNoticeById(id);
-        String noticeDepartment = appLendNotice.getNoticeDepartment();
-    	//将lendNotice中的noticeDepartment由code换成id（id所在的organization为门店时）
-        String idStr = getShopIdByCodes(noticeDepartment);
-    	appLendNotice.setNoticeDepartment(idStr);
-        appLendNotice.setCreateTime(null);
-        map.addAttribute("appLendNotice", appLendNotice);
+        AppWeixiinArticle appWeixiinArticle = appWeixiinArticleService.getLendNoticeById(id);
+        map.addAttribute("appWeixiinArticle", appWeixiinArticle);
         return url;
     }
 
@@ -123,14 +114,10 @@ public class AppWeixiinArticleController extends BaseController {
      */
     @RequestMapping(value = "/editLendNotice")
     @ResponseBody
-    public Map<String, Object> editLendNotice(AppLendNotice appLendNotice) {
+    public Map<String, Object> editLendNotice(AppWeixiinArticle appWeixiinArticle) {
         Map<String, Object> map = new HashMap<>();
         try {
-        	String noticeDepartment = appLendNotice.getNoticeDepartment();
-        	//将lendNotice中的noticeDepartment由id换成code（id所在的organization为门店时）
-        	String codeStr = getShopCodeByIDs(noticeDepartment);
-        	appLendNotice.setNoticeDepartment(codeStr);
-            lendNoticeService.updateOrSaveLendNotice(appLendNotice, "edit");
+        	appWeixiinArticleService.updateOrSaveLendNotice(appWeixiinArticle, "edit");
             map.put("status", "success");
             map.put("result", "编辑公告成功!");
         } catch (Exception e) {
@@ -155,7 +142,7 @@ public class AppWeixiinArticleController extends BaseController {
         Assert.notNull(id, "选择发布id不能为空！");
         ReturnEntity returnEntity;
 		log.info("开始发布系统公告id为:{}的系统公告", id);
-		returnEntity = lendNoticeService.isuseLendNotice(Long.valueOf(id));
+		returnEntity = appWeixiinArticleService.isuseLendNotice(Long.valueOf(id));
         return returnEntity;
     }
 

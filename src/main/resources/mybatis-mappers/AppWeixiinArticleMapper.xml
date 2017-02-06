@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.puhui.app.dao.AppWeixiinArticleDao">
+	<resultMap id="appWeixiinArticleObj" type="com.puhui.app.po.AppWeixiinArticle">
+		<id property="id" column="id"/>
+		<result property="article" column="article"/>
+		<result property="authorName" column="author_name"/>
+		<result property="notice" column="notice"/>
+		<result property="articleUrl" column="article_url"/>
+		<result property="articleStatus" column="article_status"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+	</resultMap>
+	<insert id="addLendNotice">
+		INSERT INTO app_weixin_article 
+		(article, author_name, notice, article_status, create_time, update_time)
+		VALUES 
+		(#{article}, #{authorName}, #{notice},#{articleStatus}, now(), now());
+	</insert>
+
+	<update id="updateNotice">
+		UPDATE app_weixin_article 
+		SET article = #{article},
+		author_name = #{authorName},
+		notice = #{notice},
+		article_status = #{articleStatus}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM app_weixin_article WHERE id = #{id}
+	</delete>
+
+	<select id="qryNoticeList" resultMap="appWeixiinArticleObj">
+		SELECT * FROM app_weixin_article
+		WHERE
+		    1=1
+			<if test="authorName != null and authorName != ''">
+				AND author_name = #{authorName}
+			</if>
+			<if test="noticeStatus != null and noticeStatus != ''">
+				AND article_status = #{noticeStatus}
+			</if>
+		ORDER BY create_time DESC
+	</select>
+
+<!-- 	<select id="qryNoticeCount" resultType="java.lang.Long"> -->
+<!-- 		SELECT COUNT(*) FROM app_lend_notice -->
+<!-- 	</select> -->
+
+	<select id="queryById" resultMap="appWeixiinArticleObj">
+		SELECT *
+		FROM app_weixin_article
+		WHERE id = #{id};
+	</select>
+</mapper>

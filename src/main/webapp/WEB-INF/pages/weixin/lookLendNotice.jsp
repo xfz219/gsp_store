@@ -77,26 +77,19 @@
 						
 							<td class="one">标题：</td>
 							<td class="two">
-							<input id="noticeTitle" name="noticeTitle" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" readonly="readonly">
+								<input id="article" name="article" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" readonly="readonly">
 							</td>
 							</tr>
 							<tr style="height: 183px">
-							<td class="one">摘要：</td>
+							<td class="one">作者：</td>
 							<td class="two">
-								<textarea id="noticeAbstract" name="noticeAbstract" class="easyui-validatebox" style="width: 590px;height: 126px" readonly="readonly"></textarea>
-							</td>
-							</tr>
-							<tr style="height: 23px">
-							<td class="one">通知部门：</td>
-							<td class="two">
-								<select id="noticeDepartment" name="noticeDepartment" class="easyui-combotree" style="width:800px;" data-options="multiple:true,required:true,panelHeight:120,multiline:true"></select>
-						</select>
+								<input id="authorName" name="authorName" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" readonly="readonly">
 							</td>
 							</tr>
 							<tr style="height:593px">
 							<td class="one" >内容：</td>
 							<td class="two">
-								  <div  id="content"    style="width:1200px;height:600px;margin:30spx 4px; border:1px solid #7F9DB9;text-align:center;padding-top:20px;">
+								  <div  id="notice"    style="width:1200px;height:600px;margin:30spx 4px; border:1px solid #7F9DB9;text-align:center;padding-top:20px;">
 								  
 								 </div>
 							</td>
@@ -114,11 +107,10 @@
 
 <script language="javascript">  
   
-	$(document).ready(function() {  
-		$("#content").html('${appLendNotice.noticeContent}');
-	    $("#noticeTitle").val("${appLendNotice.noticeTitle}");
-	    $("#noticeAbstract").val("${appLendNotice.noticeAbstract}");
-	    var arr = '${appLendNotice.noticeDepartment}'.split(',');
+	$(document).ready(function() {
+		$("#article").val('${appWeixiinArticle.article}');
+	    $("#authorName").val("${appWeixiinArticle.authorName}");
+	    $("#notice").html("${appWeixiinArticle.notice}");
 	   
 	    //关闭
 	    $('#close').click(function(){
@@ -127,28 +119,7 @@
 			    	 parent.$("#tabs").tabs("close","查看公告");
 			    }
 			});
-	    	
 	    });
-
-	//产生一个在下拉框中的树，也就是组合树
-	$('#noticeDepartment').combotree({
-		url: '${ctx}/appUtil/getOrgTree',
-		idFiled: 'id',
-		textFiled: 'name',
-		parentField: 'pid',
-		checkbox: true,
-		disabled: true,
-		lines: true,
-		panelHeight: '300',
-		onLoadSuccess: function (node, data) {
-			/*  $('#noticeDepartment').combotree('tree').tree("collapseAll");  */
-			for (var i = 0; i < arr.length; i++) {
-				node = $('#noticeDepartment').combotree('tree').tree('find', arr[i]);
-				$('#noticeDepartment').combotree('tree').tree('check', node.target);
-				$('#noticeDepartment').combotree('tree').tree('expandAll', node.target);
-			}
-		}
-	});
 	});
 </script>
     
