@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.puhui.app.po.AppWeixiinArticle;
+import com.puhui.app.po.AppWeixinArticle;
 import com.puhui.app.search.AppLendNoticeSearch;
 import com.puhui.app.service.AppWeixiinArticleService;
 import com.puhui.app.service.SwaggerService;
@@ -65,7 +65,7 @@ public class AppWeixiinArticleController extends BaseController {
      */
     @RequestMapping(value = "/addLendNotice")
     @ResponseBody
-    public Map<String, Object> addLendNotice(AppWeixiinArticle appWeixiinArticle) {
+    public Map<String, Object> addLendNotice(AppWeixinArticle appWeixiinArticle) {
         Map<String, Object> map = new HashMap<>();
         try {
         	appWeixiinArticleService.updateOrSaveLendNotice(appWeixiinArticle, "add");
@@ -101,7 +101,7 @@ public class AppWeixiinArticleController extends BaseController {
         if (Objects.equals("look",flag)) {
             url = "weixin/lookLendNotice";
         }
-        AppWeixiinArticle appWeixiinArticle = appWeixiinArticleService.getLendNoticeById(id);
+        AppWeixinArticle appWeixiinArticle = appWeixiinArticleService.getLendNoticeById(id);
         map.addAttribute("appWeixiinArticle", appWeixiinArticle);
         return url;
     }
@@ -114,7 +114,7 @@ public class AppWeixiinArticleController extends BaseController {
      */
     @RequestMapping(value = "/editLendNotice")
     @ResponseBody
-    public Map<String, Object> editLendNotice(AppWeixiinArticle appWeixiinArticle) {
+    public Map<String, Object> editLendNotice(AppWeixinArticle appWeixiinArticle) {
         Map<String, Object> map = new HashMap<>();
         try {
         	appWeixiinArticleService.updateOrSaveLendNotice(appWeixiinArticle, "edit");

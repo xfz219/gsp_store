@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.puhui.app.common.page.mybatis.Page;
 import com.puhui.app.dao.AppWeixiinArticleDao;
 import com.puhui.app.po.AppLendNotice;
-import com.puhui.app.po.AppWeixiinArticle;
+import com.puhui.app.po.AppWeixinArticle;
 import com.puhui.app.search.AppLendNoticeSearch;
 import com.puhui.app.service.AppPushService;
 import com.puhui.app.service.AppWeixiinArticleService;
@@ -42,7 +42,7 @@ public class AppWeixiinArticleServiceImpl implements AppWeixiinArticleService {
     @Override
     public Map<String, Object> qryLendNoticeList(AppLendNoticeSearch appLendNoticeSearch) {
         Map<String, Object> map = new HashMap<>();
-        List<AppWeixiinArticle> list = null;
+        List<AppWeixinArticle> list = null;
         Page page = Page.getPage(appLendNoticeSearch.getPage(),appLendNoticeSearch.getRows());
         try {
             list = appWeixiinArticleDao.qryNoticeList(appLendNoticeSearch);
@@ -61,7 +61,7 @@ public class AppWeixiinArticleServiceImpl implements AppWeixiinArticleService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, readOnly = false)
-    public void updateOrSaveLendNotice(AppWeixiinArticle appWeixiinArticle, String flag) {
+    public void updateOrSaveLendNotice(AppWeixinArticle appWeixiinArticle, String flag) {
         if (Objects.equals(flag, "add")) {
         	appWeixiinArticle.setArticleStatus(LendNoticeStatus.CAO_GAO);
             appWeixiinArticleDao.addLendNotice(appWeixiinArticle);
@@ -88,7 +88,7 @@ public class AppWeixiinArticleServiceImpl implements AppWeixiinArticleService {
     }
 
     @Override
-    public AppWeixiinArticle getLendNoticeById(Long id) {
+    public AppWeixinArticle getLendNoticeById(Long id) {
         return appWeixiinArticleDao.queryById(id);
     }
 
@@ -97,7 +97,7 @@ public class AppWeixiinArticleServiceImpl implements AppWeixiinArticleService {
     public ReturnEntity isuseLendNotice(Long id) {
     	ReturnEntity returnEntity;
     	try {
-    		AppWeixiinArticle appWeixiinArticle = appWeixiinArticleDao.queryById(id);
+    		AppWeixinArticle appWeixiinArticle = appWeixiinArticleDao.queryById(id);
     		appWeixiinArticle.setArticleStatus(LendNoticeStatus.YI_FA_BU);
 		    appWeixiinArticleDao.updateNotice(appWeixiinArticle);
             returnEntity = new ReturnEntity(true, "发布系统公告成功");

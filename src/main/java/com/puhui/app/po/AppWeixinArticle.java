@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * @author lichunyue
  */
-public class AppWeixiinArticle {
+public class AppWeixinArticle {
 
     private static final long serialVersionUID = 143242334L;
 

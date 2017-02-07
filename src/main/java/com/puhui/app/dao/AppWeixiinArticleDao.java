@@ -6,13 +6,13 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.puhui.app.po.AppLendNotice;
-import com.puhui.app.po.AppWeixiinArticle;
+import com.puhui.app.po.AppWeixinArticle;
 import com.puhui.app.search.AppLendNoticeSearch;
 
 @Repository
 public interface AppWeixiinArticleDao {
 
-    List<AppWeixiinArticle> qryNoticeList(AppLendNoticeSearch vo);
+    List<AppWeixinArticle> qryNoticeList(AppLendNoticeSearch vo);
 
     long qryNoticeCount(AppLendNotice vo);
 
@@ -20,9 +20,9 @@ public interface AppWeixiinArticleDao {
 
     void delete(@Param("id") Long id);
 
-    AppWeixiinArticle queryById(Long id);
+    AppWeixinArticle queryById(Long id);
 
-    void addLendNotice(AppWeixiinArticle appWeixiinArticle);
+    void addLendNotice(AppWeixinArticle appWeixiinArticle);
 
-    void updateNotice(AppWeixiinArticle appWeixiinArticle);
+    void updateNotice(AppWeixinArticle appWeixiinArticle);
 }
