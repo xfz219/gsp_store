@@ -10,7 +10,7 @@ import com.puhui.app.po.AppWeixinArticle;
 import com.puhui.app.search.AppLendNoticeSearch;
 
 @Repository
-public interface AppWeixiinArticleDao {
+public interface AppWeixinArticleDao {
 
     List<AppWeixinArticle> qryNoticeList(AppLendNoticeSearch vo);
 

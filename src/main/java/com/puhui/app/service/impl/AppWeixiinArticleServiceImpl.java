@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.puhui.app.common.page.mybatis.Page;
-import com.puhui.app.dao.AppWeixiinArticleDao;
+import com.puhui.app.dao.AppWeixinArticleDao;
 import com.puhui.app.po.AppLendNotice;
 import com.puhui.app.po.AppWeixinArticle;
 import com.puhui.app.search.AppLendNoticeSearch;
@@ -30,7 +30,7 @@ public class AppWeixiinArticleServiceImpl implements AppWeixiinArticleService {
     private static final Logger logger = LoggerFactory.getLogger(AppWeixiinArticleServiceImpl.class);
 
     @Autowired
-    private AppWeixiinArticleDao appWeixiinArticleDao;
+    private AppWeixinArticleDao appWeixiinArticleDao;
 
     @Autowired
     private AppPushService appPushService;

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须指向Dao接口 -->
-<mapper namespace="com.puhui.app.dao.AppWeixiinArticleDao">
-	<resultMap id="appWeixiinArticleObj" type="com.puhui.app.po.AppWeixiinArticle">
+<mapper namespace="com.puhui.app.dao.AppWeixinArticleDao">
+	<resultMap id="appWeixinArticleObj" type="com.puhui.app.po.AppWeixinArticle">
 		<id property="id" column="id"/>
 		<result property="article" column="article"/>
 		<result property="authorName" column="author_name"/>
@@ -33,7 +33,7 @@
 		DELETE FROM app_weixin_article WHERE id = #{id}
 	</delete>
 
-	<select id="qryNoticeList" resultMap="appWeixiinArticleObj">
+	<select id="qryNoticeList" resultMap="appWeixinArticleObj">
 		SELECT * FROM app_weixin_article
 		WHERE
 		    1=1
@@ -46,11 +46,7 @@
 		ORDER BY create_time DESC
 	</select>
 
-<!-- 	<select id="qryNoticeCount" resultType="java.lang.Long"> -->
-<!-- 		SELECT COUNT(*) FROM app_lend_notice -->
-<!-- 	</select> -->
-
-	<select id="queryById" resultMap="appWeixiinArticleObj">
+	<select id="queryById" resultMap="appWeixinArticleObj">
 		SELECT *
 		FROM app_weixin_article
 		WHERE id = #{id};
