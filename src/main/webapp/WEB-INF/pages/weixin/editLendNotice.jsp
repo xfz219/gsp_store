@@ -201,13 +201,6 @@
             			  if(data.status=='success'){
             				  $.messager.alert('提示信息',data.result,'info',function(){
   				        		var tab = parent.$("#tabs").tabs("getTab","微信文章");
-  					        	var url = $(tab.panel('options').content).attr('src');
-  					        	parent.$('#tabs').tabs('update', {
-  					        	      tab : tab,
-  					        	      options : {
-  					        	      	src : url
-  					        	      }
-  					        	});
   					        	parent.$("#tabs").tabs("select","微信文章");
   					        	parent.$("#tabs").tabs("close","编辑文章");
   				        	});

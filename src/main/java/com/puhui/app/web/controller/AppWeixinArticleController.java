@@ -87,7 +87,7 @@ public class AppWeixinArticleController extends BaseController {
                 return map;
       		}
             map.put("status", "success");
-            map.put("result", "添加公告成功!");
+            map.put("result", "添加文章成功!");
         } catch (Exception e) {
         	log.error("添加文章失败", e);
             map.clear();
