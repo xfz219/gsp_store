@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>公告查询</title>
+<title>文章查询</title>
 
 <style type="text/css">
 	.query{
@@ -105,7 +105,14 @@ var grid;
 					}
 				}
 			},
-			{field:'id',title:'文章地址id',width:180,align:'left'}
+			{field:'id',title:'文章地址id',width:180,align:'left'},
+			{field:'Operation',title:'图片操作',width:120,rowspan:2,formatter: function(value, data, index){
+				if(data.originalPicName){
+					return '<a href="javascript:void(0);" class="easyui-linkbutton"style="color: #00f;" iconCls="icon-earch" onclick="viewFile(\''+data.id+'\', \''+data.originalPicName+'\');"  >预览</a> ';	
+				}else{
+					return '<font color="green">未上传图片</font>';
+				}
+			}}
 			]],
 			pagination:true,
 			rownumbers:true,
@@ -165,7 +172,7 @@ var grid;
 		$('#add').click(function(){
 			parent.$("#tabs").tabs("add",{
 				closable:true,
-				title:'添加公告',
+				title:'添加文章',
 				content : '<iframe name="addNotice" id="addNotice" scrolling="no" frameborder="0"  src="AppWeixiinArticle/toAdd" width="100%" height="99%"></iframe>'
 			});
 	});
@@ -220,7 +227,7 @@ var grid;
 			}
 		parent.$("#tabs").tabs("add",{
 			closable:true,
-			title:'编辑公告',
+			title:'编辑文章',
 			content : '<iframe name="editNotice" id="editNotice" scrolling="no" frameborder="0"  src="${ctx}/AppWeixiinArticle/getLendNoticeById/'+row[0].id+'/edit" width="100%" height="99%"></iframe>'
 		});
 	}
@@ -238,7 +245,7 @@ function searchNotice(){
 		}
 	parent.$("#tabs").tabs("add",{
 		closable:true,
-		title:'查看公告',
+		title:'查看文章',
 		content : '<iframe name="editNotice" id="editNotice" scrolling="no" frameborder="0"  src="${ctx}/AppWeixiinArticle/getLendNoticeById/'+row[0].id+'/look" width="100%" height="99%"></iframe>'
 	});
 	}
@@ -278,6 +285,22 @@ function searchNotice(){
 		}
 		});
 	}
+	
+	//预览
+    function viewFile(data, fileName){
+		
+    	fileName = fileName.toLocaleLowerCase();
+    	if (fileName.indexOf(".jpg") != -1 || fileName.indexOf(".gif") != -1
+    				|| fileName.indexOf(".png") != -1
+    				|| fileName.indexOf(".jpeg") != -1
+    				|| fileName.indexOf(".bmp") != -1) {
+    			window.open("${ctx}/AppWeixiinArticle/previewForAjax?id="+ data,
+    					'详细','height=800,width=1024,top=50,left=100,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+   		} else {
+   			$.messager.alert('提示信息', '该广告位图片类型不是制定的上传类型，不支持在线预览');
+   		}
+
+   	}
 	
 //Enter搜索
 $('#queryNoticeForm').keypress(function(e){

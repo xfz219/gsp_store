@@ -64,6 +64,8 @@
 		height:12px;
 	}
 </style>
+<link rel="stylesheet" type="text/css" href="${ctx}/static/js/uploadify/uploadify.css">
+<script type="text/javascript" src="${ctx}/static/js/uploadify/jquery.uploadify.min.js?v=<%=System.nanoTime()%>"></script>
 <body style="overflow:auto;">
 <div>
 <div id="lookdialog" style="text-align:center;padding-top:20px;"></div>
@@ -72,6 +74,7 @@
 			
 				<fieldset>
 					<legend>添加文章 &nbsp;&nbsp;&nbsp;<font color="red">*必填</font></legend>
+					<input type="hidden" id="id" name="id" value="${appWeixinArticle.id }">
 					<table>
 						<tr>
 						
@@ -80,11 +83,21 @@
 								<input id="article" name="article" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
 							</td>
 							</tr>
-							<tr style="height: 183px">
+							<tr style="height: 60px">
 							<td class="one">作者：</td>
 							<td class="two">
 								<input id="authorName" name="authorName" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
 							</td>
+							</tr>
+							<tr style="height: 60px">
+							<td class="one">摘要：</td>
+							<td class="two">
+								<input id="synopsis" name="synopsis" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
+							</td>
+							</tr>
+							<tr id="adFile" style="height: 60px">
+							<td class="one">上传图片:</td>
+							<td> <input type="file" id="file_upload" name="file_upload"/></td>
 							</tr>
 							<tr style="height:413px">
 							<td class="one" >内容：</td>
@@ -105,6 +118,51 @@
 </div>
 </body>
 
+<script type="text/javascript">
+		$(function(){
+			//绑定上传
+			jQuery("#file_upload").uploadify({
+				swf: '${ctx}/static/js/uploadify/uploadify.swf',
+				uploader: "${ctx}/AppWeixiinArticle/saveLendAdvertisementFile",
+			    'fileSizeLimit' : '50MB',
+			    'fileTypeDesc': "bmp,jpg,jpeg,png,gif",
+			    'fileTypeExts': "*.bmp;*.jpg;*.jpeg;*.png;*.gif",
+			    'overrideEvents' : [ 'onDialogClose', 'onSelectError' ],
+			    'auto': true,
+			    'buttonText': "上传...",
+			    'width': 120,
+			    'height': 25,
+			    'uploadLimit' : 20,
+			    'preventCaching' : false,
+			    'removeTimeout' : 1,
+			    'onUploadStart': function(file) {
+			    	var paramData = {
+			    			id: $('#id').val(),
+						};
+
+			    	//清空缓存参数
+			    	jQuery("#file_upload").data("uploadify").settings.formData = {};
+			    	//设置参数
+			   		jQuery("#file_upload").uploadify('settings', 'formData',paramData);
+			    },
+				'onUploadSuccess' : function(file, data, response) {
+					data = $.parseJSON(data);
+					$.messager.alert('提示信息','<span style="line-height:150%;">'+data.msg+'</span>');
+					if(data.success){
+						$('#id').val(data.obj);
+					}
+				},
+				'onSelectError': function (file, errorCode, errorMsg) {
+					if(errorCode == SWFUpload.QUEUE_ERROR.INVALID_FILETYPE){
+						$.messager.alert('提示信息','<span style="line-height:150%;">文件类型不正确！请选择文件类型为"'+jQuery("#file_upload").uploadify('settings', 'fileTypeDesc')+'"的文件上传</span>');
+					}
+			     	if(errorCode == SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT){
+			     		alert("文件大小超过了50MB");
+			    	}
+		    }});
+		});
+	</script>
+
 <script language="javascript">  
   
         $(document).ready(function() {
@@ -112,7 +170,6 @@
                 textarea : 'notice'  
             });  
             editor.render("myEditor"); 
-            
             
             //添加
             $('#add').click(function(){
@@ -136,7 +193,7 @@
             			  data=eval("(" + data+ ")");
             			  if(data.status=='success'){
             				  $.messager.alert('提示信息',data.result,'info',function(){
-  				        		var tab = parent.$("#tabs").tabs("getTab","系统公告");
+  				        		var tab = parent.$("#tabs").tabs("getTab","微信文章");
   					        	var url = $(tab.panel('options').content).attr('src');
   					        	parent.$('#tabs').tabs('update', {
   					        	      tab : tab,
@@ -144,8 +201,8 @@
   					        	      	src : url
   					        	      }
   					        	});
-  					        	parent.$("#tabs").tabs("select","系统公告");
-  					        	parent.$("#tabs").tabs("close","添加公告");
+  					        	parent.$("#tabs").tabs("select","添加文章");
+  					        	parent.$("#tabs").tabs("close","添加文章");
   				        	});
             			  }else{
             				  $.messager.alert('提示信息',data.result);
@@ -160,7 +217,7 @@
             $('#close').click(function(){
             	$.messager.confirm('提示信息',"确认关闭吗？",function(r){    
         		    if (r){ 
-        		    	 parent.$("#tabs").tabs("close","添加公告");
+        		    	 parent.$("#tabs").tabs("close","添加文章");
         		    }
         		    });
             	
@@ -168,7 +225,7 @@
            
            
         });  
-
+        
     </script>
 </html>
 

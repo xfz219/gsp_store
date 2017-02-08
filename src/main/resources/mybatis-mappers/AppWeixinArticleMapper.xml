@@ -8,16 +8,19 @@
 		<result property="article" column="article"/>
 		<result property="authorName" column="author_name"/>
 		<result property="notice" column="notice"/>
-		<result property="articleUrl" column="article_url"/>
+		<result property="synopsis" column="synopsis"/>
+		<result property="originalPicName" column="original_pic_name"/>
+		<result property="picAccessUrl" column="pic_access_url"/>
+		<result property="picAddressUrl" column="pic_address_url"/>
 		<result property="articleStatus" column="article_status"/>
 		<result property="createTime" column="create_time"/>
 		<result property="updateTime" column="update_time"/>
 	</resultMap>
-	<insert id="addLendNotice">
+	<insert id="addLendNotice" parameterType="appWeixinArticle" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO app_weixin_article 
-		(article, author_name, notice, article_status, create_time, update_time)
+		(article, author_name, notice, synopsis, original_pic_name, pic_access_url, pic_address_url, article_status, create_time, update_time)
 		VALUES 
-		(#{article}, #{authorName}, #{notice},#{articleStatus}, now(), now());
+		(#{article}, #{authorName}, #{notice}, #{synopsis}, #{originalPicName}, #{picAccessUrl}, #{picAddressUrl},#{articleStatus}, now(), now());
 	</insert>
 
 	<update id="updateNotice">
@@ -25,7 +28,11 @@
 		SET article = #{article},
 		author_name = #{authorName},
 		notice = #{notice},
-		article_status = #{articleStatus}
+		article_status = #{articleStatus},
+		synopsis = #{synopsis},
+		original_pic_name = #{originalPicName},
+		pic_access_url = #{picAccessUrl},
+		pic_address_url = #{picAddressUrl}
 		WHERE id = #{id}
 	</update>
 

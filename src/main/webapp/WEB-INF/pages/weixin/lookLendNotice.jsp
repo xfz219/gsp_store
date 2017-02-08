@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>查看公告</title>
+<title>查看文章</title>
 <style type="text/css">
 	fieldset{
 		width:1665px;
@@ -80,18 +80,22 @@
 								<input id="article" name="article" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" readonly="readonly">
 							</td>
 							</tr>
-							<tr style="height: 183px">
+							<tr style="height: 60px">
 							<td class="one">作者：</td>
 							<td class="two">
 								<input id="authorName" name="authorName" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" readonly="readonly">
 							</td>
 							</tr>
+							<tr style="height: 60px">
+							<td class="one">摘要：</td>
+							<td class="two">
+								<input id="synopsis" name="synopsis" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" readonly="readonly">
+							</td>
+							</tr>
 							<tr style="height:593px">
 							<td class="one" >内容：</td>
 							<td class="two">
-								  <div  id="notice"    style="width:1200px;height:600px;margin:30spx 4px; border:1px solid #7F9DB9;text-align:center;padding-top:20px;">
-								  
-								 </div>
+								  <script type="text/plain" id="myEditor" style="width:1200px;height:400px;margin:30spx 4px;margin-left: ">${notice}</script>
 							</td>
 							</tr>
 							</table>
@@ -108,15 +112,24 @@
 <script language="javascript">  
   
 	$(document).ready(function() {
+		
+        var editor = new baidu.editor.ui.Editor({  
+            textarea : 'notice'  
+        });  
+        editor.render("myEditor"); 
+        editor.ready(function(){
+       	 editor.setContent('${appWeixiinArticle.notice}');
+       });
 		$("#article").val('${appWeixiinArticle.article}');
 	    $("#authorName").val("${appWeixiinArticle.authorName}");
-	    $("#notice").html("${appWeixiinArticle.notice}");
-	   
+	    $("#articleStatus").val("${appWeixiinArticle.articleStatus}");
+	    $("#synopsis").val("${appWeixiinArticle.synopsis}");
+		
 	    //关闭
 	    $('#close').click(function(){
 	    	$.messager.confirm('提示信息',"确认关闭吗？",function(r){    
 			    if (r){ 
-			    	 parent.$("#tabs").tabs("close","查看公告");
+			    	 parent.$("#tabs").tabs("close","查看文章");
 			    }
 			});
 	    });

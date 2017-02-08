@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>编辑公告</title>
+<title>编辑文章</title>
 <style type="text/css">
 	fieldset{
 		width:1665px;
@@ -64,6 +64,8 @@
 		height:12px;
 	}
 </style>
+<link rel="stylesheet" type="text/css" href="${ctx}/static/js/uploadify/uploadify.css">
+<script type="text/javascript" src="${ctx}/static/js/uploadify/jquery.uploadify.min.js?v=<%=System.nanoTime()%>"></script>
 <body style="overflow:auto;">
 <div>
 <div id="lookdialog" style="text-align:center;padding-top:20px;"></div>
@@ -82,11 +84,21 @@
 								<input id="article" name="article" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
 							</td>
 							</tr>
-							<tr style="height: 183px">
+							<tr style="height: 60px">
 							<td class="one">作者：</td>
 							<td class="two">
 								<input id="authorName" name="authorName" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
 							</td>
+							</tr>
+							<tr style="height: 60px">
+							<td class="one">摘要：</td>
+							<td class="two">
+								<input id="synopsis" name="synopsis" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
+							</td>
+							</tr>
+							<tr id="adFile" style="height: 60px">
+							<td class="one">上传图片:</td>
+							<td> <input type="file" id="file_upload" name="file_upload"/></td>
 							</tr>
 							<tr style="height:413px">
 							<td class="one" >内容：</td>
@@ -106,9 +118,54 @@
 </div>
 </body>
 
+<script type="text/javascript">
+		$(function(){
+			//绑定上传
+			jQuery("#file_upload").uploadify({
+				swf: '${ctx}/static/js/uploadify/uploadify.swf',
+				uploader: "${ctx}/AppWeixiinArticle/saveLendAdvertisementFile",
+			    'fileSizeLimit' : '50MB',
+			    'fileTypeDesc': "bmp,jpg,jpeg,png,gif",
+			    'fileTypeExts': "*.bmp;*.jpg;*.jpeg;*.png;*.gif",
+			    'overrideEvents' : [ 'onDialogClose', 'onSelectError' ],
+			    'auto': true,
+			    'buttonText': "上传...",
+			    'width': 120,
+			    'height': 25,
+			    'uploadLimit' : 20,
+			    'preventCaching' : false,
+			    'removeTimeout' : 1,
+			    'onUploadStart': function(file) {
+			    	var paramData = {
+			    			id: $('#id').val(),
+						};
+
+			    	//清空缓存参数
+			    	jQuery("#file_upload").data("uploadify").settings.formData = {};
+			    	//设置参数
+			   		jQuery("#file_upload").uploadify('settings', 'formData',paramData);
+			    },
+				'onUploadSuccess' : function(file, data, response) {
+					data = $.parseJSON(data);
+					$.messager.alert('提示信息','<span style="line-height:150%;">'+data.msg+'</span>');
+					if(data.success){
+						$('#id').val(data.obj);
+					}
+				},
+				'onSelectError': function (file, errorCode, errorMsg) {
+					if(errorCode == SWFUpload.QUEUE_ERROR.INVALID_FILETYPE){
+						$.messager.alert('提示信息','<span style="line-height:150%;">文件类型不正确！请选择文件类型为"'+jQuery("#file_upload").uploadify('settings', 'fileTypeDesc')+'"的文件上传</span>');
+					}
+			     	if(errorCode == SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT){
+			     		alert("文件大小超过了50MB");
+			    	}
+		    }});
+		});
+	</script>
+
 <script language="javascript">  
   
-        $(document).ready(function() {  
+        $(document).ready(function() {
             var editor = new baidu.editor.ui.Editor({  
                 textarea : 'notice'  
             });  
@@ -120,7 +177,7 @@
     		$("#article").val('${appWeixiinArticle.article}');
     	    $("#authorName").val("${appWeixiinArticle.authorName}");
     	    $("#articleStatus").val("${appWeixiinArticle.articleStatus}");
-            
+    	    $("#synopsis").val("${appWeixiinArticle.synopsis}");
             //添加
             $('#add').click(function(){
             	$.messager.confirm('提示信息','确认保存吗?',function(r){  

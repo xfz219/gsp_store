@@ -27,9 +27,21 @@ public class AppWeixinArticle {
      */
     private String notice;
     /**
-     * 文章url
+     * 简介
      */
-    private String articleUrl;
+    private String synopsis;
+    /**
+     * 文件原名
+     */
+    private String originalPicName;
+    /**
+     * 图片访问url
+     */
+    private String picAccessUrl;
+    /**
+     * 图片地址url
+     */
+    private String picAddressUrl;
     /**
      * 公告状态(0未发布,1发布)
      */
@@ -43,6 +55,31 @@ public class AppWeixinArticle {
      */
     private Date updateTime;
     
+    
+	public String getOriginalPicName() {
+		return originalPicName;
+	}
+	public void setOriginalPicName(String originalPicName) {
+		this.originalPicName = originalPicName;
+	}
+	public String getPicAccessUrl() {
+		return picAccessUrl;
+	}
+	public void setPicAccessUrl(String picAccessUrl) {
+		this.picAccessUrl = picAccessUrl;
+	}
+	public String getPicAddressUrl() {
+		return picAddressUrl;
+	}
+	public void setPicAddressUrl(String picAddressUrl) {
+		this.picAddressUrl = picAddressUrl;
+	}
+	public String getSynopsis() {
+		return synopsis;
+	}
+	public void setSynopsis(String synopsis) {
+		this.synopsis = synopsis;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -66,12 +103,6 @@ public class AppWeixinArticle {
 	}
 	public void setNotice(String notice) {
 		this.notice = notice;
-	}
-	public String getArticleUrl() {
-		return articleUrl;
-	}
-	public void setArticleUrl(String articleUrl) {
-		this.articleUrl = articleUrl;
 	}
 	public String getArticleStatus() {
 		return articleStatus;
