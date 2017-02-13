@@ -58,7 +58,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
     		autpMap.put("channel", autp.getChannel());
     		autpMap.put("channelTwo", autp.getChannelTwo());
     		autpMap.put("name", autp.getName());
-    		autpMap.put("mobile", autp.getMobile());
+    		autpMap.put("mobile", LendAesUtil.decrypt(autp.getMobile()));
     		autpMap.put("city", autp.getCity());
     		autpMap.put("branch", autp.getBranch());
     		autpMap.put("branchCode", autp.getBranchCode());
@@ -127,7 +127,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 	public String getUserInfoMethod(String salesNo,String cityCode) throws Exception{
 		boolean salesStatus = false;//false异常/true正常
 		RemoteStaffVo remoteStaffVo = swaggerService.employeeNo(salesNo);
-		if (remoteStaffVo.getEnabled() == true
+		if (remoteStaffVo != null && remoteStaffVo.getEnabled() == true
 				&& remoteStaffVo.getPositionName().equals("个贷-销售")
 				&& getUserCityNameMethod(cityCode.trim(),remoteStaffVo.getOrganizationVo().getParentVo().getCode())) {
 			salesStatus = true;
@@ -225,7 +225,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 						appUserToPromote.setName(jSONObject.getString("customerName"));
 						appUserToPromote.setProvince(jSONObject.getString("province"));
 						appUserToPromote.setProductName(jSONObject.getString("productName"));
-						appUserToPromote.setIdNo(idNo);
+						appUserToPromote.setIdNo(LendAesUtil.encrypt(jSONObject.getString("idNo")));
 						appUserToPromote.setChannel(jSONObject.getString("chanceType"));
 						Map<String,Object> map = this.findChannl(jSONObject.getString("chanceType"));
 						appUserToPromote.setChannelType(String.valueOf(map.get("codeValue")));

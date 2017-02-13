@@ -182,32 +182,42 @@ public class SwaggerService {
 	public List<RemoteOrganizationVo> orgIdSub(Long id) {
 		String url = HttpUtils.PUHUI_LEND_URL_ORGID_SUB;
 		ResponseVo<List<RemoteOrganizationVo>> responseVo = oauthService.jsonGet(url, new ParameterizedTypeReference<ResponseVo<List<RemoteOrganizationVo>>>(){}, new Object[] {id});
-		List<RemoteOrganizationVo> list = responseVo.getResult();
-		return list;
+		return responseVo.getResult();
 	}
 	
 	/**
-	 * 根据机构code模糊查询机构
+	 * 根据机构ID获取机构信息
 	 * @param id
 	 * @return
 	 */
 	public RemoteOrganizationVo orgId(Long id) {
 		String url = HttpUtils.PUHUI_LEND_URL_ORGID;
 		ResponseVo<RemoteOrganizationVo> responseVo = oauthService.jsonGet(url, new ParameterizedTypeReference<ResponseVo<RemoteOrganizationVo>>(){}, new Object[] {id});
-		RemoteOrganizationVo remoteOrganizationVo = responseVo.getResult();
-		return remoteOrganizationVo;
+		return responseVo.getResult();
+	}
+	
+	/**
+	 * 根据机构code获取机构信息
+	 * @param code
+	 * @return
+	 */
+	public RemoteOrganizationVo orgCode(String code) {
+		String url = HttpUtils.PUHUI_LEND_URL_CODE;
+		ResponseVo<RemoteOrganizationVo> responseVo = oauthService.jsonGet(url, new ParameterizedTypeReference<ResponseVo<RemoteOrganizationVo>>(){}, new Object[] {code});
+		return responseVo.getResult();
 	}
 	
 	/**
 	 * 根据用户信息查询用户分页列表
-	 * @param id
+	 * @param page
+	 * @param rows
+	 * @param remoteStaffVo
 	 * @return
 	 */
 	public List<RemoteStaffVo> ucPage(Integer page,Integer rows,RemoteStaffVo remoteStaffVo) {
 		String url = HttpUtils.PUHUI_LEND_URL_UCPAGE;
 		ResponseVo<DataGrid<RemoteStaffVo>> responseVo = oauthService.jsonPost(url+"?page="+page+"&rows="+rows, remoteStaffVo , new ParameterizedTypeReference<ResponseVo<DataGrid<RemoteStaffVo>>>(){});
-		List<RemoteStaffVo> remoteStaffVoList = responseVo.getResult().getList();
-		return remoteStaffVoList;
+		return responseVo.getResult().getList();
 	}
 	
 }

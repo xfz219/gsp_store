@@ -30,6 +30,7 @@ import com.puhui.app.po.AppUserToken;
 import com.puhui.app.service.AppPushService;
 import com.puhui.app.service.SwaggerService;
 import com.puhui.app.utils.BasisUtils;
+import com.puhui.app.utils.LendAesUtil;
 import com.puhui.app.utils.PushUtil;
 import com.puhui.app.vo.AppPushMessageVo;
 import com.puhui.uc.vo.RemoteStaffVo;
@@ -100,7 +101,7 @@ public class AppPushServiceImpl implements AppPushService {
 				AppLendTemplate appLendTemplate = appLendTemplateDao.getAppLendTemplateMethod(BasisUtils.THREADUSER);//线索管理
 					pushModel = appLendTemplate.getTempletContent();
 					pushModel = pushModel.replaceAll("<name>", map.get("name").toString());
-					pushModel = pushModel.replaceAll("<mobile>", map.get("mobile").toString());
+					pushModel = pushModel.replaceAll("<mobile>", LendAesUtil.decrypt(map.get("mobile").toString()));
 			} else {
 				AppLendTemplate appLendTemplate = appLendTemplateDao.getAppLendTemplateMethod(BasisUtils.UNWRAPUSER);//解绑模板
 				pushModel = appLendTemplate.getTempletContent();
@@ -135,7 +136,7 @@ public class AppPushServiceImpl implements AppPushService {
 			String customerName = appCustomer.getCustomerName();// 用户姓名
 			String shopName = remoteStaffVo.getOrganizationVo().getParentVo().getName();// 门店名字
 			String salesName = remoteStaffVo.getRealName();// 销售姓名
-			String moblie = remoteStaffVo.getMobile();// 销售手机号
+			String moblie = LendAesUtil.decrypt(remoteStaffVo.getMobile());// 销售手机号
 			// 获取进件信息
 			AppLendRequest appLendRequest = appLendRequestDao.getAppLendRequestByCustomerId(Long.parseLong(map.get("uid").toString()));
 			if (appLendRequest != null) {
@@ -188,6 +189,24 @@ public class AppPushServiceImpl implements AppPushService {
 			}
 		}
 
+	@Override
+	public boolean pushNotice(final AppPushMessageVo appPushMessageVo) {
+		new Thread(() -> {
+			// 查询设备
+			List<AppUserToken> list = new ArrayList<>();
+			String noticeDepartment = appPushMessageVo.getOtherMessage();// 大区
+			String[] noticeDepartments = noticeDepartment.split(",");
+			for (String noticeDepartment1 : noticeDepartments) {
+				List<AppUserToken> appUserToken = appUserTokenDao.getAppUserTokenDistrictCodeList(noticeDepartment1);
+				if (!appUserToken.isEmpty()) {
+					list.addAll(appUserToken);
+				}
+			}
+			push(appPushMessageVo, appPushMessageVo.getMessage(), null, null,
+					appPushMessageVo.getAppLendRequestId(), list, null, "toUser");
+		}).start();
+		return true;
+	}
 
 
 	private void push(AppPushMessageVo appPushMessageVo, String pushModel, String name, String mobile, Long mid,

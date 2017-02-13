@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.puhui.app.dao.AppWeixinArticleDao">
+	<resultMap id="appWeixinArticleObj" type="com.puhui.app.po.AppWeixinArticle">
+		<id property="id" column="id"/>
+		<result property="article" column="article"/>
+		<result property="authorName" column="author_name"/>
+		<result property="notice" column="notice"/>
+		<result property="synopsis" column="synopsis"/>
+		<result property="originalPicName" column="original_pic_name"/>
+		<result property="picAccessUrl" column="pic_access_url"/>
+		<result property="picAddressUrl" column="pic_address_url"/>
+		<result property="articleStatus" column="article_status"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+	</resultMap>
+	<insert id="addLendNotice" parameterType="appWeixinArticle" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO app_weixin_article 
+		(article, author_name, notice, synopsis, original_pic_name, pic_access_url, pic_address_url, article_status, create_time, update_time)
+		VALUES 
+		(#{article}, #{authorName}, #{notice}, #{synopsis}, #{originalPicName}, #{picAccessUrl}, #{picAddressUrl},#{articleStatus}, now(), now());
+	</insert>
+
+	<update id="updateNotice">
+		UPDATE app_weixin_article 
+		SET article = #{article},
+		author_name = #{authorName},
+		notice = #{notice},
+		article_status = #{articleStatus},
+		synopsis = #{synopsis},
+		original_pic_name = #{originalPicName},
+		pic_access_url = #{picAccessUrl},
+		pic_address_url = #{picAddressUrl}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM app_weixin_article WHERE id = #{id}
+	</delete>
+
+	<select id="qryNoticeList" resultMap="appWeixinArticleObj">
+		SELECT * FROM app_weixin_article
+		WHERE
+		    1=1
+			<if test="authorName != null and authorName != ''">
+				AND author_name = #{authorName}
+			</if>
+			<if test="noticeStatus != null and noticeStatus != ''">
+				AND article_status = #{noticeStatus}
+			</if>
+		ORDER BY create_time DESC
+	</select>
+
+	<select id="queryById" resultMap="appWeixinArticleObj">
+		SELECT *
+		FROM app_weixin_article
+		WHERE id = #{id};
+	</select>
+</mapper>

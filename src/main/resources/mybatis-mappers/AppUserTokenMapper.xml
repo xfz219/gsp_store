@@ -24,4 +24,10 @@
 			AND aut.seller_number = #{sellerNumber}
 		</if>
 	</select>
+
+	<select id="getAppUserTokenDistrictCodeList" parameterType="String" resultMap="appUserTokenObj">
+		SELECT aut.* FROM app_user_token aut WHERE aut.seller_number in
+		(SELECT DISTINCT(ac.customer_service_manager_number) FROM app_customer
+		ac WHERE ac.shop_code = #{districtCode}) AND aut.alias IS NOT NULL
+	</select>
 </mapper> 

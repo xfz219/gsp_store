@@ -1,10 +1,7 @@
 package com.puhui.app.utils;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.puhui.aes.AesEncryptionUtil;
 
 /**
  * 加密解密工具类
@@ -12,7 +9,7 @@ import com.puhui.aes.AesEncryptionUtil;
  *
  */
 public class LendAesUtil {
-    private static final Logger log = LoggerFactory.getLogger(LendAesUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(LendAesUtil.class);
 
 	/**
 	 * 加密
@@ -21,14 +18,15 @@ public class LendAesUtil {
 	 * @return
 	 */
 	public static String encrypt(String content){
-		if(StringUtils.isEmpty(content)){
-			log.info("加密字符串为null");
-			return content;
-		}
-		if(content.startsWith("xy") && content.length() > 18){
-			return content;
-		}
-		return AesEncryptionUtil.encrypt(content);
+//		if(StringUtils.isEmpty(content)){
+//			log.info("加密字符串为null");
+//			return content;
+//		}
+//		if(content.startsWith("xy") && content.length() > 18){
+//			return content;
+//		}
+//		return AesEncryptionUtil.encrypt(content);
+		return content;
 	}
 
 	/**
@@ -38,14 +36,15 @@ public class LendAesUtil {
 	 * @return
 	 */
 	public static String decrypt(String content){
-		if(StringUtils.isEmpty(content)){
-			log.info("解密字符串为null");
-			return content;
-		}
-		if(content.startsWith("xy") && content.length() < 18){
-			return content;
-		}
-		return AesEncryptionUtil.decrypt(content);
+//		if(StringUtils.isEmpty(content)){
+//			log.info("解密字符串为null");
+//			return content;
+//		}
+//		if(content.startsWith("xy") && content.length() < 18){
+//			return content;
+//		}
+//		return AesEncryptionUtil.decrypt(content);
+		return content;
 	}
 	
 }
