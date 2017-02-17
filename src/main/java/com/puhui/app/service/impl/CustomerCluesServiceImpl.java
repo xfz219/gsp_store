@@ -201,7 +201,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService{
 				List<RemoteOrganizationVo> list = swaggerService.like("rpa");
 				List<Map<String, Object>> listMapCity = CitySet.getCityMap(list);
 				for (Map<String, Object> listMapCityMap : listMapCity) {
-					if(jSONObject.getString("city").equals(listMapCityMap.get("cityName"))){
+					if(jSONObject.getString("city").equals(listMapCityMap.get("cityName")) || jSONObject.getString("city").equals(listMapCityMap.get("cityName")+"市")){
 						List<RemoteOrganizationVo> listShop = swaggerService.orgIdSub(Long.parseLong(String.valueOf(listMapCityMap.get("id"))));
 						for(RemoteOrganizationVo ro : listShop){
 							if(SHOPCODE.contains(ro.getCode())){
