@@ -10,6 +10,7 @@
 			ac.customer_name AS name,
 			ac.mobile AS mobile,
 			ac.shop_name AS shopName,
+			ac.shop_code AS shopCode,
 			ac.sales_name AS salesName,
 			ac.sales_no AS salesNo,
 			ac.sales_mobile As salesMobile,
