@@ -80,8 +80,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	        	 list = appChangeCustomerDao.selectChangeCustomerMethod(paramMap);
 	        	 logger.info("--------------查询销售绑定列表  结束----------------");
 	        	 for(Map<String, Object> ml : list){
-	        		 
-	        		String salesStatus = this.getUserInfoMethod(ml.get("salesNo") == null ? "":ml.get("salesNo").toString(), ml.get("shopName") == null ?"": ml.get("shopName").toString());
+	        		String salesStatus = this.getUserInfoMethod(ml.get("salesNo") == null ? "":ml.get("salesNo").toString(), ml.get("shopCode") == null ?"": ml.get("shopCode").toString());
 	        		ml.put("salesStatus", salesStatus);
 	        		ml.put("mobile", LendAesUtil.decrypt(String.valueOf(ml.get("mobile"))));
 	        		objList.add(ml);
@@ -201,13 +200,13 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 		appInterfaceLogDao.insertLog(map);
 	}
 	
-	public String getUserInfoMethod(String salesNo,String shopName) throws Exception{
+	public String getUserInfoMethod(String salesNo,String shopCode) throws Exception{
 		boolean salesStatus = false;//false异常/true正常
 		if(!salesNo.equals("")){
 			RemoteStaffVo remoteStaffVo = swaggerService.employeeNo(salesNo);
 			if (remoteStaffVo.getEnabled() == true
 					&& remoteStaffVo.getPositionName().equals("个贷-销售")
-					&& remoteStaffVo.getOrganizationVo().getParentVo().getName().equals(shopName)) {
+					&& remoteStaffVo.getOrganizationVo().getParentVo().getCode().equals(shopCode)) {
 				salesStatus = true;
 			}
 		}
