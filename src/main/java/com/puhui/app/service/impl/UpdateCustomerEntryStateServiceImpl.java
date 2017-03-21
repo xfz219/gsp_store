@@ -32,8 +32,8 @@ public class UpdateCustomerEntryStateServiceImpl implements UpdateCustomerEntryS
 	 * @return
 	 */
 	@Override
-	public void updateCustomerEntryState(Map<String, Object> map){
-		updateCustomerEntryStateManager.updateCustomerEntryState(map);
+	public void updateCustomerEntryState(long id){
+		updateCustomerEntryStateManager.updateCustomerEntryState(id);
 	}
 
 	@Override

@@ -9,6 +9,8 @@ public class HttpUtils {
 //    private static final String PUHUI_LEND_DEDUCTION_URL = "http://ut1.zuul.pub.puhuifinance.com:8765/puhui-lend-server";
     
     public static final String PUHUI_LEND_URL_ID = PUHUI_LEND_DEDUCTION_URL + "/api/v1/{appLendRequestId}/appLendRequest"; //通过app进件号获取进件信息
+    public static final String PUHUI_LEND_URL_IDNO = PUHUI_LEND_DEDUCTION_URL + "/api/v1/lendRequestVos/{idNo}/idNo"; //通过身份证获取进件信息 
+    public static final String PUHUI_LEND_URL_STATEUPDATE = PUHUI_LEND_DEDUCTION_URL + "/api/v1/lendRequests/update"; //状态变更通知
     public static final String PUHUI_LEND_URL_LOGIN = PUHUI_LEND_DEDUCTION_URL + "/api/uc/v1/staff/login"; //登陆认证
     public static final String PUHUI_LEND_URL_EMPLOYEENO = PUHUI_LEND_DEDUCTION_URL + "/api/uc/v1/staff/{employeeNo}/employeeNo"; //根据员工编号获取UC中用户信息
     public static final String PUHUI_LEND_URL_TOP = PUHUI_LEND_DEDUCTION_URL + "/api/uc/v1/menu/top"; //查询顶级菜单
