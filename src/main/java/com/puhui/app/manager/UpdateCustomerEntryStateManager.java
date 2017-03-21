@@ -5,14 +5,16 @@ import org.springframework.stereotype.Component;
 
 import com.puhui.app.dao.AppLendRequestDao;
 
+import java.util.Map;
+
 @Component
 public class UpdateCustomerEntryStateManager {
 
 	@Autowired
 	private AppLendRequestDao appLendRequestDao;
 	
-	public void updateCustomerEntryState(long id) {
-		appLendRequestDao.updateCustomerEntryState(id);
+	public void updateCustomerEntryState(Map<String, Object> map) {
+		appLendRequestDao.updateCustomerEntryState(map);
 	}
 
 	/**

@@ -375,8 +375,6 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.0.6.v20130930</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
 					<scanIntervalSeconds>3</scanIntervalSeconds>
 <!-- 					<webApp> -->
 <!-- 						<contextPath>/${project.artifactId}</contextPath> -->
@@ -423,8 +421,8 @@
 				<casClient.url>http://localhost:8080</casClient.url>
 				<zookeeper.address>zookeeper://10.10.216.111:40000</zookeeper.address>
 				<casServerTomcat.url>http://10.10.227.155:8092</casServerTomcat.url>
-				<redis.host>10.10.229.48</redis.host>
-				<redis.port>6379</redis.port>
+				<redis.host>10.10.197.245</redis.host>
+				<redis.port>6999</redis.port>
 				<jms.broker.url>failover:(tcp://10.10.242.252:61616)?randomize=false&amp;initialReconnectDelay=100&amp;timeout=5000</jms.broker.url>
 				<oauth.serverUrl>http://t.uaa.pub.puhuifinance.com:8082/uaa</oauth.serverUrl>
 				<oauth.clientId>lend-app-report</oauth.clientId>

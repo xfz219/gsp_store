@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.puhui.app.service.UpdateCustomerEntryStateService;
 import com.puhui.app.utils.LendAesUtil;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @comment 修改客户录件状态
  * @author lichunyue
@@ -45,9 +48,15 @@ public class UpdateCustomerEntryStateController {
 	@ResponseBody
 	@RequestMapping("/updateCustomerEntryStateMethod")
 	public boolean updateCustomerEntryStateMethod(@RequestParam(value = "id" , required = false) long id,
+												  @RequestParam(value = "state" , required = false) String state,
+												  @RequestParam(value = "auditState" , required = false) String auditState,
 			HttpServletResponse response,HttpServletRequest request){
 		try{
-			updateCustomerEntryStateService.updateCustomerEntryState(id);
+			Map<String, Object> map = new HashMap<>();
+			map.put("id",id);
+			map.put("state",state);
+			map.put("auditState",auditState);
+			updateCustomerEntryStateService.updateCustomerEntryState(map);
 		}catch(Exception e){
 			logger.error("系统异常：",e);
     		throw new IllegalArgumentException(e);
