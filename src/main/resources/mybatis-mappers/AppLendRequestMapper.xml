@@ -21,9 +21,9 @@
 		<result property="salesNo" column="sales_no"/>
 		<result property="updateTime" column="update_time"/>
 	</resultMap>
-	<update id="updateCustomerEntryState" parameterType="long">
+	<update id="updateCustomerEntryState" parameterType="map">
 		update app_lend_request set
-		state = 3,audit_state = 6
+		state = #{state},audit_state = #{auditState}
 		where id = #{id}
 	</update>
 	<update id="showChangeMobilePushDialog" parameterType="long">
