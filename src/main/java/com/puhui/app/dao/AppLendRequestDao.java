@@ -9,7 +9,7 @@ import com.puhui.app.po.AppLendRequest;
 
 public interface AppLendRequestDao extends BaseDao{
 
-	public void updateCustomerEntryState(Map<String, Object> map);
+	public void updateCustomerEntryState(long id);
 	
 	public List<String> selectAppLendRequestMethod(Map<String,Object> map);
 	
