@@ -57,15 +57,6 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
 	        List<Map<String, Object>> objList =  new ArrayList<Map<String, Object>>();
 	        List<String> listSales = new ArrayList<String>();
 	        Map<String, Object> paramMap = new HashMap<String, Object>();
-	      /*  int size = queryChangeCustomerVo.getRows();// 查询个数
-            int page = queryChangeCustomerVo.getPage();// 页数
-            if (page == 0) {
-                page = 1;
-            }
-            int total = 0;// 总数
-            int from = (queryChangeCustomerVo.getPage() - 1) * queryChangeCustomerVo.getRows();
-            queryChangeCustomerVo.setPage(from);*/
-            
             Page page = Page.getPage(queryChangeCustomerVo.getPage(),queryChangeCustomerVo.getRows());
             paramMap.put("page", page);
 	        paramMap.put("name", queryChangeCustomerVo.getName() != null? queryChangeCustomerVo.getName()+"%": "");

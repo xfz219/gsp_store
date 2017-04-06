@@ -130,7 +130,6 @@ function searchByConditions(){
 function resetConditions(){
 	$('#name').val('');
 	$('#mobile').val('');
-	$('#mobile').val('');
 	$('#salesName').val('');
 	$('#salesNo').val('');
 	$('#requestChannel').combobox("setValue", '');
