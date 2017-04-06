@@ -1,2 +1,8 @@
-/target
-/.idea
+# IntelliJ project files
+.idea
+*.iml
+.project
+.settings/
+.classpath
+.externalToolBuilders/
+logs/
