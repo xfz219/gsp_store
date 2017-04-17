@@ -34,6 +34,6 @@ public class CcLendSalesListener implements MessageListener{
 		} catch (Exception e) {
 			logger.error("接收cc系统推送进件异常,异常原因:{}---------",e);
 		}
-    	
+
     }
 }

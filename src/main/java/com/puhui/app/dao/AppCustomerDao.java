@@ -1,9 +1,9 @@
 package com.puhui.app.dao;
 
+import com.puhui.app.po.AppCustomer;
+
 import java.util.List;
 import java.util.Map;
-
-import com.puhui.app.po.AppCustomer;
 
 public interface AppCustomerDao extends BaseDao {
 
@@ -17,7 +17,7 @@ public interface AppCustomerDao extends BaseDao {
      * 获取所有信息
      * 
      * @author lichunyue
-     * @param AppCustomer
+     * @param id
      * @return
      */
     public AppCustomer query(long id);

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -218,6 +219,15 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
                     if (this.getUserInfoIdNo(idNo) > 0 || this.getUserInfoMobile(mobile) > 0) {
                         logger.info("推送数据身份证号手机号重复,重复数据为{}", jsonObject.toJSONString());
                         return;
+                    }
+                    String chanceType = jsonObject.getString("chanceType");
+                    if("666".equals(chanceType)){
+                        // 渠道为个贷验证导流
+                        List<Map<String, Object>> customerList = appCustomerDao.getMobileMethod(mobile);
+                        if(CollectionUtils.isNotEmpty(customerList)){
+                            logger.info("个贷验证导流推送数据手机号已经存在，过滤数据为{}", jsonObject.toJSONString());
+                            return;
+                        }
                     }
 
                     Random r = new Random();
