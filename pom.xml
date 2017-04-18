@@ -427,7 +427,7 @@
 				<casServerTomcat.url>http://10.10.227.155:8092</casServerTomcat.url>
 				<redis.host>10.10.197.245</redis.host>
 				<redis.port>6999</redis.port>
-				<jms.broker.url>failover:(tcp://10.10.242.252:61616)?randomize=false&amp;initialReconnectDelay=100&amp;timeout=5000</jms.broker.url>
+				<jms.broker.url>failover:(tcp://10.10.229.48:61616)?randomize=false&amp;initialReconnectDelay=100&amp;timeout=5000</jms.broker.url>
 				<oauth.serverUrl>http://t.uaa.pub.puhuifinance.com:8082/uaa</oauth.serverUrl>
 				<oauth.clientId>lend-app-report</oauth.clientId>
 				<oauth.secret>lend-app-report</oauth.secret>
