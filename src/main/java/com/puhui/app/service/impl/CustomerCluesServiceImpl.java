@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 
+import com.puhui.cc.cloud.api.vo.LendLossDataVo;
+import com.puhui.cc.cloud.api.vo.ResultVo;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +36,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerCluesServiceImpl.class);
     private static final String SHOPCODE = "RPA6220102,RPA2530301,RPA5370201,RPA3530501";
+    public static final String LEND_VALIDATE_CHANNEL = "666";
     @Autowired
     private AppUserToPromoteDao appUserToPromoteDao;
     @Autowired
@@ -210,8 +214,8 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
                 return;
             }
             String chanceType = jsonObject.getString("chanceType");
-            if("666".equals(chanceType)){
-                // 渠道为个贷验证导流
+            if(LEND_VALIDATE_CHANNEL.equals(chanceType)){
+                // 渠道为电销导流
                 List<Map<String, Object>> customerList = appCustomerDao.getIdNoMethod(idNo);
                 if(CollectionUtils.isNotEmpty(customerList)){
                     logger.info("个贷验证导流推送数据身份证号已经存在，过滤数据为{}", jsonObject.toJSONString());
@@ -262,6 +266,18 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
             appUserToPromote.setIsSettle(jsonObject.getBoolean("settle"));
             appUserToPromote.setSettleTime(jsonObject.getDate("settleTime"));
             appUserToPromoteDao.insertAppUserToPromote(appUserToPromote);
+
+            //第三步如果是电销导流异步推送
+            if(LEND_VALIDATE_CHANNEL.equals(chanceType)) {
+                LendLossDataVo lendLossDataVo = new LendLossDataVo();
+                lendLossDataVo.setCustomerName(appUserToPromote.getName());
+                lendLossDataVo.setIdNo(appUserToPromote.getIdNo());
+                lendLossDataVo.setCity(appUserToPromote.getCityCode());
+                lendLossDataVo.setMobile(appUserToPromote.getMobile());
+                lendLossDataVo.setStore(jsonObject.getString("shopCode"));
+                asyncPushCC(lendLossDataVo);
+            }
+
             logger.info("接收cc推送其它渠道数据结束");
         } catch (Exception e) {
             logger.info("接收cc推送其它渠道数据出现异常");
@@ -272,6 +288,17 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
             map.put("message", jsonObject.toJSONString());
             appInterfaceLogDao.insertLog(map);
         }
+    }
+
+    /**
+     * 异步推送电销
+     */
+    public void asyncPushCC(LendLossDataVo lendLossDataVo){
+        CompletableFuture.runAsync(() -> {
+            logger.info("电销导流传入参数：{}", JSONObject.toJSONString(lendLossDataVo));
+            ResultVo resultVo = swaggerService.ccReceiveLendLossData(lendLossDataVo);
+            logger.info("电销导流回结果：{}", JSONObject.toJSONString(resultVo));
+        });
     }
 
     @Override
