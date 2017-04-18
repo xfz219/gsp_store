@@ -199,59 +199,70 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
      */
     @Override
     public void insertAppUserToPromote(JSONObject jsonObject) {
-        List<RemoteOrganizationVo> listRo = new ArrayList<>();
-        AppUserToPromote appUserToPromote = new AppUserToPromote();
         try {
-            List<RemoteOrganizationVo> list = swaggerService.like("rpa");
-            List<Map<String, Object>> listMapCity = CitySet.getCityMap(list);
-            for (Map<String, Object> listMapCityMap : listMapCity) {
-                if (jsonObject.getString("city").equals(listMapCityMap.get("cityName"))
-                        || jsonObject.getString("city").equals(listMapCityMap.get("cityName") + "市")) {
-                    List<RemoteOrganizationVo> listShop = swaggerService.orgIdSub(Long.parseLong(String.valueOf(listMapCityMap.get("id"))));
-                    for (RemoteOrganizationVo ro : listShop) {
-                        if (SHOPCODE.contains(ro.getCode())) {
-                            continue;
-                        }
-                        listRo.add(ro);
-                    }
-                    String idNo = LendAesUtil.decrypt(jsonObject.getString("idNo"));
-                    String mobile = LendAesUtil.decrypt(jsonObject.getString("telNumber"));
-                    if (this.getUserInfoIdNo(idNo) > 0 || this.getUserInfoMobile(mobile) > 0) {
-                        logger.info("推送数据身份证号手机号重复,重复数据为{}", jsonObject.toJSONString());
-                        return;
-                    }
-                    String chanceType = jsonObject.getString("chanceType");
-                    if("666".equals(chanceType)){
-                        // 渠道为个贷验证导流
-                        List<Map<String, Object>> customerList = appCustomerDao.getMobileMethod(mobile);
-                        if(CollectionUtils.isNotEmpty(customerList)){
-                            logger.info("个贷验证导流推送数据手机号已经存在，过滤数据为{}", jsonObject.toJSONString());
-                            return;
-                        }
-                    }
+            AppUserToPromote appUserToPromote = new AppUserToPromote();
 
-                    Random r = new Random();
-                    RemoteOrganizationVo lsv = listRo.get(r.nextInt(listRo.size()));
-                    appUserToPromote.setCity(String.valueOf(listMapCityMap.get("cityName")));
-                    appUserToPromote.setCityCode(String.valueOf(listMapCityMap.get("cityCode")));
-                    appUserToPromote.setBranch(lsv.getName());
-                    appUserToPromote.setBranchCode(lsv.getCode());
-                    appUserToPromote.setAmount(jsonObject.getBigDecimal("applyAmount"));
-                    appUserToPromote.setName(jsonObject.getString("customerName"));
-                    appUserToPromote.setProvince(jsonObject.getString("province"));
-                    appUserToPromote.setProductName(jsonObject.getString("productName"));
-                    appUserToPromote.setIdNo(LendAesUtil.encrypt(jsonObject.getString("idNo")));
-                    appUserToPromote.setChannel(jsonObject.getString("chanceType"));
-                    Map<String, Object> map = this.findChannel(jsonObject.getString("chanceType"));
-                    appUserToPromote.setChannelType(String.valueOf(map.get("codeValue")));
-                    appUserToPromote.setChannelTwoType(String.valueOf(map.get("channelTwoCode")));
-                    appUserToPromote.setMobile(mobile);
-                    appUserToPromote.setIsSettle(jsonObject.getBoolean("settle"));
-                    appUserToPromote.setSettleTime(jsonObject.getDate("settleTime"));
-                    appUserToPromoteDao.insertAppUserToPromote(appUserToPromote);
-                    logger.info("接收cc推送其它渠道数据结束");
-                }
+            //第一步数据过滤并且分配门店
+            String idNo = LendAesUtil.decrypt(jsonObject.getString("idNo"));
+            String mobile = LendAesUtil.decrypt(jsonObject.getString("telNumber"));
+            if (this.getUserInfoIdNo(idNo) > 0 || this.getUserInfoMobile(mobile) > 0) {
+                logger.info("推送数据身份证号手机号重复,重复数据为{}", jsonObject.toJSONString());
+                return;
             }
+            String chanceType = jsonObject.getString("chanceType");
+            if("666".equals(chanceType)){
+                // 渠道为个贷验证导流
+                List<Map<String, Object>> customerList = appCustomerDao.getIdNoMethod(idNo);
+                if(CollectionUtils.isNotEmpty(customerList)){
+                    logger.info("个贷验证导流推送数据手机号已经存在，过滤数据为{}", jsonObject.toJSONString());
+                    return;
+                }
+                appUserToPromote.setCity(jsonObject.getString("cityName"));
+                appUserToPromote.setCityCode(jsonObject.getString("city"));
+                appUserToPromote.setBranch("电销门店");
+                appUserToPromote.setBranchCode("RPA8010101");
+            } else {
+                Map<String, Object> cityMap = new HashMap<>();
+                List<RemoteOrganizationVo> listRo = new ArrayList<>();
+                List<RemoteOrganizationVo> list = swaggerService.like("rpa");
+                List<Map<String, Object>> listMapCity = CitySet.getCityMap(list);
+                for (Map<String, Object> listMapCityMap : listMapCity) {
+                    if (jsonObject.getString("city").equals(listMapCityMap.get("cityName"))
+                            || jsonObject.getString("city").equals(listMapCityMap.get("cityName") + "市")) {
+                        cityMap = listMapCityMap;
+                        List<RemoteOrganizationVo> listShop = swaggerService.orgIdSub(Long.parseLong(String.valueOf(listMapCityMap.get("id"))));
+                        for (RemoteOrganizationVo ro : listShop) {
+                            if (SHOPCODE.contains(ro.getCode())) {
+                                continue;
+                            }
+                            listRo.add(ro);
+                        }
+                        break;
+                    }
+                }
+                Random r = new Random();
+                RemoteOrganizationVo lsv = listRo.get(r.nextInt(listRo.size()));
+                appUserToPromote.setBranch(lsv.getName());
+                appUserToPromote.setBranchCode(lsv.getCode());
+                appUserToPromote.setCity(String.valueOf(cityMap.get("cityName")));
+                appUserToPromote.setCityCode(String.valueOf(cityMap.get("cityCode")));
+            }
+
+            //第二步保存意向客户
+            appUserToPromote.setAmount(jsonObject.getBigDecimal("applyAmount"));
+            appUserToPromote.setName(jsonObject.getString("customerName"));
+            appUserToPromote.setProvince(jsonObject.getString("province"));
+            appUserToPromote.setProductName(jsonObject.getString("productName"));
+            appUserToPromote.setIdNo(LendAesUtil.encrypt(jsonObject.getString("idNo")));
+            appUserToPromote.setChannel(jsonObject.getString("chanceType"));
+            Map<String, Object> map = this.findChannel(jsonObject.getString("chanceType"));
+            appUserToPromote.setChannelType(String.valueOf(map.get("codeValue")));
+            appUserToPromote.setChannelTwoType(String.valueOf(map.get("channelTwoCode")));
+            appUserToPromote.setMobile(mobile);
+            appUserToPromote.setIsSettle(jsonObject.getBoolean("settle"));
+            appUserToPromote.setSettleTime(jsonObject.getDate("settleTime"));
+            appUserToPromoteDao.insertAppUserToPromote(appUserToPromote);
+            logger.info("接收cc推送其它渠道数据结束");
         } catch (Exception e) {
             logger.info("接收cc推送其它渠道数据出现异常");
             Map<String, Object> map = new HashMap<>();

@@ -8,18 +8,18 @@ import java.util.Map;
 public interface AppCustomerDao extends BaseDao {
 
 	/**
-	 * @comment 查询手机号
-	 * @author lichunyue
-	 * @return
+	 * 查询身份证号
+     */
+	List<Map<String, Object>> getIdNoMethod(String idNo);
+
+	/**
+	 * 查询手机号
 	 */
-	public List<Map<String, Object>> getMobileMethod(String mobile);
+	List<Map<String, Object>> getMobileMethod(String mobile);
+
     /**
      * 获取所有信息
-     * 
-     * @author lichunyue
-     * @param id
-     * @return
      */
-    public AppCustomer query(long id);
+    AppCustomer query(long id);
 
 }
