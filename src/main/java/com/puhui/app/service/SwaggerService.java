@@ -1,6 +1,8 @@
 package com.puhui.app.service;
 
 import com.puhui.app.utils.HttpUtils;
+import com.puhui.cc.cloud.api.vo.LendLossDataVo;
+import com.puhui.cc.cloud.api.vo.ResultVo;
 import com.puhui.lend.vo.ResponseVo;
 import com.puhui.lend.vo.userCenter.UCRbacPermissionVo;
 import com.puhui.uc.vo.DataGrid;
@@ -25,6 +27,16 @@ public class SwaggerService {
 
 	@Autowired
 	private OauthService oauthService;
+
+	/**
+	 * 电销接收导流数据
+	 * @param lendLossDataVo
+	 * @return
+     */
+	public ResultVo ccReceiveLendLossData(LendLossDataVo lendLossDataVo){
+		String url = HttpUtils.PUHUI_CC_LOSS_DATA_URL;
+		return oauthService.jsonPost(url, lendLossDataVo , new ParameterizedTypeReference<ResultVo>(){}, new Object[]{"lend-app-report"});
+	}
 
 	/**
 	 * 登陆认证

@@ -1,27 +1,21 @@
 package com.puhui.app.service;
 
-import java.util.List;
-import java.util.Map;
-
+import com.alibaba.fastjson.JSON;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import com.alibaba.fastjson.JSON;
+import java.util.List;
+import java.util.Map;
 
 /**
  * dongchen
@@ -133,6 +127,13 @@ public class OauthService implements InitializingBean{
     
     public <T> T jsonPost(String url, Object request, ParameterizedTypeReference<T> responseType) {
         ResponseEntity<T> res = this.restTemplate.exchange(url, HttpMethod.POST, jsonHead(request), responseType);
+        Assert.isTrue(res.getStatusCode() == HttpStatus.OK, "Failed: HTTP error code: " + res.getStatusCode()
+                + ", error body: " + res.getBody() + ", request url is :" + url);
+        return res.getBody();
+    }
+
+    public <T> T jsonPost(String url, Object request, ParameterizedTypeReference<T> responseType, Object[] uriVariables) {
+        ResponseEntity<T> res = this.restTemplate.exchange(url, HttpMethod.POST, jsonHead(request), responseType, uriVariables);
         Assert.isTrue(res.getStatusCode() == HttpStatus.OK, "Failed: HTTP error code: " + res.getStatusCode()
                 + ", error body: " + res.getBody() + ", request url is :" + url);
         return res.getBody();

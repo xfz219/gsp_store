@@ -214,11 +214,11 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
                 // 渠道为个贷验证导流
                 List<Map<String, Object>> customerList = appCustomerDao.getIdNoMethod(idNo);
                 if(CollectionUtils.isNotEmpty(customerList)){
-                    logger.info("个贷验证导流推送数据手机号已经存在，过滤数据为{}", jsonObject.toJSONString());
+                    logger.info("个贷验证导流推送数据身份证号已经存在，过滤数据为{}", jsonObject.toJSONString());
                     return;
                 }
-                appUserToPromote.setCity(jsonObject.getString("cityName"));
-                appUserToPromote.setCityCode(jsonObject.getString("city"));
+                appUserToPromote.setCity(jsonObject.getString("city"));
+                appUserToPromote.setCityCode(jsonObject.getString("cityCode"));
                 appUserToPromote.setBranch("电销门店");
                 appUserToPromote.setBranchCode("RPA8010101");
             } else {

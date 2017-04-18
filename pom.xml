@@ -17,6 +17,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.puhui</groupId>
+			<artifactId>puhui-cc-cloud-api</artifactId>
+			<version>1.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.puhui</groupId>
 			<artifactId>puhui-uc-api</artifactId>
 			<version>2.0.0</version>
 		</dependency>
@@ -53,8 +59,7 @@
 		<dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
+            <version>4.12</version>
         </dependency>
 		<dependency>
 			<groupId>com.github.fernandospr</groupId>
@@ -415,6 +420,7 @@
 				<oauth.clientId>lend-app-report</oauth.clientId>
 				<oauth.secret>lend-app-report</oauth.secret>
 				<lend.server>http://ut1.zuul.pub.puhuifinance.com:8765/puhui-lend-server</lend.server>
+				<lend.cc.server>http://ut1.zuul.pub.puhuifinance.com:8765/puhui-cc-cloud-server</lend.cc.server>
 			</properties>
 		</profile>
 		<profile>
@@ -432,6 +438,7 @@
 				<oauth.clientId>lend-app-report</oauth.clientId>
 				<oauth.secret>lend-app-report</oauth.secret>
 				<lend.server>http://ut1.zuul.pub.puhuifinance.com:8765/puhui-lend-server</lend.server>
+				<lend.cc.server>http://ut1.zuul.pub.puhuifinance.com:8765/puhui-cc-cloud-server</lend.cc.server>
 			</properties>
 		</profile>
 		<profile>
@@ -448,6 +455,7 @@
 				<oauth.clientId>lend-app-report</oauth.clientId>
 				<oauth.secret>JajouuGspWf3pXyP</oauth.secret>
 				<lend.server>https://api.puhuifinance.com/puhui-lend-server</lend.server>
+				<lend.cc.server>https://api.puhuifinance.com/puhui-cc-cloud-server</lend.cc.server>
 			</properties>
 		</profile>
 	</profiles>
