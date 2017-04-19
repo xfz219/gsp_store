@@ -209,16 +209,16 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
             //第一步数据过滤并且分配门店
             String idNo = LendAesUtil.decrypt(jsonObject.getString("idNo"));
             String mobile = LendAesUtil.decrypt(jsonObject.getString("telNumber"));
-            if (this.getUserInfoIdNo(idNo) > 0 || this.getUserInfoMobile(mobile) > 0) {
-                logger.info("推送数据身份证号手机号重复,重复数据为{}", jsonObject.toJSONString());
-                return;
-            }
             String chanceType = jsonObject.getString("chanceType");
             if(LEND_VALIDATE_CHANNEL.equals(chanceType)){
                 // 渠道为电销导流
+                if (this.getUserInfoMobile(mobile) > 0) {
+                    logger.info("个贷验证导流推送数据手机号已经存在,过滤数据为{}", jsonObject.toJSONString());
+                    return;
+                }
                 List<Map<String, Object>> customerList = appCustomerDao.getIdNoMethod(idNo);
                 if(CollectionUtils.isNotEmpty(customerList)){
-                    logger.info("个贷验证导流推送数据身份证号已经存在，过滤数据为{}", jsonObject.toJSONString());
+                    logger.info("个贷验证导流推送数据身份证号已经注册，过滤数据为{}", jsonObject.toJSONString());
                     return;
                 }
                 appUserToPromote.setCity(jsonObject.getString("city"));
@@ -226,6 +226,10 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
                 appUserToPromote.setBranch("电销门店");
                 appUserToPromote.setBranchCode("RPA8010101");
             } else {
+                if (this.getUserInfoIdNo(idNo) > 0 || this.getUserInfoMobile(mobile) > 0) {
+                    logger.info("推送数据身份证号手机号重复,重复数据为{}", jsonObject.toJSONString());
+                    return;
+                }
                 Map<String, Object> cityMap = new HashMap<>();
                 List<RemoteOrganizationVo> listRo = new ArrayList<>();
                 List<RemoteOrganizationVo> list = swaggerService.like("rpa");
@@ -257,7 +261,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
             appUserToPromote.setName(jsonObject.getString("customerName"));
             appUserToPromote.setProvince(jsonObject.getString("province"));
             appUserToPromote.setProductName(jsonObject.getString("productName"));
-            appUserToPromote.setIdNo(LendAesUtil.encrypt(jsonObject.getString("idNo")));
+            appUserToPromote.setIdNo(idNo);
             appUserToPromote.setChannel(jsonObject.getString("chanceType"));
             Map<String, Object> map = this.findChannel(jsonObject.getString("chanceType"));
             appUserToPromote.setChannelType(String.valueOf(map.get("codeValue")));
