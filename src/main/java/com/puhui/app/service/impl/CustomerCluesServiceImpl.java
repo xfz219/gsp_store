@@ -284,7 +284,7 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
 
             logger.info("接收cc推送其它渠道数据结束");
         } catch (Exception e) {
-            logger.info("接收cc推送其它渠道数据出现异常");
+            logger.info("接收cc推送其它渠道数据出现异常: ", e);
             Map<String, Object> map = new HashMap<>();
             map.put("interfaceType", 3);
             map.put("interfaceTypeName", "接收cc推送数据接口出现异常");
