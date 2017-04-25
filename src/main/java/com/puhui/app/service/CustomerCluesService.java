@@ -1,12 +1,11 @@
 package com.puhui.app.service;
 
-import java.util.List;
-import java.util.Map;
-
 import com.alibaba.fastjson.JSONObject;
 import com.puhui.app.po.AppUserToPromote;
-
 import net.sf.json.JSONArray;
+
+import java.util.List;
+import java.util.Map;
 
 
 public interface CustomerCluesService {
@@ -36,9 +35,9 @@ public interface CustomerCluesService {
 	
 	public void insertAppUserToPromote(JSONObject jSONObject);
 	//获取渠道
-	public List<Map<String,Object>> findChannl();
+	public List<Map<String,Object>> findChannels();
 	//根据身份证号查询是否存在进件
-	public int getUserInfoMethodIdNo(String idNo);
+	public int getUserInfoIdNo(String idNo);
 	//根据手机号查询是否存在进件
 	public int getUserInfoMobile(String mobile);
 }

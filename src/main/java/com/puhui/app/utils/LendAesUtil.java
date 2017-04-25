@@ -32,7 +32,7 @@ public class LendAesUtil {
 	/**
 	 * 解密
 	 * 解密方法需要传入带有“xy”前缀的字符串，才能解密；如果没有前缀则不会处理，直接返回原始字符串
-	 * @param cardNo
+	 * @param content
 	 * @return
 	 */
 	public static String decrypt(String content){

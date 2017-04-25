@@ -229,13 +229,12 @@ public class CustomerCluesController {
     /**
      * 查询进件渠道,返回的是json类型的字符串
      * 
-     * @param request
      * @return
      */
     @RequestMapping("queryChannel")
     @ResponseBody
     public String queryChannel() {
-    	List<Map<String,Object>> list = customerCluesService.findChannl();
+    	List<Map<String,Object>> list = customerCluesService.findChannels();
     	
         return JsonTools.fromObjectToJson(list);
     }

@@ -21,5 +21,8 @@ public class HttpUtils {
     public static final String PUHUI_LEND_URL_UCPAGE = PUHUI_LEND_SERVER_URL + "/api/uc/v1/staff/page"; //根据用户信息查询用户分页列表
     public static final String PUHUI_LEND_URL_PERMISSIONS = PUHUI_LEND_SERVER_URL + "/api/uc/v1/staff/{staffId}/roles/permissions";
     public static final String PUHUI_LEND_URL_USERNAME = PUHUI_LEND_SERVER_URL + "/api/uc/v1/staff/{username}/username";
+
+    private static final String PUHUI_CC_SERVER_URL = PropertiesLoader.getProperty("lend.cc.server");
+    public static final String PUHUI_CC_LOSS_DATA_URL = PUHUI_CC_SERVER_URL + "/api/v1/apiCallCenter/receiveLendLossData/{serviceCode}";
     
 }

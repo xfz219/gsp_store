@@ -1,16 +1,15 @@
 package com.puhui.app.listener;
 
 
-import javax.jms.Message;
-import javax.jms.MessageListener;
-import javax.jms.TextMessage;
-
+import com.alibaba.fastjson.JSONObject;
+import com.puhui.app.service.CustomerCluesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSONObject;
-import com.puhui.app.service.CustomerCluesService;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
 
 
 
@@ -33,9 +32,8 @@ public class CcLendSalesListener implements MessageListener{
         		customerCluesService.insertAppUserToPromote(jsonObj);
         	 }
 		} catch (Exception e) {
-			
 			logger.error("接收cc系统推送进件异常,异常原因:{}---------",e);
 		}
-    	
+
     }
 }

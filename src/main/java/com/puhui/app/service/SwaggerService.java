@@ -1,22 +1,21 @@
 package com.puhui.app.service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.puhui.app.utils.HttpUtils;
+import com.puhui.cc.cloud.api.vo.LendLossDataVo;
+import com.puhui.cc.cloud.api.vo.ResultVo;
+import com.puhui.lend.vo.ResponseVo;
+import com.puhui.lend.vo.userCenter.UCRbacPermissionVo;
+import com.puhui.uc.vo.DataGrid;
+import com.puhui.uc.vo.RemoteOrganizationVo;
+import com.puhui.uc.vo.RemoteStaffVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
-import com.puhui.app.utils.HttpUtils;
-import com.puhui.lend.vo.LendRequestVo;
-import com.puhui.lend.vo.ResponseVo;
-import com.puhui.lend.vo.userCenter.UCRbacPermissionVo;
-import com.puhui.uc.vo.DataGrid;
-import com.puhui.uc.vo.RemoteOrganizationVo;
-import com.puhui.uc.vo.RemoteStaffVo;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author lcy
@@ -28,23 +27,17 @@ public class SwaggerService {
 
 	@Autowired
 	private OauthService oauthService;
+
 	/**
-	 * 获客个贷系统数据
-	 * @param appLendRequestId
+	 * 电销接收导流数据
+	 * @param lendLossDataVo
 	 * @return
-	 */
-	public Map<String,Object> getLendRequestIdMethod(Long appLendRequestId) {
-		String url = HttpUtils.PUHUI_LEND_URL_ID;
-		ResponseVo<LendRequestVo> responseIdVo = oauthService.jsonGet(url, ResponseVo.class,
-				new Object[] { appLendRequestId });
-		if (responseIdVo.getCode().equals(SUCCEED)) {
-			Map<String,Object> linkedHashMap = (Map) responseIdVo.getResult();
-			return linkedHashMap;
-		} else {
-			return null;
-		}
+     */
+	public ResultVo ccReceiveLendLossData(LendLossDataVo lendLossDataVo){
+		String url = HttpUtils.PUHUI_CC_LOSS_DATA_URL;
+		return oauthService.jsonPost(url, lendLossDataVo , new ParameterizedTypeReference<ResultVo>(){}, new Object[]{"lend-app-report"});
 	}
-	
+
 	/**
 	 * 登陆认证
 	 * @param salesNo
