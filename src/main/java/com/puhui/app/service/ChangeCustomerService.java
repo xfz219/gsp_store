@@ -1,11 +1,11 @@
 package com.puhui.app.service;
 
-import java.util.List;
-import java.util.Map;
-
+import com.puhui.app.po.AppCustomer;
+import com.puhui.app.vo.QueryChangeCustomerVo;
 import net.sf.json.JSONArray;
 
-import com.puhui.app.vo.QueryChangeCustomerVo;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -15,16 +15,18 @@ import com.puhui.app.vo.QueryChangeCustomerVo;
  */
 public interface ChangeCustomerService {
 
-	public Map<String, Object> selectChangeCustomerMethod(QueryChangeCustomerVo queryChangeCustomerVo);
+	Map<String, Object> selectChangeCustomerMethod(QueryChangeCustomerVo queryChangeCustomerVo);
 	
-	public List<Map<String, Object>> selectAppCustomerMethod(List<Long> ids);
+	List<Map<String, Object>> selectAppCustomerMethod(List<Long> ids);
 	
-	public boolean validate(List<Long> ids);
+	boolean validate(List<Long> ids);
 	
-	public JSONArray  selectUserNameMethod(Long oid);
+	JSONArray  selectUserNameMethod(Long oid);
 	
-	public void updateBindingUserMethod(List<Long> ids,String selectUserName);
+	void updateBindingUserMethod(List<Long> ids,String selectUserName);
 	
-	public void insertLog(String ids, Long staffId);
-	
+	void insertLog(String ids, Long staffId);
+
+	AppCustomer selectCustomerById(Long customerId);
+
 }

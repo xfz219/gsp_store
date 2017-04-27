@@ -131,7 +131,7 @@ public class AppPushServiceImpl implements AppPushService {
 			AppPushMessageVo appPushMessageVo = new AppPushMessageVo();
 			AppLendTemplate appLendTemplate = appLendTemplateDao.getAppLendTemplateMethod(BasisUtils.UNWRAPCUSTOMER);//解绑模板
 			pushModel = appLendTemplate.getTempletContent();
-			AppCustomer appCustomer = appCustomerDao.query(Long.parseLong(map.get("uid").toString()));// 获取AppCustomer对象
+			AppCustomer appCustomer = appCustomerDao.queryById(Long.parseLong(map.get("uid").toString()));// 获取AppCustomer对象
 			RemoteStaffVo remoteStaffVo = swaggerService.ucId(Long.parseLong(map.get("sellerNumber").toString()));
 			String customerName = appCustomer.getCustomerName();// 用户姓名
 			String shopName = remoteStaffVo.getOrganizationVo().getParentVo().getName();// 门店名字

@@ -286,10 +286,44 @@ function refresh(){
 	grid.datagrid("load");
 }
 
+
+ //详情
+ function detailCustomer() {
+	 var rows = $('#datagrid').datagrid('getSelections');
+	 if (rows.length != 1) {
+		 $.messager.alert('提示信息', '请选择一条记录！');
+	 } else {
+		 $("#customerDetailDialog").dialog({
+			 iconCls: 'icon-search',
+			 title: "客户信息",
+			 width: 550,
+			 height: 300,
+			 modal: true,
+			 href: '${ctx}/html/user/detailCustomer.jsp',
+			 onLoad: function () {
+				 var id = rows[0].id;
+				 $(document).ready(function () {
+					 $.ajax({
+						 url: "${ctx}/changeCustomer/selectCustomerById?customerId=" + id,
+						 type: "GET",
+						 async: false,
+						 success: function (data) {
+							 $("#customerName").val(data.customerName);
+							 $("#customerMobile").val(data.mobile);
+						 }
+					 });
+				 });
+			 }
+		 })
+	 }
+ }
+ ;
+
 </script>
 
 </head>
 <body class="easyui-layout">
+<div id="customerDetailDialog"></div>
 <div data-options="region:'center'" style="overflow: hidden;">
 		<table id="datagrid"></table>
 </div>
@@ -349,7 +383,8 @@ function refresh(){
 			<span class="datagrid-btn-separator" style="float:none;"></span>
 			<a href="javascript:void(0);"  class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="bindingUserA();">绑定</a>
 			<span class="datagrid-btn-separator" style="float:none;"></span>
-			
+			<a href="javascript:void(0);"  class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="detailCustomer();">详情</a>
+			<span class="datagrid-btn-separator" style="float:none;"></span>
 		</span>
     </div>
 </body>

@@ -40,7 +40,7 @@
 	<select id="getIdNoMethod" parameterType="string" resultType="list">
 		select * from app_customer where id_no = #{idNo}
 	</select>
-	<select id="query" parameterType="long" resultMap="appCustomerObj">
+	<select id="queryById" parameterType="long" resultMap="appCustomerObj">
 		select * from app_customer where id = #{id}
 	</select>
 	

@@ -19,7 +19,7 @@
 									<input id="checkUserIdNo" type="text" readonly="readonly" name="userIdNo" class="easyui-validatebox" >
                               </tr>
                               <tr>
-							  
+
 								<td width="80" style="text-align: right">借款金额：</td>
 							   	<td width="120">
 									<input readonly="readonly" id="checkUserAmount" type="text" name="userAmount" />
@@ -35,7 +35,7 @@
 							   	 <td width="120">
 									<input readonly="readonly" id="checkUserProvince" type="text" name="userProvince"  class="easyui-validatebox" >
                               </tr>
-                         
+
                               <tr id="defect_data1" style="display:none">
 							   		<td width="80" style="text-align: right">是否提前结清：</td>
 							  		<td width="120">
