@@ -74,7 +74,7 @@ $(function(){
             {field:'ck',checkbox:true}
 		]],
 		onLoadSuccess:function (data){
-			$('#datagrid').datagrid("unselectAll");
+			//$('#datagrid').datagrid("unselectAll");
 		},
 		onLoadError:function (data) {			
 			$.messager.alert('提示信息',"查询解绑管理失败！");
