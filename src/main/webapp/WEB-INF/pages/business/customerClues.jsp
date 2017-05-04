@@ -43,7 +43,8 @@ height: 20px;
  var i = 0;
  var paramData = {};
  var i = 0;
-	
+
+ var onSingleCheck = false;
 $(function(){
 	grid = $('#datagrid').datagrid({
 		nowrap: false,
@@ -80,14 +81,19 @@ $(function(){
 		pageSize: 20,
 		toolbar:"#tbLendRequest",
 		onLoadSuccess:function (data){
+			$('#datagrid').datagrid("unselectAll");
 		},
-//		onSelect: function (rowIndex, rowData) {
-//			var rows = $('#datagrid').datagrid('getSelections');
-//				$('#checkUser').hide();
-//			if (!(rows[0].channelTwo == '1')){
-//				$('#checkUser').show();
-//			}
-//		},
+		onCheck: function (rowIndex, rowData) {
+			var rows = $('#datagrid').datagrid('getSelections');
+			if(rows.id == rowData.id){
+				if(rows!=null && onSingleCheck==true){
+					$('#datagrid').datagrid("unselectAll");
+					onSingleCheck = false;
+				} else {
+					onSingleCheck = true;
+				}
+			}
+		},
 		onLoadError:function (data) {			
 			$.messager.alert('提示信息',"查询线索管理失败！");
 		}
