@@ -136,7 +136,7 @@ public class AppPushServiceImpl implements AppPushService {
 			String customerName = appCustomer.getCustomerName();// 用户姓名
 			String shopName = remoteStaffVo.getOrganizationVo().getParentVo().getName();// 门店名字
 			String salesName = remoteStaffVo.getRealName();// 销售姓名
-			String moblie = LendAesUtil.decrypt(remoteStaffVo.getMobile());// 销售手机号
+			String mobile = remoteStaffVo.getMobile();// 销售手机号
 			// 获取进件信息
 			AppLendRequest appLendRequest = appLendRequestDao.getAppLendRequestByCustomerId(Long.parseLong(map.get("uid").toString()));
 			if (appLendRequest != null) {
@@ -149,7 +149,7 @@ public class AppPushServiceImpl implements AppPushService {
 			pushModel = pushModel.replaceAll("<customerName>", customerName);
 			pushModel = pushModel.replaceAll("<shopName>", shopName);
 			pushModel = pushModel.replaceAll("<salesName>", salesName);
-			pushModel = pushModel.replaceAll("<salesMoblie>", moblie);
+			pushModel = pushModel.replaceAll("<salesMoblie>", mobile);
 			// 向消息表插入消息
 			AppCustomerMessage appCustomerMessage = new AppCustomerMessage();
 			appCustomerMessage.setCustomerId(Integer.parseInt(appCustomer.getId().toString()));// uid编号
@@ -163,7 +163,7 @@ public class AppPushServiceImpl implements AppPushService {
 			AppCustomerToken appCustomerToken = new AppCustomerToken();
 			appCustomerToken.setPid(appCustomer.getId().toString());
 			List<AppCustomerToken> list = appCustomerTokenDao.getAppCustomerToken(appCustomerToken);
-			new Thread(new Runner(appPushMessageVo, pushModel, appCustomer.getSalesName(), moblie,
+			new Thread(new Runner(appPushMessageVo, pushModel, appCustomer.getSalesName(), mobile,
 					appCustomerMessage.getId(), null, list, "toCustomer")).start();
 		}
 	}

@@ -32,8 +32,10 @@ public class AppLendAdvertisementVoServiceImpl implements AppLendAdvertisementVo
 	private static final Logger logger = LoggerFactory.getLogger(AppLendAdvertisementVoServiceImpl.class);
 	public final static String ATTACHMENT_PATH = new StringBuffer().append(File.separator).append("upload").append(File.separator).append("puhui-lend").append(File.separator).append("board")
 			.append(File.separator).append("pic").append(File.separator).toString();
+
 	@Autowired
 	private AppLendAdvertisementDao appLendAdvertisementDao;
+
 	@Override
 	public Map<String, Object> queryLendAdvertisementList(AppLendAdvertisementVo appLendAdvertisementVo) {
 		Map<String, Object> map = new HashMap<>();

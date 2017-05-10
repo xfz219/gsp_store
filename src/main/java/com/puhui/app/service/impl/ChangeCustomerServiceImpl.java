@@ -72,6 +72,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
         Page page = Page.getPage(queryChangeCustomerVo.getPage(), queryChangeCustomerVo.getRows());
         paramMap.put("page", page);
         paramMap.put("name", queryChangeCustomerVo.getName() != null ? queryChangeCustomerVo.getName() + "%" : "");
+        //加密
         paramMap.put("mobile", queryChangeCustomerVo.getMobile() != null ? LendAesUtil.encrypt(queryChangeCustomerVo.getMobile()) + "%" : "");
         paramMap.put("salesMobile", queryChangeCustomerVo.getSalesMobile() != null ? queryChangeCustomerVo.getSalesMobile() + "%" : "");
         paramMap.put("salesName", queryChangeCustomerVo.getSalesName() != null ? queryChangeCustomerVo.getSalesName() + "%" : "");
@@ -82,7 +83,9 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
             list = appChangeCustomerDao.selectChangeCustomerMethod(paramMap);
             logger.info("--------------查询销售绑定列表  结束----------------");
             for (Map<String, Object> ml : list) {
-                String salesStatus = this.getUserInfoMethod(ml.get("salesNo") == null ? "" : ml.get("salesNo").toString(), ml.get("shopCode") == null ? "" : ml.get("shopCode").toString());
+                String salesNo1 = (ml.get("salesNo") == null ? "" : ml.get("salesNo").toString());
+                String shopCode1 = (ml.get("shopCode") == null ? "" : ml.get("shopCode").toString());
+                String salesStatus = this.getUserInfoMethod(salesNo1, shopCode1);
                 ml.put("salesStatus", salesStatus);
                 //脱敏
                 String name = String.valueOf(ml.get("name"));
@@ -95,7 +98,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
                 objList.add(ml);
             }
         } catch (Exception e) {
-            logger.error("query selectChangeCustomerMethod error!" + e);
+            logger.error("query selectChangeCustomerMethod error!", e);
         }
 
         map.put("total", page.getTotalCount());

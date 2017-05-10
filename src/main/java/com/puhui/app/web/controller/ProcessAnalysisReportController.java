@@ -1,15 +1,9 @@
 package com.puhui.app.web.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.puhui.app.common.page.mybatis.Page;
+import com.puhui.app.excel.ProcessAnalysisReportExcelUtil;
+import com.puhui.app.po.ProcessAnalysisReport;
+import com.puhui.app.service.ProcessAnalysisReportService;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.puhui.app.common.page.mybatis.Page;
-import com.puhui.app.excel.ProcessAnalysisReportExcelUtil;
-import com.puhui.app.po.ProcessAnalysisReport;
-import com.puhui.app.service.ProcessAnalysisReportService;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -56,7 +54,7 @@ public class ProcessAnalysisReportController {
     		@RequestParam(value = "salesNo", required = false) String salesNo) {
     	
     	logger.info("in ProcessAnalysisReportController.getProcessAnalysisReportMethod(){}--start");
-    	Map<String, Object> objMap = new HashMap<String, Object>();
+    	Map<String, Object> objMap = new HashMap<>();
     	try{
     		if (pageMap.get("page") == null||pageMap.get("rows") == null) {
     			throw new IllegalArgumentException("分页参数为空。");

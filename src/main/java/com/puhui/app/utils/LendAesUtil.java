@@ -9,23 +9,23 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class LendAesUtil {
-    private static final Logger logger = LoggerFactory.getLogger(LendAesUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LendAesUtil.class);
 
 	/**
 	 * 加密
 	 * 加密方法返回值会有“xy”前缀
-	 * @param cardNo
+	 * @param content
 	 * @return
 	 */
 	public static String encrypt(String content){
 //		if(StringUtils.isEmpty(content)){
-//			log.info("加密字符串为null");
+//			LOGGER.info("加密字符串为null");
 //			return content;
 //		}
-//		if(content.startsWith("xy") && content.length() > 18){
+//		if(content.startsWith("xy")){
 //			return content;
 //		}
-//		return AesEncryptionUtil.encrypt(content);
+//		content =  AesEncryptionUtil.encrypt(content);
 		return content;
 	}
 
@@ -37,13 +37,13 @@ public class LendAesUtil {
 	 */
 	public static String decrypt(String content){
 //		if(StringUtils.isEmpty(content)){
-//			log.info("解密字符串为null");
+//			LOGGER.info("解密字符串为null");
 //			return content;
 //		}
-//		if(content.startsWith("xy") && content.length() < 18){
+//		if(!content.startsWith("xy")){
 //			return content;
 //		}
-//		return AesEncryptionUtil.decrypt(content);
+//		content = AesEncryptionUtil.decrypt(content);
 		return content;
 	}
 	

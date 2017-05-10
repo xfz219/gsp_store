@@ -1,18 +1,9 @@
 package com.puhui.app.web.controller;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.dubbo.common.utils.Assert;
+import com.puhui.app.service.AppLendAdvertisementVoService;
+import com.puhui.app.vo.AppLendAdvertisementVo;
+import com.puhui.app.vo.ReturnEntity;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -22,17 +13,20 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.dubbo.common.utils.Assert;
-import com.puhui.app.service.AppLendAdvertisementVoService;
-import com.puhui.app.vo.AppLendAdvertisementVo;
-import com.puhui.app.vo.ReturnEntity;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 /**
  * 
  * @author lcy
@@ -41,18 +35,19 @@ import com.puhui.app.vo.ReturnEntity;
 @Controller
 @RequestMapping(value="/lendAdvertisement")
 public class AppLendAdvertisementController extends BaseController {
-	@InitBinder   
-    public void initBinder(WebDataBinder binder) {   
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");   
-        dateFormat.setLenient(true);   
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));   
-    }
-	
+
 	private static Logger logger = LoggerFactory.getLogger(AppLendAdvertisementController.class);
 
 	@Autowired
 	private AppLendAdvertisementVoService appLendAdvertisementVoService;
-	
+
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		dateFormat.setLenient(true);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+	}
+
 	/**
 	 * 页面跳转
 	 * @author lichunyue
@@ -62,11 +57,7 @@ public class AppLendAdvertisementController extends BaseController {
 	public String queryAdvertisement(){
 		return "business/queryAdvertisement";
 	}
-	/**
-	 * 
-	 * @param vo
-	 * @return
-	 */
+
 	@RequestMapping(value="/queryLendAdvertisementList")
 	public Map<String, Object> queryLendAdvertisementList(AppLendAdvertisementVo vo){
 		return appLendAdvertisementVoService.queryLendAdvertisementList(vo);
@@ -111,7 +102,7 @@ public class AppLendAdvertisementController extends BaseController {
 	@RequestMapping(value="/saveLendAdvertisement")
 	@ResponseBody
 	public Map<String, Object> saveLendAdvertisement(AppLendAdvertisementVo lendAdvertisement){
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		Long id = lendAdvertisement.getId();
 		if(null != id && id > 0){
 			try {

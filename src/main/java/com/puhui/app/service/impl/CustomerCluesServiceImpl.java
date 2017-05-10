@@ -215,8 +215,8 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
             AppUserToPromote appUserToPromote = new AppUserToPromote();
 
             //第一步数据过滤并且分配门店
-            String idNo = LendAesUtil.decrypt(jsonObject.getString("idNo"));
-            String mobile = LendAesUtil.decrypt(jsonObject.getString("telNumber"));
+            String idNo = LendAesUtil.encrypt(jsonObject.getString("idNo"));
+            String mobile = LendAesUtil.encrypt(jsonObject.getString("telNumber"));
             String chanceType = jsonObject.getString("chanceType");
             if(LEND_VALIDATE_CHANNEL.equals(chanceType)){
                 // 渠道为电销导流
