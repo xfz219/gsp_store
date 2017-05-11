@@ -214,7 +214,7 @@ public class ProcessAnalysisReportServiceImpl implements
 	private Map<String, Object> typeListTransferToMap(List<Map<String, Object>> list)throws Exception{
 		Map<String, Object> map = null;
 		if(CollectionUtils.isNotEmpty(list)&&list.size()>0){
-			map = new HashMap<String, Object>();
+			map = new HashMap<>();
 			for(Map<String, Object> typeMap : list){
 				if(typeMap.get("sale_num")!=null&&!"".equals(typeMap.get("sale_num"))&&
 				   typeMap.get("type")!=null&&!"".equals(typeMap.get("type"))){
@@ -236,8 +236,8 @@ public class ProcessAnalysisReportServiceImpl implements
 	 */
 	private Map<String, Object> listTransferToMap(List<Map<String, Object>> list)throws Exception{
 		Map<String, Object> map = null;
-		if(CollectionUtils.isNotEmpty(list)&&list.size()>0){
-			map = new HashMap<String, Object>();
+		if(CollectionUtils.isNotEmpty(list)){
+			map = new HashMap<>();
 			for(Map<String, Object> typeMap : list){
 				if(typeMap.get("sale_num")!=null&&!"".equals(typeMap.get("sale_num"))){
 					map.put(typeMap.get("sale_num").toString(), typeMap.get("count"));
@@ -256,11 +256,13 @@ public class ProcessAnalysisReportServiceImpl implements
 	 * @return
 	 * @throws Exception
 	 */
-	private List<String> getSaleNums(List<ProcessAnalysisReport> processAnalysisReportList)throws Exception{
-		if(CollectionUtils.isNotEmpty(processAnalysisReportList)&&processAnalysisReportList.size()>0){
-			List<String> list = new ArrayList<String>();
-			for(ProcessAnalysisReport processAnalysisReport : processAnalysisReportList){
-				if(StringUtils.isNotEmpty(processAnalysisReport.getSaleNum()))list.add(processAnalysisReport.getSaleNum());
+	private List<String> getSaleNums(List<ProcessAnalysisReport> processAnalysisReportList) throws Exception {
+		if (CollectionUtils.isNotEmpty(processAnalysisReportList)) {
+			List<String> list = new ArrayList<>();
+			for (ProcessAnalysisReport processAnalysisReport : processAnalysisReportList) {
+				if (StringUtils.isNotEmpty(processAnalysisReport.getSaleNum())){
+					list.add(processAnalysisReport.getSaleNum());
+				}
 			}
 			return list;
 		}

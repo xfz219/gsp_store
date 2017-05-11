@@ -1,18 +1,19 @@
 package com.puhui.app.web.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.puhui.app.common.constant.Select;
+import com.puhui.app.common.page.mybatis.Page;
+import com.puhui.app.service.AccessoryResetService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.puhui.app.common.constant.Select;
-import com.puhui.app.common.page.mybatis.Page;
-import com.puhui.app.service.AccessoryResetService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @comment 附件状态查询
@@ -21,7 +22,9 @@ import com.puhui.app.service.AccessoryResetService;
 @Controller
 @RequestMapping(value = "/accessoryReset")
 public class AccessoryResetController {
-	
+
+	private static Logger logger = LoggerFactory.getLogger(AccessoryResetController.class);
+
 	@Autowired
 	private AccessoryResetService accessoryResetServer;
 	
@@ -46,13 +49,13 @@ public class AccessoryResetController {
 	public Object selectAccessory(@RequestParam Map<String, Object> pageMap, 
     		@RequestParam(value = "appLendRequestId", required = false) String appLendRequestId,
     		@RequestParam(value = "type", required = false) String type){
-    	Map<String, Object> objMap = new HashMap<String, Object>();
+    	Map<String, Object> objMap = new HashMap<>();
     	try{
     		int pageNo = Integer.valueOf(pageMap.get("page").toString());// 当前页
     		int pageSize= Integer.valueOf(pageMap.get("rows").toString());// 当前页大小
             Page page = Page.getPage(pageNo,pageSize);
             //查询条件参数
-            Map<String, Object> paramMap = new HashMap<String, Object>(); 
+            Map<String, Object> paramMap = new HashMap<>();
         	paramMap.put("page", page);
         	paramMap.put("appLendRequestId", appLendRequestId);
         	paramMap.put("type", type);
@@ -62,7 +65,7 @@ public class AccessoryResetController {
         	objMap.put("total", page.getTotalCount());
         	objMap.put("rows", list);
     	}catch(Exception e){
-    		System.out.println("查询附件失败");
+			logger.error("查询附件失败: ", e);
     		throw new IllegalArgumentException(e);
     	}
     	return objMap;
@@ -87,7 +90,7 @@ public class AccessoryResetController {
         	accessoryResetServer.updateAccessoryServer(paramMap);
         	
     	}catch(Exception e){
-    		System.out.println("重置失败");
+			logger.error("重置失败: ", e);
     		throw new IllegalArgumentException(e);
     	}
 	}

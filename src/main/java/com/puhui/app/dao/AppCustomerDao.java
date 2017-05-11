@@ -20,6 +20,6 @@ public interface AppCustomerDao extends BaseDao {
     /**
      * 获取所有信息
      */
-    AppCustomer query(long id);
+    AppCustomer queryById(Long id);
 
 }

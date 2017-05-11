@@ -1,9 +1,11 @@
 package com.puhui.app.web.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.puhui.app.po.AppCustomer;
+import com.puhui.app.service.ChangeCustomerService;
+import com.puhui.app.utils.CommonUtils;
+import com.puhui.app.vo.QueryChangeCustomerVo;
+import com.puhui.uc.vo.RemoteStaffVo;
+import net.sf.json.JSONArray;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -14,12 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.puhui.app.service.ChangeCustomerService;
-import com.puhui.app.utils.CommonUtils;
-import com.puhui.app.vo.QueryChangeCustomerVo;
-import com.puhui.uc.vo.RemoteStaffVo;
-
-import net.sf.json.JSONArray;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 更换销售绑定
@@ -43,7 +42,14 @@ public class ChangeCustomerController extends BaseController{
 	public String goAccessoryResetMethod(){
 		return "business/changeCustomer";
 	}
-	
+
+	@RequestMapping(value = "/selectCustomerById")
+	@ResponseBody
+	public AppCustomer selectCustomerById(Long customerId){
+		return changeCustomerService.selectCustomerById(customerId);
+	}
+
+
 	/**
 	 * 解绑管理
 	 * @comment 

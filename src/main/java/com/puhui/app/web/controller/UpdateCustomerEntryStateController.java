@@ -1,8 +1,7 @@
 package com.puhui.app.web.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.puhui.app.service.UpdateCustomerEntryStateService;
+import com.puhui.app.utils.LendAesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.puhui.app.service.UpdateCustomerEntryStateService;
-import com.puhui.app.utils.LendAesUtil;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,17 +89,17 @@ public class UpdateCustomerEntryStateController {
 	 */
 	@ResponseBody
 	@RequestMapping("/showChangeMobileDelDialog")
-	public boolean showChangeMobileDelDialog(@RequestParam(value = "id" , required = false) long id,
+	public boolean showChangeMobileDelDialog(@RequestParam(value = "mobile" , required = false) String mobile,
 			HttpServletResponse response,HttpServletRequest request){
-		String mobile = LendAesUtil.encrypt(String.valueOf(id));
 		try{
+			mobile = LendAesUtil.encrypt(mobile);
 			updateCustomerEntryStateService.showChangeMobileDelDialog(mobile);
 		}catch(Exception e){
 			logger.error("系统异常：",e);
     		throw new IllegalArgumentException(e);
 		}
 		return true;
-		}
+	}
 	
 	/**
 	 * 删除获客信息

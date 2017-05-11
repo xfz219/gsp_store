@@ -25,9 +25,9 @@ public class AccessoryResetServiceImpl implements AccessoryResetService{
 	@Override
 	public List<Map<String, Object>> getAccessoryResetServer(Map<String, Object> paramMap)throws Exception{
 		List<Map<String, Object>> list = appLendAnnexAtatusDao.getAccessoryResetServer(paramMap);
-		List<Map<String, Object>> arrayList = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> arrayList = new ArrayList<>();
 		for(Map<String, Object> map : list){
-			Map<String, Object> map1 = new HashMap<String, Object>();
+			Map<String, Object> map1 = new HashMap<>();
 			map1.put("app_lend_request_id", map.get("app_lend_request_id"));
 			map1.put("type", Select.getInstance().checkTypeMap().get(map.get("type")));
 			arrayList.add(map1);

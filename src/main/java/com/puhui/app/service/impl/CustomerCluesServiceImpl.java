@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
+import com.puhui.app.utils.SensitiveInfoUtils;
 import com.puhui.cc.cloud.api.vo.LendLossDataVo;
 import com.puhui.cc.cloud.api.vo.ResultVo;
 import org.apache.commons.collections.CollectionUtils;
@@ -63,8 +64,15 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
             autpMap.put("toPromoteId", autp.getId());
             autpMap.put("channel", autp.getChannel());
             autpMap.put("channelTwo", autp.getChannelTwo());
-            autpMap.put("name", autp.getName());
-            autpMap.put("mobile", LendAesUtil.decrypt(autp.getMobile()));
+
+            //脱敏
+            String name = autp.getName();
+            name = SensitiveInfoUtils.sensitiveName(name);
+            String mobile = LendAesUtil.decrypt(autp.getMobile());
+            mobile = SensitiveInfoUtils.sensitiveMobile(mobile);
+            autpMap.put("name", name);
+            autpMap.put("mobile", mobile);
+
             autpMap.put("city", autp.getCity());
             autpMap.put("branch", autp.getBranch());
             autpMap.put("branchCode", autp.getBranchCode());
@@ -207,8 +215,8 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
             AppUserToPromote appUserToPromote = new AppUserToPromote();
 
             //第一步数据过滤并且分配门店
-            String idNo = LendAesUtil.decrypt(jsonObject.getString("idNo"));
-            String mobile = LendAesUtil.decrypt(jsonObject.getString("telNumber"));
+            String idNo = LendAesUtil.encrypt(jsonObject.getString("idNo"));
+            String mobile = LendAesUtil.encrypt(jsonObject.getString("telNumber"));
             String chanceType = jsonObject.getString("chanceType");
             if(LEND_VALIDATE_CHANNEL.equals(chanceType)){
                 // 渠道为电销导流

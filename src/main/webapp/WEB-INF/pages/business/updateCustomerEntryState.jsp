@@ -127,7 +127,7 @@
                        			$.ajax({
                        			    url: '${ctx}/updateCustomerEntryState/showChangeMobileDelDialog',
                        			    data: {
-                       			        "id": $('#mobile').val()
+                       			        "mobile": $('#mobile').val()
                        			    },
                        			    type: 'POST',
                        			    cache: false,

@@ -43,7 +43,8 @@ height: 20px;
  var i = 0;
  var paramData = {};
  var i = 0;
-	
+
+ //var onSingleCheck = false;
 $(function(){
 	grid = $('#datagrid').datagrid({
 		nowrap: false,
@@ -80,14 +81,19 @@ $(function(){
 		pageSize: 20,
 		toolbar:"#tbLendRequest",
 		onLoadSuccess:function (data){
+			$('#datagrid').datagrid("unselectAll");
 		},
-		onSelect: function (rowIndex, rowData) {
-			var rows = $('#datagrid').datagrid('getSelections');
-				$('#checkUser').hide();
-			if (!(rows[0].channelTwo == '1')){
-				$('#checkUser').show();
-			}
-		},
+//		onCheck: function (rowIndex, rowData) {
+//			var rows = $('#datagrid').datagrid('getSelections');
+//			if(rows.id == rowData.id){
+//				if(rows!=null && onSingleCheck==true){
+//					$('#datagrid').datagrid("unselectAll");
+//					onSingleCheck = false;
+//				} else {
+//					onSingleCheck = true;
+//				}
+//			}
+//		},
 		onLoadError:function (data) {			
 			$.messager.alert('提示信息',"查询线索管理失败！");
 		}
@@ -404,7 +410,7 @@ function checkUser(){
 			<a  href="javascript:void(0);" class="easyui-linkbutton clear" iconCls="icon-remove" plain="true" onclick="resetConditions();">重置</a>
 			<br><br>
 			&nbsp;&nbsp;&nbsp;&nbsp;<a id="addChangeMobileDialog" href="#" class="easyui-linkbutton l-btn" onclick="bindingUserA();"><span class="l-btn-text">绑定</span></a>
-			&nbsp;&nbsp;&nbsp;&nbsp;<a id="checkUser" style="display: none" href="#" class="easyui-linkbutton l-btn" onclick="checkUser();"><span class="l-btn-text">详情</span></a>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a id="checkUser" href="#" class="easyui-linkbutton l-btn" onclick="checkUser();"><span class="l-btn-text">详情</span></a>
 			<br><br>
 			
 	</div>
