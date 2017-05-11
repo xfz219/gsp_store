@@ -44,7 +44,7 @@ height: 20px;
  var paramData = {};
  var i = 0;
 
- var onSingleCheck = false;
+ //var onSingleCheck = false;
 $(function(){
 	grid = $('#datagrid').datagrid({
 		nowrap: false,
@@ -83,17 +83,17 @@ $(function(){
 		onLoadSuccess:function (data){
 			$('#datagrid').datagrid("unselectAll");
 		},
-		onCheck: function (rowIndex, rowData) {
-			var rows = $('#datagrid').datagrid('getSelections');
-			if(rows.id == rowData.id){
-				if(rows!=null && onSingleCheck==true){
-					$('#datagrid').datagrid("unselectAll");
-					onSingleCheck = false;
-				} else {
-					onSingleCheck = true;
-				}
-			}
-		},
+//		onCheck: function (rowIndex, rowData) {
+//			var rows = $('#datagrid').datagrid('getSelections');
+//			if(rows.id == rowData.id){
+//				if(rows!=null && onSingleCheck==true){
+//					$('#datagrid').datagrid("unselectAll");
+//					onSingleCheck = false;
+//				} else {
+//					onSingleCheck = true;
+//				}
+//			}
+//		},
 		onLoadError:function (data) {			
 			$.messager.alert('提示信息',"查询线索管理失败！");
 		}
