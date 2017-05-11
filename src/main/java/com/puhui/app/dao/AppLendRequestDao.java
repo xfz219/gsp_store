@@ -52,4 +52,16 @@ public interface AppLendRequestDao extends BaseDao{
 	 * 
 	 */
 	public void updateAppUserToPromote(@Param("id")String id, @Param("name")String name, @Param("code")String code);
+
+	/**
+	 * 调查问卷查询当前
+	 * @param id
+	 */
+	boolean questionnaireControl(@Param("id")long id);
+
+	/**
+	 * 更新调查问卷状态
+	 * @param id
+	 */
+	void updateQuestionnaire(@Param("id")long id, @Param("questionnaire")boolean questionnaire);
 }

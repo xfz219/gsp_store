@@ -20,11 +20,13 @@
 <div id="tbChangeMobileListGrid">
 	<span>
 		<span class="datagrid-btn-separator" style="float:none;"></span>
-		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add' onclick="showChangeMobileDialog();" >修改客户进件状态</a>
+		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="showChangeMobileDialog();" >修改客户进件状态</a>
 		<span class="datagrid-btn-separator" style="float:none;"></span>
-		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add' onclick="showChangeMobileDelDialog();" >删除客户信息</a>
+		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="showChangeMobileDelDialog();" >删除客户信息</a>
 		<span class="datagrid-btn-separator" style="float:none;"></span>
-		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add' onclick="showChangeIdDelDialog();" >删除获客信息</a>
+		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="showChangeIdDelDialog();" >删除获客信息</a>
+		<span class="datagrid-btn-separator" style="float:none;"></span>
+		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="questionnaireTotalControl();" >调查问卷控制器</a>
 		<span class="datagrid-btn-separator" style="float:none;"></span>
 	</span>
 	<div style="clear:both;"></div>
@@ -195,6 +197,47 @@
                     	addChangeMobileDialog.dialog('close');
                     }
                 }]
+		});
+	}
+
+	function questionnaireTotalControl() {
+		var contentData = '<div style="margin: 20px 0px 0px 50px;"><label>进件id：</label><input id="appLendRequestId" class="easyui-validatebox textbox" data-options="required:true"/></div>';
+		addChangeMobileDialog.dialog({
+			title: "调查问卷全局控制",
+			width: 350,
+			height: 130,
+			modal: true,
+			content: contentData,
+			buttons: [{
+				text: '确定',
+				handler: function() {
+					var thisButton = $(this);
+						$.messager.confirm('确定','咋滴？你确定要修改啊？（不填写内容默认为全关\全开）',function(r){
+							if(r){
+								thisButton.linkbutton('disable');
+								$.ajax({
+									url: '${ctx}/updateCustomerEntryState/questionnaireTotalControl',
+									data: {
+										"id": $('#appLendRequestId').val()
+									},
+									type: 'POST',
+									cache: false,
+									dataType: "json",
+									async:false,
+									success: function(data) {
+										addChangeMobileDialog.dialog('close');
+										$.messager.alert('提示信息','修改成功');
+									}
+								});
+							}
+						});
+				}},
+				{
+					text: '取消',
+					handler: function() {
+						addChangeMobileDialog.dialog('close');
+					}
+				}]
 		});
 	}
 
