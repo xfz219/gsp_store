@@ -1,5 +1,7 @@
 package com.puhui.app.utils;
 
+import com.puhui.aes.AesEncryptionUtil;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,14 +20,14 @@ public class LendAesUtil {
 	 * @return
 	 */
 	public static String encrypt(String content){
-//		if(StringUtils.isEmpty(content)){
-//			LOGGER.info("加密字符串为null");
-//			return content;
-//		}
-//		if(content.startsWith("xy")){
-//			return content;
-//		}
-//		content =  AesEncryptionUtil.encrypt(content);
+		if(StringUtils.isEmpty(content)){
+			LOGGER.info("加密字符串为null");
+			return content;
+		}
+		if(content.startsWith("xy")){
+			return content;
+		}
+		content =  AesEncryptionUtil.encrypt(content);
 		return content;
 	}
 
@@ -36,14 +38,14 @@ public class LendAesUtil {
 	 * @return
 	 */
 	public static String decrypt(String content){
-//		if(StringUtils.isEmpty(content)){
-//			LOGGER.info("解密字符串为null");
-//			return content;
-//		}
-//		if(!content.startsWith("xy")){
-//			return content;
-//		}
-//		content = AesEncryptionUtil.decrypt(content);
+		if(StringUtils.isEmpty(content)){
+			LOGGER.info("解密字符串为null");
+			return content;
+		}
+		if(!content.startsWith("xy")){
+			return content;
+		}
+		content = AesEncryptionUtil.decrypt(content);
 		return content;
 	}
 	
