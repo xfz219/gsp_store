@@ -1,7 +1,12 @@
 package com.puhui.app.web.controller;
 
+import com.puhui.app.dao.AppLendRequestDao;
+import com.puhui.app.dao.AppLendTemplateDao;
+import com.puhui.app.po.AppLendTemplate;
 import com.puhui.app.service.UpdateCustomerEntryStateService;
+import com.puhui.app.utils.BasisUtils;
 import com.puhui.app.utils.LendAesUtil;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +31,10 @@ public class UpdateCustomerEntryStateController {
 	private static Logger logger = LoggerFactory.getLogger(ProcessAnalysisReportController.class);
 	@Autowired
 	private UpdateCustomerEntryStateService updateCustomerEntryStateService;
+	@Autowired
+	private AppLendRequestDao appLendRequestDao;
+	@Autowired
+	private AppLendTemplateDao appLendTemplateDao;
 	
 	/**
 	 * 页面跳转
@@ -119,6 +128,39 @@ public class UpdateCustomerEntryStateController {
 		}
 		return true;
 		}
+
+	/**
+	 * 删除获客信息
+	 * @author lichunyue
+	 * @return
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/questionnaireTotalControl")
+	public boolean questionnaireTotalControl(@RequestParam(value = "id" , required = false) String id,
+										 HttpServletResponse response,HttpServletRequest request){
+		try{
+			if(!ObjectUtils.equals(id,"") && id != null){
+				Boolean control = true;
+				Boolean questionnaire = appLendRequestDao.questionnaireControl(Long.parseLong(id));
+				if (questionnaire){
+					control = false;
+				}
+				appLendRequestDao.updateQuestionnaire(Long.parseLong(id), control);
+			}else{
+				String templetContent = "1";
+				AppLendTemplate appLendTemplate = appLendTemplateDao.getAppLendTemplateMethod(BasisUtils.QUESTIONNAIRE_SWITCH);
+				if (ObjectUtils.equals(appLendTemplate.getTempletContent(),"1")){
+					templetContent = "0";
+				}
+				appLendTemplateDao.updateTempletContent(BasisUtils.QUESTIONNAIRE_SWITCH, templetContent);
+			}
+		}catch(Exception e){
+			logger.error("系统异常：",e);
+			throw new IllegalArgumentException(e);
+		}
+		return true;
+	}
 
 	/**
 	 * 洗数据

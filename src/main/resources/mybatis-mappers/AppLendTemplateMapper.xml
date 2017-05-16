@@ -15,5 +15,10 @@
 	<select id="getAppLendTemplateMethod" parameterType="string" resultMap="appLendTemplateObj">
 		SELECT * FROM app_lend_template WHERE templet_type = #{templetType}
 	</select>
+
+	<update id="updateTempletContent" >
+		UPDATE app_lend_template SET templet_content = #{templetContent}
+		where templet_type = #{templetType}
+	</update>
 	
 </mapper> 
