@@ -1,6 +1,7 @@
 package com.puhui.app.utils;
 
 import com.puhui.aes.AesEncryptionUtil;
+import com.puhui.aes.AesEnum;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +22,16 @@ public class LendAesUtil {
 	 */
 	public static String encrypt(String content){
 		if(StringUtils.isEmpty(content)){
-			LOGGER.info("加密字符串为null");
 			return content;
 		}
-		if(content.startsWith("xy")){
+		if(content.startsWith("xy") && content.endsWith(AesEnum.FIRST.getDate())){
 			return content;
 		}
-		content =  AesEncryptionUtil.encrypt(content);
+		try {
+			content =  AesEncryptionUtil.encrypt(content);
+		} catch (Exception e) {
+			LOGGER.error("加密失败：", e);
+		}
 		return content;
 	}
 
@@ -39,13 +43,16 @@ public class LendAesUtil {
 	 */
 	public static String decrypt(String content){
 		if(StringUtils.isEmpty(content)){
-			LOGGER.info("解密字符串为null");
 			return content;
 		}
-		if(!content.startsWith("xy")){
+		if(!content.startsWith("xy") || !content.endsWith(AesEnum.FIRST.getDate())){
 			return content;
 		}
-		content = AesEncryptionUtil.decrypt(content);
+		try {
+			content =  AesEncryptionUtil.decrypt(content);
+		} catch (Exception e) {
+			LOGGER.error("解密失败：", e);
+		}
 		return content;
 	}
 	
