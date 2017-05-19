@@ -73,4 +73,13 @@
 		update app_user_to_promote set branch = #{name},branch_code = #{code}
 		where id = #{id}
 	</update>
+
+	<select id="questionnaireControl" resultType="boolean">
+		select questionnaire from app_lend_request where id = #{id}
+	</select>
+
+	<update id="updateQuestionnaire" >
+		update app_lend_request set questionnaire = #{questionnaire}
+		where id = #{id}
+	</update>
 </mapper>

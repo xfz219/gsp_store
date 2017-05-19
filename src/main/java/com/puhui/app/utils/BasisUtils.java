@@ -18,4 +18,8 @@ public class BasisUtils {
 	 * 解绑管理推送客户消息模板
 	 */
 	public static final String UNWRAPCUSTOMER = "UNWRAPCUSTOMER";
+	/**
+	 * 调查问卷总开关
+	 */
+	public static final String QUESTIONNAIRE_SWITCH = "QUESTIONNAIRE_SWITCH";
 }
