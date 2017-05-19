@@ -32,10 +32,10 @@
 		where id = #{id}
 	</update>
 	<delete id="showChangeMobileDelDialog" parameterType="long">
-		DELETE FROM app_customer WHERE mobile = #{mobile}
+		DELETE FROM app_customer WHERE mobile = #{mobile, typeHandler=encryptTypeHandler}
 	</delete>
 	<delete id="showChangeMobileDelLoginDialog" parameterType="long">
-		DELETE FROM app_customer_log_in WHERE mobile = #{mobile}
+		DELETE FROM app_customer_log_in WHERE mobile = #{mobile, typeHandler=encryptTypeHandler}
 	</delete>
 	<delete id="showChangeIdDelDialog" parameterType="long">
 		DELETE FROM app_user_to_promote WHERE id = #{id}

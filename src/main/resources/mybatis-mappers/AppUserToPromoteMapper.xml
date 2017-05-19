@@ -6,7 +6,7 @@
 	<resultMap type="com.puhui.app.po.AppUserToPromote" id="appUserToPromoteObj">
 		<id property="id" column="id"/>
 		<result property="name" column="name"/>
-		<result property="mobile" column="mobile"/>
+		<result property="mobile" column="mobile" typeHandler="encryptTypeHandler"/>
 		<result property="city" column="city"/>
 		<result property="cityCode" column="city_code"/>
 		<result property="branch" column="branch"/>
@@ -16,7 +16,7 @@
 		<result property="uid" column="uid"/>
 		<result property="department" column="department"/>
 		<result property="updateAllotTime" column="update_allot_time"/>
-		<result property="idNo" column="id_no"/>
+		<result property="idNo" column="id_no" typeHandler="encryptTypeHandler"/>
 		<result property="amount" column="amount"/>
 		<result property="productName" column="product_name"/>
 		<result property="isSettle" column="is_settle"/>
@@ -52,7 +52,7 @@
 				<![CDATA[AND autp.name LIKE #{name} ]]>
 			</if>
 			<if test="mobile != null and mobile != ''">
-				<![CDATA[AND autp.mobile LIKE #{mobile} ]]>
+				<![CDATA[AND autp.mobile LIKE #{mobile, typeHandler=encryptTypeHandler} ]]>
 			</if>
 			<if test="salesName != null and salesName != ''">
 				<![CDATA[AND autp.sales_name LIKE #{salesName} ]]>
@@ -90,23 +90,23 @@
 	</select>
 	
 	<select id="findCustomerCluesMethodIdNo" parameterType="String" resultType="java.lang.Integer">
-		select count(*) from app_user_to_promote autp where autp.id_no =#{idNo,jdbcType=VARCHAR}
+		select count(*) from app_user_to_promote autp where autp.id_no =#{idNo, typeHandler=encryptTypeHandler}
 	</select>
 	
 	<select id="findCustomerCluesMethodMobile" parameterType="String" resultType="java.lang.Integer">
-		select count(*) from app_user_to_promote autp where autp.mobile =#{mobile,jdbcType=VARCHAR} AND autp.channel_type != 'PROMOTE'
+		select count(*) from app_user_to_promote autp where autp.mobile =#{mobile, typeHandler=encryptTypeHandler} AND autp.channel_type != 'PROMOTE'
 	</select>
 	<insert id="insertAppUserToPromote" parameterType="com.puhui.app.po.AppUserToPromote" useGeneratedKeys="true" keyProperty="id">
 		insert into app_user_to_promote 
 		(name,mobile,city,city_code,branch,branch_code,department,sales_name,sales_no,uid,update_allot_time,create_time,update_time,id_no,amount,is_settle,settle_time,channel,province,channel_type,channel_two_type,product_name) 
 		values 
-		(#{name,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},
+		(#{name,jdbcType=VARCHAR},#{mobile, typeHandler=encryptTypeHandler},
 		#{city,jdbcType=VARCHAR},#{cityCode,jdbcType=VARCHAR},
 		#{branch,jdbcType=VARCHAR},#{branchCode,jdbcType=VARCHAR},
 		#{department,jdbcType=VARCHAR},#{salesName,jdbcType=VARCHAR},
 		#{salesNo,jdbcType=VARCHAR},#{uid,jdbcType=VARCHAR}
 		,now(),now(),now(),
-		#{idNo,jdbcType=VARCHAR},#{amount,jdbcType=DECIMAL},
+		#{idNo, typeHandler=encryptTypeHandler},#{amount,jdbcType=DECIMAL},
 		#{isSettle,jdbcType=BIT},#{settleTime,jdbcType=TIMESTAMP},
 		#{channel,jdbcType=VARCHAR},#{province,jdbcType=VARCHAR},
 		#{channelType,jdbcType=VARCHAR},#{channelTwoType,jdbcType=VARCHAR},

@@ -1,7 +1,9 @@
 package com.puhui.app;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.puhui.app.dao.AppCustomerDao;
+import com.puhui.app.po.AppCustomer;
 import com.puhui.app.service.SwaggerService;
 import com.puhui.cc.cloud.api.vo.LendLossDataVo;
 import com.puhui.cc.cloud.api.vo.ResultVo;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yhl on 2016/11/29.
@@ -26,8 +29,18 @@ public class Demo extends BaseTest {
     @Autowired
     private AppCustomerDao appCustomerDao;
 
-    @Autowired
+       @Autowired
     private SwaggerService swaggerService;
+
+    // xyb73d4153d83ceffe351fc3acaf9a1ec020160926 --- 15512345674
+    //xy75806fac5062f0ac6cfa4f1bc77251601eec07d6a4cddcd57dba00744f1f593220160926 -- 110226198005100059
+    @Test
+    public void appCustomer(){
+        List<Map<String, Object>> list =  appCustomerDao.getIdNoMethod("110226198005100059");
+        logger.info("result: {}", JSONArray.toJSONString(list));
+        AppCustomer appCustomer =  appCustomerDao.queryById(402l);
+        logger.info("result: {}", JSONObject.toJSONString(appCustomer));
+    }
 
     @Test
     public void ccReceiveLendLossData(){
