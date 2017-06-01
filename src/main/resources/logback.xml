@@ -20,7 +20,7 @@
 	
 	<!-- project default level -->
 	<logger name="com.puhui" level="INFO" />
-	<logger name="com.puhui.app.dao" level="DEBUG" />
+	<logger name="com.puhui.app.dao" level="INFO" />
 	
 	<!-- root -->
 	<root level="INFO">
@@ -30,9 +30,9 @@
 	
 	<!-- 下面配置一些第三方包的日志过滤级别，用于避免刷屏 -->
     <logger name="org.springframework" level="INFO"/>
-    <logger name="org.springframework.jdbc" level="DEBUG"/>
+    <logger name="org.springframework.jdbc" level="INFO"/>
     <logger name="com.opensymphony" level="WARN"/>
-    <logger name="java.sql" level="DEBUG"/>
+    <logger name="java.sql" level="INFO"/>
     <logger name="org.apache" level="INFO"/>
-    <logger name="com.ibatis" level="DEBUG"/>
+    <logger name="com.ibatis" level="INFO"/>
 </configuration>
