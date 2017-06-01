@@ -20,6 +20,7 @@
 	
 	<!-- project default level -->
 	<logger name="com.puhui" level="INFO" />
+	<logger name="com.puhui.app.dao" level="INFO" />
 	
 	<!-- root -->
 	<root level="INFO">

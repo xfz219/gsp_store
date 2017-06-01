@@ -6,11 +6,11 @@
 <resultMap id="appCustomerObj" type="appCustomer">
 		<id property="id" column="id"/>
 		<result property="customerName" column="customer_name"/>
-		<result property="idNo" column="id_no"/>
+		<result property="idNo" column="id_no" typeHandler="encryptTypeHandler"/>
 		<result property="customerPassword" column="customer_password"/>
 		<result property="customerServiceManagerNumber" column="customer_service_manager_number"/>
 		<result property="email" column="email"/>
-		<result property="mobile" column="mobile"/>
+		<result property="mobile" column="mobile" typeHandler="encryptTypeHandler"/>
 		<result property="isEnable" column="is_enable"/>
 		<result property="isExistChildren" column="is_exist_children"/>
 		<result property="isProvideHouseProperty" column="is_provide_house_property"/>
@@ -34,11 +34,11 @@
 		<result property="award" column="award"/>
 	</resultMap>
 	
-	<select id="getMobileMethod" parameterType="string" resultType="list">
-		select * from app_customer where mobile = #{mobile}
+	<select id="getMobileMethod" parameterType="string" resultType="Map">
+		select * from app_customer where mobile = #{mobile, typeHandler=encryptTypeHandler}
 	</select>
-	<select id="getIdNoMethod" parameterType="string" resultType="list">
-		select * from app_customer where id_no = #{idNo}
+	<select id="getIdNoMethod" parameterType="string" resultType="Map">
+		select * from app_customer where id_no = #{idNo, typeHandler=encryptTypeHandler}
 	</select>
 	<select id="queryById" parameterType="long" resultMap="appCustomerObj">
 		select * from app_customer where id = #{id}

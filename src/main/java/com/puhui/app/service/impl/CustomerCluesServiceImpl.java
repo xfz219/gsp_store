@@ -283,9 +283,9 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
             if(LEND_VALIDATE_CHANNEL.equals(chanceType)) {
                 LendLossDataVo lendLossDataVo = new LendLossDataVo();
                 lendLossDataVo.setCustomerName(appUserToPromote.getName());
-                lendLossDataVo.setIdNo(appUserToPromote.getIdNo());
+                lendLossDataVo.setIdNo(LendAesUtil.decrypt(appUserToPromote.getIdNo()));
                 lendLossDataVo.setCity(appUserToPromote.getCityCode());
-                lendLossDataVo.setMobile(appUserToPromote.getMobile());
+                lendLossDataVo.setMobile(LendAesUtil.decrypt(appUserToPromote.getMobile()));
                 lendLossDataVo.setStore(jsonObject.getString("shopCode"));
                 asyncPushCC(lendLossDataVo);
             }
