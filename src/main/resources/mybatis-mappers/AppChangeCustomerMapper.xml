@@ -25,7 +25,7 @@
 				<![CDATA[AND ac.customer_name LIKE #{name} ]]>
 			</if>
 			<if test="mobile != null and mobile != ''">
-				<![CDATA[AND ac.mobile LIKE #{mobile, typeHandler=encryptTypeHandler} ]]>
+				<![CDATA[AND ac.mobile = #{mobile, typeHandler=encryptTypeHandler} ]]>
 			</if>
 			<if test="salesName != null and salesName != ''">
 				<![CDATA[AND ac.sales_name LIKE #{salesName} ]]>

@@ -85,7 +85,7 @@ public class CustomerCluesController {
         	paramMap.put("page", page);
         	paramMap.put("radio", radio);
         	paramMap.put("name", name != null?name+"%": "");
-        	paramMap.put("mobile", mobile != null?LendAesUtil.encrypt(mobile)+"%": "");
+        	paramMap.put("mobile", mobile != null?LendAesUtil.encrypt(mobile): "");
         	paramMap.put("salesName", salesName != null?salesName+"%": "");
         	paramMap.put("salesNo", salesNo != null?salesNo+"%": "");
         	paramMap.put("channel", channel != null? channel :"");

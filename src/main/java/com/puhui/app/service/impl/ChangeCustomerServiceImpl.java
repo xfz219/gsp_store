@@ -73,7 +73,7 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
         paramMap.put("page", page);
         paramMap.put("name", queryChangeCustomerVo.getName() != null ? queryChangeCustomerVo.getName() + "%" : "");
         //加密
-        paramMap.put("mobile", queryChangeCustomerVo.getMobile() != null ? LendAesUtil.encrypt(queryChangeCustomerVo.getMobile()) + "%" : "");
+        paramMap.put("mobile", queryChangeCustomerVo.getMobile() != null ? LendAesUtil.encrypt(queryChangeCustomerVo.getMobile()) : "");
         paramMap.put("salesMobile", queryChangeCustomerVo.getSalesMobile() != null ? queryChangeCustomerVo.getSalesMobile() + "%" : "");
         paramMap.put("salesName", queryChangeCustomerVo.getSalesName() != null ? queryChangeCustomerVo.getSalesName() + "%" : "");
         paramMap.put("salesNo", queryChangeCustomerVo.getSalesNo() != null ? queryChangeCustomerVo.getSalesNo() + "%" : "");

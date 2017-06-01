@@ -52,7 +52,7 @@
 				<![CDATA[AND autp.name LIKE #{name} ]]>
 			</if>
 			<if test="mobile != null and mobile != ''">
-				<![CDATA[AND autp.mobile LIKE #{mobile, typeHandler=encryptTypeHandler} ]]>
+				<![CDATA[AND autp.mobile = #{mobile, typeHandler=encryptTypeHandler} ]]>
 			</if>
 			<if test="salesName != null and salesName != ''">
 				<![CDATA[AND autp.sales_name LIKE #{salesName} ]]>
