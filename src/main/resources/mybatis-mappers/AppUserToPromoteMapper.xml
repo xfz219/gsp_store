@@ -66,7 +66,12 @@
 			<if test="channel != null and channel != ''">
 				<![CDATA[AND autp.channel = #{channel} ]]>
 			</if>
-			
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[AND DATE_FORMAT(autp.create_time, '%Y-%m-%d') >= #{startTime} ]]>
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[AND DATE_FORMAT(autp.create_time, '%Y-%m-%d') <= #{endTime} ]]>
+		</if>
 		ORDER BY autp.create_time DESC
 	</select>
 

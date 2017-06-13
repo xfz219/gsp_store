@@ -84,17 +84,17 @@ public class ChangeCustomerController extends BaseController{
 		
 		 String selectUserName = (String) map.get("selectUserName");
 		 List<Long> ids = CommonUtils.getLonglist(map.get("ids")); // appCustomerId
-		 boolean falg = true;
+		 boolean flag = true;
 		 Subject currStaff = SecurityUtils.getSubject();
 	     RemoteStaffVo staff = (RemoteStaffVo) currStaff.getPrincipal();
 	       
 	     if(! "LEND_MANAGER".equals(staff.getPositionType())){
-	    	 falg = changeCustomerService.validate(ids);
-	    	 if(!falg) throw new RuntimeException("   “正常”的销售不可更换绑定     ");
+	    	 flag = changeCustomerService.validate(ids);
+	    	 if(!flag) throw new RuntimeException("   “正常”的销售不可更换绑定     ");
 	     }
     	try{
     		 changeCustomerService.updateBindingUserMethod(ids,selectUserName);
-    		 changeCustomerService.insertLog(map.get("ids").toString(), staff.getId());
+    		 changeCustomerService.insertLog(ids, staff.getId());
     		 return true;
     	}catch(Exception e){
     		logger.info("------------绑定失败请稍后再试---------",e);

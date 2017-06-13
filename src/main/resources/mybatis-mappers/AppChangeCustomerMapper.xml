@@ -27,6 +27,9 @@
 			<if test="mobile != null and mobile != ''">
 				<![CDATA[AND ac.mobile = #{mobile, typeHandler=encryptTypeHandler} ]]>
 			</if>
+			<if test="idNo != null and idNo != ''">
+				<![CDATA[AND ac.id_no = #{idNo, typeHandler=encryptTypeHandler} ]]>
+			</if>
 			<if test="salesName != null and salesName != ''">
 				<![CDATA[AND ac.sales_name LIKE #{salesName} ]]>
 			</if>
@@ -67,6 +70,15 @@
            		 #{id}
         	</foreach>
 	</update>
+
+	<select id="findLogInfo" parameterType="map" resultType="hashMap">
+		select id as id, customer_service_manager_number as oldStaffId from `app_customer`
+		where id in
+		<foreach collection="ids" item="id" index="index"
+				 open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</select>
 	
 	<select id="selectAppCustomerMethod" parameterType="map" resultType="java.util.HashMap">
 		SELECT

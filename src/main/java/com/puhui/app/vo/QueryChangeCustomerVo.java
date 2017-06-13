@@ -22,7 +22,8 @@ public class QueryChangeCustomerVo implements Serializable{
 	private String sort = "lendRequestId";// 排序字段
 
 	private String order = "desc";// 排序方式
-	
+
+	private String idNo; //客户身份证号
 	private String name; //客户姓名
 	
 	private String mobile; //客户手机号
@@ -38,6 +39,14 @@ public class QueryChangeCustomerVo implements Serializable{
 	private String salesMobile; //销售手机号
 	
 	private String department; //机构
+
+	public String getIdNo() {
+		return idNo;
+	}
+
+	public void setIdNo(String idNo) {
+		this.idNo = idNo;
+	}
 
 	public Long getPid() {
 		return pid;

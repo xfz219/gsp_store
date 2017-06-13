@@ -68,8 +68,10 @@ public class CustomerCluesController {
     		@RequestParam(value = "shopCode", required = false) String shopCode,
     		@RequestParam(value = "salesName", required = false) String salesName,
     		@RequestParam(value = "salesNo", required = false) String salesNo,
-    		@RequestParam(value = "channel", required = false) String channel){
-		
+    		@RequestParam(value = "channel", required = false) String channel,
+    		@RequestParam(value = "startTime", required = false) String startTime,
+    		@RequestParam(value = "endTime", required = false) String endTime){
+
     	Map<String, Object> objMap = new HashMap<>();
     	try{
     		Subject currStaff = SecurityUtils.getSubject();
@@ -89,6 +91,8 @@ public class CustomerCluesController {
         	paramMap.put("salesName", salesName != null?salesName+"%": "");
         	paramMap.put("salesNo", salesNo != null?salesNo+"%": "");
         	paramMap.put("channel", channel != null? channel :"");
+        	paramMap.put("startTime", startTime != null? startTime :"");
+        	paramMap.put("endTime", endTime != null? endTime :"");
         	if(StringUtils.isBlank(shopCode)){
         		paramMap.put("branchCode", staff.getOrganizationVo().getCode()+"%");
         	}else{

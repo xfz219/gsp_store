@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  *
  */
 public class BaseController {
+
+
     /**
      * 处理时间的转换器，默认格式是yyyy-MM-dd HH:mm:ss可以被重载
      * 

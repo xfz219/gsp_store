@@ -83,17 +83,6 @@ $(function(){
 		onLoadSuccess:function (data){
 			$('#datagrid').datagrid("unselectAll");
 		},
-//		onCheck: function (rowIndex, rowData) {
-//			var rows = $('#datagrid').datagrid('getSelections');
-//			if(rows.id == rowData.id){
-//				if(rows!=null && onSingleCheck==true){
-//					$('#datagrid').datagrid("unselectAll");
-//					onSingleCheck = false;
-//				} else {
-//					onSingleCheck = true;
-//				}
-//			}
-//		},
 		onLoadError:function (data) {			
 			$.messager.alert('提示信息',"查询线索管理失败！");
 		}
@@ -127,7 +116,10 @@ function searchByConditions(){
 	paramData.salesNo = $('#salesNo').val();
 	paramData.channel = $('#requestChannel').combobox('getValue');
 	paramData.shopCode = $('#shopCode').combobox('getValue');
-	grid.datagrid('load', getData(paramData));
+    paramData.startTime = $("#startTime").datebox("getValue");
+    paramData.endTime = $("#endTime").datebox("getValue");
+
+    grid.datagrid('load', getData(paramData));
 	grid.datagrid('clearSelections'); 
 }
 
@@ -141,6 +133,8 @@ function resetConditions(){
 	$('#requestChannel').combobox("setValue", '');
 	$('#department').combobox("setValue", '');
 	$("#salesStatus").combobox("setValue", '');
+    $("#startTime").datebox("setValue", "");
+    $("#endTime").datebox("setValue", "");
 }
 
 function bindingUserA() {
@@ -367,6 +361,11 @@ function checkUser(){
 	          }
 	   	});
 	   });
+
+ $(document).ready(function(){
+     $(".datebox :text").attr("readonly","readonly");
+ })
+
 </script>
 
 </head>
@@ -396,7 +395,10 @@ function checkUser(){
 		<br>
 		&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="radio" value="1" >仅显示未绑定销售
 		&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="radio" value="2" checked>显示全部
-        <br><br>
+		<br><br>
+		&nbsp;&nbsp;&nbsp;&nbsp;开始时间：<input type="text" class="easyui-datebox" id="startTime" name="startTime" />
+		&nbsp;&nbsp;&nbsp;&nbsp;结束时间：<input type="text" class="easyui-datebox" id="endTime" name="endTime" />
+		<br><br>
 			&nbsp;&nbsp;&nbsp;&nbsp;客户姓名：<input type="text" id="name" name="name" />&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;客户手机：<input type="text" id="mobile" name="mobile" />&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;门店机构： 
