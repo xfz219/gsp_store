@@ -93,8 +93,8 @@ public class ChangeCustomerController extends BaseController{
 	    	 if(!flag) throw new RuntimeException("   “正常”的销售不可更换绑定     ");
 	     }
     	try{
-    		 changeCustomerService.updateBindingUserMethod(ids,selectUserName);
-    		 changeCustomerService.insertLog(ids, staff.getId());
+			changeCustomerService.insertLog(ids, staff.getId());
+			changeCustomerService.updateBindingUserMethod(ids,selectUserName);
     		 return true;
     	}catch(Exception e){
     		logger.info("------------绑定失败请稍后再试---------",e);
