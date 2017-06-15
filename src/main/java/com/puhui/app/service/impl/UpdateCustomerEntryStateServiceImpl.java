@@ -4,6 +4,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.puhui.app.dao.AppCustomerDao;
+import com.puhui.app.dao.AppCustomerDeleteDao;
+import com.puhui.app.po.AppCustomer;
+import com.puhui.app.po.AppCustomerDelete;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +29,12 @@ public class UpdateCustomerEntryStateServiceImpl implements UpdateCustomerEntryS
 	@Autowired
 	private AppLendRequestDao appLendRequestDao;
 	@Autowired
+	private AppCustomerDao appCustomerDao;
+	@Autowired
+	private AppCustomerDeleteDao appCustomerDeleteDao;
+	@Autowired
 	private SwaggerService swaggerService;
-	
+
 	/**
 	 * 质回未上传
 	 * @author lichunyue
@@ -43,7 +52,14 @@ public class UpdateCustomerEntryStateServiceImpl implements UpdateCustomerEntryS
 
 	@Override
 	public void showChangeMobileDelDialog(String mobile) {
+		AppCustomer appCustomer = appCustomerDao.getAppCustomerByMobile(mobile);
 		updateCustomerEntryStateManager.showChangeMobileDelDialog(mobile);
+		if(appCustomer != null){
+			AppCustomerDelete appCustomerDelete = new AppCustomerDelete();
+			appCustomerDelete.setAppCustomerId(appCustomer.getId());
+			BeanUtils.copyProperties(appCustomer, appCustomerDelete);
+			appCustomerDeleteDao.addAppCustomerDelete(appCustomerDelete);
+		}
 	}
 
 	@Override
