@@ -256,12 +256,14 @@ public class CustomerCluesServiceImpl implements CustomerCluesService {
                         break;
                     }
                 }
-                Random r = new Random();
-                RemoteOrganizationVo lsv = listRo.get(r.nextInt(listRo.size()));
-                appUserToPromote.setBranch(lsv.getName());
-                appUserToPromote.setBranchCode(lsv.getCode());
-                appUserToPromote.setCity(String.valueOf(cityMap.get("cityName")));
-                appUserToPromote.setCityCode(String.valueOf(cityMap.get("cityCode")));
+                if(!listRo.isEmpty()){
+                    Random r = new Random();
+                    RemoteOrganizationVo lsv = listRo.get(r.nextInt(listRo.size()));
+                    appUserToPromote.setBranch(lsv.getName());
+                    appUserToPromote.setBranchCode(lsv.getCode());
+                    appUserToPromote.setCity(String.valueOf(cityMap.get("cityName")));
+                    appUserToPromote.setCityCode(String.valueOf(cityMap.get("cityCode")));
+                }
             }
 
             //第二步保存意向客户
