@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.puhui.app.dao.AppCustomerDeleteDao">
+
+    <insert id="addAppCustomerDelete" parameterType="appCustomerDelete" useGeneratedKeys="true" keyProperty="id">
+        insert into app_customer_delete
+        (app_customer_id,customer_name,id_no,email,mobile,sales_name,sales_mobile,sales_no,create_time,shop_code,shop_name,district_code,district_name)
+        values
+        (#{appCustomerId},#{customerName},#{idNo, typeHandler=encryptTypeHandler},#{email},#{mobile, typeHandler=encryptTypeHandler},#{salesName},
+        #{salesMobile},#{salesNo},now(),#{shopCode},#{shopName},#{districtCode},#{districtName})
+    </insert>
+
+</mapper> 

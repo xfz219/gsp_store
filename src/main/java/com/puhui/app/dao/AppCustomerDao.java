@@ -22,4 +22,9 @@ public interface AppCustomerDao extends BaseDao {
      */
     AppCustomer queryById(Long id);
 
+	/**
+	 * 获取所有信息根据手机号
+	 */
+	AppCustomer getAppCustomerByMobile(String mobile);
+
 }
