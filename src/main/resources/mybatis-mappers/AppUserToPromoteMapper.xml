@@ -90,7 +90,7 @@
 	</update>
 	
 	<select id="findCustomerCluesMethod" parameterType="java.lang.Long" resultMap="appUserToPromoteObj">
-		select * from app_user_to_promote autp where autp.id =#{id,jdbcType=BIGINT}
+		select * from app_user_to_promote autp where autp.id =#{id}
 	</select>
 	
 	<select id="findCustomerCluesMethodIdNo" parameterType="String" resultType="java.lang.Integer">

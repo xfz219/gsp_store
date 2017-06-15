@@ -44,12 +44,17 @@ height: 20px;
  var paramData = {};
  var i = 0;
 
- //var onSingleCheck = false;
 $(function(){
 	grid = $('#datagrid').datagrid({
 		nowrap: false,
 		striped: true,
+        idField:'toPromoteId',
+        pagination:true,
+        rownumbers:true,
+        pageSize: 20,
+        singleSelect:false,
 		fit: true,
+        toolbar:"#tb",
 		url:'${ctx}/customerClues/selectCustomerCluesMethod',
 	    columns:[[
 			{field:'id',title:'id',align:'center',hidden:true},
@@ -68,18 +73,11 @@ $(function(){
 			{field:'createTime',title:'创建时间',align:'center',width:150},
 			{field:'updateAllotTime',title:'分配时间',align:'center',width:150},
 			{field:'radio',title:'radio',align:'center',hidden:true}
-	        
 	    ]],
-		idField:'id',
-		singleSelect:true,
 		frozenColumns:
 		[[
             {field:'ck',checkbox:true}
 		]],
-		pagination:true,
-		rownumbers:true,
-		pageSize: 20,
-		toolbar:"#tbLendRequest",
 		onLoadSuccess:function (data){
 			$('#datagrid').datagrid("unselectAll");
 		},
@@ -154,13 +152,22 @@ function bindingUserA() {
 	
 function YES() {
 	var rows = $('#datagrid').datagrid('getSelections');
+    var ids = "";
+    var temp=[];
+    if(rows.length>=1){
+        alert(rows.length)
+        for ( var i = 0; i < rows.length; i++) {
+            temp.push(rows[i].toPromoteId);
+        }
+        ids = temp.join(",");
+        alert(ids);
+    }
  	if(typeof $('#pid').combobox('getValue') != '' && $('#selectUserName').combobox('getValue') != ''){
     	$.messager.confirm('确定','您确定要绑定吗？',function(r){
         	if(r){
        			$.ajax({
        			    url: '${ctx}/customerClues/updateBindingUserMethod',
-       			    data:{"selectUserName": $('#selectUserName').combobox('getValue'),"toPromoteId":rows[0].toPromoteId
-       			    },
+       			    data:{"selectUserName": $('#selectUserName').combobox('getValue'),"ids":ids},
        			    type: 'POST',
        			    cache: false,
        			    dataType: "json",//返回值类型  
@@ -391,7 +398,8 @@ function checkUser(){
 			</div>
    		 </div>
 	</div>
-	<div id="tbLendRequest" style="width: 1800px">
+
+	<div id="searchDiv" data-options="region:'north',title:'搜索条件',split:true" style="overflow:hidden;height:200px;">
 		<br>
 		&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="radio" value="1" >仅显示未绑定销售
 		&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="radio" value="2" checked>显示全部
@@ -399,22 +407,26 @@ function checkUser(){
 		&nbsp;&nbsp;&nbsp;&nbsp;开始时间：<input type="text" class="easyui-datebox" id="startTime" name="startTime" />
 		&nbsp;&nbsp;&nbsp;&nbsp;结束时间：<input type="text" class="easyui-datebox" id="endTime" name="endTime" />
 		<br><br>
-			&nbsp;&nbsp;&nbsp;&nbsp;客户姓名：<input type="text" id="name" name="name" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;客户手机：<input type="text" id="mobile" name="mobile" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;门店机构： 
-			<input class="easyui-combobox" data-options="editable:false" id='shopCode'/>
-			<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;销售姓名：<input type="text" id="salesName" name="salesName" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;销售工号：<input type="text" id="salesNo" name="salesNo" />&nbsp;&nbsp;&nbsp;&nbsp;
-			&nbsp;&nbsp;&nbsp;&nbsp;进件渠道：	<select   style="width:168" id="requestChannel" name="requestChannel"  class="easyui-combobox" data-options="editable:false"></select>
-			<a  href="javascript:void(0);" class="easyui-linkbutton search" iconCls="icon-search" plain="true" onclick="searchByConditions();">搜索</a>
+		&nbsp;&nbsp;&nbsp;&nbsp;客户姓名：<input type="text" id="name" name="name" />&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;客户手机：<input type="text" id="mobile" name="mobile" />&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;门店机构：
+		<input class="easyui-combobox" data-options="editable:false" id='shopCode'/>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;销售姓名：<input type="text" id="salesName" name="salesName" />&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;销售工号：<input type="text" id="salesNo" name="salesNo" />&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;进件渠道：<select   style="width:168" id="requestChannel" name="requestChannel" class="easyui-combobox" data-options="editable:false"></select>
+		<a href="javascript:void(0);" class="easyui-linkbutton search" iconCls="icon-search" plain="true" onclick="searchByConditions();">搜索</a>
+		<span class="datagrid-btn-separator" style="float:none;"></span>
+		<a href="javascript:void(0);" class="easyui-linkbutton clear" iconCls="icon-remove" plain="true" onclick="resetConditions();">重置</a>
+	</div>
+
+	<div id="tb">
+		<span>
+			<a id="addChangeMobileDialog" href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="bindingUserA();">绑定</a>
 			<span class="datagrid-btn-separator" style="float:none;"></span>
-			<a  href="javascript:void(0);" class="easyui-linkbutton clear" iconCls="icon-remove" plain="true" onclick="resetConditions();">重置</a>
-			<br><br>
-			&nbsp;&nbsp;&nbsp;&nbsp;<a id="addChangeMobileDialog" href="#" class="easyui-linkbutton l-btn" onclick="bindingUserA();"><span class="l-btn-text">绑定</span></a>
-			&nbsp;&nbsp;&nbsp;&nbsp;<a id="checkUser" href="#" class="easyui-linkbutton l-btn" onclick="checkUser();"><span class="l-btn-text">详情</span></a>
-			<br><br>
-			
+			<a id="checkUser" href="javascript:void(0);"  class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="checkUser();">详情</a>
+			<span class="datagrid-btn-separator" style="float:none;"></span>
+		</span>
 	</div>
 	
 </body>

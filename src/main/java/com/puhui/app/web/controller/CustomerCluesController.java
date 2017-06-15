@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.puhui.app.utils.CommonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -116,12 +117,15 @@ public class CustomerCluesController {
 	@RequestMapping(value = "/updateBindingUserMethod")
 	@ResponseBody
 	public JSONArray updateBindingUserMethod(
-			@RequestParam(value = "toPromoteId", required = false) int toPromoteId,
+			@RequestParam(value = "ids", required = false) String ids,
     		@RequestParam(value = "selectUserName", required = false) String selectUserName){
     	try{
-    		AppUserToPromote appUserToPromote = appUserToPromoteDao.findCustomerCluesMethod(Long.parseLong(String.valueOf(toPromoteId)));
-    		customerCluesService.updateBindingUserMethod(appUserToPromote,selectUserName);
-    		return JSONArray.fromObject(1); 
+			List<Long> idList = CommonUtils.getLonglist(ids);
+			for(Long id: idList){
+				AppUserToPromote appUserToPromote = appUserToPromoteDao.findCustomerCluesMethod(id);
+				customerCluesService.updateBindingUserMethod(appUserToPromote,selectUserName);
+			}
+			return JSONArray.fromObject(1);
     	}catch(Exception e){
     		logger.error("绑定失败！",e);
     		throw new IllegalArgumentException(e);

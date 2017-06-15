@@ -101,7 +101,7 @@ public class AppPushServiceImpl implements AppPushService {
 				AppLendTemplate appLendTemplate = appLendTemplateDao.getAppLendTemplateMethod(BasisUtils.THREADUSER);//线索管理
 					pushModel = appLendTemplate.getTempletContent();
 					pushModel = pushModel.replaceAll("<name>", map.get("name").toString());
-					pushModel = pushModel.replaceAll("<mobile>", LendAesUtil.decrypt(map.get("mobile").toString()));
+					pushModel = pushModel.replaceAll("<mobile>", map.get("mobile").toString());
 			} else {
 				AppLendTemplate appLendTemplate = appLendTemplateDao.getAppLendTemplateMethod(BasisUtils.UNWRAPUSER);//解绑模板
 				pushModel = appLendTemplate.getTempletContent();

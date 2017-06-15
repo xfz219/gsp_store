@@ -96,7 +96,6 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
                 mobile = SensitiveInfoUtils.sensitiveMobile(mobile);
                 ml.put("name", name);
                 ml.put("mobile", mobile);
-
                 objList.add(ml);
             }
         } catch (Exception e) {

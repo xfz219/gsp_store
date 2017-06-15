@@ -65,8 +65,8 @@ $(function(){
 			{field:'salesNo',title:'销售工号',align:'center',width:120},
 			{field:'salesMobile',title:'销售手机号',align:'center',width:130},
 			{field:'salesStatus',title:'销售状态',align:'center',width:100},
+			{field:'allotTime',title:'分配时间',align:'center',width:100},
 			{field:'createTime',title:'创建时间',align:'center',width:100}
-	        
 	    ]],
 		idField:'id',
 		frozenColumns:
@@ -146,7 +146,7 @@ function YES() {
 	if(rows.length>=1){
 		for ( var i = 0; i < rows.length; i++) {
 				temp.push(rows[i].id);
-			}
+		}
 		ids = temp.join(",");
 	}
  	if(typeof $('#pid').combobox('getValue') != '' && $('#selectUserName').combobox('getValue') != ''){
@@ -375,7 +375,6 @@ function refresh(){
     				</td>
 		</table>
 	</form>
-		
 	</div>
 	
 	
