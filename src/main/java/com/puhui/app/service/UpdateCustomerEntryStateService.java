@@ -28,7 +28,7 @@ public interface UpdateCustomerEntryStateService {
 	/**
 	 * 洗数据
 	 */
-	public void updateAppUserToPromote();
+	public void cleanStep();
 	
 
 }

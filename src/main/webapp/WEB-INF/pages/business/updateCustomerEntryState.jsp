@@ -28,6 +28,8 @@
 		<span class="datagrid-btn-separator" style="float:none;"></span>
 		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="questionnaireTotalControl();" >调查问卷控制器</a>
 		<span class="datagrid-btn-separator" style="float:none;"></span>
+		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="cleanStep();" >清洗步骤</a>
+		<span class="datagrid-btn-separator" style="float:none;"></span>
 	</span>
 	<div style="clear:both;"></div>
 </div>
@@ -240,6 +242,20 @@
 				}]
 		});
 	}
+
+    function cleanStep() {
+		$.ajax({
+			url: '${ctx}/updateCustomerEntryState/cleanStep',
+			data: {},
+			type: 'POST',
+			cache: false,
+			dataType: "json",
+			async:false,
+			success: function(data) {
+				$.messager.alert('提示信息','修改成功');
+			}
+		});
+    }
 
 </script>
 </body>

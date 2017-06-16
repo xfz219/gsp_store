@@ -69,10 +69,9 @@
 		SELECT id,city FROM app_user_to_promote WHERE create_time > '2017-01-06 00:00:00' AND (channel_two_type='QIANZHAN' OR channel_two_type = 'PAL')
 	</select>
 	
-	<update id="updateAppUserToPromote" >
-		update app_user_to_promote set branch = #{name},branch_code = #{code}
-		where id = #{id}
-	</update>
+	<delete id="cleanStep" >
+		DELETE FROM app_request_step WHERE app_lend_request_id IN( SELECT * FROM( SELECT app_lend_request_id FROM app_request_step GROUP BY app_lend_request_id HAVING count(*) > 1) AS TEMP)
+	</delete>
 
 	<select id="questionnaireControl" resultType="boolean">
 		select questionnaire from app_lend_request where id = #{id}
