@@ -46,12 +46,9 @@ public interface AppLendRequestDao extends BaseDao{
 	public List<Map<String,Object>> getAppUserToPromote();
 
 	/**
-	 * @param code 
-	 * @param name 
-	 * @param id 
-	 * 
+	 * 清洗数据
 	 */
-	public void updateAppUserToPromote(@Param("id")String id, @Param("name")String name, @Param("code")String code);
+	void cleanStep();
 
 	/**
 	 * 调查问卷查询当前
