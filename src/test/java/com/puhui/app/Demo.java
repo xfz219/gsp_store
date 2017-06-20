@@ -3,6 +3,7 @@ package com.puhui.app;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.puhui.app.dao.AppCustomerDao;
+import com.puhui.app.dao.AppVersionDao;
 import com.puhui.app.po.AppCustomer;
 import com.puhui.app.service.SwaggerService;
 import com.puhui.cc.cloud.api.vo.LendLossDataVo;
@@ -29,7 +30,7 @@ public class Demo extends BaseTest {
     @Autowired
     private AppCustomerDao appCustomerDao;
 
-       @Autowired
+    @Autowired
     private SwaggerService swaggerService;
 
     // xyb73d4153d83ceffe351fc3acaf9a1ec020160926 --- 15512345674

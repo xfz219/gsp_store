@@ -1,15 +1,8 @@
 package com.puhui.app;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.puhui.app.dao.AppCustomerDao;
-import com.puhui.app.po.AppCustomer;
-import com.puhui.app.service.ChangeCustomerService;
-import com.puhui.app.service.SwaggerService;
+import com.puhui.app.dao.AppVersionDao;
 import com.puhui.app.service.impl.ChangeCustomerServiceImpl;
-import com.puhui.cc.cloud.api.vo.LendLossDataVo;
-import com.puhui.cc.cloud.api.vo.ResultVo;
-import com.puhui.uc.vo.RemoteStaffVo;
+import net.sf.json.JSONArray;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -32,6 +25,14 @@ public class CustomerTest extends BaseTest {
 
     @Autowired
     private ChangeCustomerServiceImpl changeCustomerService;
+
+    @Autowired
+    private AppVersionDao appVersionDao;
+    @Test
+    public void findList(){
+        List<Map<String,Object>> list = appVersionDao.findList();
+        logger.info("result: {}", JSONArray.fromObject(list).toString());
+    }
 
     @Test
     public void insertLog(){
