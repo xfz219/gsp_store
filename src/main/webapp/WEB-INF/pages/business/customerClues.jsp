@@ -155,12 +155,10 @@ function YES() {
     var ids = "";
     var temp=[];
     if(rows.length>=1){
-        alert(rows.length)
         for ( var i = 0; i < rows.length; i++) {
             temp.push(rows[i].toPromoteId);
         }
         ids = temp.join(",");
-        alert(ids);
     }
  	if(typeof $('#pid').combobox('getValue') != '' && $('#selectUserName').combobox('getValue') != ''){
     	$.messager.confirm('确定','您确定要绑定吗？',function(r){
