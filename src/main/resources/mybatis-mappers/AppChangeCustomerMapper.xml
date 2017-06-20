@@ -14,8 +14,9 @@
 			ac.sales_name AS salesName,
 			ac.sales_no AS salesNo,
 			ac.sales_mobile As salesMobile,
-			date_format(ac.create_time,'%Y-%c-%d') As createTime,
-			IF(alr.state IS NULL , '未录件' , '录件中') AS status
+			date_format(ac.allot_time,'%Y-%m-%d') As allotTime,
+			date_format(ac.create_time,'%Y-%m-%d') As createTime,
+		IF(alr.state IS NULL , '未录件' , '录件中') AS status
 		FROM app_customer AS ac
 
 		LEFT JOIN app_lend_request alr ON ac.id = alr.app_customer_id
@@ -26,6 +27,9 @@
 			</if>
 			<if test="mobile != null and mobile != ''">
 				<![CDATA[AND ac.mobile = #{mobile, typeHandler=encryptTypeHandler} ]]>
+			</if>
+			<if test="idNo != null and idNo != ''">
+				<![CDATA[AND ac.id_no = #{idNo, typeHandler=encryptTypeHandler} ]]>
 			</if>
 			<if test="salesName != null and salesName != ''">
 				<![CDATA[AND ac.sales_name LIKE #{salesName} ]]>
@@ -59,14 +63,23 @@
 			 ac.sales_no = #{salesNo},
 			 ac.shop_code = #{shopCode},
 			 ac.district_code = #{districtCode},
-			 ac.district_name = #{districtName}
-
+			 ac.district_name = #{districtName},
+			 ac.allot_time = now()
 			where id in
 			<foreach collection="ids" item="id" index="index"
             	open="(" close=")" separator=",">
            		 #{id}
         	</foreach>
 	</update>
+
+	<select id="findLogInfo" parameterType="map" resultType="hashMap">
+		select id as id, customer_service_manager_number as oldStaffId from `app_customer`
+		where id in
+		<foreach collection="ids" item="id" index="index"
+				 open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</select>
 	
 	<select id="selectAppCustomerMethod" parameterType="map" resultType="java.util.HashMap">
 		SELECT

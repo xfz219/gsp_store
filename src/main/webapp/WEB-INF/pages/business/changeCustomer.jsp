@@ -65,8 +65,8 @@ $(function(){
 			{field:'salesNo',title:'销售工号',align:'center',width:120},
 			{field:'salesMobile',title:'销售手机号',align:'center',width:130},
 			{field:'salesStatus',title:'销售状态',align:'center',width:100},
+			{field:'allotTime',title:'分配时间',align:'center',width:100},
 			{field:'createTime',title:'创建时间',align:'center',width:100}
-	        
 	    ]],
 		idField:'id',
 		frozenColumns:
@@ -107,6 +107,7 @@ function searchByConditions(){
 	paramData.salesMobile = $('#salesMobile').val();
 	paramData.salesName = $('#salesName').val();
 	paramData.salesNo = $('#salesNo').val();
+	paramData.idNo = $('#idNo').val();
 	//paramData.salesStatus = $('#salesStatus').combobox('getValue');
 	grid.datagrid('load', getData(paramData));
 	grid.datagrid('clearSelections'); 
@@ -145,7 +146,7 @@ function YES() {
 	if(rows.length>=1){
 		for ( var i = 0; i < rows.length; i++) {
 				temp.push(rows[i].id);
-			}
+		}
 		ids = temp.join(",");
 	}
  	if(typeof $('#pid').combobox('getValue') != '' && $('#selectUserName').combobox('getValue') != ''){
@@ -353,7 +354,8 @@ function refresh(){
 		<tr>
 			<td class="label">客户姓名：</td> <td><input type="text" id="name" name="name" /></td>
 			<td class="label">客户手机：</td> <td><input type="text" id="mobile" name="mobile" /></td>
-			<%-- <td class="label">销售状态：</td> <td><input class="easyui-combobox" data-options="editable:false" 
+			<td class="label">身份证号：</td> <td><input type="text" id="idNo" name="idNo" /></td>
+			<%-- <td class="label">销售状态：</td> <td><input class="easyui-combobox" data-options="editable:false"
 							   id='salesStatus'
 							   name="salesStatus"
 							   url='${ctx}/customerClues/selectUserSalesStatusMethod'
@@ -361,9 +363,8 @@ function refresh(){
 							   textField='salesStatusName'
 							   panelHeight='auto'
 							   /></td> --%>
-			<td class="label">销售姓名：</td> <td><input type="text" id="salesName" name="salesName" /></td>
 			<tr>
-			
+			<td class="label">销售姓名：</td> <td><input type="text" id="salesName" name="salesName" /></td>
 			<td class="label">销售工号：</td> <td><input type="text" id="salesNo" name="salesNo" /></td>
 			<td class="label">销售手机号：</td> <td><input type="text" id="salesMobile" name="salesNo" /></td>
 			
@@ -374,7 +375,6 @@ function refresh(){
     				</td>
 		</table>
 	</form>
-		
 	</div>
 	
 	

@@ -12,6 +12,7 @@ import com.sun.corba.se.impl.protocol.giopmsgheaders.Message_1_0;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,7 +74,8 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
         paramMap.put("page", page);
         paramMap.put("name", queryChangeCustomerVo.getName() != null ? queryChangeCustomerVo.getName() + "%" : "");
         //加密
-        paramMap.put("mobile", queryChangeCustomerVo.getMobile() != null ? LendAesUtil.encrypt(queryChangeCustomerVo.getMobile()) : "");
+        paramMap.put("mobile", queryChangeCustomerVo.getMobile() != null ? queryChangeCustomerVo.getMobile() : "");
+        paramMap.put("idNo", queryChangeCustomerVo.getIdNo() != null ? queryChangeCustomerVo.getIdNo() : "");
         paramMap.put("salesMobile", queryChangeCustomerVo.getSalesMobile() != null ? queryChangeCustomerVo.getSalesMobile() + "%" : "");
         paramMap.put("salesName", queryChangeCustomerVo.getSalesName() != null ? queryChangeCustomerVo.getSalesName() + "%" : "");
         paramMap.put("salesNo", queryChangeCustomerVo.getSalesNo() != null ? queryChangeCustomerVo.getSalesNo() + "%" : "");
@@ -94,7 +96,6 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
                 mobile = SensitiveInfoUtils.sensitiveMobile(mobile);
                 ml.put("name", name);
                 ml.put("mobile", mobile);
-
                 objList.add(ml);
             }
         } catch (Exception e) {
@@ -197,13 +198,17 @@ public class ChangeCustomerServiceImpl implements ChangeCustomerService {
         }
     }
 
-    public void insertLog(String ids, Long staffId) {
-        Map<String, Object> map = new HashMap<String, Object>();
+    @Async
+    public void insertLog(List<Long> ids, Long staffId) {
+        Map<String, Object> tmp = new HashMap<>();
+        tmp.put("ids", ids);
+        List<Map<String,Object>> list = appChangeCustomerDao.findLogInfo(tmp);
+        Map<String, Object> map = new HashMap<>();
         map.put("interfaceType", 2);
         map.put("interfaceTypeName", "更换销售接口");
         map.put("requestParam", staffId);
         map.put("isSuccess", 1);
-        map.put("message", "被更换app_customer_id:----" + ids);
+        map.put("message", "被更换app_customer_id:----" + JSONArray.fromObject(list).toString());
         appInterfaceLogDao.insertLog(map);
     }
 

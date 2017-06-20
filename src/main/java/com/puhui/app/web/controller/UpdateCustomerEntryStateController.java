@@ -164,15 +164,15 @@ public class UpdateCustomerEntryStateController {
 
 	/**
 	 * 洗数据
-	 * @author lichunyue
+	 * @author lcy
 	 * @return 
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/updateAppUserToPromote")
-	public boolean updateAppUserToPromote(){
+	@RequestMapping("/cleanStep")
+	public boolean cleanStep(){
 		try{
-			updateCustomerEntryStateService.updateAppUserToPromote();
+			updateCustomerEntryStateService.cleanStep();
 		}catch(Exception e){
 			logger.error("系统异常：",e);
 			throw new IllegalArgumentException(e);

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.puhui.app.utils.CommonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -68,8 +69,10 @@ public class CustomerCluesController {
     		@RequestParam(value = "shopCode", required = false) String shopCode,
     		@RequestParam(value = "salesName", required = false) String salesName,
     		@RequestParam(value = "salesNo", required = false) String salesNo,
-    		@RequestParam(value = "channel", required = false) String channel){
-		
+    		@RequestParam(value = "channel", required = false) String channel,
+    		@RequestParam(value = "startTime", required = false) String startTime,
+    		@RequestParam(value = "endTime", required = false) String endTime){
+
     	Map<String, Object> objMap = new HashMap<>();
     	try{
     		Subject currStaff = SecurityUtils.getSubject();
@@ -89,6 +92,8 @@ public class CustomerCluesController {
         	paramMap.put("salesName", salesName != null?salesName+"%": "");
         	paramMap.put("salesNo", salesNo != null?salesNo+"%": "");
         	paramMap.put("channel", channel != null? channel :"");
+        	paramMap.put("startTime", startTime != null? startTime :"");
+        	paramMap.put("endTime", endTime != null? endTime :"");
         	if(StringUtils.isBlank(shopCode)){
         		paramMap.put("branchCode", staff.getOrganizationVo().getCode()+"%");
         	}else{
@@ -112,12 +117,15 @@ public class CustomerCluesController {
 	@RequestMapping(value = "/updateBindingUserMethod")
 	@ResponseBody
 	public JSONArray updateBindingUserMethod(
-			@RequestParam(value = "toPromoteId", required = false) int toPromoteId,
+			@RequestParam(value = "ids", required = false) String ids,
     		@RequestParam(value = "selectUserName", required = false) String selectUserName){
     	try{
-    		AppUserToPromote appUserToPromote = appUserToPromoteDao.findCustomerCluesMethod(Long.parseLong(String.valueOf(toPromoteId)));
-    		customerCluesService.updateBindingUserMethod(appUserToPromote,selectUserName);
-    		return JSONArray.fromObject(1); 
+			List<Long> idList = CommonUtils.getLonglist(ids);
+			for(Long id: idList){
+				AppUserToPromote appUserToPromote = appUserToPromoteDao.findCustomerCluesMethod(id);
+				customerCluesService.updateBindingUserMethod(appUserToPromote,selectUserName);
+			}
+			return JSONArray.fromObject(1);
     	}catch(Exception e){
     		logger.error("绑定失败！",e);
     		throw new IllegalArgumentException(e);

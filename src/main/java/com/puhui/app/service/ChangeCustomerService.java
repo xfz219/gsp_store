@@ -25,7 +25,7 @@ public interface ChangeCustomerService {
 	
 	void updateBindingUserMethod(List<Long> ids,String selectUserName);
 	
-	void insertLog(String ids, Long staffId);
+	void insertLog(List<Long> ids, Long staffId);
 
 	AppCustomer selectCustomerById(Long customerId);
 

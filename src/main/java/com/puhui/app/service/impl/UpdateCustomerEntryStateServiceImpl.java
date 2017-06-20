@@ -4,6 +4,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.puhui.app.dao.AppCustomerDao;
+import com.puhui.app.dao.AppCustomerDeleteDao;
+import com.puhui.app.po.AppCustomer;
+import com.puhui.app.po.AppCustomerDelete;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,64 +20,56 @@ import com.puhui.app.utils.CitySet;
 import com.puhui.uc.vo.RemoteOrganizationVo;
 
 
-
 @Service
-public class UpdateCustomerEntryStateServiceImpl implements UpdateCustomerEntryStateService{
-	
-	@Autowired
-	private UpdateCustomerEntryStateManager updateCustomerEntryStateManager;
-	@Autowired
-	private AppLendRequestDao appLendRequestDao;
-	@Autowired
-	private SwaggerService swaggerService;
-	
-	/**
-	 * 质回未上传
-	 * @author lichunyue
-	 * @return
-	 */
-	@Override
-	public void updateCustomerEntryState(Map<String, Object> map){
-		updateCustomerEntryStateManager.updateCustomerEntryState(map);
-	}
+public class UpdateCustomerEntryStateServiceImpl implements UpdateCustomerEntryStateService {
 
-	@Override
-	public void showChangeMobilePushDialog(long id) {
-		updateCustomerEntryStateManager.showChangeMobilePushDialog(id);
-	}
+    @Autowired
+    private UpdateCustomerEntryStateManager updateCustomerEntryStateManager;
+    @Autowired
+    private AppLendRequestDao appLendRequestDao;
+    @Autowired
+    private AppCustomerDao appCustomerDao;
+    @Autowired
+    private AppCustomerDeleteDao appCustomerDeleteDao;
+    @Autowired
+    private SwaggerService swaggerService;
 
-	@Override
-	public void showChangeMobileDelDialog(String mobile) {
-		updateCustomerEntryStateManager.showChangeMobileDelDialog(mobile);
-	}
+    /**
+     * 质回未上传
+     *
+     * @return
+     * @author lichunyue
+     */
+    @Override
+    public void updateCustomerEntryState(Map<String, Object> map) {
+        updateCustomerEntryStateManager.updateCustomerEntryState(map);
+    }
 
-	@Override
-	public void showChangeIdDelDialog(long id) {
-		updateCustomerEntryStateManager.showChangeIdDelDialog(id);
-	}
+    @Override
+    public void showChangeMobilePushDialog(long id) {
+        updateCustomerEntryStateManager.showChangeMobilePushDialog(id);
+    }
 
-	@Override
-	public void updateAppUserToPromote() {
-		List<Map<String,Object>> list1 = appLendRequestDao.getAppUserToPromote();
-		for(Map<String,Object> map : list1){
-			try{
-			List<RemoteOrganizationVo> list = swaggerService.like("rpa");
-			List<Map<String, Object>> listMapCity = CitySet.getCityMap(list);
-			for (Map<String, Object> listMapCityMap : listMapCity) {
-				if(map.get("city").equals(listMapCityMap.get("cityName"))){
-					List<RemoteOrganizationVo> listShop = swaggerService.orgIdSub(Long.parseLong(String.valueOf(listMapCityMap.get("id"))));
-					Random r = new Random();  
-					RemoteOrganizationVo lsv = listShop.get(r.nextInt(listShop.size()));
-					String name = lsv.getName();
-					String code = lsv.getCode();
-					String id = map.get("id").toString();
-					appLendRequestDao.updateAppUserToPromote(id,name,code);
-				}
-			}
-			}catch(Exception e){
-				
-			}
-		}
-			}
-		
-	}
+    @Override
+    public void showChangeMobileDelDialog(String mobile) {
+        AppCustomer appCustomer = appCustomerDao.getAppCustomerByMobile(mobile);
+        updateCustomerEntryStateManager.showChangeMobileDelDialog(mobile);
+        if (appCustomer != null) {
+            AppCustomerDelete appCustomerDelete = new AppCustomerDelete();
+            appCustomerDelete.setAppCustomerId(appCustomer.getId());
+            BeanUtils.copyProperties(appCustomer, appCustomerDelete);
+            appCustomerDeleteDao.addAppCustomerDelete(appCustomerDelete);
+        }
+    }
+
+    @Override
+    public void showChangeIdDelDialog(long id) {
+        updateCustomerEntryStateManager.showChangeIdDelDialog(id);
+    }
+
+    @Override
+    public void cleanStep() {
+        appLendRequestDao.cleanStep();
+    }
+
+}

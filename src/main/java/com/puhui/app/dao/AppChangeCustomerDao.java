@@ -11,4 +11,6 @@ public interface AppChangeCustomerDao extends BaseDao<Object>{
 	public void updateBindingUserMethod(Map<String,Object> map);
 	
 	public List<Map<String,Object>> selectAppCustomerMethod(Map<String,Object> map);
+
+	List<Map<String,Object>> findLogInfo(Map<String, Object> map);
 }
