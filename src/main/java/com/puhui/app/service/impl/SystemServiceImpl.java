@@ -33,36 +33,16 @@ public class SystemServiceImpl implements SystemService {
     @Override
     public boolean update(Map<String, Object> params) {
         Object typeName = params.get("typeName");
-        Object id = params.get("id");
         if(typeName == null){
             return false;
         }
         int cnt = 0;
         if("门店版".equals(typeName.toString())){
-           cnt = appVersionDao.updateUser(params);
+            cnt = appVersionDao.updateUser(params);
         } else if ("个人版".equals(typeName.toString())) {
             cnt = appVersionDao.updateCustomer(params);
         }
         return (cnt==1);
     }
 
-    @Override
-    public List<Map<String, Object>> findUserList() {
-        return appVersionDao.findUserList();
-    }
-
-    @Override
-    public List<Map<String, Object>> findCustomerList() {
-        return appVersionDao.findCustomerList();
-    }
-
-    @Override
-    public void updateUser(Map<String, Object> params) {
-        appVersionDao.updateUser(params);
-    }
-
-    @Override
-    public void updateCustomer(Map<String, Object> params) {
-        appVersionDao.updateCustomer(params);
-    }
 }
