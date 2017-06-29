@@ -12,16 +12,6 @@ public interface AppVersionDao extends BaseDao {
 	List<Map<String, Object>> findList();
 
 	/**
-	 * 查询user
-     */
-	List<Map<String, Object>> findUserList();
-
-	/**
-	 * 查询customer
-	 */
-	List<Map<String, Object>> findCustomerList();
-
-	/**
 	 * 修改user
 	 */
 	int updateUser(Map<String,Object> params);

@@ -19,14 +19,6 @@
 			from app_customer_version
 	</select>
 
-
-	<select id="findUserList" resultType="map">
-		select id,version,client_type,memo,app,
-		DATE_FORMAT(update_time, '%Y-%m-%d') as updateTime,
-		DATE_FORMAT(create_time, '%Y-%m-%d') as create_time
-		from app_user_version
-	</select>
-
 	<update id="updateUser" parameterType="map">
 		update
 			app_user_version
@@ -36,13 +28,6 @@
 			app = #{app}
 		where id = #{id}
 	</update>
-
-	<select id="findCustomerList" resultType="map">
-		select id,version,client_type,memo,app,
-		DATE_FORMAT(update_time, '%Y-%m-%d') as updateTime,
-		DATE_FORMAT(create_time, '%Y-%m-%d') as create_time
-		from app_customer_version
-	</select>
 
 	<update id="updateCustomer" parameterType="map">
 		update
