@@ -97,7 +97,7 @@ public class PuhuiCasRealm extends CasRealm {
             log.info("PuhuiCasRealm AuthenticationInfo end ..");
             return new SimpleAuthenticationInfo(staffVo, token.getCredentials(), realName);
         } catch (Exception e) {
-            log.error("认证失败！");
+            log.error("认证失败！", e);
             throw new AuthenticationException(e);
         }
     }
