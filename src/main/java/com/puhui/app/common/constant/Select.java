@@ -49,6 +49,8 @@ public class Select {
 		checkTypeMap.put(2, "银行流水");
 		checkTypeMap.put(3, "淘宝验证");
 		checkTypeMap.put(4, "手机运营商");
+		checkTypeMap.put(21, "社保");
+		checkTypeMap.put(22, "公积金");
 		return checkTypeMap;
 	}
 	public Map<String, Object> checkType(){
@@ -59,6 +61,8 @@ public class Select {
 		checkType.put("银行流水", 2);
 		checkType.put("淘宝验证", 3);
 		checkType.put("手机运营商", 4);
+		checkType.put("社保", 21);
+		checkType.put("公积金", 22);
 		return checkType;
 	}
 	
