@@ -84,7 +84,7 @@ public class AccessoryResetController {
             Map<String, Object> paramMap = new HashMap<String, Object>(); 
         	paramMap.put("appLendRequestId", appLendRequestId);
         	paramMap.put("type", Select.getInstance().checkType().get(type));
-        	paramMap.put("status", 5);
+        	paramMap.put("status", 1);
         	paramMap.put("queryNumber", 1);
         	
         	accessoryResetServer.updateAccessoryServer(paramMap);
