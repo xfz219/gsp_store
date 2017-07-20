@@ -137,6 +137,8 @@ function resetConditions(){
 					<option value="2">银行流水</option>
 					<option value="3">淘宝验证</option>
 					<option value="4">手机运营商</option>
+					<option value="21">社保</option>
+					<option value="22">公积金</option>
 				</select> &nbsp;&nbsp;&nbsp;&nbsp;
 			<a  href="javascript:void(0);" class="easyui-linkbutton search" iconCls="icon-search" plain="true" onclick="searchByConditions();">搜索</a>
 			<span class="datagrid-btn-separator" style="float:none;"></span>
