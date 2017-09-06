@@ -59,6 +59,19 @@
             </tr>
         </table>
     </form>
+    <div data-options="region:'center',title:'搜索结果',split:true">
+        <div id="qryAdDatagrid" ></div>
+    </div>
+    <div id="tbLendAdvertisement">
+		<span>
+			<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-reload" plain="true" id="refresh">刷新</a>
+			<span class="datagrid-btn-separator" style="float:none;"></span>
+			<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add'>添加</a>
+			<span class="datagrid-btn-separator" style="float:none;"></span>
+
+		</span>
+
+    </div>
 </div>
 <div data-options="region:'center',title:'搜索结果',split:true">
     <div id="qryNoticeDatagrid" ></div>
@@ -110,6 +123,21 @@
                 }
             }
         );
+        //刷新
+        $('#refresh').click(function(){
+            resetConditions();
+            grid.datagrid('reload');
+            grid.datagrid('clearSelections');
+        });
+
+        //添加
+        $('#add').click(function(){
+            parent.$("#tabs").tabs("add",{
+                closable:true,
+                title:'添加奖励',
+                content : '<iframe src="${ctx}/prizes/add" width="100%" height="99%"></iframe>'
+            });
+        });
     });
 
     //Enter搜索

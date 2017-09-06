@@ -23,9 +23,9 @@ public class PrizesServiceImpl implements PrizesService {
         String prizeType = aps.getPrizeType() != null ? aps.getPrizeType().name() : "";
         List<AppPrizesSecret> apsList = appPrizesSecretDao.findList(prizeType, aps.getUse());
         if (!apsList.isEmpty()) {
-            for (AppPrizesSecret appPrizesSecret : apsList) {
-                appPrizesSecret.setCardNumber(SensitiveInfoUtils.sensitiveBankCard(appPrizesSecret.getCardNumber()));
-                appPrizesSecret.setPassword(SensitiveInfoUtils.sensitiveBankCard(appPrizesSecret.getPassword()));
+            for (AppPrizesSecret ap : apsList) {
+                ap.setCardNumber(ap.getCardNumber() != null ? SensitiveInfoUtils.sensitiveBankCard(ap.getCardNumber()) : "");
+                ap.setPassword(SensitiveInfoUtils.sensitiveBankCard(ap.getPassword()));
             }
         }
         return apsList;

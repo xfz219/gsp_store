@@ -5,7 +5,7 @@ package com.puhui.app.enums;
  */
 public enum PrizeChannel {
 
-    QUESTIONNAIRE_CHANNEL("调查问卷渠道（第一次）");
+    QUESTIONNAIRE_CHANNEL_V1("调查问卷V1");
 
     private final String type;
 
