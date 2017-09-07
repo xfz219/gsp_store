@@ -21,7 +21,7 @@ public class ReadExcel {
         this.filePath = filePath;
     }
 
-    private void readExcel() throws IOException, BiffException {
+    public void readExcel() throws IOException, BiffException {
         //创建输入流
         InputStream stream = new FileInputStream(filePath);
         //获取Excel文件对象
@@ -43,7 +43,7 @@ public class ReadExcel {
             list.add(str);
         }
     }
-    private List<Map<String,String>> outData(){
+    public List<Map<String,String>> outData(){
         List<Map<String,String>> listMap = new ArrayList<>();
         for(int i=1;i<list.size()-1;i++){
             String[] str = (String[])list.get(0);
