@@ -10,4 +10,6 @@ public interface PrizesService {
 
 	List<AppPrizesSecret> findList(AppPrizesSecret appPrizesSecret);
 
+	void addList(Map<String,Object> map);
+
 }

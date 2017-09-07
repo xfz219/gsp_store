@@ -99,12 +99,7 @@
 						</tr>
 						<tr id="adFile">
 							<td class="one">上传图片:</td>
-							<td><input type="file" id="file_upload" name="file_upload"/></td>
-							<%-- <td>
-								<div id="preview">
-								    <img id="imghead" width=100 height=100 border=0 src='<%=request.getContextPath()%>/images/defaul.jpg'>
-								</div>
-							</td> --%>
+							<td><input type="file" id="fileName" name="fileName"/></td>
 						</tr>
 					</table>
 
@@ -119,58 +114,13 @@
 	</body>
 
 	<script type="text/javascript">
-		$(function(){
-			//绑定上传
-			jQuery("#file_upload").uploadify({
-				swf: '${ctx}/static/js/uploadify/uploadify.swf',
-				uploader: "${ctx}/lendAdvertisement/saveLendAdvertisementFile",
-			    'fileSizeLimit' : '50MB',
-			    'fileTypeDesc': "bmp,jpg,jpeg,png,gif",
-			    'fileTypeExts': "*.bmp;*.jpg;*.jpeg;*.png;*.gif",
-			    'overrideEvents' : [ 'onDialogClose', 'onSelectError' ],
-			    'auto': true,
-			    'buttonText': "上传...",
-			    'width': 120,
-			    'height': 25,
-			    'uploadLimit' : 20,
-			    'preventCaching' : false,
-			    'removeTimeout' : 1,
-			    'onUploadStart': function(file) {
-			    	var paramData = {
-			    			id: $('#id').val(),
-						};
-
-			    	//清空缓存参数
-			    	jQuery("#file_upload").data("uploadify").settings.formData = {};
-			    	//设置参数
-			   		jQuery("#file_upload").uploadify('settings', 'formData',paramData);
-			    },
-				'onUploadSuccess' : function(file, data, response) {
-					data = $.parseJSON(data);
-					$.messager.alert('提示信息','<span style="line-height:150%;">'+data.msg+'</span>');
-					if(data.success){
-						$('#id').val(data.obj);
-					}
-				},
-				'onSelectError': function (file, errorCode, errorMsg) {
-					if(errorCode == SWFUpload.QUEUE_ERROR.INVALID_FILETYPE){
-						$.messager.alert('提示信息','<span style="line-height:150%;">文件类型不正确！请选择文件类型为"'+jQuery("#file_upload").uploadify('settings', 'fileTypeDesc')+'"的文件上传</span>');
-					}
-			     	if(errorCode == SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT){
-			     		alert("文件大小超过了50MB");
-			    	}
-		    }});
-		});
-	</script>
-
-	<script type="text/javascript">
 		$(document).ready(function() {
 	        //添加
 	        $('#add').click(function(){
 	        	$.messager.confirm('提示信息','确认保存吗?',function(r){
 	        		if(r){
 						$('#addAdForm').form('submit',{
-							 url:'<%=request.getContextPath() %>/lendAdvertisement/saveLendAdvertisement',
+							 url:'<%=request.getContextPath() %>/prizes/addList',
 							 onSubmit: function(){
 								 if($('#addAdForm').form('validate')){
 									 return true;
@@ -182,7 +132,7 @@
 								data=eval("(" + data+ ")");
 								if(data.status=='success'){
 									$.messager.alert('提示信息',data.result,'info',function(){
-										var tab = parent.$("#tabs").tabs("getTab","广告位管理");
+										var tab = parent.$("#tabs").tabs("getTab","奖励管理");
 										var url = $(tab.panel('options').content).attr('src');
 										parent.$('#tabs').tabs('update', {
 											  tab : tab,
@@ -190,8 +140,8 @@
 												src : url
 											  }
 										});
-										parent.$("#tabs").tabs("select","广告位管理");
-										parent.$("#tabs").tabs("close","添加广告位");
+										parent.$("#tabs").tabs("select","奖励管理");
+										parent.$("#tabs").tabs("close","关闭");
 									});
 								}else{
 									$.messager.alert('提示信息',data.result);
@@ -206,7 +156,7 @@
 	        $('#close').click(function(){
 	        	$.messager.confirm('提示信息',"确认关闭吗？",function(r){
 	    		    if (r){
-	    		    	 parent.$("#tabs").tabs("close","添加广告位");
+	    		    	 parent.$("#tabs").tabs("close","关闭");
 	    		    }
 	    		});
 	        });

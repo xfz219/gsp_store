@@ -59,22 +59,17 @@
             </tr>
         </table>
     </form>
-    <div data-options="region:'center',title:'搜索结果',split:true">
-        <div id="qryAdDatagrid" ></div>
-    </div>
-    <div id="tbLendAdvertisement">
-		<span>
-			<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-reload" plain="true" id="refresh">刷新</a>
-			<span class="datagrid-btn-separator" style="float:none;"></span>
-			<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add'>添加</a>
-			<span class="datagrid-btn-separator" style="float:none;"></span>
-
-		</span>
-
-    </div>
 </div>
 <div data-options="region:'center',title:'搜索结果',split:true">
     <div id="qryNoticeDatagrid" ></div>
+</div>
+<div id="tbLendNotice">
+    <span>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-reload" plain="true" id="refresh">刷新</a>
+        <span class="datagrid-btn-separator" style="float:none;"></span>
+        <a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add'>添加</a>
+        <span class="datagrid-btn-separator" style="float:none;"></span>
+    </span>
 </div>
 
 <script>

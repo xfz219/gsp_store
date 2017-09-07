@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -44,6 +45,18 @@ public class PrizesController extends BaseController {
     @ResponseBody
     public Object list(AppPrizesSecret aps) {
         return prizesService.findList(aps);
+    }
+
+    @RequestMapping(value = "/addList")
+    @ResponseBody
+    public Object addList(@RequestParam Map<String,Object> map) {
+        Map<String, Object> m = new HashMap<>();
+
+        prizesService.addList(map);
+
+        m.put("status", "success");
+        m.put("result", "添加成功!");
+        return m;
     }
 
 
