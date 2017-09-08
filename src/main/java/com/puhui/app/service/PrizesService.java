@@ -10,6 +10,6 @@ public interface PrizesService {
 
 	List<AppPrizesSecret> findList(AppPrizesSecret appPrizesSecret);
 
-	void addList(Map<String,Object> map);
+	Map<String,String> addList(Map<String,String> map, List<Map<String, String>> listMap) throws Exception;
 
 }

@@ -74,4 +74,18 @@ public final class SensitiveInfoUtils {
         }
         return bankCard.replaceAll(REGULAR_BANK_CARD,REPLACEMENT);
     }
+
+    /**
+     * 密码脱敏工具类
+     * lcy
+     * 规则:密码：仅显示最后4位，如************1234。
+     * @param password
+     * @return
+     */
+    public static String sensitivePassword(final String password) {
+        if (StringUtils.isBlank(password)) {
+            return null;
+        }
+        return password.replaceAll(password.substring(4,8),REPLACEMENT);
+    }
 }

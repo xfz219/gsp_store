@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 @Controller
@@ -53,23 +54,26 @@ public class PrizesController extends BaseController {
         return prizesService.findList(aps);
     }
 
+
+    /**
+     * 增加奖品
+     * @param map
+     * @return
+     */
     @RequestMapping(value = "/addList")
     @ResponseBody
-    public Object addList(@RequestParam Map<String,Object> map) {
+    public Object addList(@RequestParam Map<String,String> map) {
         Map<String, Object> m = new HashMap<>();
         try {
-            if (map.get("fileName") == null){
+            if (Objects.equals(map.get("fileName"), "")) {
                 m.put("result", "上传文件不可为空!");
                 return m;
             }
-            String fileName = map.get("fileName").toString().replace(FAKEPATH,FINUP);
+            String fileName = map.get("fileName").toString().replace(FAKEPATH, FINUP);
             ReadExcel excel = new ReadExcel(fileName);
             excel.readExcel();
             List<Map<String, String>> listMap = excel.outData();
-            prizesService.addList(map);
-            m.put("status", "success");
-            m.put("result", "添加成功!");
-            return m;
+            return prizesService.addList(map, listMap);
         } catch (Exception e) {
             m.put("result", "添加失败!");
             return m;

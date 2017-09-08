@@ -17,9 +17,4 @@ public enum PrizeType {
         this.type = type;
     }
 
-    @Override
-    public String toString() {
-        return type;
-    }
-
 }

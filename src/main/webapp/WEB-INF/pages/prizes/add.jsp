@@ -99,7 +99,7 @@
 							</td>
 						</tr>
 						<tr id="adFile">
-							<td class="one">上传图片:</td>
+							<td class="one">上传附件:</td>
 							<td><input type="file" id="file" name="file"/></td>
 						</tr>
 					</table>

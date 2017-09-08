@@ -58,7 +58,7 @@ public class ReadExcel {
     }
 
     public static void main(String args[]) throws BiffException, IOException{
-        ReadExcel excel = new ReadExcel("/Users/finup/Desktop/1.xls");
+        ReadExcel excel = new ReadExcel("/Users/finup/Desktop/2.xls");
         excel.readExcel();
         List<Map<String,String>> listMap = excel.outData();
         System.out.println(listMap);

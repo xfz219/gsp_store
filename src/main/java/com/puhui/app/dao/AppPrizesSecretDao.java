@@ -1,12 +1,10 @@
 package com.puhui.app.dao;
 
 
-import com.puhui.app.enums.PrizeType;
 import com.puhui.app.po.AppPrizesSecret;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 奖品秘密
@@ -21,5 +19,13 @@ public interface AppPrizesSecretDao extends BaseDao {
 	 * @return
 	 */
 	List<AppPrizesSecret> findList(@Param("prizeType") String prizeType, @Param("use") Boolean use);
+
+
+	/**
+	 * 插入
+	 * @param appPrizesSecretList
+	 * @return
+	 */
+	void addAppPrizesSecret(List<AppPrizesSecret> appPrizesSecretList);
 
 }
