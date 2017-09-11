@@ -70,7 +70,13 @@ public class PrizesServiceImpl implements PrizesService {
         apn.setPrizeChannel(prizeChannel);
         apn.setPrizeType(prizeType);
         apn.setPrizeNumber(prizeNumber);
-        appPrizesNumberDao.addAppPrizesNumber(apn);
+        int count = appPrizesNumberDao.getAppPrizesNumber(apn);
+        if (count > 0) {
+            appPrizesNumberDao.updateAppPrizesNumber(apn);
+        } else {
+            appPrizesNumberDao.addAppPrizesNumber(apn);
+
+        }
 
         appPrizesSecretDao.addAppPrizesSecret(apsList);
 

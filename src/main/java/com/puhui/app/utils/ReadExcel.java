@@ -14,16 +14,15 @@ import java.util.List;
 import java.util.Map;
 
 public class ReadExcel {
-    private String filePath;
-    private List list = new ArrayList<>();
 
-    public ReadExcel(String filePath){
-        this.filePath = filePath;
-    }
-
-    public void readExcel() throws IOException, BiffException {
+    public static List<Map<String,String>> readExcel(String filePath) throws IOException, BiffException{
         //创建输入流
         InputStream stream = new FileInputStream(filePath);
+        return readExcel(stream);
+    }
+
+    public static List<Map<String,String>> readExcel(InputStream stream) throws IOException, BiffException {
+        List list = new ArrayList<>();
         //获取Excel文件对象
         Workbook rwb = Workbook.getWorkbook(stream);
         //获取文件的指定工作表 默认的第一个
@@ -42,8 +41,9 @@ public class ReadExcel {
             //把刚获取的列存入list
             list.add(str);
         }
+        return outData(list);
     }
-    public List<Map<String,String>> outData(){
+    public static List<Map<String,String>> outData(List list){
         List<Map<String,String>> listMap = new ArrayList<>();
         for(int i=1;i<list.size()-1;i++){
             String[] str = (String[])list.get(0);
@@ -58,9 +58,8 @@ public class ReadExcel {
     }
 
     public static void main(String args[]) throws BiffException, IOException{
-        ReadExcel excel = new ReadExcel("/Users/finup/Desktop/2.xls");
-        excel.readExcel();
-        List<Map<String,String>> listMap = excel.outData();
+
+        List<Map<String,String>> listMap = ReadExcel.readExcel("/Users/finup/Desktop/2.xls");
         System.out.println(listMap);
     }
 }  

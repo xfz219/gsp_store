@@ -20,4 +20,14 @@
 		(#{prizeChannel}, #{prizeType}, #{prizeNumber},	now())
 	</insert>
 
+	<select id="getAppPrizesNumber" parameterType="com.puhui.app.po.AppPrizesNumber" resultType="int">
+		SELECT COUNT(*) FROM app_prizes_number
+		WHERE prize_channel = #{prizeChannel} AND prize_type = #{prizeType}
+	</select>
+
+	<update id="updateAppPrizesNumber" parameterType="com.puhui.app.po.AppPrizesNumber">
+		UPDATE app_prizes_number SET prize_number = prize_number + #{prizeNumber}
+		WHERE prize_channel = #{prizeChannel} AND prize_type = #{prizeType}
+	</update>
+
 </mapper>

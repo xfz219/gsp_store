@@ -1,21 +1,17 @@
 package com.puhui.app.web.controller;
 
-import com.puhui.app.enums.PrizeChannel;
 import com.puhui.app.po.AppPrizesSecret;
 import com.puhui.app.service.PrizesService;
-import com.puhui.app.service.SystemService;
 import com.puhui.app.utils.ReadExcel;
-import com.puhui.app.vo.AppLendAdvertisementVo;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +24,6 @@ import java.util.Objects;
 public class PrizesController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(PrizesController.class);
-
-    private final static String FAKEPATH = "C:\\fakepath\\";
-    private final static String FINUP = "/Users/finup/Desktop/";
 
     @Autowired
     private PrizesService prizesService;
@@ -67,20 +60,14 @@ public class PrizesController extends BaseController {
      */
     @RequestMapping(value = "/addList")
     @ResponseBody
-    public Object addList(@RequestParam Map<String,String> map) {
+    public Object addList(@RequestParam Map<String,String> map, @RequestParam(value = "file") MultipartFile myfile) {
         Map<String, Object> m = new HashMap<>();
         try {
             if (Objects.equals(map.get("fileName"), "")) {
                 m.put("result", "上传文件不可为空!");
                 return m;
             }
-
-            logger.info("传入数据：", map.get("fileName"));
-            String fileName = map.get("fileName").toString().replace(FAKEPATH, FINUP);
-            ReadExcel excel = new ReadExcel(fileName);
-            excel.readExcel();
-            List<Map<String, String>> listMap = excel.outData();
-            logger.info("解析数据：", JSONObject.fromObject(listMap));
+            List<Map<String, String>> listMap = ReadExcel.readExcel(myfile.getInputStream());
             return prizesService.addList(map, listMap);
         } catch (Exception e) {
             logger.error("添加失败，", e);

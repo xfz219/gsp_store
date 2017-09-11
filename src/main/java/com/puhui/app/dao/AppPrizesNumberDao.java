@@ -14,4 +14,18 @@ public interface AppPrizesNumberDao extends BaseDao {
      * @return
      */
     void addAppPrizesNumber(AppPrizesNumber appPrizesNumber);
+
+    /**
+     * 查询奖品数量
+     * @param apn
+     * @return
+     */
+    int getAppPrizesNumber(AppPrizesNumber apn);
+
+    /**
+     * 更新奖品数量
+     * @param apn
+     * @return
+     */
+    void updateAppPrizesNumber(AppPrizesNumber apn);
 }
