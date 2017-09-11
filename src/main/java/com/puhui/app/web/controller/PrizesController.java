@@ -6,6 +6,8 @@ import com.puhui.app.service.PrizesService;
 import com.puhui.app.service.SystemService;
 import com.puhui.app.utils.ReadExcel;
 import com.puhui.app.vo.AppLendAdvertisementVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,8 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/prizes")
 public class PrizesController extends BaseController {
+
+    private static final Logger logger = LoggerFactory.getLogger(PrizesController.class);
 
     private final static String FAKEPATH = "C:\\fakepath\\";
     private final static String FINUP = "/Users/finup/Desktop/";
@@ -69,10 +73,13 @@ public class PrizesController extends BaseController {
                 m.put("result", "上传文件不可为空!");
                 return m;
             }
+
+            logger.info("传入数据：", map);
             String fileName = map.get("fileName").toString().replace(FAKEPATH, FINUP);
             ReadExcel excel = new ReadExcel(fileName);
             excel.readExcel();
             List<Map<String, String>> listMap = excel.outData();
+            logger.info("解析数据：", listMap);
             return prizesService.addList(map, listMap);
         } catch (Exception e) {
             m.put("result", "添加失败!");

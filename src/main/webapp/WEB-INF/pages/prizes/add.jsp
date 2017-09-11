@@ -72,7 +72,7 @@
 			<div title="添加奖励" style="padding: 10px;">
 				<fieldset>
 					<legend>添加奖励 &nbsp;&nbsp;&nbsp;<font color="red">*必填</font></legend>
-					<input type="hidden" id="fileName" name="fileName" value="${lendAdvertisement.id }">
+					<input type="hidden" id="fileName" name="fileName" value="">
 					<table id="adTable" name="adTable">
 						<tr>
 							<td class="one">奖品渠道：</td>
