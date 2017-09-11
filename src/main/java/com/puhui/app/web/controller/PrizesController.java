@@ -75,7 +75,7 @@ public class PrizesController extends BaseController {
                 return m;
             }
 
-            logger.info("传入数据：", JSONObject.fromObject(map));
+            logger.info("传入数据：", map.get("fileName"));
             String fileName = map.get("fileName").toString().replace(FAKEPATH, FINUP);
             ReadExcel excel = new ReadExcel(fileName);
             excel.readExcel();
@@ -83,6 +83,7 @@ public class PrizesController extends BaseController {
             logger.info("解析数据：", JSONObject.fromObject(listMap));
             return prizesService.addList(map, listMap);
         } catch (Exception e) {
+            logger.error("添加失败，", e);
             m.put("result", "添加失败!");
             return m;
         }
