@@ -6,6 +6,7 @@ import com.puhui.app.service.PrizesService;
 import com.puhui.app.service.SystemService;
 import com.puhui.app.utils.ReadExcel;
 import com.puhui.app.vo.AppLendAdvertisementVo;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,12 +75,12 @@ public class PrizesController extends BaseController {
                 return m;
             }
 
-            logger.info("传入数据：", map);
+            logger.info("传入数据：", JSONObject.fromObject(map));
             String fileName = map.get("fileName").toString().replace(FAKEPATH, FINUP);
             ReadExcel excel = new ReadExcel(fileName);
             excel.readExcel();
             List<Map<String, String>> listMap = excel.outData();
-            logger.info("解析数据：", listMap);
+            logger.info("解析数据：", JSONObject.fromObject(listMap));
             return prizesService.addList(map, listMap);
         } catch (Exception e) {
             m.put("result", "添加失败!");
