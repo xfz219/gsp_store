@@ -72,7 +72,6 @@
 			<div title="添加广告" style="padding: 10px;">
 				<fieldset>
 					<legend>添加公告 &nbsp;&nbsp;&nbsp;<font color="red">*必填</font></legend>
-					<input type="hidden" id="id" name="id" value="${lendAdvertisement.id }">
 					<table id="adTable" name="adTable">
 						<tr>
 							<td class="one">广告位名称：</td>
@@ -106,12 +105,7 @@
 						</tr>
 						<tr id="adFile">
 							<td class="one">上传图片:</td>
-							<td><input type="file" id="file_upload" name="file_upload"/></td>
-							<%-- <td>
-								<div id="preview">
-								    <img id="imghead" width=100 height=100 border=0 src='<%=request.getContextPath()%>/images/defaul.jpg'>
-								</div>
-							</td> --%>
+							<td><input type="file" id="file" name="file"/></td>
 						</tr>
 					</table>
 
@@ -124,51 +118,6 @@
 			</div>
 		</form>
 	</body>
-
-	<script type="text/javascript">
-		$(function(){
-			//绑定上传
-			jQuery("#file_upload").uploadify({
-				swf: '${ctx}/static/js/uploadify/uploadify.swf',
-				uploader: "${ctx}/lendAdvertisement/saveLendAdvertisementFile",
-			    'fileSizeLimit' : '50MB',
-			    'fileTypeDesc': "bmp,jpg,jpeg,png,gif",
-			    'fileTypeExts': "*.bmp;*.jpg;*.jpeg;*.png;*.gif",
-			    'overrideEvents' : [ 'onDialogClose', 'onSelectError' ],
-			    'auto': true,
-			    'buttonText': "上传...",
-			    'width': 120,
-			    'height': 25,
-			    'uploadLimit' : 20,
-			    'preventCaching' : false,
-			    'removeTimeout' : 1,
-			    'onUploadStart': function(file) {
-			    	var paramData = {
-			    			id: $('#id').val(),
-						};
-
-			    	//清空缓存参数
-			    	jQuery("#file_upload").data("uploadify").settings.formData = {};
-			    	//设置参数
-			   		jQuery("#file_upload").uploadify('settings', 'formData',paramData);
-			    },
-				'onUploadSuccess' : function(file, data, response) {
-					data = $.parseJSON(data);
-					$.messager.alert('提示信息','<span style="line-height:150%;">'+data.msg+'</span>');
-					if(data.success){
-						$('#id').val(data.obj);
-					}
-				},
-				'onSelectError': function (file, errorCode, errorMsg) {
-					if(errorCode == SWFUpload.QUEUE_ERROR.INVALID_FILETYPE){
-						$.messager.alert('提示信息','<span style="line-height:150%;">文件类型不正确！请选择文件类型为"'+jQuery("#file_upload").uploadify('settings', 'fileTypeDesc')+'"的文件上传</span>');
-					}
-			     	if(errorCode == SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT){
-			     		alert("文件大小超过了50MB");
-			    	}
-		    }});
-		});
-	</script>
 
 	<script type="text/javascript">
 		$(document).ready(function() {

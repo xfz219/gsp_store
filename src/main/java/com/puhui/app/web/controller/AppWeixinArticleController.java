@@ -71,7 +71,7 @@ public class AppWeixinArticleController extends BaseController {
     /**
      * 新建公告
      * 
-     * @param appLendNotice
+     * @param appWeixiinArticle
      * @return
      */
     @RequestMapping(value = "/addLendNotice")
@@ -160,7 +160,7 @@ public class AppWeixinArticleController extends BaseController {
     /**
      * 编辑公告
      * 
-     * @param appLendNotice
+     * @param appWeixiinArticle
      * @return
      */
     @RequestMapping(value = "/editLendNotice")

@@ -10,7 +10,6 @@
 <title>广告位管理</title>
 
 <style type="text/css">
-	<style type="text/css">
 	.query{
 		padding:5px 10px;
 	}

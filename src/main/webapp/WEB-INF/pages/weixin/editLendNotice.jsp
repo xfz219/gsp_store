@@ -103,7 +103,7 @@
 							<tr style="height:413px">
 							<td class="one" >内容：</td>
 							<td class="two">
-								  <script type="text/plain" id="myEditor" style="width:1200px;height:400px;margin:30spx 4px;margin-left: ">${notice}</script>  
+								  <script type="text/plain" id="myEditor" style="width:1200px;height:400px;margin:30spx 4px;margin-left: ">${notice}</script>
 							</td>
 							</tr>
 							</table>

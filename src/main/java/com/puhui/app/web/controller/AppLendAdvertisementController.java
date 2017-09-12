@@ -101,17 +101,14 @@ public class AppLendAdvertisementController extends BaseController {
 	
 	@RequestMapping(value="/saveLendAdvertisement")
 	@ResponseBody
-	public Map<String, Object> saveLendAdvertisement(AppLendAdvertisementVo lendAdvertisement){
+	public Map<String, Object> saveLendAdvertisement(AppLendAdvertisementVo lendAd,@RequestParam(value = "file") MultipartFile myfile,HttpServletRequest request){
+		Assert.notNull(myfile.isEmpty(), "上传文件不能为空");
 		Map<String, Object> map = new HashMap<>();
-		Long id = lendAdvertisement.getId();
-		if(null != id && id > 0){
 			try {
-				AppLendAdvertisementVo lendAd = appLendAdvertisementVoService.selectLendAdvertisementById(id);
-				BeanUtils.copyProperty(lendAd, "name", lendAdvertisement.getName());
-				BeanUtils.copyProperty(lendAd, "url", lendAdvertisement.getUrl());
-				BeanUtils.copyProperty(lendAd, "enabled", lendAdvertisement.getEnabled());
-				BeanUtils.copyProperty(lendAd, "customerIdentity", lendAdvertisement.getCustomerIdentity());
-				appLendAdvertisementVoService.updateLendAdvertisement(lendAd);
+				BeanUtils.copyProperty(lendAd, "originalPicName", myfile.getOriginalFilename());
+				BeanUtils.copyProperty(lendAd, "picSize", myfile.getSize());
+				BeanUtils.copyProperty(lendAd, "createTime", new Date());
+				appLendAdvertisementVoService.saveLendAdvertisementPic(lendAd,myfile,request);
 				map.put("status", "success");
 	            map.put("result", "更新广告位成功!");
 			} catch (Exception e) {
@@ -119,22 +116,6 @@ public class AppLendAdvertisementController extends BaseController {
 				map.put("status", "false");
 	            map.put("result", "更新广告位失败!");
 			}
-		}else{
-			map.put("status", "false");
-            map.put("result", "图片没有上传，添加广告位失败!");
-			/*try {
-				int maxSort = lendAdvertisementService.getMaxSortByIdentityAndStatus(lendAdvertisement);
-				int sort = maxSort >= 1 ? (maxSort+1):1;
-				BeanUtils.copyProperty(lendAdvertisement, "sort", sort);
-				lendAdvertisementService.addAdvertisement(lendAdvertisement);
-				map.put("status", "success");
-	            map.put("result", "添加广告位成功!");
-			} catch (Exception e) {
-				logger.error("添加广告位失败", e);
-				map.put("status", "false");
-	            map.put("result", "添加广告位失败!");
-			}*/
-		}
 		return map;
 	}
 	

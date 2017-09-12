@@ -51,21 +51,20 @@ public class AppLendAdvertisementVoServiceImpl implements AppLendAdvertisementVo
 
 	
 	@Override
-	public Long saveLendAdvertisementPic(AppLendAdvertisementVo lendAdvertisement, MultipartFile myfile, HttpServletRequest request){
-        String savePath = null;
+	public Long saveLendAdvertisementPic(AppLendAdvertisementVo lendAdvertisement, MultipartFile myfile, HttpServletRequest request) {
 		try {
-			savePath = this.getPath(lendAdvertisement, myfile, request);
+			String savePath = this.getPath(lendAdvertisement, myfile, request);
+			lendAdvertisement.setPicAddressUrl(savePath);
+			String repStr = new StringBuffer().append(File.separator).append("upload").append(File.separator).append("puhui-lend").toString();
+			String picAccessUrl = savePath.replace(repStr, "");
+			lendAdvertisement.setPicAccessUrl(picAccessUrl);
+			lendAdvertisement.setSort(1);
+			//添加
+			appLendAdvertisementDao.addLendAdvertisement(lendAdvertisement);
 		} catch (Exception e) {
-			logger.error("广告位保存异常：",e);
-		} 
-        lendAdvertisement.setPicAddressUrl(savePath);
-        String repStr = new StringBuffer().append(File.separator).append("upload").append(File.separator).append("puhui-lend").toString();
-        String picAccessUrl = savePath.replace(repStr, "");
-        lendAdvertisement.setPicAccessUrl(picAccessUrl);
-        lendAdvertisement.setSort(1);
-    	//添加
-    	appLendAdvertisementDao.addLendAdvertisement(lendAdvertisement);
-        return lendAdvertisement.getId();
+			logger.error("广告位保存异常：", e);
+		}
+		return lendAdvertisement.getId();
 	}
 	
 	/**
