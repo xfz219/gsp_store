@@ -100,7 +100,7 @@
                         {field:'use',title:'使用状态',width:200,align:'left',
                             formatter:function(fieldVal,rowData,rowIndex){
                                 if(fieldVal=='1'){
-                                    return '未使用';
+                                    return '已使用';
                                 }else{
                                     return '未使用';
                                 }
