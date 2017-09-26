@@ -10,7 +10,7 @@
 		<result property="shopCode" column="shop_code"/>
 		<result property="shopName" column="shop_name"/>
 		<result property="shopMobile" column="shop_mobile"/>
-		<result property="longitudese" column="longitude"/>
+		<result property="longitude" column="longitude"/>
 		<result property="latitude" column="latitude"/>
 		<result property="enabled" column="enabled"/>
 		<result property="updateTime" column="update_time"/>
@@ -19,9 +19,9 @@
 	<select id="findList" resultMap="appLendShopObj">
 		SELECT * FROM app_lend_shop WHERE 1 = 1
 		<if test="shopName != null and shopName != ''">
-			AND shop_name = #{shopName}
+			AND shop_name LIKE CONCAT(CONCAT('%',#{shopName}),'%')
 		</if>
-		<if test="enabled != null and enabled != ''">
+		<if test="enabled != null">
 			AND enabled = #{enabled}
 		</if>
 	</select>
@@ -30,7 +30,7 @@
 		insert into app_lend_shop
 		(parent_id, shop_code, shop_name, shop_mobile, create_time, longitude, latitude, enabled, create_time, update_time)
 		values
-		(#{parentId}, #{shopCode}, #{shopName}, #{shopMobile}, #{longitudese}, #{latitude}, #{enabled}, now(), now())
+		(#{parentId}, #{shopCode}, #{shopName}, #{shopMobile}, #{longitude}, #{latitude}, #{enabled}, now(), now())
 	</insert>
 
 	<update id="updateAppLendShop" parameterType="com.puhui.app.po.AppLendShop">
