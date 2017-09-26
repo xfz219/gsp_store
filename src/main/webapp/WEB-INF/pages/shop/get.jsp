@@ -122,11 +122,13 @@
         $('#add').click(function(){
             parent.$("#tabs").tabs("add",{
                 closable:true,
-                title:'添加奖励',
-                content : '<iframe src="${ctx}/prizes/add" width="100%" height="99%"></iframe>'
+                title:'添加门店',
+                content : '<iframe src="${ctx}/shop/add" width="100%" height="99%"></iframe>'
             });
         });
     });
+
+
 
     //Enter搜索
     $('#queryNoticeForm').keypress(function(e){
@@ -155,6 +157,23 @@
     //重置
     function resetConditions(){
         $('#queryNoticeForm').form('clear');
+    }
+
+    function update(){
+        var row = $('#qryNoticeDatagrid').datagrid('getSelections');
+        if(row.length<1){
+            $.messager.alert('提示信息','请选择一条记录！');
+            return false;
+        }
+        if(row.length>1){
+            $.messager.alert('提示信息','只能选择单条记录进行修改！');
+            return false;
+        }
+        parent.$("#tabs").tabs("add",{
+            closable:true,
+            title:'修改门店',
+            content : '<iframe name="editNotice" id="editNotice" scrolling="no" frameborder="0"  src="${ctx}/shop/update/'+row[0].id+'" width="100%" height="99%"></iframe>'
+        });
     }
 </script>
 </body>

@@ -26,6 +26,10 @@
 		</if>
 	</select>
 
+	<select id="getAppLendShop" resultMap="appLendShopObj">
+		SELECT * FROM app_lend_shop WHERE id = #{id}
+	</select>
+
 	<insert id="addAppPrizesSecret" parameterType="com.puhui.app.po.AppLendShop" useGeneratedKeys="true" keyProperty="id">
 		insert into app_lend_shop
 		(parent_id, shop_code, shop_name, shop_mobile, create_time, longitude, latitude, enabled, create_time, update_time)
