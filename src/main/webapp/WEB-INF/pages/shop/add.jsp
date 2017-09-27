@@ -143,7 +143,6 @@
                         success:function(data){
                             data=eval("(" + data+ ")");
                             if(data.status=='success'){
-                            	alert(data.status)
                                 $.messager.alert('提示信息',data.result,'info',function(){
 								parent.$("#tabs").tabs("select","添加门店");
 								parent.$("#tabs").tabs("close","添加门店");
