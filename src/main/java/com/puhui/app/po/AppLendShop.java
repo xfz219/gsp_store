@@ -10,24 +10,29 @@ import java.util.Date;
 public class AppLendShop extends BaseBean {
 
     /**
-     * 奖品类型
+     * 父id
      */
     private Long parentId;
 
     /**
-     * 卡号
+     * 门店code
      */
     private String shopCode;
 
     /**
-     * 密码
+     * 门店名称
      */
     private String shopName;
 
     /**
-     * 密码
+     * 门店手机号
      */
     private String shopMobile;
+
+    /**
+     * 门店地址
+     */
+    private String shopAddress;
 
     /**
      * 经度
@@ -90,6 +95,14 @@ public class AppLendShop extends BaseBean {
 
     public void setShopMobile(String shopMobile) {
         this.shopMobile = shopMobile;
+    }
+
+    public String getShopAddress() {
+        return shopAddress;
+    }
+
+    public void setShopAddress(String shopAddress) {
+        this.shopAddress = shopAddress;
     }
 
     public String getLongitude() {

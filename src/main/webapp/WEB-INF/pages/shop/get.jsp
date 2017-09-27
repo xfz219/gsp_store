@@ -88,6 +88,7 @@
                         {field:'shopCode',title:'门店CODE',width:130,align:'left'},
                         {field:'shopName',title:'门店NAME',width:130,align:'left'},
                         {field:'shopMobile',title:'门店手机号',width:130,align:'left'},
+                        {field:'shopAddress',title:'门店地址',width:130,align:'left'},
                         {field:'longitude',title:'经度',width:130,align:'left'},
                         {field:'latitude',title:'纬度',width:130,align:'left'},
                         {field:'enabled',title:'使用状态',width:130,align:'left',

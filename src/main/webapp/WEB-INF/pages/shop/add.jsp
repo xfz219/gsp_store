@@ -98,6 +98,12 @@
 								</td>
 							</tr>
 							<tr style="height: 50px">
+								<td class="one">门店地址：</td>
+								<td class="two">
+									<input id="shopAddress" name="shopAddress" class="easyui-validatebox" placeholder="门店地址" style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
+								</td>
+							</tr>
+							<tr style="height: 50px">
 								<td class="one">经度：</td>
 								<td class="two">
 									<input id="longitude" name="longitude" class="easyui-validatebox" placeholder="经度" style="width: 590px;height: 26px" maxlength="50" data-options="required:true">

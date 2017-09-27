@@ -99,6 +99,12 @@
 								</td>
 							</tr>
 							<tr style="height: 50px">
+								<td class="one">门店地址：</td>
+								<td class="two">
+									<input id="shopAddress" name="shopAddress" class="easyui-validatebox" style="width: 590px;height: 26px" maxlength="50">
+								</td>
+							</tr>
+							<tr style="height: 50px">
 								<td class="one">经度：</td>
 								<td class="two">
 									<input id="longitude" name="longitude" class="easyui-validatebox" style="width: 590px;height: 26px" maxlength="50">
@@ -130,6 +136,7 @@
 	    $("#shopCode").val("${appLendShop.shopCode}");
 	    $("#shopName").val("${appLendShop.shopName}");
 	    $("#shopMobile").val("${appLendShop.shopMobile}");
+	    $("#shopAddress").val("${appLendShop.shopAddress}");
 	    $("#longitude").val("${appLendShop.longitude}");
 	    $("#latitude").val("${appLendShop.latitude}");
 	    $("#enabled").val("${appLendShop.enabled}");
