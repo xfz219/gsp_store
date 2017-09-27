@@ -30,9 +30,9 @@
 		SELECT * FROM app_lend_shop WHERE id = #{id}
 	</select>
 
-	<insert id="addAppPrizesSecret" parameterType="com.puhui.app.po.AppLendShop" useGeneratedKeys="true" keyProperty="id">
+	<insert id="addAppLendShop" parameterType="com.puhui.app.po.AppLendShop" useGeneratedKeys="true" keyProperty="id">
 		insert into app_lend_shop
-		(parent_id, shop_code, shop_name, shop_mobile, create_time, longitude, latitude, enabled, create_time, update_time)
+		(parent_id, shop_code, shop_name, shop_mobile, longitude, latitude, enabled, create_time, update_time)
 		values
 		(#{parentId}, #{shopCode}, #{shopName}, #{shopMobile}, #{longitude}, #{latitude}, #{enabled}, now(), now())
 	</insert>
@@ -43,6 +43,11 @@
 		shop_name = #{shopName}, shop_mobile = #{shopMobile},
 		longitude = #{longitude}, latitude = #{latitude},
 	    enabled = #{enabled} WHERE id = #{id}
+	</update>
+
+	<update id="updateEnabledById" >
+		UPDATE app_lend_shop SET
+		enabled = #{enabled} WHERE id = #{id}
 	</update>
 
 </mapper>

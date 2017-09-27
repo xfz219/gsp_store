@@ -68,58 +68,55 @@
 <div>
 <div id="lookdialog"></div>
 		<form id="editNoticeForm" class="easyui-form" method="post" data-options="novalidate:true">
-			<div title="查看公告" style="padding: 10px;">
+			<div title="修改" style="padding: 10px;">
 		
 				<fieldset>
 					<legend>修改信息 &nbsp;&nbsp;&nbsp;</legend>
 					<table>
 						<tr>
+							<input type="hidden" id="id" name="id"/>
 							<td class="one">父ID：</td>
 							<td class="two">
-								<input id="parentId" name="parentId" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" readonly="readonly">
+								<input id="parentId" name="parentId" class="easyui-validatebox" style="width: 590px;height: 26px" maxlength="50">
 							</td>
 							</tr>
 							<tr style="height: 50px">
 							<td class="one">门店CODE：</td>
 							<td class="two">
-								<input id="shopCode" name="shopCode" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" readonly="readonly">
+								<input id="shopCode" name="shopCode" class="easyui-validatebox" style="width: 590px;height: 26px" maxlength="50">
 							</td>
 							</tr>
 							<tr style="height: 50px">
 								<td class="one">门店NAME：</td>
 								<td class="two">
-									<input id="shopName" name="shopName" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" readonly="readonly">
+									<input id="shopName" name="shopName" class="easyui-validatebox" style="width: 590px;height: 26px" maxlength="50">
 								</td>
 							</tr>
 							<tr style="height: 50px">
 								<td class="one">门店手机号：</td>
 								<td class="two">
-									<input id="shopMobile" name="shopMobile" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" readonly="readonly">
+									<input id="shopMobile" name="shopMobile" class="easyui-validatebox" style="width: 590px;height: 26px" maxlength="50">
 								</td>
 							</tr>
 							<tr style="height: 50px">
 								<td class="one">经度：</td>
 								<td class="two">
-									<input id="longitude" name="longitude" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" readonly="readonly">
+									<input id="longitude" name="longitude" class="easyui-validatebox" style="width: 590px;height: 26px" maxlength="50">
 								</td>
 							</tr>
 							<tr style="height: 50px">
 								<td class="one">纬度：</td>
 								<td class="two">
-									<input id="latitude" name="longitude" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" readonly="readonly">
-								</td>
-							</tr>
-							<tr style="height: 50px">
-								<td class="one">使用状态：</td>
-								<td class="two">
-									<input id="enabled" name="longitude" class="easyui-validatebox" placeholder="50个字以内" style="width: 590px;height: 26px" maxlength="50" readonly="readonly">
+									<input id="latitude" name="latitude" class="easyui-validatebox" style="width: 590px;height: 26px" maxlength="50">
 								</td>
 							</tr>
 							</table>
 							</fieldset>
 							<div style="float:right;margin:10px">
+				<a href="javascript:;" class="easyui-linkbutton" id="add">保存</a>
+								&nbsp;&nbsp;
 				<a href="javascript:;" class="easyui-linkbutton" id="close">关闭</a>
-			
+
 			</div>
 			</div>
 			</form>
@@ -128,7 +125,7 @@
 
 <script language="javascript">  
   
-	$(document).ready(function() {  
+	$(document).ready(function() {
 	    $("#parentId").val("${appLendShop.parentId}");
 	    $("#shopCode").val("${appLendShop.shopCode}");
 	    $("#shopName").val("${appLendShop.shopName}");
@@ -136,14 +133,48 @@
 	    $("#longitude").val("${appLendShop.longitude}");
 	    $("#latitude").val("${appLendShop.latitude}");
 	    $("#enabled").val("${appLendShop.enabled}");
+	    $("#id").val("${appLendShop.id}");
+
+
+
+        //添加
+        $('#add').click(function(){
+            $.messager.confirm('提示信息','确认保存吗?',function(r){
+                if(r){
+                    $('#editNoticeForm').form('submit',{
+                        url:'${ctx}/shop/updateAppLendShop',
+                        success:function(data){
+                            data=eval("(" + data+ ")");
+                            if(data.status=='success'){
+                                $.messager.alert('提示信息',data.result,'info',function(){
+                                    var tab = parent.$("#tabs").tabs("getTab","修改");
+                                    var url = $(tab.panel('options').content).attr('src');
+                                    parent.$('#tabs').tabs('update', {
+                                        tab : tab,
+                                        options : {
+                                            src : url
+                                        }
+                                    });
+                                    parent.$("#tabs").tabs("select","修改门店");
+                                    parent.$("#tabs").tabs("close","修改门店");
+                                });
+                            }else{
+                                $.messager.alert('提示信息',data.result);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
 	    //关闭
 	    $('#close').click(function(){
-	    	$.messager.confirm('提示信息',"确认关闭吗？",function(r){    
-			    if (r){ 
-			    	 parent.$("#tabs").tabs("close","查看公告");
+	    	$.messager.confirm('提示信息',"确认关闭吗？",function(r){
+			    if (r){
+			    	 parent.$("#tabs").tabs("close","修改门店");
 			    }
 			});
-	    	
+
 	    });
 	});
 </script>

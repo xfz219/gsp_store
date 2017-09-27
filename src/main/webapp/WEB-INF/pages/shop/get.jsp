@@ -172,8 +172,86 @@
         parent.$("#tabs").tabs("add",{
             closable:true,
             title:'修改门店',
-            content : '<iframe name="editNotice" id="editNotice" scrolling="no" frameborder="0"  src="${ctx}/shop/update/'+row[0].id+'" width="100%" height="99%"></iframe>'
+            content : '<iframe name="updateShop" id="updateShop" scrolling="no" frameborder="0"  src="${ctx}/shop/update/'+row[0].id+'" width="100%" height="99%"></iframe>'
         });
+    }
+
+    function add(){
+        parent.$("#tabs").tabs("add",{
+            closable:true,
+            title:'添加门店',
+            content : '<iframe name="addShop" id="addShop" scrolling="no" frameborder="0"  src="${ctx}/shop/add" width="100%" height="99%"></iframe>'
+        });
+    }
+
+    //启用广告位
+    function enableBtn(){
+        var row = $('#qryNoticeDatagrid').datagrid('getSelections');
+        if(row.length<1){
+            $.messager.alert('提示信息','请选择一条记录！');
+            return false;
+        }else if(row.length>1){
+            $.messager.alert('提示信息','只能选择单条记录进行修改！');
+            return false;
+        }else if(row[0].enabled == '1'){
+            $.messager.alert('提示信息','该门店已启用！');
+            return false;
+        }else{
+            $.messager.confirm('警告', '确定启用该门店吗?',function(r){
+                if(r){
+                    $.ajax({
+                        url : '${ctx}/shop/enable',
+                        data : {"id":row[0].id},
+                        type : 'POST',
+                        cache : false,
+                        dataType : "json",
+                        success : function(data) {
+                            $.messager.alert('提示信息',data.returnEntity.msg);
+                            grid.datagrid('clearSelections');
+                            grid.datagrid('load');
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown){
+                            $.messager.alert('提示信息',XMLHttpRequest.responseText);
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    //禁用广告位
+    function disableBtn(){
+        var row = $('#qryNoticeDatagrid').datagrid('getSelections');
+        if(row.length<1){
+            $.messager.alert('提示信息','请选择一条记录！');
+            return false;
+        }else if(row.length>1){
+            $.messager.alert('提示信息','只能选择单条记录进行修改！');
+            return false;
+        }else if(row[0].enabled == '0'){
+            $.messager.alert('提示信息','该门店已禁用！');
+            return false;
+        }else{
+            $.messager.confirm('警告', '确定禁用该门店吗?',function(r){
+                if(r){
+                    $.ajax({
+                        url : '${ctx}/shop/stop',
+                        data : {"id":row[0].id},
+                        type : 'POST',
+                        cache : false,
+                        dataType : "json",
+                        success : function(data) {
+                            $.messager.alert('提示信息',data.returnEntity.msg);
+                            grid.datagrid('clearSelections');
+                            grid.datagrid('load');
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown){
+                            $.messager.alert('提示信息',XMLHttpRequest.responseText);
+                        }
+                    });
+                }
+            });
+        }
     }
 </script>
 </body>

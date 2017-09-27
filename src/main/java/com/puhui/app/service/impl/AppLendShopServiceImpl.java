@@ -21,12 +21,7 @@ import java.util.*;
 
 @Service
 public class AppLendShopServiceImpl implements AppLendShopService {
-	private static final Logger logger = LoggerFactory.getLogger(AppLendShopServiceImpl.class);
 
-	@Autowired
-    private AppPrizesSecretDao appPrizesSecretDao;
-	@Autowired
-    private AppPrizesNumberDao appPrizesNumberDao;
 	@Autowired
     private AppLendShopDao appLendShopDao;
 
@@ -40,48 +35,18 @@ public class AppLendShopServiceImpl implements AppLendShopService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Map<String,String> addList(Map<String, String> map, List<Map<String, String>> secretList) throws Exception {
-        List<AppPrizesSecret> apsList = new ArrayList<>();
-        Map<String, String> m = new HashMap<>();
-        PrizeChannel prizeChannel = PrizeChannel.valueOf(map.get("prizeChannel"));//奖励渠道
-        PrizeType prizeType = PrizeType.valueOf(map.get("prizeType"));//奖励类型
-        Integer prizeNumber = Integer.parseInt(map.get("prizeNumber"));//奖品数量
+    public void updateAppLendShop(AppLendShop als) {
+        appLendShopDao.updateAppLendShop(als);
+    }
 
-        for (Map<String, String> secretMap : secretList) {
-            String cardNumber = secretMap.get("cardNumber");
-            String password = secretMap.get("password");
-            if (Objects.equals(password, "")) {
-                continue;
-            }
-            AppPrizesSecret aps = new AppPrizesSecret();
-            aps.setPrizeType(prizeType);
-            aps.setCardNumber(cardNumber);
-            aps.setPassword(password);
-            apsList.add(aps);
-        }
+    @Override
+    public void addAppLendShop(AppLendShop als) {
+        appLendShopDao.addAppLendShop(als);
+    }
 
-        if (prizeNumber != apsList.size()) {
-            m.put("result", "奖品数量与附件不符!");
-            return m;
-        }
-
-        AppPrizesNumber apn = new AppPrizesNumber();
-        apn.setPrizeChannel(prizeChannel);
-        apn.setPrizeType(prizeType);
-        apn.setPrizeNumber(prizeNumber);
-        int count = appPrizesNumberDao.getAppPrizesNumber(apn);
-        if (count > 0) {
-            appPrizesNumberDao.updateAppPrizesNumber(apn);
-        } else {
-            appPrizesNumberDao.addAppPrizesNumber(apn);
-
-        }
-
-        appPrizesSecretDao.addAppPrizesSecret(apsList);
-
-        m.put("result", "添加成功!");
-        return m;
+    @Override
+    public void updateEnabledById(long id, boolean enabled) {
+        appLendShopDao.updateEnabledById(id, enabled);
     }
 
 }

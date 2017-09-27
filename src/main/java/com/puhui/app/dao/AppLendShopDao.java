@@ -43,4 +43,10 @@ public interface AppLendShopDao extends BaseDao {
 	 */
 	void updateAppLendShop(AppLendShop appLendShop);
 
+	/**
+	 * 更新启用状态
+	 * @param id
+	 * @param enabled
+	 */
+	void updateEnabledById(@Param("id")long id, @Param("enabled")boolean enabled);
 }

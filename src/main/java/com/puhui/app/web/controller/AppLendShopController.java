@@ -7,6 +7,7 @@ import com.puhui.app.po.AppWeixinArticle;
 import com.puhui.app.service.AppLendShopService;
 import com.puhui.app.service.PrizesService;
 import com.puhui.app.utils.ReadExcel;
+import com.puhui.app.vo.ReturnEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class AppLendShopController extends BaseController {
 
 
     /**
-     * 新增奖品
+     * 新增门店
      * @return
      */
     @RequestMapping(value = "/add")
@@ -46,12 +47,26 @@ public class AppLendShopController extends BaseController {
     }
 
     /**
-     * 获取奖品
+     * 获取门店
      * @return
      */
     @RequestMapping(value = "/get")
     public String get() {
         return "shop/get";
+    }
+
+    /**
+     * 更新跳转
+     * @param id
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "/update/{id}")
+    public String updateById(@PathVariable(value = "id") Long id, ModelMap map) {
+        String url = "shop/update";
+        AppLendShop appLendShop = appLendShopDao.getAppLendShop(id);
+        map.addAttribute("appLendShop", appLendShop);
+        return url;
     }
 
     /**
@@ -66,41 +81,72 @@ public class AppLendShopController extends BaseController {
     }
 
     /**
-     * 更新
-     * @param id
-     * @param map
+     * 更新数据
+     * @param als
      * @return
      */
-    @RequestMapping(value = "/update/{id}")
-    public String update(@PathVariable(value = "id") Long id, ModelMap map) {
-        String url = "shop/update";
-        AppLendShop appLendShop = appLendShopDao.getAppLendShop(id);
-        map.addAttribute("appLendShop", appLendShop);
-        return url;
+    @RequestMapping(value = "/updateAppLendShop")
+    @ResponseBody
+    public Object updateAppLendShop(AppLendShop als) {
+        Map<String, Object> map = new HashMap<>();
+        try{
+            appLendShopService.updateAppLendShop(als);
+            map.put("result", "成功!");
+            return map;
+        }catch (Exception e){
+            map.put("result", "失败!");
+            return map;
+        }
     }
 
-
     /**
-     * 增加奖品
-     * @param map
+     * 增加门店
+     * @param als
      * @return
      */
-    @RequestMapping(value = "/addList")
+    @RequestMapping(value = "/addAppLendShop")
     @ResponseBody
-    public Object addList(@RequestParam Map<String,String> map, @RequestParam(value = "file") MultipartFile myfile) {
-        Map<String, Object> m = new HashMap<>();
+    public Object addAppLendShop(AppLendShop als) {
+        Map<String, Object> map = new HashMap<>();
         try {
-            if (Objects.equals(map.get("fileName"), "")) {
-                m.put("result", "上传文件不可为空!");
-                return m;
-            }
-            List<Map<String, String>> listMap = ReadExcel.readExcel(myfile.getInputStream());
-            return appLendShopService.addList(map, listMap);
+            appLendShopService.addAppLendShop(als);
+            map.put("result", "成功!");
+            return map;
         } catch (Exception e) {
-            logger.error("添加失败，", e);
-            m.put("result", "添加失败!");
-            return m;
+            map.put("result", "失败!");
+            return map;
         }
+    }
+
+    /**
+     * 启用
+     * @param id
+     * @return
+     */
+    @RequestMapping(value="/enable")
+    public Object enable(@RequestParam(value="id") String id){
+        try {
+            appLendShopService.updateEnabledById(Long.parseLong(id), true);
+        } catch (Exception e) {
+            return new ReturnEntity(false, "启用门店失败");
+        }
+
+        return new ReturnEntity(true, "启用门店成功");
+    }
+
+    /**
+     * 禁用
+     * @param id
+     * @return
+     */
+    @RequestMapping(value="/stop")
+    public Object stop(@RequestParam(value="id") String id){
+        try {
+            appLendShopService.updateEnabledById(Long.parseLong(id), false);
+        } catch (Exception e) {
+            return new ReturnEntity(false, "禁用门店失败");
+        }
+        return new ReturnEntity(true, "禁用门店成功");
     }
 
 

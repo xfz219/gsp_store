@@ -11,6 +11,9 @@ public interface AppLendShopService {
 
 	List<AppLendShop> findList(AppLendShop als);
 
-	Map<String,String> addList(Map<String, String> map, List<Map<String, String>> listMap) throws Exception;
+	void updateAppLendShop(AppLendShop als);
 
+	void addAppLendShop(AppLendShop als);
+
+	void updateEnabledById(long l, boolean b);
 }

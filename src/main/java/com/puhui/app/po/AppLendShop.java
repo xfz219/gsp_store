@@ -10,11 +10,6 @@ import java.util.Date;
 public class AppLendShop extends BaseBean {
 
     /**
-     * 主键
-     */
-    private Long id;
-
-    /**
      * 奖品类型
      */
     private Long parentId;
