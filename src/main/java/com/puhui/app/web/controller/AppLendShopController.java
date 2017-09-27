@@ -130,7 +130,6 @@ public class AppLendShopController extends BaseController {
         } catch (Exception e) {
             return new ReturnEntity(false, "启用门店失败");
         }
-
         return new ReturnEntity(true, "启用门店成功");
     }
 
