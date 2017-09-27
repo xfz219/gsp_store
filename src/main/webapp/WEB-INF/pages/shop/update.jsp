@@ -147,16 +147,8 @@
                             data=eval("(" + data+ ")");
                             if(data.status=='success'){
                                 $.messager.alert('提示信息',data.result,'info',function(){
-                                    var tab = parent.$("#tabs").tabs("getTab","修改");
-                                    var url = $(tab.panel('options').content).attr('src');
-                                    parent.$('#tabs').tabs('update', {
-                                        tab : tab,
-                                        options : {
-                                            src : url
-                                        }
-                                    });
-                                    parent.$("#tabs").tabs("select","修改门店");
-                                    parent.$("#tabs").tabs("close","修改门店");
+								parent.$("#tabs").tabs("select","修改门店");
+								parent.$("#tabs").tabs("close","修改门店");
                                 });
                             }else{
                                 $.messager.alert('提示信息',data.result);

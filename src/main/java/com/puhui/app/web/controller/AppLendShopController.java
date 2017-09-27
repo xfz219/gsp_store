@@ -91,9 +91,11 @@ public class AppLendShopController extends BaseController {
         Map<String, Object> map = new HashMap<>();
         try{
             appLendShopService.updateAppLendShop(als);
+            map.put("status", "success");
             map.put("result", "成功!");
             return map;
         }catch (Exception e){
+            map.put("status", "false");
             map.put("result", "失败!");
             return map;
         }
@@ -110,9 +112,11 @@ public class AppLendShopController extends BaseController {
         Map<String, Object> map = new HashMap<>();
         try {
             appLendShopService.addAppLendShop(als);
+            map.put("status", "success");
             map.put("result", "成功!");
             return map;
         } catch (Exception e) {
+            map.put("status", "false");
             map.put("result", "失败!");
             return map;
         }

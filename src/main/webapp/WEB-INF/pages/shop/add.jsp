@@ -10,7 +10,7 @@
 <title>新增门店</title>
 <style type="text/css">
 	fieldset{
-		width:1665px;
+		width:1300px;
 	}
 	
 	.one{
@@ -143,17 +143,10 @@
                         success:function(data){
                             data=eval("(" + data+ ")");
                             if(data.status=='success'){
+                            	alert(data.status)
                                 $.messager.alert('提示信息',data.result,'info',function(){
-                                    var tab = parent.$("#tabs").tabs("getTab","新增");
-                                    var url = $(tab.panel('options').content).attr('src');
-                                    parent.$('#tabs').tabs('update', {
-                                        tab : tab,
-                                        options : {
-                                            src : url
-                                        }
-                                    });
-                                    parent.$("#tabs").tabs("select","添加门店");
-                                    parent.$("#tabs").tabs("close","添加门店");
+								parent.$("#tabs").tabs("select","添加门店");
+								parent.$("#tabs").tabs("close","添加门店");
                                 });
                             }else{
                                 $.messager.alert('提示信息',data.result);
