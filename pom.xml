@@ -414,7 +414,7 @@
 				<casServer.url>http://10.10.227.155:8092</casServer.url>
 				<casClient.url>http://localhost:8080</casClient.url>
 				<casServerTomcat.url>http://10.10.227.155:8092</casServerTomcat.url>
-				<redis.host>10.10.197.245</redis.host>
+				<redis.host>10.10.242.252</redis.host>
 				<redis.port>6999</redis.port>
 				<jms.broker.url>failover:(tcp://10.10.242.252:61616)?randomize=false&amp;initialReconnectDelay=100&amp;timeout=5000</jms.broker.url>
 				<oauth.serverUrl>http://t.uaa.pub.puhuifinance.com:8082/uaa</oauth.serverUrl>
@@ -431,7 +431,7 @@
 				<casServer.url>http://10.10.227.155:8092</casServer.url>
   				<casClient.url>http://10.10.242.252:8095</casClient.url>
 				<casServerTomcat.url>http://10.10.227.155:8092</casServerTomcat.url>
-				<redis.host>10.10.197.245</redis.host>
+				<redis.host>10.10.242.252</redis.host>
 				<redis.port>6999</redis.port>
 				<jms.broker.url>failover:(tcp://10.10.229.48:61616)?randomize=false&amp;initialReconnectDelay=100&amp;timeout=5000</jms.broker.url>
 				<oauth.serverUrl>http://t.uaa.pub.puhuifinance.com:8082/uaa</oauth.serverUrl>

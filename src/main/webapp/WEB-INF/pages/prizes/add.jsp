@@ -144,7 +144,7 @@
 											  }
 										});
 										parent.$("#tabs").tabs("select","奖励管理");
-										parent.$("#tabs").tabs("close","关闭");
+										parent.$("#tabs").tabs("close","添加奖励");
 									});
 								}else{
 									$.messager.alert('提示信息',data.result);
@@ -159,7 +159,7 @@
 	        $('#close').click(function(){
 	        	$.messager.confirm('提示信息',"确认关闭吗？",function(r){
 	    		    if (r){
-	    		    	 parent.$("#tabs").tabs("close","关闭");
+	    		    	 parent.$("#tabs").tabs("close","添加奖励");
 	    		    }
 	    		});
 	        });

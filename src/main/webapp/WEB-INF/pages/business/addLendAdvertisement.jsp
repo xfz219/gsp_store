@@ -71,7 +71,7 @@
 		<form id="addAdForm" class="easyui-form" enctype="multipart/form-data" method="post" >
 			<div title="添加广告" style="padding: 10px;">
 				<fieldset>
-					<legend>添加公告 &nbsp;&nbsp;&nbsp;<font color="red">*必填</font></legend>
+					<legend>添加广告 &nbsp;&nbsp;&nbsp;<font color="red">*必填</font></legend>
 					<table id="adTable" name="adTable">
 						<tr>
 							<td class="one">广告位名称：</td>

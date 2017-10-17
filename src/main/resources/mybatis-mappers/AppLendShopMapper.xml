@@ -10,7 +10,8 @@
 		<result property="shopCode" column="shop_code"/>
 		<result property="shopName" column="shop_name"/>
 		<result property="shopMobile" column="shop_mobile"/>
-		<result property="longitudese" column="longitude"/>
+		<result property="shopAddress" column="shop_address"/>
+		<result property="longitude" column="longitude"/>
 		<result property="latitude" column="latitude"/>
 		<result property="enabled" column="enabled"/>
 		<result property="updateTime" column="update_time"/>
@@ -19,26 +20,36 @@
 	<select id="findList" resultMap="appLendShopObj">
 		SELECT * FROM app_lend_shop WHERE 1 = 1
 		<if test="shopName != null and shopName != ''">
-			AND shop_name = #{shopName}
+			AND shop_name LIKE CONCAT(CONCAT('%',#{shopName}),'%')
 		</if>
-		<if test="enabled != null and enabled != ''">
+		<if test="enabled != null">
 			AND enabled = #{enabled}
 		</if>
 	</select>
 
-	<insert id="addAppPrizesSecret" parameterType="com.puhui.app.po.AppLendShop" useGeneratedKeys="true" keyProperty="id">
+	<select id="getAppLendShop" resultMap="appLendShopObj">
+		SELECT * FROM app_lend_shop WHERE id = #{id}
+	</select>
+
+	<insert id="addAppLendShop" parameterType="com.puhui.app.po.AppLendShop" useGeneratedKeys="true" keyProperty="id">
 		insert into app_lend_shop
-		(parent_id, shop_code, shop_name, shop_mobile, create_time, longitude, latitude, enabled, create_time, update_time)
+		(parent_id, shop_code, shop_name, shop_mobile, shop_address, longitude, latitude, enabled, create_time, update_time)
 		values
-		(#{parentId}, #{shopCode}, #{shopName}, #{shopMobile}, #{longitudese}, #{latitude}, #{enabled}, now(), now())
+		(#{parentId}, #{shopCode}, #{shopName}, #{shopMobile}, #{shopAddress}, #{longitude}, #{latitude}, #{enabled}, now(), now())
 	</insert>
 
 	<update id="updateAppLendShop" parameterType="com.puhui.app.po.AppLendShop">
 		UPDATE app_lend_shop SET
 		parent_id = #{parentId}, shop_code = #{shopCode},
 		shop_name = #{shopName}, shop_mobile = #{shopMobile},
-		longitude = #{longitude}, latitude = #{latitude},
-	    enabled = #{enabled} WHERE id = #{id}
+		shop_address = #{shopAddress}, longitude = #{longitude},
+	    latitude = #{latitude}, enabled = #{enabled}
+	    WHERE id = #{id}
+	</update>
+
+	<update id="updateEnabledById" >
+		UPDATE app_lend_shop SET
+		enabled = #{enabled} WHERE id = #{id}
 	</update>
 
 </mapper>

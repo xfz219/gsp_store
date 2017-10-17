@@ -14,12 +14,19 @@ public interface AppLendShopDao extends BaseDao {
 
 
 	/**
-	 * 查询奖品秘密列表
+	 * 获取list
 	 * @param shopName
 	 * @param enabled
 	 * @return
 	 */
 	List<AppLendShop> findList(@Param("shopName") String shopName, @Param("enabled") Boolean enabled);
+
+	/**
+	 * 获取vo
+	 * @param id
+	 * @return
+	 */
+	AppLendShop getAppLendShop(@Param("id") Long id);
 
 
 	/**
@@ -36,4 +43,10 @@ public interface AppLendShopDao extends BaseDao {
 	 */
 	void updateAppLendShop(AppLendShop appLendShop);
 
+	/**
+	 * 更新启用状态
+	 * @param id
+	 * @param enabled
+	 */
+	void updateEnabledById(@Param("id")long id, @Param("enabled")boolean enabled);
 }
