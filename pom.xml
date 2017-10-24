@@ -454,7 +454,7 @@
 				<oauth.clientId>lend-app-report</oauth.clientId>
 				<oauth.secret>JajouuGspWf3pXyP</oauth.secret>
 				<lend.server>https://api.puhuifinance.com/puhui-lend-server</lend.server>
-				<lend.cc.server>https://api.puhuifinance.com/puhui-cc-cloud-server</lend.cc.server>
+				<lend.cc.server>https://api.puhuifinance.com/finup-tm-server</lend.cc.server>
 			</properties>
 		</profile>
 	</profiles>
