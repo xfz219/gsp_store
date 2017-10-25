@@ -99,4 +99,10 @@
            		 #{id}
         	</foreach>
 	</select>
+
+	<update id="updateCustomerName">
+		UPDATE  app_customer
+		SET customer_name = #{name}
+		WHERE mobile = #{mobile, typeHandler=encryptTypeHandler}
+	</update>
 </mapper> 

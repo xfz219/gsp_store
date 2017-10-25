@@ -30,6 +30,8 @@
 		<span class="datagrid-btn-separator" style="float:none;"></span>
 		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="cleanStep();" >清洗步骤</a>
 		<span class="datagrid-btn-separator" style="float:none;"></span>
+		<a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="updateName();" >修改客户姓名</a>
+		<span class="datagrid-btn-separator" style="float:none;"></span>
 	</span>
 	<div style="clear:both;"></div>
 </div>
@@ -255,6 +257,52 @@
 				$.messager.alert('提示信息','修改成功');
 			}
 		});
+    }
+
+    var addChangeMobileDialog = $('#addChangeMobileDialog');
+    function updateName() {
+        var contentData = '<div style="margin: 20px 0px 0px 50px;"><label>手机：</label><input id="mobile" class="easyui-validatebox textbox" data-options="required:true"/></br></br><label>姓名：</label><input id="name" class="easyui-validatebox textbox" data-options="required:true"/></br></br></br></div>';
+        addChangeMobileDialog.dialog({
+            title: "修改客户姓名",
+            width: 350,
+            height: 200,
+            modal: true,
+            content: contentData,
+            buttons: [{
+                text: '确定',
+                handler: function() {
+                    var thisButton = $(this);
+                    if(typeof $('#mobile').val() != 'undefined' && $('#mobile').val() != '' && $('#mobile').val() != null){
+                        $.messager.confirm('确定','您确定修改客户姓名吗？',function(r){
+                            if(r){
+                                thisButton.linkbutton('disable');
+                                $.ajax({
+                                    url: '${ctx}/updateCustomerEntryState/updateCustomerName',
+                                    data: {
+                                        "mobile": $('#mobile').val(),"name": $('#name').val()
+                                    },
+                                    type: 'POST',
+                                    cache: false,
+                                    dataType: "json",
+                                    async:false,
+                                    success: function(data) {
+                                        addChangeMobileDialog.dialog('close');
+                                        $.messager.alert('提示信息','成功');
+                                    }
+                                });
+                            }
+                        });
+                    }else{
+                        $.messager.alert('提示信息', '请输入客户手机号！');
+                    }
+                }},
+                {
+                    text: '取消',
+                    handler: function() {
+                        addChangeMobileDialog.dialog('close');
+                    }
+                }]
+        });
     }
 
 </script>
