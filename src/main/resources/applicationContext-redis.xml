@@ -7,7 +7,7 @@
        http://technology.puhuifinance.com/schema/jedis http://technology.puhuifinance.com/schema/jedis/jedis.xsd">
 
  	<!-- 自定义jedis标签 -->
-	<jedis:directPool id ="directPool" host="${redis.host}" port="${redis.port}" maxTotal="1024"  database="4"/> 
+	<jedis:directPool id ="directPool" host="${redis.host}" port="${redis.port}" password="${redis.pwd}" maxTotal="1024"  database="4"/>
 	<!-- jedis操作集成 -->
 	<bean id="jedisTemplate" class="com.puhui.nosql.redis.JedisTemplate">
 		<constructor-arg index="0" ref="directPool" />
