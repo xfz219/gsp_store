@@ -20,8 +20,8 @@ public class DataCachingOperationsServiceImpl implements DataCachingOperationsSe
 	
 	@Autowired
 	private AppDataCachingOperationsDao appDataCachingOperationsDao;
-	@Autowired
-	private JedisTemplate jedisTemplate;
+//	@Autowired
+//	private JedisTemplate jedisTemplate;
 	/**
 	 * @comment 查询缓存表数据
 	 * @author lichunyue
@@ -52,9 +52,9 @@ public class DataCachingOperationsServiceImpl implements DataCachingOperationsSe
 	@Override
 	public void updateDataServer(Map<String, Object> updateMap)throws Exception {
 		appDataCachingOperationsDao.updateDataServer(updateMap);
-		jedisTemplate.hset(Constant.REDIS_KEY_VALUE+"_"+updateMap.get("className").toString()+"_"+updateMap.get("attribution").toString(),updateMap.get("codeName").toString(), updateMap.get("codeValue").toString());
-        jedisTemplate.hset(Constant.REDIS_KEY_CODE_MEAN+"_"+updateMap.get("className").toString()+"_"+updateMap.get("attribution").toString(),updateMap.get("codeName").toString(), updateMap.get("meaning").toString());
-        jedisTemplate.hset(Constant.REDIS_KEY_VALUE_MEAN+"_"+updateMap.get("className").toString()+"_"+updateMap.get("attribution").toString(),updateMap.get("codeValue").toString(), updateMap.get("meaning").toString());	
+//		jedisTemplate.hset(Constant.REDIS_KEY_VALUE+"_"+updateMap.get("className").toString()+"_"+updateMap.get("attribution").toString(),updateMap.get("codeName").toString(), updateMap.get("codeValue").toString());
+//        jedisTemplate.hset(Constant.REDIS_KEY_CODE_MEAN+"_"+updateMap.get("className").toString()+"_"+updateMap.get("attribution").toString(),updateMap.get("codeName").toString(), updateMap.get("meaning").toString());
+//        jedisTemplate.hset(Constant.REDIS_KEY_VALUE_MEAN+"_"+updateMap.get("className").toString()+"_"+updateMap.get("attribution").toString(),updateMap.get("codeValue").toString(), updateMap.get("meaning").toString());
 	}
 	/**
 	 * @comment 缓存表数据新增
@@ -63,8 +63,8 @@ public class DataCachingOperationsServiceImpl implements DataCachingOperationsSe
 	@Override
 	public void addDataServer(Map<String, Object> addMap) throws Exception {
 		appDataCachingOperationsDao.addDataServer(addMap);
-		jedisTemplate.hset(Constant.REDIS_KEY_VALUE+"_"+addMap.get("className").toString()+"_"+addMap.get("attribution").toString(),addMap.get("codeName").toString(), addMap.get("codeValue").toString());
-        jedisTemplate.hset(Constant.REDIS_KEY_CODE_MEAN+"_"+addMap.get("className").toString()+"_"+addMap.get("attribution").toString(),addMap.get("codeName").toString(), addMap.get("meaning").toString());
-        jedisTemplate.hset(Constant.REDIS_KEY_VALUE_MEAN+"_"+addMap.get("className").toString()+"_"+addMap.get("attribution").toString(),addMap.get("codeValue").toString(), addMap.get("meaning").toString());		
+//		jedisTemplate.hset(Constant.REDIS_KEY_VALUE+"_"+addMap.get("className").toString()+"_"+addMap.get("attribution").toString(),addMap.get("codeName").toString(), addMap.get("codeValue").toString());
+//        jedisTemplate.hset(Constant.REDIS_KEY_CODE_MEAN+"_"+addMap.get("className").toString()+"_"+addMap.get("attribution").toString(),addMap.get("codeName").toString(), addMap.get("meaning").toString());
+//        jedisTemplate.hset(Constant.REDIS_KEY_VALUE_MEAN+"_"+addMap.get("className").toString()+"_"+addMap.get("attribution").toString(),addMap.get("codeValue").toString(), addMap.get("meaning").toString());
 	}
 }

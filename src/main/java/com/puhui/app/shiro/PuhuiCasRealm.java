@@ -74,7 +74,7 @@ public class PuhuiCasRealm extends CasRealm {
                 permissionCode = swaggerService.permissions(staff.getId());
                 setStaffPermissionInfoInRedisCache(staff.getId(), permissionCode);
             } else {
-                permissionCode = jedisTemplate.smembers("staff-" + String.valueOf(staff.getId()));
+//                permissionCode = jedisTemplate.smembers("staff-" + String.valueOf(staff.getId()));
             }
             result.addStringPermissions(permissionCode);
             return result;
@@ -140,7 +140,7 @@ public class PuhuiCasRealm extends CasRealm {
      */
     private void setStaffPermissionInfoInRedisCache(long staffId, Set<String> permissionCodes) {
         for (String permissionCode : permissionCodes) {
-            jedisTemplate.sadd("staff-" + String.valueOf(staffId), permissionCode);
+//            jedisTemplate.sadd("staff-" + String.valueOf(staffId), permissionCode);
         }
     }
 

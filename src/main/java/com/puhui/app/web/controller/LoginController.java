@@ -46,8 +46,8 @@ public class LoginController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-    @Autowired
-    private JedisTemplate jedisTemplate;
+//    @Autowired
+//    private JedisTemplate jedisTemplate;
     @Autowired
     private StaffService staffService;
     @Autowired
@@ -94,7 +94,7 @@ public class LoginController extends BaseController {
             logger.info(staff.getUsername() + " - 登出 - " + new Date());
             // 登出
             currStaff.logout();
-            jedisTemplate.del("staff-" + String.valueOf(staff.getId()));
+//            jedisTemplate.del("staff-" + String.valueOf(staff.getId()));
         }
         
         Configuration config = null;
