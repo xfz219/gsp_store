@@ -29,4 +29,14 @@ public enum MenuEnum {
         }
         return ids;
     }
+
+
+    public static MenuEnum getMenuById(int id) {
+        for (MenuEnum menuEnum : MenuEnum.values()) {
+            if (menuEnum.id == id) {
+                return menuEnum;
+            }
+        }
+        return null;
+    }
 }

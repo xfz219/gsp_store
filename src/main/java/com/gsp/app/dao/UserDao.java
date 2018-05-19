@@ -1,6 +1,7 @@
 package com.gsp.app.dao;
 
 
+import com.gsp.app.model.GspMenu;
 import com.gsp.app.model.User;
 import org.codehaus.jackson.map.Serializers;
 
@@ -16,4 +17,6 @@ public interface UserDao extends BaseDao {
     List<User> selectAllUser();
 
     User selectUserByName(String name);
+
+    List<GspMenu> selectMenuById(String userId);
 }

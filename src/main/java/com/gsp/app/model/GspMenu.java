@@ -15,10 +15,12 @@ public class GspMenu {
     private Long id;
     private String menuName;
     private String menuUrl;
+    private Integer menuFatherId;
     private String menuFather;
     private String menuDesc;
     private Boolean enable;
     private Date createTime;
     private Date updateTime;
+
 
 }
