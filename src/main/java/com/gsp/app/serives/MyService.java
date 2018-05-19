@@ -1,7 +1,9 @@
 package com.gsp.app.serives;
 
+import com.gsp.app.context.AppContext;
 import com.gsp.app.dao.UserDao;
 import com.gsp.app.model.User;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +21,18 @@ public class MyService {
 
 
     public List<User> userList() {
-//        System.out.println("1111");
-//        return null;
         return userDao.selectAllUser();
+    }
+
+
+    public boolean isLoginSUc(User user) {
+        User u = userDao.selectUserByName(user.getUserName());
+        if (u != null
+                && StringUtils.equals(u.getPassWord(), user.getPassWord())) {
+            AppContext.setUser(u);
+            return true;
+        }
+        return false;
     }
 
 }

@@ -14,4 +14,6 @@ import java.util.List;
 public interface UserDao extends BaseDao {
 
     List<User> selectAllUser();
+
+    User selectUserByName(String name);
 }
