@@ -1,6 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <link rel="shortcut icon" type="image/x-icon" href="static/images/favicon.ico" />
-<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <link rel="stylesheet" type="text/css" href="${ctx}/static/easyui/themes/icon.css" />
@@ -23,7 +22,7 @@
 			var sessionstatus=XMLHttpRequest.getResponseHeader("sessionstatus"); 
 			if(sessionstatus=="timeout"){
 			//如果超时就处理 ，指定要跳转的页面
-				window.location.reload("/lend-app-report/");
+				window.location.reload("/gsp-store/");
 			}
 			
 			if(XMLHttpRequest.status==555){

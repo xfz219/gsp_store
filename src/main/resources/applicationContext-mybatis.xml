@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:jee="http://www.springframework.org/schema/jee"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-4.0.xsd
@@ -16,70 +16,75 @@
        http://www.springframework.org/schema/jee/spring-jee-4.0.xsd"
        default-autowire="byName">
 
-	<!-- 数据源 -->
-	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/puhui" />
+    <context:property-placeholder location="classpath:jdbc.properties" />
+    <!-- 03.c3p0 配置数据源 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"></property>
+        <property name="jdbcUrl" value="${jdbc.url}"></property>
+        <property name="user" value="${jdbc.user}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+    </bean>
+    <!-- - - - - - - - sessionFactory - - - - - - - -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
+        <property name="typeAliasesPackage" value="com.gsp.app.model"/>
+        <!--<property name="typeHandlersPackage" value="com.puhui.app.typeHandler"/>-->
+        <!-- 显式指定Mapper文件位置 -->
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:/mybatis-mappers/*Mapper.xml</value>
+            </list>
+        </property>
 
-	<!-- - - - - - - - sessionFactory - - - - - - - -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
-		<property name="typeAliasesPackage" value="com.puhui.app.po;com.puhui.app.vo;com.puhui.app.typeHandler" />
-		<property name="typeHandlersPackage" value="com.puhui.app.typeHandler"/>
-		<!-- 显式指定Mapper文件位置 -->
-		<property name="mapperLocations">
-			<list>
-				<value>classpath:/mybatis-mappers/*Mapper.xml</value>
-			</list>
-		</property>
-		
-		<property name="plugins">
-			<array>
-				<ref bean="paginationInterceptor" />
-			</array>
-		</property>
-		<property name="configurationProperties">
-			<props>
-				<prop key="dialect">mysql</prop>
-			</props>
-		</property>
-	</bean>
+        <property name="plugins">
+            <array>
+                <ref bean="paginationInterceptor"/>
+            </array>
+        </property>
+        <property name="configurationProperties">
+            <props>
+                <prop key="dialect">mysql</prop>
+            </props>
+        </property>
+    </bean>
 
-	<!-- MyBatis配置 -->
-	<bean id="paginationInterceptor" class="com.puhui.app.common.page.mybatis.PaginationInterceptor" />
-	
-	<!-- - - - - - - - sqlSessionTemplate - - - - - - - -->
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg index="0" ref="sqlSessionFactory" />
-	</bean>
+    <!-- MyBatis配置 -->
+    <bean id="paginationInterceptor" class="com.gsp.app.common.page.mybatis.PaginationInterceptor"/>
 
-	<!-- 扫描basePackage下所有接口 -->
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.puhui.app.dao" />
-	</bean>
+    <!-- - - - - - - - sqlSessionTemplate - - - - - - - -->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
 
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
-	
-	<!-- 事务管理 -->
-	<aop:config>
-		<aop:advisor pointcut="execution(* com.puhui.app.manager.*Manager.*(..))"
-			advice-ref="mybatisTxAdvice" />
-	</aop:config>
+    <!-- 扫描basePackage下所有接口 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.gsp.app.dao"/>
+    </bean>
 
-	<tx:advice id="mybatisTxAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<tx:method name="get*" read-only="true" />
-			<tx:method name="query*" read-only="true" />
-			<tx:method name="list*" read-only="true" />
-			<tx:method name="add*" read-only="false" />
-			<tx:method name="update*" read-only="false" />
-			<tx:method name="delete*" read-only="false" />
-			<tx:method name="remove*" read-only="false" />
-			<tx:method name="test" read-only="false" />
-			<tx:method name="*" rollback-for="ServiceException" />
-		</tx:attributes>
-	</tx:advice>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+    <!-- 事务管理 -->
+    <!--<aop:config>-->
+        <!--<aop:advisor pointcut="execution(* com.puhui.app.manager.*Manager.*(..))"-->
+                     <!--advice-ref="mybatisTxAdvice"/>-->
+    <!--</aop:config>-->
+
+    <tx:advice id="mybatisTxAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="query*" read-only="true"/>
+            <tx:method name="list*" read-only="true"/>
+            <tx:method name="add*" read-only="false"/>
+            <tx:method name="update*" read-only="false"/>
+            <tx:method name="delete*" read-only="false"/>
+            <tx:method name="remove*" read-only="false"/>
+            <tx:method name="test" read-only="false"/>
+            <tx:method name="*" rollback-for="ServiceException"/>
+        </tx:attributes>
+    </tx:advice>
 
 </beans>

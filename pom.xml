@@ -3,49 +3,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-<!-- 	<parent> -->
-<!-- 		<groupId>com.puhui</groupId> -->
-<!-- 		<artifactId>puhui</artifactId> -->
-<!-- 		<version>1.0</version> -->
-<!-- 	</parent> -->
-
-	<artifactId>lend-app-report</artifactId>
-	<groupId>com.puhui</groupId>
-	<name>lend-app-report</name>
+	<artifactId>gsp-store</artifactId>
+	<groupId>com.gsp</groupId>
+	<name>gsp-store</name>
 	<packaging>war</packaging>
 	<version>1.0</version>
 	<dependencies>
-		<dependency>
-			<groupId>com.puhui</groupId>
-			<artifactId>puhui-cc-cloud-api</artifactId>
-			<version>1.1</version>
-		</dependency>
 
-		<dependency>
-			<groupId>com.puhui</groupId>
-			<artifactId>puhui-uc-api</artifactId>
-			<version>2.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.baidu.ueditor</groupId>
-			<artifactId>ueditor</artifactId>
-			<version>1.1.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.puhui</groupId>
-			<artifactId>puhui-lend-api</artifactId>
-			<version>2.1.5</version>
-		</dependency>
-		<dependency>
-			<groupId>com.puhui</groupId>
-			<artifactId>puhui-redis</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>cn.jpush.api</groupId>
-			<artifactId>jpush-client</artifactId>
-			<version>3.2.3</version>
-		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
@@ -61,11 +26,7 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
         </dependency>
-		<dependency>
-			<groupId>com.github.fernandospr</groupId>
-			<artifactId>javapns-jdk16</artifactId>
-			<version>2.2.1</version>
-		</dependency>
+
 		<dependency>
 			<groupId>c3p0</groupId>
 			<artifactId>c3p0</artifactId>
@@ -173,11 +134,7 @@
 			<artifactId>mybatis</artifactId>
 			<version>3.0.6</version>
 		</dependency>
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-			<version>2.2.1</version>
-		</dependency>
+
 
 		<dependency>
 			<groupId>log4j</groupId>
@@ -230,103 +187,12 @@
 			<artifactId>fluent-hc</artifactId>
 			<version>4.3.6</version>
 		</dependency>
-		<dependency>
-			<groupId>com.puhui.cloud</groupId>
-			<artifactId>puhui-oauth-template</artifactId>
-			<version>1.0.0</version>
-			<exclusions>
-				<!--忽略Spring框架依赖 -->
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-	  	<dependency>
-   			 <groupId>com.puhui</groupId>
-   			 <artifactId>puhui-aes</artifactId>
-    		 <version>1.1</version>
-		</dependency>
 
-		<!-- Excel -->
-		<dependency>
-			<groupId>net.sourceforge.jexcelapi</groupId>
-			<artifactId>jxl</artifactId>
-			<version>2.6.10</version>
-		</dependency>
 
-		<!-- shiro-start -->
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-core</artifactId>
-			<version>1.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-spring</artifactId>
-			<version>1.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-ehcache</artifactId>
-			<version>1.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-cas</artifactId>
-			<version>1.2.2</version>
-		</dependency>
-		<!-- shiro-end -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.9</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-scratchpad</artifactId>
-			<version>3.9</version>
-		</dependency>
-	  	<dependency>
-   			 <groupId>com.puhui</groupId>
-   			 <artifactId>puhui-aes</artifactId>
-    		 <version>1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>dubbo</artifactId>
-			<version>2.4.9</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.zookeeper</groupId>
-			<artifactId>zookeeper</artifactId>
-			<version>3.4.5</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>com.github.sgroschupf</groupId>
-			<artifactId>zkclient</artifactId>
-			<version>0.1</version>
-		</dependency>
+
+
+
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -338,42 +204,7 @@
 			<version>2.4</version>
 			<classifier>jdk15</classifier>
 		</dependency>
-		
-		<!-- JMS begin -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jms</artifactId>
-			<version>4.0.2.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-core</artifactId>
-			<version>5.7.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.activemq.protobuf</groupId>
-					<artifactId>activemq-protobuf</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.osgi</groupId>
-					<artifactId>spring-osgi-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.osgi</groupId>
-					<artifactId>org.osgi.core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-compress</artifactId>
-			<version>1.9</version>
-		</dependency>
-		<!-- JMS end -->
+
 	</dependencies>
 	<build>
 		<plugins>
@@ -395,84 +226,9 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
-				<excludes>
-					<exclude>**/*.ser</exclude>
-					<exclude>**/*.p12</exclude>
-				</excludes>
 			</resource>
 		</resources>
 	</build>
 	
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-				<casServer.url>http://10.10.227.155:8092</casServer.url>
-				<casClient.url>http://localhost:8080</casClient.url>
-				<casServerTomcat.url>http://10.10.227.155:8092</casServerTomcat.url>
-				<redis.host>10.10.242.252</redis.host>
-				<redis.port>6999</redis.port>
-				<redis.pwd>lendapp</redis.pwd>
-				<jms.broker.url>failover:(tcp://10.10.242.252:61616)?randomize=false&amp;initialReconnectDelay=100&amp;timeout=5000</jms.broker.url>
-				<oauth.serverUrl>http://t.uaa.pub.puhuifinance.com:8082/uaa</oauth.serverUrl>
-				<oauth.clientId>lend-app-report</oauth.clientId>
-				<oauth.secret>lend-app-report</oauth.secret>
-				<lend.server>http://ut1.zuul.pub.puhuifinance.com:8765/puhui-lend-server</lend.server>
-				<lend.cc.server>http://ut1.zuul.pub.puhuifinance.com:8765/puhui-cc-cloud-server</lend.cc.server>
-			</properties>
-		</profile>
-		<profile>
-			<id>uat</id>
-			<properties>
-				<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-				<casServer.url>http://10.10.227.155:8092</casServer.url>
-  				<casClient.url>http://10.10.242.252:8095</casClient.url>
-				<casServerTomcat.url>http://10.10.227.155:8092</casServerTomcat.url>
-				<redis.host>10.10.242.252</redis.host>
-				<redis.port>6999</redis.port>
-				<redis.pwd>lendapp</redis.pwd>
-				<jms.broker.url>failover:(tcp://10.10.229.48:61616)?randomize=false&amp;initialReconnectDelay=100&amp;timeout=5000</jms.broker.url>
-				<oauth.serverUrl>http://t.uaa.pub.puhuifinance.com:8082/uaa</oauth.serverUrl>
-				<oauth.clientId>lend-app-report</oauth.clientId>
-				<oauth.secret>lend-app-report</oauth.secret>
-				<lend.server>http://ut1.zuul.pub.puhuifinance.com:8765/puhui-lend-server</lend.server>
-				<lend.cc.server>http://ut1.zuul.pub.puhuifinance.com:8765/puhui-cc-cloud-server</lend.cc.server>
-			</properties>
-		</profile>
-		<profile>
-			<id>ucloud_idc</id>
-			<properties>
-				<casServer.url>https://inside.puhuifinance.com</casServer.url>
-				<casClient.url>http://inside.puhuifinance.com</casClient.url>
-				<casServerTomcat.url>http://p.nginx.rd.puhuifinance.com</casServerTomcat.url>
-				<redis.host>p.redis.rd.puhuifinance.com</redis.host>
-				<redis.port>6379</redis.port>
-				<redis.pwd></redis.pwd>
-				<jms.broker.url>failover:(tcp://p1.mq.rd.puhuifinance.com:61616,tcp://p2.mq.rd.puhuifinance.com:61616)?randomize=false&amp;initialReconnectDelay=100&amp;timeout=5000</jms.broker.url>
-				<oauth.serverUrl>https://api.puhuifinance.com/uaa</oauth.serverUrl>
-				<oauth.clientId>lend-app-report</oauth.clientId>
-				<oauth.secret>JajouuGspWf3pXyP</oauth.secret>
-				<lend.server>https://api.puhuifinance.com/puhui-lend-server</lend.server>
-				<lend.cc.server>https://api.puhuifinance.com/finup-tm-server</lend.cc.server>
-			</properties>
-		</profile>
-	</profiles>
-	<repositories>
-        <repository>
-            <id>puhuifinance</id>
-            <name>Maven of Puhuifinance.com</name>
-            <url>http://inside.puhuifinance.com/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <layout>default</layout>
-        </repository>
-    </repositories>
+
 </project>

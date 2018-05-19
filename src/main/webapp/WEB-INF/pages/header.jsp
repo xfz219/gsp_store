@@ -11,13 +11,7 @@
 	   <span style="color:#f00;height:20px;line-height:20px;"></span>
 	</div>
 	<div id="topbar-logon" style="float:right">
-		<select id="systemSelect" class="easyui-combobox" name="system" style="width:100px;">  
-			<option value="">选择系统</option> 
-		    <option value="/puhui-lend">个贷</option>
-		</select>
-		<span style="color:#BE0000;line-height:26px;"><img src="static/images/user-icon.png" width=16 height=16 style="margin:-2px 1px"/> <shiro:principal property="username"/>(<shiro:principal property="realName"/>)</span>
-		<a id="editPwd"  class="easyui-linkbutton"
-			plain="true" href ="javascript:void(0)" onclick="editPwdDialog()"><img src="static/images/password.png"style="margin:0 2px -2px 0;">修改密码</a>
+		<span style="color:#BE0000;line-height:26px;"><img src="static/images/user-icon.png" width=16 height=16 style="margin:-2px 1px"/>新哥</span>
 		<a id="logout"class="easyui-linkbutton"
 			plain="true" href="logout.do"><img src="static/images/return.png" style="margin:0 3px -3px -6px;">登出</a>
 	</div>
