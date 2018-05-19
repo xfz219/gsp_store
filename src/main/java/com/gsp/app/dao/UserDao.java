@@ -11,7 +11,7 @@ import java.util.List;
  * Created by finup on 2018/5/19.
  */
 
-public interface UserDao extends BaseDao{
+public interface UserDao extends BaseDao {
 
     List<User> selectAllUser();
 }

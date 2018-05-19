@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping
 public class LoginController {
 
-    @RequestMapping(value = "/home" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String main() {
         System.out.println("xxxxx");
         return "login";
     }
 
     @RequestMapping("user")
-    public  String user() {
+    public String user() {
         return "user/user";
     }
 }

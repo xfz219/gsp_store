@@ -30,9 +30,8 @@ import org.apache.ibatis.session.RowBounds;
 /**
  * 通过拦截<code>StatementHandler</code>的<code>prepare</code>方法，重写sql语句实现物理分页。
  * 老规矩，签名里要拦截的类型只能是接口。
- * 
+ *
  * @author liwang
- * 
  */
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class})})
 public class PaginationInterceptor implements Interceptor {
@@ -63,12 +62,12 @@ public class PaginationInterceptor implements Interceptor {
 //            logger.warn("Property dialect is not setted,use default 'mysql' ");
             dialect = defaultDialect;
         }
-    	MappedStatement mappedStatement = (MappedStatement) metaStatementHandler.getValue("delegate.mappedStatement");
+        MappedStatement mappedStatement = (MappedStatement) metaStatementHandler.getValue("delegate.mappedStatement");
         BoundSql boundSql = (BoundSql) metaStatementHandler.getValue("delegate.boundSql");
         Object parameterObject = boundSql.getParameterObject();
         //判断如果有page参数就做分页
-        if (parameterObject != null && parameterObject instanceof Map && 
-        	metaStatementHandler.getValue("delegate.boundSql.parameterObject.page")!=null) {
+        if (parameterObject != null && parameterObject instanceof Map &&
+                metaStatementHandler.getValue("delegate.boundSql.parameterObject.page") != null) {
             Page page = (Page) metaStatementHandler
                     .getValue("delegate.boundSql.parameterObject.page");
             String sql = boundSql.getSql();
@@ -89,7 +88,7 @@ public class PaginationInterceptor implements Interceptor {
     /**
      * 从数据库里查询总的记录数并计算总页数，回写进分页参数<code>PageParameter</code>,这样调用者就可用通过 分页参数
      * <code>PageParameter</code>获得相关信息。
-     * 
+     *
      * @param sql
      * @param connection
      * @param mappedStatement
@@ -97,7 +96,7 @@ public class PaginationInterceptor implements Interceptor {
      * @param page
      */
     private void setPageParameter(String sql, Connection connection, MappedStatement mappedStatement,
-            BoundSql boundSql, Page page) {
+                                  BoundSql boundSql, Page page) {
         // 记录总记录数
         String countSql = "select count(0) as total from (" + sql + ") cou";
         PreparedStatement countStmt = null;
@@ -133,7 +132,7 @@ public class PaginationInterceptor implements Interceptor {
 
     /**
      * 对SQL参数(?)设值
-     * 
+     *
      * @param ps
      * @param mappedStatement
      * @param boundSql
@@ -141,14 +140,14 @@ public class PaginationInterceptor implements Interceptor {
      * @throws SQLException
      */
     private void setParameters(PreparedStatement ps, MappedStatement mappedStatement, BoundSql boundSql,
-            Object parameterObject) throws SQLException {
+                               Object parameterObject) throws SQLException {
         ParameterHandler parameterHandler = new DefaultParameterHandler(mappedStatement, parameterObject, boundSql);
         parameterHandler.setParameters(ps);
     }
 
     /**
      * 根据数据库类型，生成特定的分页sql
-     * 
+     *
      * @param sql
      * @param page
      * @return
@@ -171,7 +170,7 @@ public class PaginationInterceptor implements Interceptor {
 
     /**
      * mysql的分页语句
-     * 
+     *
      * @param sql
      * @param page
      * @return String
@@ -186,7 +185,7 @@ public class PaginationInterceptor implements Interceptor {
 
     /**
      * 参考hibernate的实现完成oracle的分页
-     * 
+     *
      * @param sql
      * @param page
      * @return String
