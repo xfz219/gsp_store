@@ -48,7 +48,7 @@ public class JsonUtils {
         try {
             return objectMapper.writeValueAsString(obj);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("objectToJson",e);
             return null;
         }
     }

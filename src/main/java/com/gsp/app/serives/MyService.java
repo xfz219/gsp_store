@@ -32,22 +32,18 @@ public class MyService {
 
     public boolean isLoginSUc(User user) {
         User u = userDao.selectUserByName(user.getUserName());
-        if (u != null
-                && StringUtils.equals(u.getPassWord(), user.getPassWord())) {
-            AppContext.setUser(u);
-            return true;
-        }
-        return false;
+        return (u != null
+                && StringUtils.equals(u.getPassWord(), user.getPassWord()));
     }
 
 
-    public Map<MenuEnum, Collection<List<GspMenu>>> getMenuById(String userId) {
+    public Map<String, Collection<List<GspMenu>>> getMenuById(String userId) {
         List<GspMenu> gspMenu = userDao.selectMenuById(userId);
-        Multimap<MenuEnum, List<GspMenu>> enumListMap = HashMultimap.create();
+        Multimap<String, List<GspMenu>> enumListMap = HashMultimap.create();
         if (gspMenu != null) {
             for (GspMenu menu : gspMenu) {
                 if (menu != null
-                        && MenuEnum.getParentMenu().contains(menu.getId())) {
+                        && MenuEnum.getParentMenu().contains(menu.getMenuFatherId())) {
                     enumListMap.put(MenuEnum.getMenuById(menu.getMenuFatherId()), gspMenu);
                 }
 

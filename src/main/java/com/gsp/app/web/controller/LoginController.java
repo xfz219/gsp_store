@@ -9,12 +9,15 @@ import com.gsp.app.model.User;
 import com.gsp.app.serives.MyService;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collection;
 import java.util.List;
@@ -53,18 +56,17 @@ public class LoginController {
         } catch (Exception e) {
             logger.error("login error", e);
             return Response.fail(ErrorEnum.FAIL);
-        } finally {
-            AppContext.clear();
         }
     }
 
 
     @RequestMapping(value = "/treeView", method = RequestMethod.GET)
-    public String index(String id) {
+    @ResponseBody
+    public String index(@RequestParam(value = "id") String id) {
         try {
 
             if (StringUtils.isNotBlank(id)) {
-                Map<MenuEnum, Collection<List<GspMenu>>> menuEnumCollectionMap = myService.getMenuById(id);
+                Map<String, Collection<List<GspMenu>>> menuEnumCollectionMap = myService.getMenuById(id);
                 return MapUtils.isEmpty(menuEnumCollectionMap) ?
                         Response.fail(ErrorEnum.FAIL) : Response.suc(menuEnumCollectionMap);
             }

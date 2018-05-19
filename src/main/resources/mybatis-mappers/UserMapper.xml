@@ -1,16 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须指向Dao接口 -->
 <mapper namespace="com.gsp.app.dao.UserDao">
-	<resultMap id="userObj" type="com.gsp.app.model.User">
-		<result column="id" property="id"></result>
-		<result column="user_name" property="userName"></result>
-		<result column="pass_word" property="passWord"></result>
-	</resultMap>
+    <resultMap id="userObj" type="com.gsp.app.model.GspMenu">
+        <result column="id" property="id"></result>
+        <result column="menu_name" property="menuName"></result>
+        <result column="menu_url" property="menuUrl"></result>
+        <result column="menu_father_id" property="menuFatherId"></result>
+        <result column="menu_desc" property="menuDesc"></result>
+        <result column="enable" property="enable"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
 
-	<select id="selectAllUser" resultMap="userObj">
-		select * from user_info;
+    <sql id="dd">
+
+    </sql>
+
+    <select id="selectMenuById" resultMap="userObj">
+
+		SELECT	*
+FROM
+	gsp_menu
+WHERE
+	id IN(
+		SELECT DISTINCT
+			grm.menu_id
+		FROM
+			gsp_role_menu grm
+		WHERE
+			grm.role_id IN(
+				SELECT
+					gur.role_id
+				FROM
+					gsp_user_role gur
+				WHERE
+					gur.user_id = #{id}
+			)
+	)
+
 	</select>
 
 </mapper> 

@@ -39,9 +39,10 @@
         //加载左侧菜单树
         _treeView.tree({
             checkbox: false,
-            url: "<%=request.getContextPath()%>/treeView?id=",
+            url: "<%=request.getContextPath()%>/treeView?id=1",
+            method:"get",
             onBeforeExpand: function (node) {
-                _treeView.tree("options").url = "<%=request.getContextPath()%>/treeView?id=" + node.id;
+                _treeView.tree("options").url = url;
             },
             onClick: function (node) {
                 var click_obj = $('#treeView').tree('getSelected');
