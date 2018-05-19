@@ -12,12 +12,12 @@ public class PageController {
 
     @RequestMapping("/home")
     public String index() {
-        return "/user/login";
+        return "login";
     }
 
 
     @RequestMapping("/index")
     public String login() {
-        return "/user/main";
+        return "/main";
     }
 }
