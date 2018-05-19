@@ -108,6 +108,22 @@
                 </ul>
             </li>
         </ul>
+        <ul class="easyui-tree tree">
+            <li>
+                <div class="tree-node" node-id="938" style="cursor: pointer;"><span class="tree-title">角色管理</span>
+                </div>
+                <ul style="display: none;">
+                    <li>
+                        <div class="tree-node" node-id="940" style="cursor: pointer;">
+                            <a class="tree-title" href="user" >用户管理</a></div>
+                    </li>
+                    <li>
+                        <div class="tree-node" node-id="940" style="cursor: pointer;">
+                            <a class="tree-title" href="user" >角色管理</a></div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </div>
 </div>
 <div id="mainPanle" region="center" border="true" border="false">
