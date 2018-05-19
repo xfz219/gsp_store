@@ -59,7 +59,7 @@ public class LoginController {
     }
 
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @RequestMapping(value = "/treeView", method = RequestMethod.GET)
     public String index(String id) {
         try {
 

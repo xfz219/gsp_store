@@ -16,114 +16,7 @@
 </div>
 <div data-options="region:'west',split:true,title:'功能导航'" style="height: 200px; padding: 1px; width: 200px;">
     <div style="margin: 10px 0;">
-        <ul class="easyui-tree tree">
-            <li>
-                <div class="tree-node" node-id="938" style="cursor: pointer;"><span class="tree-title">基础信息</span>
-                </div>
-                <ul style="display: none;">
-                    <li>
-                        <div class="tree-node" node-id="940" style="cursor: pointer;">
-                            <a class="tree-title" href="user" >供应商信息</a></div>
-                    </li>
-                    <li>
-                        <div class="tree-node" node-id="940" style="cursor: pointer;">
-                            <a class="tree-title" href="user" >品种信息</a></div>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-
-        <ul class="easyui-tree tree">
-            <li>
-                <div class="tree-node" node-id="938" style="cursor: pointer;"><span class="tree-title">采购管理</span>
-                </div>
-                <ul style="display: none;">
-                    <li>
-                        <div class="tree-node" node-id="940" style="cursor: pointer;">
-                            <a class="tree-title" href="user" >采购入库单</a></div>
-                    </li>
-                    <li>
-                        <div class="tree-node" node-id="940" style="cursor: pointer;">
-                            <a class="tree-title" href="user" >采购退货单</a></div>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-
-        <ul class="easyui-tree tree">
-            <li>
-                <div class="tree-node" node-id="938" style="cursor: pointer;"><span class="tree-title">销售管理</span>
-                </div>
-                <ul style="display: none;">
-                    <li>
-                        <div class="tree-node" node-id="940" style="cursor: pointer;">
-                            <a class="tree-title" href="user" >价格查询</a></div>
-                    </li>
-                    <li>
-                        <div class="tree-node" node-id="940" style="cursor: pointer;">
-                            <a class="tree-title" href="user" >销售出库单</a></div>
-                    </li>
-                    <li>
-                        <div class="tree-node" node-id="940" style="cursor: pointer;">
-                            <a class="tree-title" href="user" >销售退货单</a></div>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-
-        <ul class="easyui-tree tree">
-            <li>
-                <div class="tree-node" node-id="938" style="cursor: pointer;"><span class="tree-title">库存管理</span>
-                </div>
-                <ul style="display: none;">
-                    <li>
-                        <div class="tree-node" node-id="940" style="cursor: pointer;">
-                            <a class="tree-title" href="user" >库存汇总</a></div>
-                    </li>
-                    <li>
-                        <div class="tree-node" node-id="940" style="cursor: pointer;">
-                            <a class="tree-title" href="user" >库存明细</a></div>
-                    </li>
-                    <li>
-                        <div class="tree-node" node-id="940" style="cursor: pointer;">
-                            <a class="tree-title" href="user" >库存盘点</a></div>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-
-        <ul class="easyui-tree tree">
-            <li>
-                <div class="tree-node" node-id="938" style="cursor: pointer;"><span class="tree-title">基础信息</span>
-                </div>
-                <ul style="display: none;">
-                    <li>
-                        <div class="tree-node" node-id="940" style="cursor: pointer;">
-                            <a class="tree-title" href="user" >用户管理</a></div>
-                    </li>
-                    <li>
-                        <div class="tree-node" node-id="940" style="cursor: pointer;">
-                            <a class="tree-title" href="user" >用户管理</a></div>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="easyui-tree tree">
-            <li>
-                <div class="tree-node" node-id="938" style="cursor: pointer;"><span class="tree-title">角色管理</span>
-                </div>
-                <ul style="display: none;">
-                    <li>
-                        <div class="tree-node" node-id="940" style="cursor: pointer;">
-                            <a class="tree-title" href="user" >用户管理</a></div>
-                    </li>
-                    <li>
-                        <div class="tree-node" node-id="940" style="cursor: pointer;">
-                            <a class="tree-title" href="user" >角色管理</a></div>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+        <ul class="easyui-tree" id="treeView"></ul>
     </div>
 </div>
 <div id="mainPanle" region="center" border="true" border="false">
@@ -144,27 +37,27 @@
     var _centerTabs = $('#tabs');//选项卡栏
     $(function () {
         //加载左侧菜单树
-        <%--_treeView.tree({--%>
-            <%--checkbox: false,--%>
-            <%--url: "<%=request.getContextPath()%>/treeView?id=",--%>
-            <%--onBeforeExpand: function (node) {--%>
-                <%--_treeView.tree("options").url = "<%=request.getContextPath()%>/treeView?id=" + node.id;--%>
-            <%--},--%>
-            <%--onClick: function (node) {--%>
-                <%--var click_obj = $('#treeView').tree('getSelected');--%>
-                <%--if (click_obj.state == 'open' && click_obj.attributes == null) {--%>
-                    <%--_treeView.tree('collapse', node.target);--%>
-                <%--} else if (click_obj.state == 'closed' && click_obj.attributes == null) {--%>
-                    <%--_treeView.tree('expand', node.target);--%>
-                <%--} else {--%>
-                    <%--var _tit = node.text;--%>
-                    <%--var _contant = node.attributes["url"];--%>
-                    <%--var _tabCls = node.iconCls;--%>
-                    <%--addNewTab(_tit, _contant, _tabCls, node.id);--%>
-                <%--}--%>
-            <%--}--%>
-        <%--});--%>
-        <%--id--%>
+        _treeView.tree({
+            checkbox: false,
+            url: "<%=request.getContextPath()%>/treeView?id=",
+            onBeforeExpand: function (node) {
+                _treeView.tree("options").url = "<%=request.getContextPath()%>/treeView?id=" + node.id;
+            },
+            onClick: function (node) {
+                var click_obj = $('#treeView').tree('getSelected');
+                if (click_obj.state == 'open' && click_obj.attributes == null) {
+                    _treeView.tree('collapse', node.target);
+                } else if (click_obj.state == 'closed' && click_obj.attributes == null) {
+                    _treeView.tree('expand', node.target);
+                } else {
+                    var _tit = node.text;
+                    var _contant = node.attributes["url"];
+                    var _tabCls = node.iconCls;
+                    addNewTab(_tit, _contant, _tabCls, node.id);
+                }
+            }
+        });
+        id
 
         //给菜单添加点击事件
         $('.easyui-tree a').click(function () {
