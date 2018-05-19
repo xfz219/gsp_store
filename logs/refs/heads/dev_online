@@ -1,0 +1,32 @@
+0000000000000000000000000000000000000000 bdfd60337335fb2023007e7f1a5a418cecc3b168 finup <lichunyue@finupgroup.com> 1497498987 +0800	branch: Created from origin/dev_online
+bdfd60337335fb2023007e7f1a5a418cecc3b168 39207fc51b6313aa8e1208130fde3aadcb1028c8 finup <lichunyue@finupgroup.com> 1497513505 +0800	commit: 新增删除备份
+39207fc51b6313aa8e1208130fde3aadcb1028c8 f25461ff7c96f76d83890ad6432075e8d8e075b6 finup <lichunyue@finupgroup.com> 1497516503 +0800	commit: 新增验证
+f25461ff7c96f76d83890ad6432075e8d8e075b6 2234d5d3eb50e2e4d81afb910b066ef88c34780b finup <lichunyue@finupgroup.com> 1497597192 +0800	pull origin dev_online: Fast-forward
+2234d5d3eb50e2e4d81afb910b066ef88c34780b 49389f3b4e4e9d494337416c0e9bbaba617376da finup <lichunyue@finupgroup.com> 1497598750 +0800	commit: 新增清洗数据
+49389f3b4e4e9d494337416c0e9bbaba617376da 8e3b6c4bb5d51561a7ac4b25c9415707181d6019 finup <lichunyue@finupgroup.com> 1497960077 +0800	pull origin dev_online: Fast-forward
+8e3b6c4bb5d51561a7ac4b25c9415707181d6019 a348045a0ac0762f3b114593972725fc403cffac finup <lichunyue@finupgroup.com> 1500560904 +0800	pull origin dev_online: Fast-forward
+a348045a0ac0762f3b114593972725fc403cffac 0b5525c17ada0437debd0a25baf6b152b60a3bc7 finup <lichunyue@finupgroup.com> 1500560913 +0800	merge origin/master: Fast-forward
+0b5525c17ada0437debd0a25baf6b152b60a3bc7 9632fcb70fca1042f4346b135b20da4095efd2f1 finup <lichunyue@finupgroup.com> 1504694027 +0800	commit: 新增奖品查询列表
+9632fcb70fca1042f4346b135b20da4095efd2f1 51d2df678d1e98570f5ab6d5a9225fda004b3412 finup <lichunyue@finupgroup.com> 1504698193 +0800	commit: 奖品修改
+51d2df678d1e98570f5ab6d5a9225fda004b3412 d59a882c649c794f54b0db52a1b88a807b8c3c9c finup <lichunyue@finupgroup.com> 1504701113 +0800	commit: 新增 jxl
+d59a882c649c794f54b0db52a1b88a807b8c3c9c 0cdaa171267e6b1875dbdfdd7d833262ff1d662c finup <lichunyue@finupgroup.com> 1504785950 +0800	commit: 新增
+0cdaa171267e6b1875dbdfdd7d833262ff1d662c 2a5d1b9bcf6eacb1d600daa54567a5238de24cf7 finup <lichunyue@finupgroup.com> 1504788723 +0800	commit: 新增上传
+2a5d1b9bcf6eacb1d600daa54567a5238de24cf7 963bbc8a76c638eb7d6e471e9ed649821d986467 finup <lichunyue@finupgroup.com> 1504870684 +0800	commit: 新增奖品相关
+963bbc8a76c638eb7d6e471e9ed649821d986467 4f291ec9e8644de0dd8d47c94ccbd88ac768b3d0 finup <lichunyue@finupgroup.com> 1505110293 +0800	commit: 新增日志
+4f291ec9e8644de0dd8d47c94ccbd88ac768b3d0 c823f72a709f4bf83d1fab7994f04cf41bb5785b finup <lichunyue@finupgroup.com> 1505110555 +0800	commit: 修改日志
+c823f72a709f4bf83d1fab7994f04cf41bb5785b 9ac9bb630119d0e9f63e7cb3260e05036611722d finup <lichunyue@finupgroup.com> 1505110748 +0800	commit: 1
+9ac9bb630119d0e9f63e7cb3260e05036611722d ad7ae4f7a331a996c044fe2b9e99ff13db662b67 finup <lichunyue@finupgroup.com> 1505120885 +0800	commit: 修改上传附件
+ad7ae4f7a331a996c044fe2b9e99ff13db662b67 836885a12569e5277717deb114f98df86828a840 finup <lichunyue@finupgroup.com> 1505202969 +0800	commit: 111
+836885a12569e5277717deb114f98df86828a840 7204caadd66a943ecca94de6b8b8504ba4438856 finup <lichunyue@finupgroup.com> 1506330877 +0800	merge origin/master: Fast-forward
+7204caadd66a943ecca94de6b8b8504ba4438856 71ae678d5cbfed0f2aeef11549c047edce4875de finup <lichunyue@finupgroup.com> 1506356420 +0800	commit: 修改redis地址
+71ae678d5cbfed0f2aeef11549c047edce4875de ea84f78f936f3dedb3237db9c055a16a457fbcc2 finup <lichunyue@finupgroup.com> 1506415599 +0800	commit: 新增经纬度配置
+ea84f78f936f3dedb3237db9c055a16a457fbcc2 10246e34acb46f77bc93ada0ce652376ee28d490 finup <lichunyue@finupgroup.com> 1506422869 +0800	commit: 修改门店信息
+10246e34acb46f77bc93ada0ce652376ee28d490 388c5d3940145f073005cc989ef306c2e7e124b8 finup <lichunyue@finupgroup.com> 1506493212 +0800	commit: 门店经纬度
+388c5d3940145f073005cc989ef306c2e7e124b8 d63ac894fa375428ad61ab96687c2d5b580e82a8 finup <lichunyue@finupgroup.com> 1506493307 +0800	commit: 去空格
+d63ac894fa375428ad61ab96687c2d5b580e82a8 07e53ba8952947a3eee57188404863ae2653163d finup <lichunyue@finupgroup.com> 1506501557 +0800	commit: 修改问题
+07e53ba8952947a3eee57188404863ae2653163d 144d887902921e9f5f438de6e23085a5906aa966 finup <lichunyue@finupgroup.com> 1506501740 +0800	commit: 修改
+144d887902921e9f5f438de6e23085a5906aa966 bdf2a9f90827cb9db460c68eb95aa16453e339c4 finup <lichunyue@finupgroup.com> 1506509360 +0800	commit: 新增字段
+bdf2a9f90827cb9db460c68eb95aa16453e339c4 4a0e6aa48a51f52e823fef60f784a2ab819e1e33 finup <lichunyue@finupgroup.com> 1508900350 +0800	merge origin/master: Fast-forward
+4a0e6aa48a51f52e823fef60f784a2ab819e1e33 75b53e363ac7b55a417637b5d8fc4ec0b2f89d3c finup <lichunyue@finupgroup.com> 1508902013 +0800	commit: 新增修改客户姓名功能
+75b53e363ac7b55a417637b5d8fc4ec0b2f89d3c 0fdfca8affd79787b3d3d130f9f00ab0a8da7645 finup <lichunyue@finupgroup.com> 1512716926 +0800	commit: 修改redis
+0fdfca8affd79787b3d3d130f9f00ab0a8da7645 bc5a5f0b766cc40f7ef9cceb5a3585de6261d997 finup <lichunyue@finupgroup.com> 1526461796 +0800	commit: 修改
