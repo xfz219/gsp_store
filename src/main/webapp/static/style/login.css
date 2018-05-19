@@ -3,16 +3,16 @@ body{
 	overflow: hidden;
 	background: url(../images/login_bg.png);
 }
-#puhui_login{
+#gsp_login{
 	width: 635px;
 	height: 519px;
 	margin:7% auto;
 }
-#puhui_login .puhui_logo{
+#gsp_login .gsp_logo{
 	display: block;
 	margin-bottom: 75px;
 }
-#puhui_login .report_main{
+#gsp_login .report_main{
 	width: 635px;
 	height: 345px;
 	margin-bottom: 20px;
@@ -82,7 +82,7 @@ body{
 	font-family: 微软雅黑;
 	background: url(../images/entry.png);
 }
-#puhui_login .report_footer{
+#gsp_login .report_footer{
 	font-size: 12px;
 	text-align: center;
 	color: #666;

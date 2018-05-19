@@ -10,7 +10,6 @@
 <script type="text/javascript" src="${ctx}/static/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="${ctx}/static/easyui/extEasyUI.js"></script>
 <script type="text/javascript" src="${ctx}/static/easyui/jquery.color.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/puhuiUtil.js"></script>
 <script type="text/javascript" src="${ctx}/static/easyui/easyui-validator-ext.js"></script>
 
 <script type="text/javascript" >
