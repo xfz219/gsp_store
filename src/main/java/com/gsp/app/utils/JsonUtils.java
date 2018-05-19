@@ -44,12 +44,12 @@ public class JsonUtils {
      * @return
      * @throws Exception 
      */
-    public static String objectToJson(Object obj) throws Exception{
+    public static String objectToJson(Object obj) {
         try {
             return objectMapper.writeValueAsString(obj);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            throw e;
+            return null;
         }
     }
     
