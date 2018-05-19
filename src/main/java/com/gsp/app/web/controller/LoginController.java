@@ -1,5 +1,6 @@
 package com.gsp.app.web.controller;
 
+import com.gsp.app.model.Response;
 import com.gsp.app.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ public class LoginController {
         } catch (Exception e) {
             logger.error("");
         }
-        return "";
+        return Response.suc(null);
     }
 
 
