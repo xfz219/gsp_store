@@ -2,6 +2,7 @@ package com.gsp.app.model;
 
 import lombok.Data;
 import lombok.ToString;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Date;
 
@@ -11,8 +12,10 @@ import java.util.Date;
  */
 @Data
 @ToString
+
 public class GspMenu {
     private Long id;
+    @JsonProperty("text")
     private String menuName;
     private String menuUrl;
     private Integer menuFatherId;
