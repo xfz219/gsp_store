@@ -20,7 +20,7 @@ public interface UserDao extends BaseDao {
 
     List<GspMenu> selectMenuById(@Param("id") String userId);
 //
-//    GspMenu selectUserById(String id);
+//    GspMenuVo selectUserById(String id);
 //
 //    int updateUser(GspUser user);
 //

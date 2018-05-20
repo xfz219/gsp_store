@@ -56,6 +56,7 @@
     });
 
     function makeEasyTree(data){
+        var data = '[{"attributes":{"url":"user"},"fid":"7","id":"5","text":"用户管理"},{"attributes":{"url":"role"},"fid":"5","id":"3","text":"权限管理"},{"fid":"5","id":"2","text":"报表管理"}]';
         if(!data)
             return [];
         var _newData = []; //最终返回结果
@@ -89,7 +90,10 @@
         dataType: "json",
         async: false,
         success: function (dataObj) {
-            menuData = makeEasyTree(dataObj);
+            if (dataObj.code == 200){
+                console.log(dataObj.result);
+                menuData = dataObj.result;
+            }
         }
     });
 

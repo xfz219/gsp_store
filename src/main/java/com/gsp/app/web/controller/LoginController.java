@@ -6,6 +6,7 @@ import com.gsp.app.model.GspMenu;
 import com.gsp.app.model.Response;
 import com.gsp.app.model.User;
 import com.gsp.app.serives.MyService;
+import com.gsp.app.vo.GspMenuVo;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -62,7 +63,7 @@ public class LoginController {
         try {
 
             if (StringUtils.isNotBlank(id)) {
-                List<GspMenu> gspMenus = myService.getMenuById(id);
+                List<GspMenuVo> gspMenus = myService.getMenuById(id);
                 return CollectionUtils.isEmpty(gspMenus) ?
                         Response.fail(ErrorEnum.FAIL) : Response.suc(gspMenus);
             }
