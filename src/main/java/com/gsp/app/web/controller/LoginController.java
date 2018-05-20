@@ -65,11 +65,12 @@ public class LoginController {
     public String index(@RequestParam(value = "id") String id) {
         try {
 
-            if (StringUtils.isNotBlank(id)) {
-                Map<String, Collection<List<GspMenu>>> menuEnumCollectionMap = myService.getMenuById(id);
-                return MapUtils.isEmpty(menuEnumCollectionMap) ?
-                        Response.fail(ErrorEnum.FAIL) : Response.suc(menuEnumCollectionMap);
-            }
+            return "[{\"id\":\"938\",\"text\":\"个贷APP监控\",\"iconCls\":\"\",\"checked\":false,\"attributes\":null,\"children\":[],\"state\":\"closed\",\"pid\":\"7602\",\"sort\":1.0},{\"id\":\"949\",\"text\":\"业务管理\",\"iconCls\":\"\",\"checked\":false,\"attributes\":null,\"children\":[],\"state\":\"closed\",\"pid\":\"7602\",\"sort\":1.0},{\"id\":\"2311\",\"text\":\"奖品管理\",\"iconCls\":null,\"checked\":false,\"attributes\":null,\"children\":[],\"state\":\"closed\",\"pid\":\"7602\",\"sort\":3.0}]";
+//            if (StringUtils.isNotBlank(id)) {
+//                Map<String, Collection<List<GspMenu>>> menuEnumCollectionMap = myService.getMenuById(id);
+//                return MapUtils.isEmpty(menuEnumCollectionMap) ?
+//                        Response.fail(ErrorEnum.FAIL) : Response.suc(menuEnumCollectionMap);
+//            }
 
         } catch (Exception e) {
             logger.error("query index error", e);

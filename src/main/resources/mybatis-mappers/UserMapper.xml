@@ -14,29 +14,22 @@
         <result column="update_time" property="updateTime"></result>
     </resultMap>
 
-    <sql id="dd">
-
+    <sql id="all_column">
+		`id`,`menu_name`,`menu_url`,`menu_father_id`,`menu_desc`,`enable`,`create_time`,`update_time`
     </sql>
 
     <select id="selectMenuById" resultMap="userObj">
 
-		SELECT	*
-FROM
-	gsp_menu
-WHERE
-	id IN(
-		SELECT DISTINCT
-			grm.menu_id
-		FROM
-			gsp_role_menu grm
-		WHERE
-			grm.role_id IN(
-				SELECT
-					gur.role_id
-				FROM
-					gsp_user_role gur
-				WHERE
-					gur.user_id = #{id}
+		SELECT
+			<include refid="all_column" />
+		FROM gsp_menu
+		WHERE id IN(
+		SELECT DISTINCT	grm.menu_id
+		FROM gsp_role_menu grm
+		WHERE grm.role_id IN(
+		SELECT	gur.role_id
+		FROM gsp_user_role gur
+		WHERE gur.user_id = #{id}
 			)
 	)
 
