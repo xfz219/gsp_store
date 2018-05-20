@@ -2,10 +2,9 @@ package com.gsp.app.dao;
 
 
 import com.gsp.app.model.GspMenu;
+import com.gsp.app.model.GspUser;
 import com.gsp.app.model.User;
-import org.codehaus.jackson.map.Serializers;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,4 +18,10 @@ public interface UserDao extends BaseDao {
     User selectUserByName(String name);
 
     List<GspMenu> selectMenuById(String userId);
+
+    GspMenu selectUserById(String id);
+
+    int updateUser(GspUser user);
+
+    int addUser(GspUser user);
 }

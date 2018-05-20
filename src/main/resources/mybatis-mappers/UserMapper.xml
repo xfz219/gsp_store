@@ -14,23 +14,34 @@
         <result column="update_time" property="updateTime"></result>
     </resultMap>
 
-    <sql id="dd">
+    <resultMap id="user" type="com.gsp.app.model.GspUser">
+        <result column="id" property="id"></result>
+        <result column="user" property="user"></result>
+        <result column="password" property="password"></result>
+        <result column="email" property="email"></result>
+        <result column="mobile" property="mobile"></result>
+        <result column="org" property="org"></result>
+        <result column="enable" property="enable"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="role_name" property="roleName"></result>
+    </resultMap>
 
-    </sql>
 
     <select id="selectMenuById" resultMap="userObj">
 
-		SELECT	*
-FROM
-	gsp_menu
-WHERE
-	id IN(
+		SELECT
+	        *
+        FROM
+	    gsp_menu
+          WHERE
+	          id IN (
 		SELECT DISTINCT
 			grm.menu_id
 		FROM
 			gsp_role_menu grm
 		WHERE
-			grm.role_id IN(
+			grm.role_id IN (
 				SELECT
 					gur.role_id
 				FROM
@@ -41,5 +52,18 @@ WHERE
 	)
 
 	</select>
+
+
+    <select id="selectUserById" resultMap="user">
+        select * from
+    </select>
+
+    <update id="updateUser" parameterType="user">
+
+    </update>
+
+    <insert id="addUser" parameterType="user">
+
+    </insert>
 
 </mapper> 
