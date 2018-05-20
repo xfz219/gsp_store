@@ -35,4 +35,17 @@
 
 	</select>
 
-</mapper> 
+
+    <select id="selectUserById" resultMap="user">
+        select * from
+    </select>
+
+    <update id="updateUser" parameterType="user">
+
+    </update>
+
+    <insert id="addUser" parameterType="user">
+
+    </insert>
+
+</mapper>

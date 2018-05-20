@@ -22,5 +22,8 @@ public class GspMenu {
     private Date createTime;
     private Date updateTime;
 
-
+    public GspMenu(Long id, String menuName) {
+        this.id = id;
+        this.menuName = menuName;
+    }
 }
