@@ -1,141 +1,68 @@
 package com.gsp.app.utils;
 
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.JsonSerializer;
+import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
  * json工具类
- * @author xiaobowen
- *
  */
 public class JsonUtils {
     private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
-    private static ObjectMapper objectMapper = new ObjectMapper();
-    private JsonUtils(){}
-    
-    static{
-        //设置默认时间格式
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
-        //序列化null值处理方式
-        objectMapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>(){
-            @Override
-            public void serialize(Object obj, JsonGenerator jg, SerializerProvider sp) throws IOException,
-            JsonProcessingException {
-                jg.writeString("");
-            }
-        });
+
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    static {
+        mapper.configure(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
+        mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+        mapper.configure(JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS, true);
+        mapper.configure(JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS, true);
+        mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+        mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
+        mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
     }
-    
-    /**将Java对象转为json字符串
-     * @author xiaobowen
-     * @param obj
-     * @return
-     * @throws Exception 
-     */
-    public static String objectToJson(Object obj) {
+
+    public static ObjectMapper getMapper() {
+        return mapper;
+    }
+
+    public static String serialize(Object data) {
         try {
-            return objectMapper.writeValueAsString(obj);
-        } catch (Exception e) {
-            logger.error("objectToJson",e);
+            return mapper.writeValueAsString(data);
+        } catch (IOException e) {
+            logger.error("serialize data error", e);
             return null;
         }
     }
-    
-    /**将Java对象转为json字符串
-     * @author xiaobowen
-     * @param obj
-     * @return
-     * @throws Exception 
-     */
-    public static String objectToJson(Object obj , DateFormat df) throws Exception{
+
+    public static <T> T deSerialize(String content, Class<T> clazz) {
         try {
-            ObjectMapper om = new ObjectMapper();
-            om.setDateFormat(df);
-            return om.writeValueAsString(obj);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
+            return mapper.readValue(content, clazz);
+        } catch (IOException e) {
+            logger.error("deserialize object error: {}", content, e);
+            return null;
         }
     }
-    
-    /**将Java对象转为json字符串
-     * @author xiaobowen
-     * @param obj
-     * @return
-     * @throws Exception 
-     */
-    public static String objectToJson(Object obj , DateFormat df , JsonSerializer<Object> nvs) throws Exception{
+
+    public static <T> T convertValue(Object fromValue, Class<T> toValueType) {
         try {
-            ObjectMapper om = new ObjectMapper();
-            om.setDateFormat(df);
-            om.getSerializerProvider().setNullValueSerializer(nvs);
-            return om.writeValueAsString(obj);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
+            return mapper.convertValue(fromValue, toValueType);
+        } catch (IllegalArgumentException e) {
+            logger.error("convert object error: {}", fromValue.toString(), e);
+            return null;
         }
     }
-    
-    /**将json字符串转为Java对象
-     * @author xiaobowen
-     * @param json
-     * @param clazz
-     * @return
-     * @throws Exception
-     */
-    public static <T> T jsonToObject(String json , Class<T> clazz) throws Exception{
-        try {
-            return objectMapper.readValue(json,clazz);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
-        }
+
+    public static Map<?, ?> jsonToMap(String json) throws IOException {
+        return mapper.readValue(json, HashMap.class);
     }
-    
-    /**将json字符串转为Java对象
-     * @author xiaobowen
-     * @param json
-     * @param clazz
-     * @return
-     * @throws Exception
-     */
-    public static <T> T jsonToObject(String json , TypeReference<T> typeReference) throws Exception{
-        try {
-            return objectMapper.readValue(json,typeReference);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
-        }
-    }
-    
-    /**将json字符串转为Java对象
-     * @author xiaobowen
-     * @param json
-     * @param clazz
-     * @return
-     * @throws Exception
-     */
-    public static <T> T jsonToObject(String json , TypeReference<T> typeReference , DateFormat df) throws Exception{
-        try {
-            ObjectMapper om = new ObjectMapper();
-            om.setDateFormat(df);
-            return om.readValue(json,typeReference);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
-        }
-    }
-    
+
+
 }
