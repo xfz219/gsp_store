@@ -8,6 +8,7 @@ import com.gsp.app.model.GspMenu;
 import com.gsp.app.model.User;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +46,7 @@ public class MyService {
             gspMenu.forEach(menu -> {
                 int parentId = menu.getMenuFatherId();
                 MenuEnum menuEnum = MenuEnum.getMenuById(parentId);
-                gspMenus.put(menuEnum.getId(), new GspMenu(menuEnum.getId(), menuEnum.getName()));
+                gspMenus.put(menuEnum.getId(), new GspMenu(NumberUtils.toLong(menuEnum.getId() + ""), menuEnum.getName()));
 
             });
             result.addAll(gspMenu);
