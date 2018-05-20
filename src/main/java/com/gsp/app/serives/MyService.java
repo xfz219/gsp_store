@@ -1,17 +1,16 @@
 package com.gsp.app.serives;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.gsp.app.constant.MenuEnum;
-import com.gsp.app.context.AppContext;
 import com.gsp.app.dao.UserDao;
 import com.gsp.app.model.GspMenu;
 import com.gsp.app.model.User;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -37,19 +36,23 @@ public class MyService {
     }
 
 
-    public Map<String, Collection<List<GspMenu>>> getMenuById(String userId) {
-        List<GspMenu> gspMenu = userDao.selectMenuById(userId);
-        Multimap<String, List<GspMenu>> enumListMap = HashMultimap.create();
-        if (gspMenu != null) {
-            for (GspMenu menu : gspMenu) {
-                if (menu != null
-                        && MenuEnum.getParentMenu().contains(menu.getMenuFatherId())) {
-                    enumListMap.put(MenuEnum.getMenuById(menu.getMenuFatherId()), gspMenu);
-                }
+    public List<GspMenu> getMenuById(String userId) {
+        List<GspMenu> result = Lists.newArrayList();
+        Map<Integer, GspMenu> gspMenus = Maps.newHashMap();
 
-            }
+        List<GspMenu> gspMenu = userDao.selectMenuById(userId);
+        if (CollectionUtils.isNotEmpty(gspMenu)) {
+            gspMenu.forEach(menu -> {
+                int parentId = menu.getMenuFatherId();
+                MenuEnum menuEnum = MenuEnum.getMenuById(parentId);
+                gspMenus.put(menuEnum.getId(), new GspMenu(menuEnum.getId(), menuEnum.getName()));
+
+            });
+            result.addAll(gspMenu);
+            gspMenus.forEach((k, v) -> result.add(v));
         }
-        return enumListMap.asMap();
+
+        return result;
     }
 
 

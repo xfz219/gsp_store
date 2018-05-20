@@ -1,15 +1,13 @@
 package com.gsp.app.web.controller;
 
+import com.google.common.collect.Lists;
 import com.gsp.app.constant.ErrorEnum;
-import com.gsp.app.constant.MenuEnum;
-import com.gsp.app.context.AppContext;
 import com.gsp.app.model.GspMenu;
 import com.gsp.app.model.Response;
 import com.gsp.app.model.User;
 import com.gsp.app.serives.MyService;
-import org.apache.commons.collections.MapUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * fengzhix.xu on 2018/5/19.
@@ -66,9 +62,9 @@ public class LoginController {
         try {
 
             if (StringUtils.isNotBlank(id)) {
-                Map<String, Collection<List<GspMenu>>> menuEnumCollectionMap = myService.getMenuById(id);
-                return MapUtils.isEmpty(menuEnumCollectionMap) ?
-                        Response.fail(ErrorEnum.FAIL) : Response.suc(menuEnumCollectionMap);
+                List<GspMenu> gspMenus = myService.getMenuById(id);
+                return CollectionUtils.isEmpty(gspMenus) ?
+                        Response.fail(ErrorEnum.FAIL) : Response.suc(gspMenus);
             }
 
         } catch (Exception e) {
@@ -82,6 +78,10 @@ public class LoginController {
         return user == null
                 || StringUtils.isBlank(user.getUserName())
                 || StringUtils.isBlank(user.getPassWord());
+    }
+
+    public static void main(String[] args) {
+        List<GspMenu> list = Lists.newArrayList();
     }
 
 

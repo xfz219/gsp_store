@@ -35,10 +35,10 @@ public enum MenuEnum {
     }
 
 
-    public static String getMenuById(int id) {
+    public static MenuEnum getMenuById(int id) {
         for (MenuEnum menuEnum : MenuEnum.values()) {
             if (menuEnum.id == id) {
-                return menuEnum.getName();
+                return menuEnum;
             }
         }
         return null;
