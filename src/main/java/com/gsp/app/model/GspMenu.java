@@ -1,6 +1,7 @@
 package com.gsp.app.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Date;
  */
 @Data
 @ToString
+@NoArgsConstructor
 public class GspMenu {
     private Long id;
     private String menuName;

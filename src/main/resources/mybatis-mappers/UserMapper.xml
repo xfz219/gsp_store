@@ -36,16 +36,16 @@
 	</select>
 
 
-    <select id="selectUserById" resultMap="user">
-        select * from
-    </select>
+    <!--<select id="selectUserById" resultMap="user">-->
+        <!--select * from gsp_menu-->
+    <!--</select>-->
 
-    <update id="updateUser" parameterType="user">
+    <!--<update id="updateUser" parameterType="user">-->
 
-    </update>
+    <!--</update>-->
 
-    <insert id="addUser" parameterType="user">
+    <!--<insert id="addUser" parameterType="user">-->
 
-    </insert>
+    <!--</insert>-->
 
 </mapper>

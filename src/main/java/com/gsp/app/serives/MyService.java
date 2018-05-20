@@ -12,6 +12,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,12 +27,14 @@ public class MyService {
 
 
     public List<User> userList() {
-        return userDao.selectAllUser();
+//        return userDao.selectAllUser();
+        return new ArrayList<>();
     }
 
 
     public boolean isLoginSUc(User user) {
-        User u = userDao.selectUserByName(user.getUserName());
+//        User u = userDao.selectUserByName(user.getUserName());
+        User u = null;
         return (u != null
                 && StringUtils.equals(u.getPassWord(), user.getPassWord()));
     }

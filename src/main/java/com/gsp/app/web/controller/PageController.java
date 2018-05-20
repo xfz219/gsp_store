@@ -7,17 +7,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * fengzhix.xu on 2018/5/19.
  */
 @Controller
+@RequestMapping("/home/")
 public class PageController {
 
 
-    @RequestMapping("/home")
+    @RequestMapping("login")
     public String index() {
         return "login";
     }
 
 
-    @RequestMapping("/index")
+    @RequestMapping("index")
     public String login() {
-        return "/main";
+        return "main";
     }
+
+    @RequestMapping("test")
+    public String user() {
+        return "user/user";
+    }
+
+
 }

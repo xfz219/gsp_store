@@ -17,7 +17,7 @@
 <div data-options="region:'west',split:true,title:'功能导航'" style="height: 200px; padding: 1px; width: 200px;">
     <div style="margin: 10px 0;">
 
-        <ul id="tt" class="easyui-tree" data-options="data:menuData"></ul>
+        <ul id="munes" class="easyui-tree" data-options="data:menuData"></ul>
 
     </div>
 </div>
@@ -35,6 +35,26 @@
 </div>
 <!-- 菜单树、选项卡 -->
 <script type="text/javascript" charset="UTF-8">
+
+//    var _centerTabs = $('#tabs');//选项卡栏
+
+
+    $(document).ready(function () {
+        $("#munes").tree({
+            onClick:function (node) {
+                var url = node.attributes.url;
+                if(url != '' && node.attributes.url != null){
+                parent.$("#tabs").tabs("add",{
+                    closable:true,
+                    title:node.text,
+                    content : '<iframe scrolling="no" frameborder="0" src="${ctx}' + url + '" width="100%" height="99%"></iframe>'
+                });
+                }
+            }
+
+        });
+    });
+
     function makeEasyTree(data){
         if(!data)
             return [];
@@ -72,6 +92,7 @@
             menuData = makeEasyTree(dataObj);
         }
     });
+
 </script>
 </body>
 </html>
