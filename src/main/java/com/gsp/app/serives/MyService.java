@@ -49,7 +49,7 @@ public class MyService {
             gspMenu.forEach(menu -> {
                 int parentId = menu.getMenuFatherId();
                 MenuEnum menuEnum = MenuEnum.getMenuById(parentId);
-                gspMenus.put(menuEnum.getId(), new GspMenu(NumberUtils.toLong(menuEnum.getId() + ""), menuEnum.getName()));
+                gspMenus.put(menuEnum.getId(), new GspMenu(NumberUtils.toLong(menuEnum.getId() + ""), menuEnum.getId(), menuEnum.getName()));
 
             });
             result.addAll(gspMenu);
