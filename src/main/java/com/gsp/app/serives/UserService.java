@@ -24,7 +24,7 @@ public class UserService {
         return Lists.newArrayList();
     }
 
-    @Transactional(rollbackFor = OperationException.class)
+    @Transactional(rollbackFor = Exception.class)
     public boolean updateUser(GspUser user) {
         return false;
     }
@@ -35,7 +35,7 @@ public class UserService {
     }
 
 
-    @Transactional(rollbackFor = OperationException.class)
+    @Transactional(rollbackFor = Exception.class)
     public boolean addUser(GspUser user) {
         return false;
     }
