@@ -16,17 +16,7 @@
 
 <title>Pharmacy Login</title>
 
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="sh,easyee,javaee,framework,java">
-<meta http-equiv="description" content="EasyEE-SM basic framework by EasyProject">
- 
-
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Montserrat:400,700|Roboto:400,700,900" rel="stylesheet"> 
 <!-- EasyUI CSS -->
-<link rel="stylesheet" type="text/css" href="staticresources/easyui/themes/metro-blue/easyui.css" id="themeLink">
-<link rel="stylesheet" type="text/css" href="staticresources/easyui/themes/icon.css">
 <style type="text/css">
 * {
 	font-size: 15px;
