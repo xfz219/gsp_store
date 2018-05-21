@@ -1,28 +1,24 @@
 package com.gsp.app.dao;
 
 
-import com.gsp.app.model.GspMenu;
 import com.gsp.app.model.GspUser;
-import com.gsp.app.model.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * Created by finup on 2018/5/19.
+ * 用户
  */
 
 public interface UserDao extends BaseDao {
 
-//    List<User> selectAllUser();
+    List<GspUser> selectAllUser(@Param("pojo") GspUser pojo);
 
-//    User selectUserByName(String name);
+    GspUser findUserById(@Param("id") Long id);
 
-    List<GspMenu> selectMenuById(@Param("id") String userId);
-//
-//    GspMenuVo selectUserById(String id);
-//
-//    int updateUser(GspUser user);
-//
-//    int addUser(GspUser user);
+    void addUser(GspUser gspUser);
+
+    void updateUser(GspUser gspUser);
+
+    void updateEnabledById(@Param("id")long id, @Param("enabled")boolean enabled);
 }

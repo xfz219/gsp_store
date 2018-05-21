@@ -1,24 +1,20 @@
 package com.gsp.app.serives;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.gsp.app.constant.MenuEnum;
-import com.gsp.app.dao.UserDao;
+import com.gsp.app.dao.MenuDao;
 import com.gsp.app.model.GspMenu;
 import com.gsp.app.model.User;
 import com.gsp.app.vo.GspMenuVo;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MultiMap;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by finup on 2018/5/19.
@@ -27,17 +23,17 @@ import java.util.*;
 public class MyService {
 
     @Autowired
-    private UserDao userDao;
+    private MenuDao menuDao;
 
 
     public List<User> userList() {
-//        return userDao.selectAllUser();
+//        return menuDao.selectAllUser();
         return new ArrayList<>();
     }
 
 
     public boolean isLoginSUc(User user) {
-//        User u = userDao.selectUserByName(user.getUserName());
+//        User u = menuDao.selectUserByName(user.getUserName());
         User u = null;
         return (u != null
                 && StringUtils.equals(u.getPassWord(), user.getPassWord()));
@@ -52,7 +48,7 @@ public class MyService {
         List<GspMenu> result = Lists.newArrayList();
         Multimap<MenuEnum,GspMenuVo> multimap = HashMultimap.create();
 
-        List<GspMenu> gspMenu = userDao.selectMenuById(userId);
+        List<GspMenu> gspMenu = menuDao.selectMenuById(userId);
         if (CollectionUtils.isNotEmpty(gspMenu)) {
             gspMenu.forEach(menu -> {
                 int parentId = menu.getMenuFatherId();

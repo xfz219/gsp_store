@@ -24,7 +24,7 @@ public class PageController {
 
     @RequestMapping("test")
     public String user() {
-        return "user/user";
+        return "user/get";
     }
 
 

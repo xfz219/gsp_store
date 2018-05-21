@@ -13,8 +13,8 @@ import java.util.Date;
 @ToString
 public class GspUserRole {
     private Long id;
-    private String userId;
-    private String roleId;
+    private Long userId;
+    private Long roleId;
     private Date createTime;
     private Date updateTime;
 

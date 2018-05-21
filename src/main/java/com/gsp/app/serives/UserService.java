@@ -20,8 +20,8 @@ public class UserService {
     private UserDao userDao;
 
 
-    public List<GspUser> selectAllUser() {
-        return Lists.newArrayList();
+    public List<GspUser> selectAllUser(GspUser pojo) {
+        return userDao.selectAllUser(pojo);
     }
 
     @Transactional(rollbackFor = Exception.class)

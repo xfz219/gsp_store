@@ -28,10 +28,9 @@ public class UserController {
 
 
     @RequestMapping("/queryAll")
-    public String queryAllUser() {
+    public String queryAllUser(GspUser pojo) {
         try {
-
-            List<GspUser> userList = userService.selectAllUser();
+            List<GspUser> userList = userService.selectAllUser(pojo);
             return CollectionUtils.isEmpty(userList) ? Response.fail(ErrorEnum.FAIL) : Response.suc(userList);
         } catch (Exception e) {
             log.error("query all error", e);

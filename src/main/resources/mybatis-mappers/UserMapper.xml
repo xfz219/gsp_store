@@ -3,49 +3,73 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须指向Dao接口 -->
 <mapper namespace="com.gsp.app.dao.UserDao">
-    <resultMap id="userObj" type="com.gsp.app.model.GspMenu">
-        <result column="id" property="id"></result>
-        <result column="menu_name" property="menuName"></result>
-        <result column="menu_url" property="menuUrl"></result>
-        <result column="menu_father_id" property="menuFatherId"></result>
-        <result column="menu_desc" property="menuDesc"></result>
+    <resultMap id="userObj" type="com.gsp.app.model.GspUser">
+        <id column="id" property="id"></id>
+        <result column="user" property="user"></result>
+        <result column="password" property="password"></result>
+        <result column="email" property="email"></result>
+        <result column="name" property="name"></result>
+        <result column="mobile" property="mobile"></result>
+        <result column="org" property="org"></result>
         <result column="enable" property="enable"></result>
         <result column="create_time" property="createTime"></result>
         <result column="update_time" property="updateTime"></result>
     </resultMap>
 
     <sql id="all_column">
-		`id`,`menu_name`,`menu_url`,`menu_father_id`,`menu_desc`,`enable`,`create_time`,`update_time`
+		`id`,`user`,`password`,`email`,`name`,`mobile`,`org`,`enable`,`create_time`,`update_time`
     </sql>
 
-    <select id="selectMenuById" resultMap="userObj">
+    <select id="selectAllUser" resultMap="userObj">
 
 		SELECT
 			<include refid="all_column" />
-		FROM gsp_menu
-		WHERE id IN(
-		SELECT DISTINCT	grm.menu_id
-		FROM gsp_role_menu grm
-		WHERE grm.role_id IN(
-		SELECT	gur.role_id
-		FROM gsp_user_role gur
-		WHERE gur.user_id = #{id}
-			)
-	)
+		FROM gsp_user WHERE 1 = 1
+        <if test="pojo.user != null and pojo.user != ''">
+            AND `user` LIKE CONCAT(CONCAT('%',#{pojo.user}),'%')
+        </if>
+        <if test="pojo.name != null and pojo.name != ''">
+            AND `name` LIKE CONCAT(CONCAT('%',#{pojo.name}),'%')
+        </if>
+        <if test="pojo.enable != null">
+            AND enable = #{pojo.enable}
+        </if>
 
 	</select>
 
+    <select id="findUserById" resultMap="userObj">
 
-    <!--<select id="selectUserById" resultMap="user">-->
-        <!--select * from gsp_menu-->
-    <!--</select>-->
+        SELECT
+        <include refid="all_column" />
+        FROM gsp_user WHERE id = #{id}
 
-    <!--<update id="updateUser" parameterType="user">-->
+    </select>
 
-    <!--</update>-->
 
-    <!--<insert id="addUser" parameterType="user">-->
+    <insert id="addUser" parameterType="com.gsp.app.model.GspUser" useGeneratedKeys="true" keyProperty="id">
 
-    <!--</insert>-->
+        INSERT INTO gsp_user
+        (`user`, password, email, `name`, mobile, org, enable, create_time, update_time)
+        VALUES
+        (#{user}, #{password}, #{email}, #{name}, #{mobile}, #{org}, #{enable}, now(), now())
+
+    </insert>
+
+    <update id="updateUser" parameterType="com.gsp.app.model.GspUser">
+        UPDATE gsp_user SET
+            `user` = #{user},
+            password = #{password},
+            email = #{email},
+            `name` = #{name},
+            mobile = #{mobile},
+            org = #{org},
+            enable = #{enable}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateEnabledById" >
+        UPDATE gsp_user SET
+        enable = #{enable} WHERE id = #{id}
+    </update>
 
 </mapper>

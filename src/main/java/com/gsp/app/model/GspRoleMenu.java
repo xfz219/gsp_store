@@ -13,8 +13,8 @@ import java.util.Date;
 @ToString
 public class GspRoleMenu {
     private Long id;
-    private String roleId;
-    private String menuId;
+    private Long roleId;
+    private Long menuId;
     private Date createTime;
     private Date updateTime;
 
