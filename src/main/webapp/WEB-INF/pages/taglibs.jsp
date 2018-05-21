@@ -12,6 +12,15 @@
 <script type="text/javascript" src="${ctx}/static/easyui/jquery.color.js"></script>
 <script type="text/javascript" src="${ctx}/static/easyui/easyui-validator-ext.js"></script>
 
+<!-- EasyUIEx -->
+<link rel="stylesheet" type="text/css" href="${ctx}/static/easyuiex/css/easyuiex.css">
+<script type="text/javascript" src="${ctx}/static/easyuiex/easy.easyuiex.min.js"></script>
+<script type="text/javascript" src="${ctx}/static/easyuiex/easy.easyuiex-validate.js"></script>
+<!-- EasyUIEx的默认消息语言为中文，使用其他语言需要导入相应语言文件 -->
+<script type="text/javascript" src="${ctx}/static/easyuiex/lang/easy.easyuiex-lang-zh_CN.js"></script>
+<%-- jquery Cookie plugin --%>
+<script type="text/javascript" src="${ctx}/static/easyee/jquery.cookie.js"></script>
+
 <script type="text/javascript" >
 	//全局的ajax访问，处理ajax清求时sesion超时
 	$.ajaxSetup({

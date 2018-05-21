@@ -5,6 +5,7 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
+<%@ include file="taglibs.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,39 +55,11 @@ var EasyEE={
 		basePath:'<%=basePath%>'
 	}
 </script>
-
-<!-- EasyUI JS -->
-<script type="text/javascript" src="staticresources/easyui/jquery.min.js"></script>
-<script type="text/javascript" src="staticresources/easyui/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="staticresources/easyui/locale/easyui-lang-zh_CN.js"></script>
-
-<!-- EasyUIEx -->
-<link rel="stylesheet" type="text/css" href="staticresources/easyuiex/css/easyuiex.css">
-<script type="text/javascript" src="staticresources/easyuiex/easy.easyuiex.min.js"></script>
-<script type="text/javascript" src="staticresources/easyuiex/easy.easyuiex-validate.js"></script>
-<!-- EasyUIEx的默认消息语言为中文，使用其他语言需要导入相应语言文件 -->
-<script type="text/javascript" src="staticresources/easyuiex/lang/easy.easyuiex-lang-zh_CN.js"></script>
-<%-- jquery Cookie plugin --%>
-<script type="text/javascript" src="staticresources/easyee/jquery.cookie.js"></script>
-
-<!-- 自定义页面相关JS -->
-<script type="text/javascript" src="script/login.js"></script>
-
-<!-- 登录消息提示JS -->
-<c:if test="${!empty MSG}">
-
-	<script type="text/javascript">
-		$(function() {
-			uiEx.alert("${MSG }", "info");
-		})
-	</script>
-	<c:remove var="MSG" scope="session"/>
-</c:if>
 </head>
 
 <body>
 	<div
-		style="text-align: center;overflow:auto;width:100%;height:100%;margin: 10px auto;">
+		style="text-align: center;overflow:auto;width:100%;height:100%;margin: 100px auto;">
 		<h1><span style="color:#8FC31F">Pharmacy</span>-<span style="">Platform</span></h1>
 		<div style="margin: 10px auto;">
 		</div>
@@ -102,23 +75,19 @@ var EasyEE={
 								<td width="90">用户:</td>
 								<td><input class="easyui-textbox" type="text"
 									name="name" id="username" style="height:30px;width: 190px;"
-									data-options="validType:[],required:true,prompt:'user name...'" value="demo"></input></td>
-								<!-- 								<td><input class="easyui-textbox" type="text" name="uname" style="height:30px;width: 180px;"
-									data-options="validType:['email','startChk[\'A\']'],required:true"></input></td> -->
+									data-options="validType:[],required:true,prompt:'user name...'" value=""/></td>
 							</tr>
 							<tr>
 								<td>密码:</td>
 								<td><input class="easyui-textbox" type="password"
 									name="password" style="height:30px;width: 190px;"
-									data-options="required:true" value="111111"></input></td>
+									data-options="required:true" value=""/></td>
 							</tr>
 						</table>
 					</form>
 					<div style="text-align:center;padding:5px">
 						<a href="javascript:void(0)" class="easyui-linkbutton"
-							id="loginBtn" iconCls="icon-man" style="padding: 3px 10px">登录</a> <a
-							href="javascript:void(0)" iconCls="icon-clear"
-							class="easyui-linkbutton" onclick="uiEx.clearForm('#loginForm')"style="padding: 3px 10px">重置</a>
+							id="loginBtn" >登 录</a>
 					</div>
 
 				</div>
