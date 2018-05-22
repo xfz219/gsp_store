@@ -20,6 +20,11 @@ public class UserService {
     private UserDao userDao;
 
 
+    public GspUser selectUserByName(String userName){
+        return userDao.findUserByName(userName);
+    }
+
+
     public List<GspUser> selectAllUser(GspUser pojo) {
         return userDao.selectAllUser(pojo);
     }

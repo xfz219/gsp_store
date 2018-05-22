@@ -6,6 +6,7 @@ import com.google.common.collect.Multimap;
 import com.gsp.app.constant.MenuEnum;
 import com.gsp.app.dao.MenuDao;
 import com.gsp.app.model.GspMenu;
+import com.gsp.app.model.GspUser;
 import com.gsp.app.model.User;
 import com.gsp.app.vo.GspMenuVo;
 import org.apache.commons.collections.CollectionUtils;
@@ -25,6 +26,9 @@ public class MyService {
     @Autowired
     private MenuDao menuDao;
 
+    @Autowired
+    private UserService userService;
+
 
     public List<User> userList() {
 //        return menuDao.selectAllUser();
@@ -32,11 +36,8 @@ public class MyService {
     }
 
 
-    public boolean isLoginSUc(User user) {
-//        User u = menuDao.selectUserByName(user.getUserName());
-        User u = null;
-        return (u != null
-                && StringUtils.equals(u.getPassword(), user.getPassword()));
+    public GspUser doLogin(GspUser user) {
+       return userService.selectUserByName(user.getUser());
     }
 
     /**

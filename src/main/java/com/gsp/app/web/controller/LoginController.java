@@ -3,6 +3,7 @@ package com.gsp.app.web.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.gsp.app.model.GspMenu;
+import com.gsp.app.model.GspUser;
 import com.gsp.app.model.ResponseVo;
 import com.gsp.app.model.User;
 import com.gsp.app.serives.MyService;
@@ -37,22 +38,19 @@ public class LoginController {
      */
     @RequestMapping(value = "/login")
     @ResponseBody
-    public Object login(User user) {
+    public Object login(GspUser user) {
         try {
 
-            if (1 == 1) {
-                return ResponseVo.ofSuccess();
-            }
-
-            if (!checkUser(user)) {
+            if (checkUser(user)) {
                 return ResponseVo.ofErrorMessage("用户或密码不能为空！");
             }
 
-            if (!myService.isLoginSUc(user)) {
+            GspUser u = myService.doLogin(user);
+            if (!isLoginSuc(user,u)) {
                 return ResponseVo.ofErrorMessage("用户名密码错误！");
             }
 
-            return ResponseVo.ofSuccess(user);
+            return ResponseVo.ofSuccess(u);
 
         } catch (Exception e) {
             logger.error("login error", e);
@@ -78,10 +76,15 @@ public class LoginController {
     }
 
 
-    private boolean checkUser(User user) {
+    private boolean checkUser(GspUser user) {
         return user == null
                 || StringUtils.isBlank(user.getUser())
                 || StringUtils.isBlank(user.getPassword());
+    }
+
+
+    private boolean isLoginSuc(GspUser param,GspUser result) {
+        return result != null && StringUtils.endsWithIgnoreCase(result.getPassword(),param.getPassword());
     }
 
     public static void main(String[] args) {
