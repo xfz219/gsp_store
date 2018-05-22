@@ -1,11 +1,8 @@
 package com.gsp.app.web.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Lists;
-import com.gsp.app.model.GspMenu;
 import com.gsp.app.model.GspUser;
 import com.gsp.app.model.ResponseVo;
-import com.gsp.app.model.User;
 import com.gsp.app.serives.MyService;
 import com.gsp.app.vo.GspMenuVo;
 import org.apache.commons.collections.CollectionUtils;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -38,7 +36,7 @@ public class LoginController {
      */
     @RequestMapping(value = "/login")
     @ResponseBody
-    public Object login(GspUser user) {
+    public Object login(GspUser user, HttpServletRequest request) {
         try {
 
             if (checkUser(user)) {
@@ -49,7 +47,7 @@ public class LoginController {
             if (!isLoginSuc(user,u)) {
                 return ResponseVo.ofErrorMessage("用户名密码错误！");
             }
-
+            request.getSession().setAttribute("user",u);
             return ResponseVo.ofSuccess(u);
 
         } catch (Exception e) {
@@ -88,7 +86,7 @@ public class LoginController {
     }
 
     public static void main(String[] args) {
-        List<GspMenu> list = Lists.newArrayList();
+        System.out.println(JSONObject.toJSONString(ResponseVo.ofSuccess(new GspUser())));
     }
 
 

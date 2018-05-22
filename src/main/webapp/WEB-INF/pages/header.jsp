@@ -1,7 +1,6 @@
 
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<%@ include file="taglibs.jsp" %>
 <div id="topbar" class="title" >
     <div style="float:left;margin-right:80px;">
 		<img src="${ctx}/static/images/logo.png"/>
@@ -11,7 +10,7 @@
 	   <span style="color:#f00;height:20px;line-height:20px;"></span>
 	</div>
 	<div style="float:right">
-		<span style="color:#BE0000;line-height:26px;"><img src="${ctx}/static/images/user-icon.png" width=16 height=16 style="margin:-2px 1px"/>新哥</span>
+		<span style="color:#BE0000;line-height:26px;"><img src="${ctx}/static/images/user-icon.png" width=16 height=16 style="margin:-2px 1px"/>${user.user}</span>
 		<a id="logout"class="easyui-linkbutton"
 			plain="true" href="logout.do"><img src="static/images/return.png" style="margin:0 3px -3px -6px;">登出</a>
 	</div>

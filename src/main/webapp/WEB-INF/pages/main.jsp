@@ -80,7 +80,7 @@
 
     var menuData;
     jQuery.ajax({
-        url: "<%=request.getContextPath()%>/user/treeView?id=1",
+        url: "<%=request.getContextPath()%>/user/treeView?id=" + ${user.id},
         type: "get",
         dataType: "json",
         async: false,

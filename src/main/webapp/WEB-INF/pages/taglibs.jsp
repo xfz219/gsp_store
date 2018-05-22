@@ -2,6 +2,14 @@
 <link rel="shortcut icon" type="image/x-icon" href="${ctx}/static/images/favicon.ico" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<c:set var="user" value="${pageContext.request.session.getAttribute('user')}"/>
+
+<c:if test="${user == null}">
+    <script>
+    window.location.reload("${ctx}/home/login");
+    </script>
+</c:if>
+
 <link rel="stylesheet" type="text/css" href="${ctx}/static/easyui/themes/icon.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/static/easyui/themes/default/easyui.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/static/style/main.css" />
@@ -25,7 +33,7 @@
 		contentType:"application/x-www-form-urlencoded;charset=utf-8",
 		complete:function(XMLHttpRequest,textStatus){
 			//通过XMLHttpRequest取得响应头，sessionstatus，
-			var sessionstatus=XMLHttpRequest.getResponseHeader("sessionstatus"); 
+			var sessionstatus=XMLHttpRequest.getResponseHeader("sessionstatus");
 			if(sessionstatus=="timeout"){
 			//如果超时就处理 ，指定要跳转的页面
 				window.location.reload("/gsp-store/");
