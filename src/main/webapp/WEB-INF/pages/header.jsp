@@ -12,7 +12,7 @@
 	<div style="float:right">
 		<span style="color:#BE0000;line-height:26px;"><img src="${ctx}/static/images/user-icon.png" width=16 height=16 style="margin:-2px 1px"/>${user.user}</span>
 		<a id="logout"class="easyui-linkbutton"
-			plain="true" href="logout.do"><img src="${ctx}/static/images/return.png" style="margin:0 3px -3px -6px;">登出</a>
+			plain="true" href="logout"><img src="${ctx}/static/images/return.png" style="margin:0 3px -3px -6px;">登出</a>
 	</div>
 </div>
 <script>

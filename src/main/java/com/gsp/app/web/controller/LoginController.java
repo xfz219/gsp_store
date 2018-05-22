@@ -73,6 +73,11 @@ public class LoginController {
         return ResponseVo.ofErrorMessage();
     }
 
+    @RequestMapping(value = "logout")
+    public void logout(HttpServletRequest request) {
+        request.getSession().setAttribute("user",null);
+    }
+
 
     private boolean checkUser(GspUser user) {
         return user == null
