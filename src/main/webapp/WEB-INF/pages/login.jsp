@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="${ctx}/static/easyui/themes/icon.css" />
