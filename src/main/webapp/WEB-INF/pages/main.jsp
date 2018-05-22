@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page isELIgnored="false" %>
 <%@ include file="taglibs.jsp" %>
 <jsp:include page="./editPwd.jsp"></jsp:include>
@@ -36,9 +36,6 @@
 <!-- 菜单树、选项卡 -->
 <script type="text/javascript" charset="UTF-8">
 
-//    var _centerTabs = $('#tabs');//选项卡栏
-
-
     $(document).ready(function () {
         $("#munes").tree({
             onClick:function (node) {
@@ -56,7 +53,6 @@
     });
 
     function makeEasyTree(data){
-        var data = '[{"attributes":{"url":"user"},"fid":"7","id":"5","text":"用户管理"},{"attributes":{"url":"role"},"fid":"5","id":"3","text":"权限管理"},{"fid":"5","id":"2","text":"报表管理"}]';
         if(!data)
             return [];
         var _newData = []; //最终返回结果
@@ -85,7 +81,7 @@
 
     var menuData;
     jQuery.ajax({
-        url: "<%=request.getContextPath()%>/treeView?id=1",
+        url: "<%=request.getContextPath()%>/user/treeView?id=1",
         type: "get",
         dataType: "json",
         async: false,

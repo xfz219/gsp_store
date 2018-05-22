@@ -25,6 +25,7 @@ import java.util.List;
  */
 
 @Controller
+@RequestMapping("/user")
 public class LoginController {
     private static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
@@ -35,7 +36,8 @@ public class LoginController {
     /**
      * 验证登录
      */
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login")
+    @ResponseBody
     public String login(User user) {
         try {
 
@@ -55,7 +57,6 @@ public class LoginController {
             return Response.fail(ErrorEnum.FAIL);
         }
     }
-
 
     @RequestMapping(value = "/treeView", method = RequestMethod.GET)
     @ResponseBody
@@ -77,8 +78,8 @@ public class LoginController {
 
     private boolean checkUser(User user) {
         return user == null
-                || StringUtils.isBlank(user.getUserName())
-                || StringUtils.isBlank(user.getPassWord());
+                || StringUtils.isBlank(user.getUser())
+                || StringUtils.isBlank(user.getPassword());
     }
 
     public static void main(String[] args) {

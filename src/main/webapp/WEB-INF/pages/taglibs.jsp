@@ -1,5 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<link rel="shortcut icon" type="image/x-icon" href="static/images/favicon.ico" />
+<link rel="shortcut icon" type="image/x-icon" href="${ctx}/static/images/favicon.ico" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <link rel="stylesheet" type="text/css" href="${ctx}/static/easyui/themes/icon.css" />
@@ -16,8 +16,6 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/static/easyuiex/css/easyuiex.css">
 <script type="text/javascript" src="${ctx}/static/easyuiex/easy.easyuiex.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/easyuiex/easy.easyuiex-validate.js"></script>
-<!-- EasyUIEx的默认消息语言为中文，使用其他语言需要导入相应语言文件 -->
-<script type="text/javascript" src="${ctx}/static/easyuiex/lang/easy.easyuiex-lang-zh_CN.js"></script>
 <%-- jquery Cookie plugin --%>
 <script type="text/javascript" src="${ctx}/static/easyee/jquery.cookie.js"></script>
 

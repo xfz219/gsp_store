@@ -36,7 +36,7 @@ public class MyService {
 //        User u = menuDao.selectUserByName(user.getUserName());
         User u = null;
         return (u != null
-                && StringUtils.equals(u.getPassWord(), user.getPassWord()));
+                && StringUtils.equals(u.getPassword(), user.getPassword()));
     }
 
     /**
