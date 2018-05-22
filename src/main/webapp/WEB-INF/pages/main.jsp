@@ -86,7 +86,7 @@
         async: false,
         success: function (dataObj) {
             if (dataObj.code == '200'){
-                menuData = dataObj.result;g
+                menuData = dataObj.result;
             }else {
                 $.messager.alert('提示信息', dataObj.message);
             }
