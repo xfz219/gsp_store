@@ -34,12 +34,8 @@
                     url: '${ctx}/user/login',
                     success: function (data) {
                         data = eval("(" + data + ")");
-//                        data = $.parseJSON(data);
                         if (data.code == 200) {
-                            $.messager.alert('提示信息', data.message, 'info', function () {
-//                                parent.$("#tabs").tabs("select", "添加门店");
-//                                parent.$("#tabs").tabs("close", "添加门店");
-                            });
+                            location.href = '${ctx}/home/index'
                         } else {
                             $.messager.alert('提示信息', data.message);
                         }
