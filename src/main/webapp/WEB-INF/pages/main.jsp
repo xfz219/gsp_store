@@ -2,7 +2,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page isELIgnored="false" %>
 <%@ include file="taglibs.jsp" %>
-<jsp:include page="./editPwd.jsp"></jsp:include>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -86,9 +85,10 @@
         dataType: "json",
         async: false,
         success: function (dataObj) {
-            if (dataObj.code == 200){
-                console.log(dataObj.result);
-                menuData = dataObj.result;
+            if (dataObj.code == '200'){
+                menuData = dataObj.result;g
+            }else {
+                $.messager.alert('提示信息', dataObj.message);
             }
         }
     });

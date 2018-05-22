@@ -25,7 +25,7 @@
         }
     </style>
 
-    <script type="text/javascript" charset="UTF-8">
+    <script type="text/javascript">
 
         $(document).ready(function () {
             //登录
@@ -34,13 +34,14 @@
                     url: '${ctx}/user/login',
                     success: function (data) {
                         data = eval("(" + data + ")");
+//                        data = $.parseJSON(data);
                         if (data.code == 200) {
-                            $.messager.alert('提示信息', data.result, 'info', function () {
+                            $.messager.alert('提示信息', data.message, 'info', function () {
 //                                parent.$("#tabs").tabs("select", "添加门店");
 //                                parent.$("#tabs").tabs("close", "添加门店");
                             });
                         } else {
-                            $.messager.alert('提示信息', data.result);
+                            $.messager.alert('提示信息', data.message);
                         }
                     }
                 });
@@ -51,8 +52,7 @@
 </head>
 
 <body>
-<div
-        style="text-align: center;overflow:auto;width:100%;height:100%;margin: 100px auto;">
+<div style="text-align: center;overflow:auto;width:100%;height:100%;margin: 100px auto;">
     <h1><span style="color:#8FC31F">Pharmacy</span>-<span style="">Platform</span></h1>
     <div style="margin: 10px auto;">
     </div>

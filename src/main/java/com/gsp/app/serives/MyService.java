@@ -45,7 +45,6 @@ public class MyService {
      * @return
      */
     public List<GspMenuVo> getMenuById(String userId) {
-        List<GspMenu> result = Lists.newArrayList();
         Multimap<MenuEnum,GspMenuVo> multimap = HashMultimap.create();
 
         List<GspMenu> gspMenu = menuDao.selectMenuById(userId);

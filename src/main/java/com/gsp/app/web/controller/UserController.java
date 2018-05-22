@@ -1,9 +1,8 @@
 package com.gsp.app.web.controller;
 
 import com.google.common.base.MoreObjects;
-import com.gsp.app.constant.ErrorEnum;
 import com.gsp.app.model.GspUser;
-import com.gsp.app.model.Response;
+import com.gsp.app.model.ResponseVo;
 import com.gsp.app.serives.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -28,57 +27,57 @@ public class UserController {
 
 
     @RequestMapping("/queryAll")
-    public String queryAllUser(GspUser pojo) {
+    public Object queryAllUser(GspUser pojo) {
         try {
             List<GspUser> userList = userService.selectAllUser(pojo);
-            return CollectionUtils.isEmpty(userList) ? Response.fail(ErrorEnum.FAIL) : Response.suc(userList);
+            return CollectionUtils.isEmpty(userList) ? ResponseVo.ofErrorMessage() : ResponseVo.ofSuccess(userList);
         } catch (Exception e) {
             log.error("query all error", e);
         }
-        return Response.fail(ErrorEnum.FAIL);
+        return ResponseVo.ofErrorMessage();
     }
 
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public String updateUser(GspUser user) {
+    public Object updateUser(GspUser user) {
         try {
 
             if (!checkUser(user)) {
-                return Response.fail(ErrorEnum.PARAM_EMPTY);
+                return ResponseVo.ofErrorMessage();
             }
-            return userService.updateUser(user) ? Response.suc(ErrorEnum.SUC) : Response.fail(ErrorEnum.OPERATION_ERROR);
+            return userService.updateUser(user) ? ResponseVo.ofSuccess() : ResponseVo.ofErrorMessage();
         } catch (Exception e) {
             log.error("update user error", e);
         }
-        return Response.fail(ErrorEnum.FAIL);
+        return ResponseVo.ofErrorMessage();
     }
 
 
     @RequestMapping(value = "addUser", method = RequestMethod.POST)
-    public String addUser(GspUser user) {
+    public Object addUser(GspUser user) {
         try {
             if (!checkUser(user)) {
-                return Response.fail(ErrorEnum.PARAM_EMPTY);
+                return ResponseVo.ofErrorMessage();
             }
-            return userService.addUser(user) ? Response.suc(ErrorEnum.SUC) : Response.fail(ErrorEnum.OPERATION_ERROR);
+            return userService.addUser(user) ? ResponseVo.ofSuccess() : ResponseVo.ofErrorMessage();
         } catch (Exception e) {
             log.error("add user error", e);
         }
-        return Response.fail(ErrorEnum.FAIL);
+        return ResponseVo.ofErrorMessage();
     }
 
 
     @RequestMapping(value = "/queryOne", method = RequestMethod.GET)
-    public String queryOne(String id) {
+    public Object queryOne(String id) {
         try {
             if (StringUtils.isNotBlank(id)) {
                 GspUser user = userService.selectOne(id);
-                return Response.suc(MoreObjects.firstNonNull(user, new GspUser()));
+                return ResponseVo.ofSuccess(MoreObjects.firstNonNull(user, new GspUser()));
             }
         } catch (Exception e) {
             log.error("query one error", e);
         }
-        return Response.fail(ErrorEnum.FAIL);
+        return ResponseVo.ofErrorMessage();
     }
 
 

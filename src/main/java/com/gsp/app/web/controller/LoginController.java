@@ -1,9 +1,9 @@
 package com.gsp.app.web.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
-import com.gsp.app.constant.ErrorEnum;
 import com.gsp.app.model.GspMenu;
-import com.gsp.app.model.Response;
+import com.gsp.app.model.ResponseVo;
 import com.gsp.app.model.User;
 import com.gsp.app.serives.MyService;
 import com.gsp.app.vo.GspMenuVo;
@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,41 +37,40 @@ public class LoginController {
      */
     @RequestMapping(value = "/login")
     @ResponseBody
-    public String login(User user) {
+    public Object login(User user) {
         try {
 
             if (!checkUser(user)) {
-                return Response.fail(ErrorEnum.USER_EMPTY);
+                return ResponseVo.ofErrorMessage("用户或密码不能为空！");
             }
 
             if (!myService.isLoginSUc(user)) {
-                logger.error("login error {}:", user.toString());
-                return Response.fail(ErrorEnum.PWD_ERROR);
+                return ResponseVo.ofErrorMessage("用户名密码错误！");
             }
 
-            return Response.suc(user);
+            return ResponseVo.ofSuccess(user);
 
         } catch (Exception e) {
             logger.error("login error", e);
-            return Response.fail(ErrorEnum.FAIL);
+            return ResponseVo.ofErrorMessage();
         }
     }
 
-    @RequestMapping(value = "/treeView", method = RequestMethod.GET)
+    @RequestMapping(value = "/treeView")
     @ResponseBody
-    public String index(@RequestParam(value = "id") String id) {
+    public Object index(@RequestParam(value = "id") String id) {
         try {
 
             if (StringUtils.isNotBlank(id)) {
                 List<GspMenuVo> gspMenus = myService.getMenuById(id);
                 return CollectionUtils.isEmpty(gspMenus) ?
-                        Response.fail(ErrorEnum.FAIL) : Response.suc(gspMenus);
+                        ResponseVo.ofErrorMessage() : JSONObject.toJSONString(ResponseVo.ofSuccess(gspMenus));
             }
 
         } catch (Exception e) {
             logger.error("query index error", e);
         }
-        return Response.fail(ErrorEnum.FAIL);
+        return ResponseVo.ofErrorMessage();
     }
 
 
