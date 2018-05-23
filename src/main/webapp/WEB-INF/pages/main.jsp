@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page isELIgnored="false" %>
-<%@ include file="taglibs.jsp" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -34,19 +33,23 @@
 </div>
 <!-- 菜单树、选项卡 -->
 <script type="text/javascript" charset="UTF-8">
-
+    var _treeView = $('#munes');//菜单栏
     $(document).ready(function () {
-        $("#munes").tree({
-            onClick:function (node) {
-                var url = node.attributes.url;
-                if(url != '' && node.attributes.url != null){
-                parent.$("#tabs").tabs("add",{
-                    closable:true,
-                    title:node.text,
-                    content : '<iframe scrolling="no" frameborder="0" src="${ctx}' + url + '" width="100%" height="99%"></iframe>'
-                });
+        $("#munes").tree({onClick:function (node) {
+                var click_obj = $('#munes').tree('getSelected');
+                if(click_obj.state == 'open' && click_obj.attributes == null){
+                    _treeView.tree('collapse',node.target);
+                }else if(click_obj.state == 'closed' && click_obj.attributes == null){
+                    _treeView.tree('expand',node.target);
+                }else{
+                    var url = node.attributes.url;
+                    parent.$("#tabs").tabs("add",{
+                        closable:true,
+                        title:node.text,
+                        content : '<iframe scrolling="no" frameborder="0" src="${ctx}' + url + '" width="100%" height="99%"></iframe>'
+                    });
+                    }
                 }
-            }
 
         });
     });
