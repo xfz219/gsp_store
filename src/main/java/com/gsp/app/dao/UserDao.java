@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * 用户
  */
-
 public interface UserDao extends BaseDao {
 
     List<GspUser> selectAllUser(@Param("pojo") GspUser pojo);

@@ -1,8 +1,6 @@
 package com.gsp.app.web.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.MoreObjects;
-import com.gsp.app.common.page.mybatis.Page;
 import com.gsp.app.model.GspUser;
 import com.gsp.app.model.ResponseVo;
 import com.gsp.app.serives.UserService;
@@ -33,13 +31,9 @@ public class UserController {
     public Object queryAllUser(GspUser pojo) {
         Map<String, Object> objMap = new HashMap<>();
         try {
-            int pageNo = 1;// 当前页
-            int pageSize= 20;// 当前页大小
-            Page page = Page.getPage(pageNo,pageSize);
-
             List<GspUser> gspUsers = userService.selectAllUser(pojo);
 
-            objMap.put("total", 20);
+            objMap.put("total", 30);
             objMap.put("rows", gspUsers);
             return objMap;
         } catch (Exception e) {

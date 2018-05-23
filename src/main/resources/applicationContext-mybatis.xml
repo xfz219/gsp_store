@@ -31,20 +31,12 @@
             </list>
         </property>
 
-        <property name="plugins">
-            <array>
-                <ref bean="paginationInterceptor"/>
-            </array>
-        </property>
         <property name="configurationProperties">
             <props>
                 <prop key="dialect">mysql</prop>
             </props>
         </property>
     </bean>
-
-    <!-- MyBatis配置 -->
-    <bean id="paginationInterceptor" class="com.gsp.app.common.page.mybatis.PaginationInterceptor"/>
 
     <!-- - - - - - - - sqlSessionTemplate - - - - - - - -->
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">

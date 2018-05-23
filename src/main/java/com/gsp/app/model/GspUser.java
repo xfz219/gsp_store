@@ -1,6 +1,5 @@
 package com.gsp.app.model;
 
-import com.gsp.app.common.page.mybatis.Page;
 import lombok.Data;
 import lombok.ToString;
 
@@ -13,7 +12,7 @@ import java.util.Date;
  */
 @Data
 @ToString
-public class GspUser implements Serializable {
+public class GspUser {
     private Long id;
     private String user;
     private String password;

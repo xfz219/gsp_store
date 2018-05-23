@@ -81,10 +81,10 @@
                 fit: true,
                 url:'${ctx}/user/queryAll',
                 singleSelect:true,
-                pageSize: 20,
                 columns:[
                     [
                         {field:'id',hidden:true},
+                        {field:'user',title:'用户名',width:130,align:'left'},
                         {field:'password',title:'用户密码',width:130,align:'left'},
                         {field:'email',title:'用户邮箱',width:130,align:'left'},
                         {field:'name',title:'用户姓名',width:130,align:'left'},
@@ -108,13 +108,52 @@
                     ]],
                 pagination:true,
                 rownumbers:true,
+                pageList: [10,20,30],//选择一页显示多少数据
+                loadFilter: pagerFilter,
                 toolbar:"#tbLendNotice",
                 onLoadError:function (data) {
                     $.messager.alert('提示信息',"查询失败！");
                 }
             }
         );
-        //刷新
+
+        //分页功能
+        function pagerFilter(data) {
+            if (typeof data.length == 'number' && typeof data.splice == 'function') {
+                data = {
+                    total: data.length,
+                    rows: data
+                }
+            }
+            var dg = $(this);
+            var opts = dg.datagrid('options');
+            var pager = dg.datagrid('getPager');
+            pager.pagination({
+                onSelectPage: function (pageNum, pageSize) {
+                    opts.pageNumber = pageNum;
+                    opts.pageSize = pageSize;
+                    pager.pagination('refresh', {
+                        pageNumber: pageNum,
+                        pageSize: pageSize
+                    });
+                    dg.datagrid('loadData', data);
+                }
+            });
+            if (!data.originalRows) {
+                if (data.rows)
+                    data.originalRows = (data.rows);
+                else if (data.data && data.data.rows)
+                    data.originalRows = (data.data.rows);
+                else
+                    data.originalRows = [];
+            }
+            var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);
+            var end = start + parseInt(opts.pageSize);
+            data.rows = (data.originalRows.slice(start, end));
+            return data;
+        }
+
+            //刷新
         $('#refresh').click(function(){
             resetConditions();
             grid.datagrid('reload');

@@ -34,6 +34,9 @@
         <if test="pojo.enable != null">
             AND enable = #{pojo.enable}
         </if>
+        <if test="paging != null and paging != '' ">
+            ORDER BY pojo.create_time DESC ${pojo.paging}
+        </if>
 
 	</select>
 
