@@ -32,9 +32,9 @@
     <form id="queryNoticeForm" class="easyui-form">
         <table class="query">
             <tr>
-                <td class="label">门店名称：</td>
+                <td class="label">用户名：</td>
                 <td>
-                    <input id="shopName" name="shopName" class="easyui-textbox"/>
+                    <input id="user" name="user" class="easyui-textbox"/>
                 </td>
 
                 <td class="label">启用状态：</td>
@@ -56,7 +56,7 @@
     </form>
 </div>
 <div data-options="region:'center',title:'搜索结果',split:true">
-    <div id="qryNoticeDatagrid" ></div>
+    <table id="getUserDatagrid" ></table>
 </div>
 <div id="tbLendNotice">
     <span>
@@ -75,23 +75,22 @@
 <script>
     var grid;
     $(function(){
-        grid = $('#qryNoticeDatagrid').datagrid({
+        grid = $('#getUserDatagrid').datagrid({
                 nowrap: false,
                 striped: true,
                 fit: true,
-                url:'${ctx}/shop/list',
+                url:'${ctx}/user/queryAll',
                 singleSelect:true,
+                pageSize: 20,
                 columns:[
                     [
                         {field:'id',hidden:true},
-                        {field:'parentId',title:'父ID',width:130,align:'left'},
-                        {field:'shopCode',title:'门店CODE',width:130,align:'left'},
-                        {field:'shopName',title:'门店NAME',width:130,align:'left'},
-                        {field:'shopMobile',title:'门店手机号',width:130,align:'left'},
-                        {field:'shopAddress',title:'门店地址',width:130,align:'left'},
-                        {field:'longitude',title:'经度',width:130,align:'left'},
-                        {field:'latitude',title:'纬度',width:130,align:'left'},
-                        {field:'enabled',title:'使用状态',width:130,align:'left',
+                        {field:'password',title:'用户密码',width:130,align:'left'},
+                        {field:'email',title:'用户邮箱',width:130,align:'left'},
+                        {field:'name',title:'用户姓名',width:130,align:'left'},
+                        {field:'mobile',title:'用户手机号',width:130,align:'left'},
+                        {field:'org',title:'组织',width:130,align:'left'},
+                        {field:'enable',title:'使用状态',width:130,align:'left',
                             formatter:function(fieldVal,rowData,rowIndex){
                                 if(fieldVal=='1'){
                                     return '已启用';
@@ -100,6 +99,9 @@
                                 }
                             }
                         },
+                        {field:'createTime',title:'创建时间',width:130,align:'left',formatter:function(value,data){
+                            return new Date(data.createTime).formate("yyyy-MM-dd HH:mm");
+                        }},
                         {field:'updateTime',title:'更新时间',width:130,align:'left',formatter:function(value,data){
                             return new Date(data.updateTime).formate("yyyy-MM-dd HH:mm");
                         }}
@@ -148,10 +150,10 @@
     //搜索
     function searchByConditions(){
         var dataObj = {};
-        dataObj.shopName = $('#shopName').val();
-        dataObj.enabled = $('#enabled').combobox('getValue');
-        $("#qryNoticeDatagrid").datagrid('load',dataObj);
-        $('#qryNoticeDatagrid').datagrid('clearSelections');
+        dataObj.user = $('#user').val();
+        dataObj.enable = $('#enable').combobox('getValue');
+        $("#getUserDatagrid").datagrid('load',dataObj);
+        $('#getUserDatagrid').datagrid('clearSelections');
     }
 
 
@@ -161,7 +163,7 @@
     }
 
     function update(){
-        var row = $('#qryNoticeDatagrid').datagrid('getSelections');
+        var row = $('#getUserDatagrid').datagrid('getSelections');
         if(row.length<1){
             $.messager.alert('提示信息','请选择一条记录！');
             return false;
@@ -187,7 +189,7 @@
 
     //启用广告位
     function enableBtn(){
-        var row = $('#qryNoticeDatagrid').datagrid('getSelections');
+        var row = $('#getUserDatagrid').datagrid('getSelections');
         if(row.length<1){
             $.messager.alert('提示信息','请选择一条记录！');
             return false;
@@ -222,7 +224,7 @@
 
     //禁用广告位
     function disableBtn(){
-        var row = $('#qryNoticeDatagrid').datagrid('getSelections');
+        var row = $('#getUserDatagrid').datagrid('getSelections');
         if(row.length<1){
             $.messager.alert('提示信息','请选择一条记录！');
             return false;

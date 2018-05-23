@@ -13,19 +13,20 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/static/easyui/themes/icon.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/static/easyui/themes/default/easyui.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/static/style/main.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/static/easyuiex/css/easyuiex.css">
 <script type="text/javascript" src="${ctx}/static/easyui/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/easyui/locale/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="${ctx}/static/easyui/extEasyUI.js"></script>
+<%--<script type="text/javascript" src="${ctx}/static/easyui/extEasyUI.js"></script>--%>
 <script type="text/javascript" src="${ctx}/static/easyui/jquery.color.js"></script>
 <script type="text/javascript" src="${ctx}/static/easyui/easyui-validator-ext.js"></script>
 
 <!-- EasyUIEx -->
-<link rel="stylesheet" type="text/css" href="${ctx}/static/easyuiex/css/easyuiex.css">
 <script type="text/javascript" src="${ctx}/static/easyuiex/easy.easyuiex.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/easyuiex/easy.easyuiex-validate.js"></script>
 <%-- jquery Cookie plugin --%>
 <script type="text/javascript" src="${ctx}/static/easyee/jquery.cookie.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/gspUtil.js"></script>
 
 <script type="text/javascript" >
 	//全局的ajax访问，处理ajax清求时sesion超时

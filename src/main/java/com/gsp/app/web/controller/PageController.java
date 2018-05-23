@@ -22,7 +22,7 @@ public class PageController {
         return "main";
     }
 
-    @RequestMapping("test")
+    @RequestMapping("getUser")
     public String user() {
         return "user/get";
     }

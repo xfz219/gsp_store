@@ -3,9 +3,7 @@ package com.gsp.app.common.page.mybatis;
 import java.io.Serializable;
 
 /**
- * @author liwang
- * @comment 分页类
- * @time 2015年7月21日 下午1:24:42
+ * 分页类
  */
 public class Page implements Serializable {
 
@@ -13,7 +11,7 @@ public class Page implements Serializable {
 
     //-- 分页参数 --//
     protected int pageNo = 1; //当前页号
-    protected int pageSize = 10; //页面记录数
+    protected int pageSize = 20; //页面记录数
     protected Long totalCount = null; //总记录数
     protected int totalPage = 0; //总页数
 

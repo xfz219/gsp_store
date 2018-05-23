@@ -1,18 +1,21 @@
 package com.gsp.app.web.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.MoreObjects;
+import com.gsp.app.common.page.mybatis.Page;
 import com.gsp.app.model.GspUser;
 import com.gsp.app.model.ResponseVo;
 import com.gsp.app.serives.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * fengzhix.xu on 2018/5/19.
@@ -28,9 +31,17 @@ public class UserController {
 
     @RequestMapping("/queryAll")
     public Object queryAllUser(GspUser pojo) {
+        Map<String, Object> objMap = new HashMap<>();
         try {
-            List<GspUser> userList = userService.selectAllUser(pojo);
-            return CollectionUtils.isEmpty(userList) ? ResponseVo.ofErrorMessage() : ResponseVo.ofSuccess(userList);
+            int pageNo = 1;// 当前页
+            int pageSize= 20;// 当前页大小
+            Page page = Page.getPage(pageNo,pageSize);
+
+            List<GspUser> gspUsers = userService.selectAllUser(pojo);
+
+            objMap.put("total", 20);
+            objMap.put("rows", gspUsers);
+            return objMap;
         } catch (Exception e) {
             log.error("query all error", e);
         }
