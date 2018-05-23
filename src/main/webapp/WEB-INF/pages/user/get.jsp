@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ include file="/WEB-INF/pages/taglibs.jsp" %>
 
 <html>
@@ -8,27 +8,31 @@
     <title>用户信息</title>
 
     <style type="text/css">
-        .query{
-            padding:5px 10px;
+        .query {
+            padding: 5px 10px;
         }
-        .query tr{
+
+        .query tr {
             height: 25px;
         }
-        form .label{
-            width:75px;
-            text-align:right;
+
+        form .label {
+            width: 75px;
+            text-align: right;
         }
-        input,select{
-            width:160px;
+
+        input, select {
+            width: 160px;
         }
-        #btn{
-            margin:5px 0 0 5px;
+
+        #btn {
+            margin: 5px 0 0 5px;
         }
     </style>
 
 </head>
 <body class="easyui-layout">
-<div data-options="region:'north',title:'搜索条件',split:true"  style="overflow: hidden;height:108px;">
+<div data-options="region:'north',title:'搜索条件',split:true" style="overflow: hidden;height:70px;">
     <form id="queryNoticeForm" class="easyui-form">
         <table class="query">
             <tr>
@@ -37,9 +41,15 @@
                     <input id="user" name="user" class="easyui-textbox"/>
                 </td>
 
+                <td class="label">用户姓名：</td>
+                <td>
+                    <input id="name" name="name" class="easyui-textbox"/>
+                </td>
+
                 <td class="label">启用状态：</td>
                 <td>
-                    <select id="enabled" name="enabled" class="easyui-combobox" style="width:160px;" data-options="editable:false">
+                    <select id="enable" name="enable" class="easyui-combobox" style="width:160px;"
+                            data-options="editable:false">
                         <option value="">所有状态</option>
                         <option value="0">未启用</option>
                         <option value="1">已启用</option>
@@ -47,72 +57,88 @@
                 </td>
                 <td colspan="16" align="left">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a id="searchByConditions"  href="#" class="easyui-linkbutton" onclick="searchByConditions();">搜索</a>
+                    <a id="searchByConditions" href="#" class="easyui-linkbutton" onclick="searchByConditions();">搜索</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a id="resetConditions"  href="#" class="easyui-linkbutton" onclick="resetConditions();">重置</a>
+                    <a id="resetConditions" href="#" class="easyui-linkbutton" onclick="resetConditions();">重置</a>
                 </td>
             </tr>
         </table>
     </form>
 </div>
 <div data-options="region:'center',title:'搜索结果',split:true">
-    <table id="getUserDatagrid" ></table>
+    <table id="getUserDatagrid"></table>
 </div>
 <div id="tbLendNotice">
     <span>
         <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-reload" plain="true" id="refresh">刷新</a>
         <span class="datagrid-btn-separator" style="float:none;"></span>
-        <a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add'>添加</a>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add'>添加</a>
         <span class="datagrid-btn-separator" style="float:none;"></span>
-        <a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" plain="true" id='update'  onclick="update()">修改</a>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" plain="true" id='update'
+           onclick="update()">修改</a>
         <span class="datagrid-btn-separator" style="float:none;"></span>
-        <a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id='enableBtn' onclick="enableBtn()">启用</a>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id='enableBtn'
+           onclick="enableBtn()">启用</a>
         <span class="datagrid-btn-separator" style="float:none;"></span>
-        <a  href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id='disableBtn' onclick="disableBtn()">禁用</a>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id='disableBtn'
+           onclick="disableBtn()">禁用</a>
     </span>
 </div>
 
 <script>
     var grid;
-    $(function(){
+    $(function () {
         grid = $('#getUserDatagrid').datagrid({
                 nowrap: false,
                 striped: true,
                 fit: true,
-                url:'${ctx}/user/queryAll',
-                singleSelect:true,
-                columns:[
+                url: '${ctx}/user/queryAll',
+                singleSelect: true,
+                columns: [
                     [
-                        {field:'id',hidden:true},
-                        {field:'user',title:'用户名',width:130,align:'left'},
-                        {field:'password',title:'用户密码',width:130,align:'left'},
-                        {field:'email',title:'用户邮箱',width:130,align:'left'},
-                        {field:'name',title:'用户姓名',width:130,align:'left'},
-                        {field:'mobile',title:'用户手机号',width:130,align:'left'},
-                        {field:'org',title:'组织',width:130,align:'left'},
-                        {field:'enable',title:'使用状态',width:130,align:'left',
-                            formatter:function(fieldVal,rowData,rowIndex){
-                                if(fieldVal=='1'){
+                        {field: 'id', hidden: true},
+                        {field: 'user', title: '用户名', width: 130, align: 'left'},
+                        {field: 'password', title: '用户密码', width: 130, align: 'left'},
+                        {field: 'name', title: '用户姓名', width: 130, align: 'left'},
+                        {field: 'mobile', title: '用户手机号', width: 130, align: 'left'},
+                        {field: 'email', title: '用户邮箱', width: 130, align: 'left'},
+                        {field: 'org', title: '组织', width: 130, align: 'left'},
+                        {
+                            field: 'enable', title: '使用状态', width: 130, align: 'left',
+                            formatter: function (fieldVal, rowData, rowIndex) {
+                                if (fieldVal == '1') {
                                     return '已启用';
-                                }else{
+                                } else {
                                     return '未启用';
                                 }
                             }
                         },
-                        {field:'createTime',title:'创建时间',width:130,align:'left',formatter:function(value,data){
-                            return new Date(data.createTime).formate("yyyy-MM-dd HH:mm");
-                        }},
-                        {field:'updateTime',title:'更新时间',width:130,align:'left',formatter:function(value,data){
-                            return new Date(data.updateTime).formate("yyyy-MM-dd HH:mm");
-                        }}
+                        {
+                            field: 'createTime',
+                            title: '创建时间',
+                            width: 130,
+                            align: 'left',
+                            formatter: function (value, data) {
+                                return new Date(data.createTime).formate("yyyy-MM-dd HH:mm");
+                            }
+                        },
+                        {
+                            field: 'updateTime',
+                            title: '更新时间',
+                            width: 130,
+                            align: 'left',
+                            formatter: function (value, data) {
+                                return new Date(data.updateTime).formate("yyyy-MM-dd HH:mm");
+                            }
+                        }
                     ]],
-                pagination:true,
-                rownumbers:true,
-                pageList: [10,20,30],//选择一页显示多少数据
+                pagination: true,
+                rownumbers: true,
+                pageList: [10, 20, 30],//选择一页显示多少数据
                 loadFilter: pagerFilter,
-                toolbar:"#tbLendNotice",
-                onLoadError:function (data) {
-                    $.messager.alert('提示信息',"查询失败！");
+                toolbar: "#tbLendNotice",
+                onLoadError: function (data) {
+                    $.messager.alert('提示信息', "查询失败！");
                 }
             }
         );
@@ -153,107 +179,109 @@
             return data;
         }
 
-            //刷新
-        $('#refresh').click(function(){
+        //刷新
+        $('#refresh').click(function () {
             resetConditions();
             grid.datagrid('reload');
             grid.datagrid('clearSelections');
         });
 
         //添加
-        $('#add').click(function(){
-            parent.$("#tabs").tabs("add",{
-                closable:true,
-                title:'添加门店',
-                content : '<iframe src="${ctx}/shop/add" width="100%" height="99%"></iframe>'
+        $('#add').click(function () {
+            parent.$("#tabs").tabs("add", {
+                closable: true,
+                title: '添加门店',
+                content: '<iframe src="${ctx}/shop/add" width="100%" height="99%"></iframe>'
             });
         });
     });
 
 
-
     //Enter搜索
-    $('#queryNoticeForm').keypress(function(e){
+    $('#queryNoticeForm').keypress(function (e) {
         var keynum; //字符的ASCII码。
-        if(window.event){ // IE
+        if (window.event) { // IE
             keynum = e.keyCode;
-        }else if(e.which){ //其他浏览器
+        } else if (e.which) { //其他浏览器
             keynum = e.which;
         }
 
-        if(keynum == 13){ //按下“Enter”键
+        if (keynum == 13) { //按下“Enter”键
             $('#searchByConditions').focus();
             $('#searchByConditions').click();
         }
     });
     //搜索
-    function searchByConditions(){
+    function searchByConditions() {
         var dataObj = {};
         dataObj.user = $('#user').val();
+        dataObj.name = $('#name').val();
         dataObj.enable = $('#enable').combobox('getValue');
-        $("#getUserDatagrid").datagrid('load',dataObj);
+        $("#getUserDatagrid").datagrid('load', dataObj);
         $('#getUserDatagrid').datagrid('clearSelections');
     }
 
 
     //重置
-    function resetConditions(){
+    function resetConditions() {
         $('#queryNoticeForm').form('clear');
     }
 
-    function update(){
+    function update() {
         var row = $('#getUserDatagrid').datagrid('getSelections');
-        if(row.length<1){
-            $.messager.alert('提示信息','请选择一条记录！');
+        if (row.length < 1) {
+            $.messager.alert('提示信息', '请选择一条记录！');
             return false;
         }
-        if(row.length>1){
-            $.messager.alert('提示信息','只能选择单条记录进行修改！');
+        if (row.length > 1) {
+            $.messager.alert('提示信息', '只能选择单条记录进行修改！');
             return false;
         }
-        parent.$("#tabs").tabs("add",{
-            closable:true,
-            title:'修改门店',
-            content : '<iframe name="updateShop" id="updateShop" scrolling="no" frameborder="0"  src="${ctx}/shop/update/'+row[0].id+'" width="100%" height="99%"></iframe>'
+        parent.$("#tabs").tabs("add", {
+            closable: true,
+            title: '修改门店',
+            content: '<iframe name="updateShop" id="updateShop" scrolling="no" frameborder="0"  src="${ctx}/shop/update/' + row[0].id + '" width="100%" height="99%"></iframe>'
         });
     }
 
-    function add(){
-        parent.$("#tabs").tabs("add",{
-            closable:true,
-            title:'添加门店',
-            content : '<iframe name="addShop" id="addShop" scrolling="no" frameborder="0"  src="${ctx}/shop/add" width="100%" height="99%"></iframe>'
+    function add() {
+        parent.$("#tabs").tabs("add", {
+            closable: true,
+            title: '添加门店',
+            content: '<iframe name="addShop" id="addShop" scrolling="no" frameborder="0"  src="${ctx}/shop/add" width="100%" height="99%"></iframe>'
         });
     }
 
-    //启用广告位
-    function enableBtn(){
+    //启用用户
+    function enableBtn() {
         var row = $('#getUserDatagrid').datagrid('getSelections');
-        if(row.length<1){
-            $.messager.alert('提示信息','请选择一条记录！');
+        if (row.length < 1) {
+            $.messager.alert('提示信息', '请选择一条记录！');
             return false;
-        }else if(row.length>1){
-            $.messager.alert('提示信息','只能选择单条记录进行修改！');
+        } else if (row.length > 1) {
+            $.messager.alert('提示信息', '只能选择单条记录进行修改！');
             return false;
-        }else if(row[0].enabled == '1'){
-            $.messager.alert('提示信息','该门店已启用！');
+        } else if (row[0].enable == '1') {
+            $.messager.alert('提示信息', '该用户已启用！');
             return false;
-        }else{
-            $.messager.confirm('警告', '确定启用该门店吗?',function(r){
-                if(r){
+        } else {
+            $.messager.confirm('警告', '确定启用该用户吗?', function (r) {
+                if (r) {
                     $.ajax({
-                        url : '${ctx}/shop/enable',
-                        data : {"id":row[0].id},
-                        type : 'POST',
-                        cache : false,
-                        dataType : "json",
-                        success : function(data) {
-                            $.messager.alert('提示信息',data.returnEntity.msg);
-                            grid.datagrid('clearSelections');
-                            grid.datagrid('load');
-                        },
-                        error: function(XMLHttpRequest, textStatus, errorThrown){
-                            $.messager.alert('提示信息',XMLHttpRequest.responseText);
+                        url: '${ctx}/user/enable',
+                        data: {"id": row[0].id},
+                        type: 'POST',
+                        cache: false,
+                        dataType: "json",
+                        success: function (dataObj) {
+                            alert(dataObj.result);
+                            if (dataObj.code == '200'){
+                                $.messager.alert('提示信息', dataObj.message);
+                                grid.datagrid('clearSelections');
+                                grid.datagrid('load');
+                            }else {
+                                $.messager.alert('提示信息', dataObj.message);
+                            }
                         }
                     });
                 }
@@ -262,33 +290,36 @@
     }
 
     //禁用广告位
-    function disableBtn(){
+    function disableBtn() {
         var row = $('#getUserDatagrid').datagrid('getSelections');
-        if(row.length<1){
-            $.messager.alert('提示信息','请选择一条记录！');
+        if (row.length < 1) {
+            $.messager.alert('提示信息', '请选择一条记录！');
             return false;
-        }else if(row.length>1){
-            $.messager.alert('提示信息','只能选择单条记录进行修改！');
+        } else if (row.length > 1) {
+            $.messager.alert('提示信息', '只能选择单条记录进行修改！');
             return false;
-        }else if(row[0].enabled == '0'){
-            $.messager.alert('提示信息','该门店已禁用！');
+        } else if (row[0].enable == '0') {
+            $.messager.alert('提示信息', '该用户已禁用！');
             return false;
-        }else{
-            $.messager.confirm('警告', '确定禁用该门店吗?',function(r){
-                if(r){
+        } else {
+            $.messager.confirm('警告', '确定禁用该用户吗?', function (r) {
+                if (r) {
                     $.ajax({
-                        url : '${ctx}/shop/stop',
-                        data : {"id":row[0].id},
-                        type : 'POST',
-                        cache : false,
-                        dataType : "json",
-                        success : function(data) {
-                            $.messager.alert('提示信息',data.returnEntity.msg);
-                            grid.datagrid('clearSelections');
-                            grid.datagrid('load');
-                        },
-                        error: function(XMLHttpRequest, textStatus, errorThrown){
-                            $.messager.alert('提示信息',XMLHttpRequest.responseText);
+                        url: '${ctx}/user/stop',
+                        data: {"id": row[0].id},
+                        type: 'POST',
+                        cache: false,
+                        dataType: "json",
+                        success: function (dataObj) {
+                            alert(dataObj.code);
+                            if (dataObj.code == '200'){
+                                alert(data.code);
+                                $.messager.alert('提示信息', dataObj.message);
+                                grid.datagrid('clearSelections');
+                                grid.datagrid('load');
+                            }else {
+                                $.messager.alert('提示信息', dataObj.message);
+                            }
                         }
                     });
                 }

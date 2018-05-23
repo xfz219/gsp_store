@@ -1,5 +1,6 @@
 package com.gsp.app.web.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.MoreObjects;
 import com.gsp.app.model.GspUser;
 import com.gsp.app.model.ResponseVo;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +34,6 @@ public class UserController {
         Map<String, Object> objMap = new HashMap<>();
         try {
             List<GspUser> gspUsers = userService.selectAllUser(pojo);
-
             objMap.put("total", 30);
             objMap.put("rows", gspUsers);
             return objMap;
@@ -90,7 +91,32 @@ public class UserController {
         return user == null
                 || 0 == user.getId()
                 || StringUtils.isBlank(user.getName());
+    }
 
+    /**
+     * 启用
+     */
+    @RequestMapping(value="/enable")
+    public Object enable(@RequestParam(value="id") String id){
+        try {
+            userService.updateEnabledById(Long.parseLong(id), true);
+        } catch (Exception e) {
+            return ResponseVo.ofErrorMessage();
+        }
+        return ResponseVo.ofSuccess();
+    }
+
+    /**
+     * 禁用
+     */
+    @RequestMapping(value="/stop")
+    public Object stop(@RequestParam(value="id") String id) {
+        try {
+            userService.updateEnabledById(Long.parseLong(id), false);
+        } catch (Exception e) {
+            return ResponseVo.ofErrorMessage();
+        }
+        return ResponseVo.ofSuccess();
     }
 
 }

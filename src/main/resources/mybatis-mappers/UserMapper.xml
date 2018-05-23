@@ -34,9 +34,7 @@
         <if test="pojo.enable != null">
             AND enable = #{pojo.enable}
         </if>
-        <if test="paging != null and paging != '' ">
-            ORDER BY pojo.create_time DESC ${pojo.paging}
-        </if>
+        ORDER BY create_time DESC
 
 	</select>
 
@@ -68,14 +66,16 @@
     </insert>
 
     <update id="updateUser" parameterType="com.gsp.app.model.GspUser">
-        UPDATE gsp_user SET
-            `user` = #{user},
-            password = #{password},
-            email = #{email},
-            `name` = #{name},
-            mobile = #{mobile},
-            org = #{org},
-            enable = #{enable}
+        UPDATE gsp_user
+        <set>
+            <if test="user != null">`user` = #{user},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="org != null">org = #{org},</if>
+            <if test="enable != null">enable = #{enable},</if>
+        </set>
         WHERE id = #{id}
     </update>
 

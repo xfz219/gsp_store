@@ -19,7 +19,7 @@ public interface UserDao extends BaseDao {
 
     void updateUser(GspUser gspUser);
 
-    void updateEnabledById(@Param("id")long id, @Param("enabled")boolean enabled);
+    void updateEnabledById(@Param("id")long id, @Param("enable")boolean enable);
 
     GspUser findUserByName(@Param("user") String userName);
 }
