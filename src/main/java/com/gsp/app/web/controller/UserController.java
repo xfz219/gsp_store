@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.List;
@@ -97,6 +98,7 @@ public class UserController {
      * 启用
      */
     @RequestMapping(value="/enable")
+    @ResponseBody
     public Object enable(@RequestParam(value="id") String id){
         try {
             userService.updateEnabledById(Long.parseLong(id), true);
@@ -110,6 +112,7 @@ public class UserController {
      * 禁用
      */
     @RequestMapping(value="/stop")
+    @ResponseBody
     public Object stop(@RequestParam(value="id") String id) {
         try {
             userService.updateEnabledById(Long.parseLong(id), false);

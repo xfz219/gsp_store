@@ -274,7 +274,6 @@
                         cache: false,
                         dataType: "json",
                         success: function (dataObj) {
-                            alert(dataObj.result);
                             if (dataObj.code == '200'){
                                 $.messager.alert('提示信息', dataObj.message);
                                 grid.datagrid('clearSelections');
@@ -311,9 +310,7 @@
                         cache: false,
                         dataType: "json",
                         success: function (dataObj) {
-                            alert(dataObj.code);
                             if (dataObj.code == '200'){
-                                alert(data.code);
                                 $.messager.alert('提示信息', dataObj.message);
                                 grid.datagrid('clearSelections');
                                 grid.datagrid('load');
