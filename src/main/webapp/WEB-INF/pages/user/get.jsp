@@ -88,6 +88,7 @@
 <script>
     var grid;
     $(function () {
+
         grid = $('#getUserDatagrid').datagrid({
                 nowrap: false,
                 striped: true,
@@ -196,7 +197,6 @@
         });
     });
 
-
     //Enter搜索
     $('#queryNoticeForm').keypress(function (e) {
         var keynum; //字符的ASCII码。
@@ -239,16 +239,16 @@
         }
         parent.$("#tabs").tabs("add", {
             closable: true,
-            title: '修改门店',
-            content: '<iframe name="updateShop" id="updateShop" scrolling="no" frameborder="0"  src="${ctx}/shop/update/' + row[0].id + '" width="100%" height="99%"></iframe>'
+            title: '修改用户信息',
+            content: '<iframe name="updateShop" id="updateShop" scrolling="no" frameborder="0"  src="${ctx}/user/update/' + row[0].id + '" width="100%" height="99%"></iframe>'
         });
     }
 
     function add() {
         parent.$("#tabs").tabs("add", {
             closable: true,
-            title: '添加门店',
-            content: '<iframe name="addShop" id="addShop" scrolling="no" frameborder="0"  src="${ctx}/shop/add" width="100%" height="99%"></iframe>'
+            title: '添加用户信息',
+            content: '<iframe name="addShop" id="addShop" scrolling="no" frameborder="0"  src="${ctx}/user/add" width="100%" height="99%"></iframe>'
         });
     }
 
@@ -274,13 +274,11 @@
                         cache: false,
                         dataType: "json",
                         success: function (dataObj) {
-                            if (dataObj.code == '200'){
-                                $.messager.alert('提示信息', dataObj.message);
+                            if (dataObj.code == '200') {
                                 grid.datagrid('clearSelections');
                                 grid.datagrid('load');
-                            }else {
-                                $.messager.alert('提示信息', dataObj.message);
                             }
+                            $.messager.alert('提示信息', dataObj.message);
                         }
                     });
                 }
@@ -310,13 +308,11 @@
                         cache: false,
                         dataType: "json",
                         success: function (dataObj) {
-                            if (dataObj.code == '200'){
-                                $.messager.alert('提示信息', dataObj.message);
+                            if (dataObj.code == '200') {
                                 grid.datagrid('clearSelections');
                                 grid.datagrid('load');
-                            }else {
-                                $.messager.alert('提示信息', dataObj.message);
                             }
+                            $.messager.alert('提示信息', dataObj.message);
                         }
                     });
                 }

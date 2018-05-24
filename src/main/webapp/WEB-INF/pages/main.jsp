@@ -43,6 +43,7 @@
                     _treeView.tree('expand',node.target);
                 }else{
                     var url = node.attributes.url;
+                    var name = node.text
                     parent.$("#tabs").tabs("add",{
                         closable:true,
                         title:node.text,

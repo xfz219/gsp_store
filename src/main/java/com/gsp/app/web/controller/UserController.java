@@ -1,7 +1,7 @@
 package com.gsp.app.web.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.MoreObjects;
+import com.gsp.app.dao.UserDao;
 import com.gsp.app.model.GspUser;
 import com.gsp.app.model.ResponseVo;
 import com.gsp.app.serives.UserService;
@@ -9,10 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +26,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserDao userDao;
 
 
     @RequestMapping("/queryAll")
@@ -120,6 +120,53 @@ public class UserController {
             return ResponseVo.ofErrorMessage();
         }
         return ResponseVo.ofSuccess();
+    }
+
+    /**
+     * 更新跳转
+     * @param id
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "/update/{id}")
+    public String updateById(@PathVariable(value = "id") Long id, ModelMap map) {
+        String url = "user/update";
+        GspUser gspUser = userDao.findUserById(id);
+        map.addAttribute("gspUser", gspUser);
+        return url;
+    }
+
+    /**
+     * 更新数据
+     */
+    @RequestMapping(value = "/updateGspUser")
+    @ResponseBody
+    public Object updateAppLendShop(GspUser user) {
+        try {
+            userDao.updateUser(user);
+        } catch (Exception e) {
+            return ResponseVo.ofErrorMessage();
+        }
+        return ResponseVo.ofSuccess();
+    }
+
+    /**
+     * 增加用户信息
+     */
+    @RequestMapping(value = "/addAppLendShop")
+    @ResponseBody
+    public Object addAppLendShop(GspUser user) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+//            appLendShopService.addAppLendShop(als);
+            map.put("status", "success");
+            map.put("result", "成功!");
+            return map;
+        } catch (Exception e) {
+            map.put("status", "false");
+            map.put("result", "失败!");
+            return map;
+        }
     }
 
 }
