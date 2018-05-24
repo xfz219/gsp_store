@@ -25,28 +25,6 @@
             width: 150px;
         }
 
-        .prov, .city, .dist {
-            width: 150px;
-        }
-
-        .town {
-            width: 150px;
-        }
-
-        .number {
-            width: 150px;
-        }
-
-        .contractTable {
-            float: left;
-            margin: 0px 8px;
-        }
-
-        .contractLabel {
-            float: left;
-            margin: 10px 20px;
-        }
-
         select {
             height: 22px;
             border: 1px solid #7F9DB9;
@@ -57,19 +35,6 @@
             border: 1px solid #7F9DB9;
         }
 
-        #staffFormAdd .easyui-validatebox, .easyui-datebox, .easyui-numberbox {
-            width: 151px;
-            editable: false;
-        }
-
-        #staffFormAdd .easyui-combobox, .easyui-combobox {
-            width: 151px;
-            editable: false;
-        }
-
-        .combobox-item {
-            height: 12px;
-        }
     </style>
 <body style="overflow:auto;">
 <div>
@@ -160,10 +125,13 @@
                         success: function (dataObj) {
                             dataObj=eval("(" + dataObj+ ")");
                             if (dataObj.code == '200') {
-                                parent.$("#tabs").tabs("select", "用户管理");
-                                parent.$("#tabs").tabs("close", "修改用户信息");
+                                $.messager.alert('提示信息', dataObj.message, 'info', function () {
+                                    parent.reloadTabGrid("用户管理");
+                                    parent.$("#tabs").tabs("close", "修改用户信息");
+                                });
+                            } else {
+                                $.messager.alert('提示信息', dataObj.message);
                             }
-                            $.messager.alert('提示信息', dataObj.message);
                         }
                     });
                 }

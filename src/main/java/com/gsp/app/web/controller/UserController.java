@@ -3,6 +3,7 @@ package com.gsp.app.web.controller;
 import com.google.common.base.MoreObjects;
 import com.gsp.app.dao.UserDao;
 import com.gsp.app.model.GspUser;
+import com.gsp.app.model.GspUserRole;
 import com.gsp.app.model.ResponseVo;
 import com.gsp.app.serives.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -124,9 +125,6 @@ public class UserController {
 
     /**
      * 更新跳转
-     * @param id
-     * @param map
-     * @return
      */
     @RequestMapping(value = "/update/{id}")
     public String updateById(@PathVariable(value = "id") Long id, ModelMap map) {
@@ -141,7 +139,7 @@ public class UserController {
      */
     @RequestMapping(value = "/updateGspUser")
     @ResponseBody
-    public Object updateAppLendShop(GspUser user) {
+    public Object updateGspUser(GspUser user) {
         try {
             userDao.updateUser(user);
         } catch (Exception e) {
@@ -151,22 +149,53 @@ public class UserController {
     }
 
     /**
+     * 新增跳转
+     */
+    @RequestMapping("add")
+    public String user() {
+        return "user/add";
+    }
+
+    /**
      * 增加用户信息
      */
-    @RequestMapping(value = "/addAppLendShop")
+    @RequestMapping(value = "/addGspUser")
     @ResponseBody
-    public Object addAppLendShop(GspUser user) {
-        Map<String, Object> map = new HashMap<>();
+    public Object addGspUser(GspUser user) {
         try {
-//            appLendShopService.addAppLendShop(als);
-            map.put("status", "success");
-            map.put("result", "成功!");
-            return map;
+            userDao.addUser(user);
         } catch (Exception e) {
-            map.put("status", "false");
-            map.put("result", "失败!");
-            return map;
+            return ResponseVo.ofErrorMessage();
         }
+        return ResponseVo.ofSuccess();
+    }
+
+    /**
+     * 查看权限跳转
+     */
+    @RequestMapping(value = "/userRole/{id}")
+    public String userRole(@PathVariable(value = "id") Long id, ModelMap map) {
+        String url = "user/userRole";
+        GspUser gspUser = userDao.findUserById(id);
+        map.addAttribute("gspUser", gspUser);
+        return url;
+    }
+
+    /**
+     * 查询用户对应角色
+     */
+    @RequestMapping("/queryUserRole")
+    public Object queryUserRole(GspUserRole pojo) {
+        Map<String, Object> objMap = new HashMap<>();
+        try {
+            List<GspUser> gspUsers = userService.selectAllUser(new GspUser());
+            objMap.put("total", 30);
+            objMap.put("rows", gspUsers);
+            return objMap;
+        } catch (Exception e) {
+            log.error("query all error", e);
+        }
+        return ResponseVo.ofErrorMessage();
     }
 
 }

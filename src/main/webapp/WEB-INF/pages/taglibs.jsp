@@ -29,6 +29,14 @@
 <script type="text/javascript" src="${ctx}/static/js/gspUtil.js"></script>
 
 <script type="text/javascript" >
+
+    function reloadTabGrid(title) {
+        if ($("#tabs" ).tabs('exists', title)) {
+            $('#tabs').tabs('select' , title);
+            window.top.reload_Abnormal_Monitor.call();
+        }
+    }
+
 	//全局的ajax访问，处理ajax清求时sesion超时
 	$.ajaxSetup({
 		contentType:"application/x-www-form-urlencoded;charset=utf-8",
