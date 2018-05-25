@@ -1,10 +1,10 @@
 package com.gsp.app.web.controller;
 
 import com.google.common.base.MoreObjects;
+import com.gsp.app.dao.GspUserRoleDao;
+import com.gsp.app.dao.RoleDao;
 import com.gsp.app.dao.UserDao;
-import com.gsp.app.model.GspUser;
-import com.gsp.app.model.GspUserRole;
-import com.gsp.app.model.ResponseVo;
+import com.gsp.app.model.*;
 import com.gsp.app.serives.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.auth.Subject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,10 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private GspUserRoleDao gspUserRoleDao;
+    @Autowired
+    private RoleDao roleDao;
 
 
     @RequestMapping("/queryAll")
@@ -36,7 +41,7 @@ public class UserController {
         Map<String, Object> objMap = new HashMap<>();
         try {
             List<GspUser> gspUsers = userService.selectAllUser(pojo);
-            objMap.put("total", 30);
+            objMap.put("total", gspUsers.size());
             objMap.put("rows", gspUsers);
             return objMap;
         } catch (Exception e) {
@@ -98,9 +103,9 @@ public class UserController {
     /**
      * 启用
      */
-    @RequestMapping(value="/enable")
+    @RequestMapping(value = "/enable")
     @ResponseBody
-    public Object enable(@RequestParam(value="id") String id){
+    public Object enable(@RequestParam(value = "id") String id) {
         try {
             userService.updateEnabledById(Long.parseLong(id), true);
         } catch (Exception e) {
@@ -112,9 +117,9 @@ public class UserController {
     /**
      * 禁用
      */
-    @RequestMapping(value="/stop")
+    @RequestMapping(value = "/stop")
     @ResponseBody
-    public Object stop(@RequestParam(value="id") String id) {
+    public Object stop(@RequestParam(value = "id") String id) {
         try {
             userService.updateEnabledById(Long.parseLong(id), false);
         } catch (Exception e) {
@@ -185,17 +190,59 @@ public class UserController {
      * 查询用户对应角色
      */
     @RequestMapping("/queryUserRole")
-    public Object queryUserRole(GspUserRole pojo) {
+    public Object queryUserRole(GspUserRoleVo pojo) {
         Map<String, Object> objMap = new HashMap<>();
         try {
-            List<GspUser> gspUsers = userService.selectAllUser(new GspUser());
-            objMap.put("total", 30);
-            objMap.put("rows", gspUsers);
+            List<GspUserRoleVo> gspUserRoleVos = userService.queryUserRole(pojo.getUserId());
+            objMap.put("total", gspUserRoleVos.size());
+            objMap.put("rows", gspUserRoleVos);
             return objMap;
         } catch (Exception e) {
             log.error("query all error", e);
         }
         return ResponseVo.ofErrorMessage();
+    }
+
+    /**
+     * 删除用户的角色
+     */
+    @RequestMapping(value = "/delRole")
+    @ResponseBody
+    public Object delRole(@RequestParam(value = "id") Long id) {
+        try {
+            gspUserRoleDao.delUserRoleById(id);
+        } catch (Exception e) {
+            return ResponseVo.ofErrorMessage();
+        }
+        return ResponseVo.ofSuccess();
+    }
+
+    /**
+     * 查询用户对应角色下拉
+     */
+    @RequestMapping("/getRoleList")
+    @ResponseBody
+    public Object getRoleList() {
+        try {
+            return roleDao.selectAllRole(new GspRole());
+        } catch (Exception e) {
+            log.error("query all error", e);
+        }
+        return ResponseVo.ofErrorMessage();
+    }
+
+    /**
+     * 新增角色关系
+     */
+    @RequestMapping(value = "/addUserRole")
+    @ResponseBody
+    public Object addUserRole(GspUserRole pojo) {
+        try {
+            gspUserRoleDao.addUserRole(pojo);
+        } catch (Exception e) {
+            return ResponseVo.ofErrorMessage();
+        }
+        return ResponseVo.ofSuccess();
     }
 
 }

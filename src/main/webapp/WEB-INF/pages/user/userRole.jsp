@@ -32,25 +32,34 @@
 
 </head>
 <body class="easyui-layout">
-<div data-options="region:'north',title:'搜索条件',split:true" style="overflow: hidden;height:70px;">
-    <form id="queryNoticeForm" class="easyui-form">
-        <table class="query">
-            <input id="userId" name="userId" class="easyui-textbox"/>
-        </table>
-    </form>
-</div>
 <div data-options="region:'center',title:'搜索结果',split:true">
     <table id="getUserDatagrid"></table>
 </div>
+
+<div id="addUserRole" class="easyui-dialog" title="绑定" style="width:400px;height:200px;"
+     data-options="iconCls:'icon-save',resizable:true,closed:true">
+    <div style="margin: 20px 0px 0px 80px;">
+        <label style="margin: 0px 0px 0px 50px;">请选择需要绑定的角色</label>
+        <br><br><br>
+        <label>角色：</label>
+        <input class="easyui-combobox" data-options="editable:false" id='getRoleList'/>
+        <br><br>
+        <div style="margin: 0px 0px 0px 50px;">
+            <a href="#" onclick="YES();" class="easyui-linkbutton">确认</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="#" onclick="NO();" class="easyui-linkbutton">取消</a>
+        </div>
+    </div>
+</div>
+
 <div id="tbLendNotice">
     <span>
         <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-reload" plain="true" id="refresh">刷新</a>
         <span class="datagrid-btn-separator" style="float:none;"></span>
-        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id='add'
-           onclick="add()">新增角色</a>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+           onclick="addRole()">新增角色</a>
         <span class="datagrid-btn-separator" style="float:none;"></span>
-        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-remove" plain="true" id='userRoleBtn'
-           onclick="disableBtn()">删除角色</a>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delRole()">删除角色</a>
     </span>
 </div>
 
@@ -58,7 +67,7 @@
 
     var userId = ${gspUser.id};
 
-    window.top["reload_Abnormal_Monitor"]=function(){
+    window.top["reload_Abnormal_Monitor"] = function () {
         resetConditions();
         grid.datagrid('reload');
         grid.datagrid('clearSelections');
@@ -67,22 +76,25 @@
     var grid;
     $(function () {
 
+        //下拉框
+        $("#getRoleList").combobox({
+            url:'${ctx}/user/getRoleList',
+            valueField:'id',
+            textField:'roleName'
+        });
+
         grid = $('#getUserDatagrid').datagrid({
                 nowrap: false,
                 striped: true,
                 fit: true,
                 url: '${ctx}/user/queryUserRole',
-                queryParams:{"userId": userId},
+                queryParams: {"userId": userId},
                 singleSelect: true,
                 columns: [
                     [
                         {field: 'id', hidden: true},
-                        {field: 'userId', title: '用户名', width: 130, align: 'left'},
-                        {field: 'roleId', title: '用户密码', width: 130, align: 'left'},
-                        {field: 'name', title: '用户姓名', width: 130, align: 'left'},
-                        {field: 'mobile', title: '用户手机号', width: 130, align: 'left'},
-                        {field: 'email', title: '用户邮箱', width: 130, align: 'left'},
-                        {field: 'org', title: '组织', width: 130, align: 'left'},
+                        {field: 'roleName', title: '角色名称', width: 130, align: 'left'},
+                        {field: 'roleDesc', title: '角色详情', width: 130, align: 'left'},
                         {
                             field: 'createTime',
                             title: '创建时间',
@@ -157,31 +169,20 @@
 
     });
 
-    //搜索
-    function searchByConditions() {
-        var dataObj = {};
-        dataObj.userId = $('#userId').val();
-        $("#getUserDatagrid").datagrid('load', dataObj);
-        $('#getUserDatagrid').datagrid('clearSelections');
-    }
-
-    //禁用广告位
-    function disableBtn() {
+    //删除角色
+    function delRole() {
         var row = $('#getUserDatagrid').datagrid('getSelections');
         if (row.length < 1) {
             $.messager.alert('提示信息', '请选择一条记录！');
             return false;
         } else if (row.length > 1) {
-            $.messager.alert('提示信息', '只能选择单条记录进行修改！');
-            return false;
-        } else if (row[0].enable == '0') {
-            $.messager.alert('提示信息', '该用户已禁用！');
+            $.messager.alert('提示信息', '只能选择单条记录进行删除！');
             return false;
         } else {
-            $.messager.confirm('警告', '确定禁用该用户吗?', function (r) {
+            $.messager.confirm('警告', '确定删除该用户的角色吗?', function (r) {
                 if (r) {
                     $.ajax({
-                        url: '${ctx}/user/queryUserRole',
+                        url: '${ctx}/user/delRole',
                         data: {"id": row[0].id},
                         type: 'POST',
                         cache: false,
@@ -197,6 +198,48 @@
                 }
             });
         }
+    }
+
+    function addRole() {
+        $('#addUserRole').dialog({
+            title: "绑定",
+            width: 400,
+            height: 200,
+            modal: true,
+            closed: false
+        });
+    }
+
+    function YES() {
+        if (typeof $('#getRoleList').combobox('getValue') != '') {
+            $.messager.confirm('确定', '您确定要绑定吗？', function (r) {
+                if (r) {
+                    $.ajax({
+                        url: '${ctx}/user/addUserRole',
+                        data: {
+                            "roleId": $('#getRoleList').combobox('getValue'), "userId": userId
+                        },
+                        type: 'POST',
+                        cache: false,
+                        dataType: "json",
+                        success: function (dataObj) {
+                            if (dataObj.code == '200') {
+                                grid.datagrid('reload');
+                                grid.datagrid('clearSelections');
+                                $('#addUserRole').dialog('close');
+                            }
+                            $.messager.alert('提示信息', dataObj.message);
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    function NO() {
+        $('#addUserRole').dialog({
+            closed: true
+        });
     }
 </script>
 </body>

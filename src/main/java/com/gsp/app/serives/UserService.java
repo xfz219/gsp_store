@@ -1,14 +1,21 @@
 package com.gsp.app.serives;
 
 import com.google.common.collect.Lists;
+import com.gsp.app.dao.GspUserRoleDao;
+import com.gsp.app.dao.RoleDao;
 import com.gsp.app.dao.UserDao;
 import com.gsp.app.exception.OperationException;
+import com.gsp.app.model.GspRole;
 import com.gsp.app.model.GspUser;
+import com.gsp.app.model.GspUserRole;
+import com.gsp.app.model.GspUserRoleVo;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +26,10 @@ public class UserService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private GspUserRoleDao gspUserRoleDao;
+    @Autowired
+    private RoleDao roleDao;
 
 
     public GspUser selectUserByName(String userName){
@@ -50,5 +61,25 @@ public class UserService {
      */
     public void updateEnabledById(long id, boolean enable) {
         userDao.updateEnabledById(id, enable);
+    }
+
+    public List<GspUserRoleVo> queryUserRole(Long userId) {
+        List<GspUserRoleVo> list = new ArrayList<>();
+
+        List<GspUserRole> gspUserRoles = gspUserRoleDao.findUserRoleByUserId(userId);
+        if (!gspUserRoles.isEmpty()){
+            for (GspUserRole gspUserRole : gspUserRoles){
+                GspUserRoleVo gspUserRoleVo = new GspUserRoleVo();
+                BeanUtils.copyProperties(gspUserRole, gspUserRoleVo);
+
+                GspRole gspRole = roleDao.findRoleById(gspUserRoleVo.getRoleId());
+
+                gspUserRoleVo.setRoleName(gspRole.getRoleName());
+                gspUserRoleVo.setRoleDesc(gspRole.getRoleDesc());
+
+                list.add(gspUserRoleVo);
+            }
+        }
+        return list;
     }
 }

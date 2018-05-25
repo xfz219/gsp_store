@@ -2,7 +2,6 @@ package com.gsp.app.dao;
 
 
 import com.gsp.app.model.GspRole;
-import com.gsp.app.model.GspUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,9 +12,9 @@ import java.util.List;
 
 public interface RoleDao extends BaseDao {
 
-    List<GspUser> selectAllRole(@Param("pojo") GspRole pojo);
+    List<GspRole> selectAllRole(@Param("pojo") GspRole pojo);
 
-    GspUser findRoleById(@Param("id") Long id);
+    GspRole findRoleById(@Param("id") Long id);
 
     void addRole(GspRole gspRole);
 
