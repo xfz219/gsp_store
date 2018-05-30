@@ -25,9 +25,13 @@
 		<if test="pojo.roleName != null and pojo.roleName != ''">
 			AND `role_name` LIKE CONCAT(CONCAT('%',#{pojo.roleName}),'%')
 		</if>
+		<if test="pojo.roleName != null and pojo.roleName != ''">
+			AND `role_type` LIKE CONCAT(CONCAT('%',#{pojo.roleType}),'%')
+		</if>
 		<if test="pojo.enable != null">
 			AND enable = #{pojo.enable}
 		</if>
+		ORDER BY create_time
 
 	</select>
 
@@ -43,18 +47,22 @@
 	<insert id="addRole" parameterType="com.gsp.app.model.GspRole" useGeneratedKeys="true" keyProperty="id">
 
 		INSERT INTO gsp_role
-		(`user`, password, email, `name`, mobile, org, enable, create_time, update_time)
+		(role_name, role_type, role_desc, enable, create_time, update_time)
 		VALUES
-		(#{user}, #{password}, #{email}, #{name}, #{mobile}, #{org}, #{enable}, now(), now())
+		(#{roleName}, #{roleType}, #{roleDesc}, #{enable}, now(), now())
 
 	</insert>
 
 	<update id="updateRole" parameterType="com.gsp.app.model.GspRole">
-		UPDATE gsp_role SET
-		role_name = #{roleName},
-		role_type = #{roleType},
-		role_desc = #{roleDesc},
-		enable = #{enable}
+		UPDATE gsp_role
+
+		<set>
+			<if test="roleName != null">role_name = #{roleName},</if>
+			<if test="roleType != null">role_type = #{roleType},</if>
+			<if test="roleDesc != null">role_desc = #{roleDesc},</if>
+			<if test="enable != null">enable = #{enable},</if>
+		</set>
+
 		WHERE id = #{id}
 	</update>
 

@@ -7,10 +7,10 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>修改用户信息</title>
+    <title>添加角色信息</title>
     <style type="text/css">
         fieldset {
-            width: 1665px;
+            width: 1300px;
         }
 
         .one {
@@ -35,57 +35,53 @@
             border: 1px solid #7F9DB9;
         }
 
+        #staffFormAdd .easyui-validatebox, .easyui-datebox, .easyui-numberbox {
+            width: 151px;
+            editable: false;
+        }
+
+        #staffFormAdd .easyui-combobox, .easyui-combobox {
+            width: 151px;
+            editable: false;
+        }
     </style>
 <body style="overflow:auto;">
 <div>
     <div id="lookdialog"></div>
-    <form id="editUserForm" class="easyui-form" method="post" data-options="novalidate:true">
-        <div title="修改" style="padding: 10px;">
+    <form id="addRoleForm" class="easyui-form" method="post" data-options="novalidate:true">
+        <div title="新增" style="padding: 10px;">
 
             <fieldset>
-                <legend>修改信息 &nbsp;&nbsp;&nbsp;</legend>
+                <legend>新增信息 &nbsp;&nbsp;&nbsp;</legend>
                 <table>
                     <tr>
-                        <input type="hidden" id="id" name="id"/>
-                        <td class="one">用户名：</td>
+                        <td class="one">角色名称：</td>
                         <td class="two">
-                            <input id="user" name="user" class="easyui-validatebox" style="width: 590px;height: 26px"
-                                   maxlength="50">
+                            <input id="roleName" name="roleName" class="easyui-validatebox" placeholder="角色名称"
+                                   style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
                         </td>
                     </tr>
                     <tr style="height: 50px">
-                        <td class="one">用户密码：</td>
+                        <td class="one">角色别名：</td>
                         <td class="two">
-                            <input id="password" name="password" class="easyui-validatebox"
-                                   style="width: 590px;height: 26px" maxlength="50">
+                            <input id="roleType" name="roleType" class="easyui-validatebox" placeholder="角色英文别名"
+                                   style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
                         </td>
                     </tr>
                     <tr style="height: 50px">
-                        <td class="one">用户姓名：</td>
+                        <td class="one">角色描述：</td>
                         <td class="two">
-                            <input id="name" name="name" class="easyui-validatebox" style="width: 590px;height: 26px"
-                                   maxlength="50">
+                            <input id="roleDesc" name="roleDesc" class="easyui-validatebox" placeholder="角色描述"
+                                   style="width: 590px;height: 26px" maxlength="50" data-options="required:true">
                         </td>
                     </tr>
                     <tr style="height: 50px">
-                        <td class="one">用户手机号：</td>
+                        <td class="one">使用状态：</td>
                         <td class="two">
-                            <input id="mobile" name="mobile" class="easyui-validatebox"
-                                   style="width: 590px;height: 26px" maxlength="50">
-                        </td>
-                    </tr>
-                    <tr style="height: 50px">
-                        <td class="one">用户邮箱：</td>
-                        <td class="two">
-                            <input id="email" name="email" class="easyui-validatebox" style="width: 590px;height: 26px"
-                                   maxlength="50">
-                        </td>
-                    </tr>
-                    <tr style="height: 50px">
-                        <td class="one">组织：</td>
-                        <td class="two">
-                            <input id="org" name="org" class="easyui-validatebox" style="width: 590px;height: 26px"
-                                   maxlength="50">
+                            <select id="enable" class="easyui-combobox" name="enable">
+                                <option value="true">启用</option>
+                                <option value="false">不启用</option>
+                            </select>
                         </td>
                     </tr>
                 </table>
@@ -103,31 +99,19 @@
 
 <script language="javascript">
 
-    window.top["Refresh_CloudHomePage_Content"] = function () {
-        window.location.reload();
-    }
-
     $(document).ready(function () {
-        $("#id").val("${gspUser.id}");
-        $("#user").val("${gspUser.user}");
-        $("#password").val("${gspUser.password}");
-        $("#name").val("${gspUser.name}");
-        $("#mobile").val("${gspUser.mobile}");
-        $("#email").val("${gspUser.email}");
-        $("#org").val("${gspUser.org}");
-
-        //更新
+        //添加
         $('#add').click(function () {
             $.messager.confirm('提示信息', '确认保存吗?', function (r) {
                 if (r) {
-                    $('#editUserForm').form('submit', {
-                        url: '${ctx}/user/updateGspUser',
+                    $('#addRoleForm').form('submit', {
+                        url: '${ctx}/role/addGspRole',
                         success: function (dataObj) {
-                            dataObj=eval("(" + dataObj+ ")");
+                            dataObj = eval("(" + dataObj + ")");
                             if (dataObj.code == '200') {
                                 $.messager.alert('提示信息', dataObj.message, 'info', function () {
-                                    parent.reloadTabGrid("用户管理");
-                                    parent.$("#tabs").tabs("close", "修改用户信息");
+                                    parent.reloadTabGrid("角色管理");
+                                    parent.$("#tabs").tabs("close", "添加角色信息");
                                 });
                             } else {
                                 $.messager.alert('提示信息', dataObj.message);
@@ -142,7 +126,7 @@
         $('#close').click(function () {
             $.messager.confirm('提示信息', "确认关闭吗？", function (r) {
                 if (r) {
-                    parent.$("#tabs").tabs("close", "修改用户信息");
+                    parent.$("#tabs").tabs("close", "添加角色信息");
                 }
             });
 

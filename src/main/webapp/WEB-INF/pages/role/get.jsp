@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>用户信息</title>
+    <title>角色信息</title>
 
     <style type="text/css">
         .query {
@@ -36,14 +36,14 @@
     <form id="queryNoticeForm" class="easyui-form">
         <table class="query">
             <tr>
-                <td class="label">用户名：</td>
+                <td class="label">角色名称：</td>
                 <td>
-                    <input id="user" name="user" class="easyui-textbox"/>
+                    <input id="roleName" name="roleName" class="easyui-textbox"/>
                 </td>
 
-                <td class="label">用户姓名：</td>
+                <td class="label">角色别名：</td>
                 <td>
-                    <input id="name" name="name" class="easyui-textbox"/>
+                    <input id="roleType" name="roleType" class="easyui-textbox"/>
                 </td>
 
                 <td class="label">启用状态：</td>
@@ -66,7 +66,7 @@
     </form>
 </div>
 <div data-options="region:'center',title:'搜索结果',split:true">
-    <table id="getUserDatagrid"></table>
+    <table id="getRoleDatagrid"></table>
 </div>
 <div id="tbLendNotice">
     <span>
@@ -83,8 +83,8 @@
         <span class="datagrid-btn-separator" style="float:none;"></span>
         <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id='disableBtn'
            onclick="disableBtn()">禁用</a>
-        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id='userRoleBtn'
-           onclick="userRoleBtn()">权限管理</a>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id='roleMenuBtn'
+           onclick="roleMenuBtn()">权限管理</a>
     </span>
 </div>
 
@@ -99,21 +99,18 @@
     var grid;
     $(function () {
 
-        grid = $('#getUserDatagrid').datagrid({
+        grid = $('#getRoleDatagrid').datagrid({
                 nowrap: false,
                 striped: true,
                 fit: true,
-                url: '${ctx}/user/queryAll',
+                url: '${ctx}/role/queryAll',
                 singleSelect: true,
                 columns: [
                     [
                         {field: 'id', hidden: true},
-                        {field: 'user', title: '用户名', width: 130, align: 'left'},
-                        {field: 'password', title: '用户密码', width: 130, align: 'left'},
-                        {field: 'name', title: '用户姓名', width: 130, align: 'left'},
-                        {field: 'mobile', title: '用户手机号', width: 130, align: 'left'},
-                        {field: 'email', title: '用户邮箱', width: 130, align: 'left'},
-                        {field: 'org', title: '组织', width: 130, align: 'left'},
+                        {field: 'roleName', title: '角色名称', width: 130, align: 'left'},
+                        {field: 'roleType', title: '角色别名', width: 130, align: 'left'},
+                        {field: 'roleDesc', title: '角色描述', width: 130, align: 'left'},
                         {
                             field: 'enable', title: '使用状态', width: 130, align: 'left',
                             formatter: function (fieldVal, rowData, rowIndex) {
@@ -216,11 +213,11 @@
     //搜索
     function searchByConditions() {
         var dataObj = {};
-        dataObj.user = $('#user').val();
-        dataObj.name = $('#name').val();
+        dataObj.user = $('#roleName').val();
+        dataObj.name = $('#roleType').val();
         dataObj.enable = $('#enable').combobox('getValue');
-        $("#getUserDatagrid").datagrid('load', dataObj);
-        $('#getUserDatagrid').datagrid('clearSelections');
+        $("#getRoleDatagrid").datagrid('load', dataObj);
+        $('#getRoleDatagrid').datagrid('clearSelections');
     }
 
 
@@ -230,7 +227,7 @@
     }
 
     function update() {
-        var row = $('#getUserDatagrid').datagrid('getSelections');
+        var row = $('#getRoleDatagrid').datagrid('getSelections');
         if (row.length < 1) {
             $.messager.alert('提示信息', '请选择一条记录！');
             return false;
@@ -241,22 +238,22 @@
         }
         parent.$("#tabs").tabs("add", {
             closable: true,
-            title: '修改用户信息',
-            content: '<iframe scrolling="no" frameborder="0"  src="${ctx}/user/update/' + row[0].id + '" width="100%" height="99%"></iframe>'
+            title: '修改角色信息',
+            content: '<iframe scrolling="no" frameborder="0"  src="${ctx}/role/update/' + row[0].id + '" width="100%" height="99%"></iframe>'
         });
     }
 
     function add() {
         parent.$("#tabs").tabs("add", {
             closable: true,
-            title: '添加用户信息',
-            content: '<iframe scrolling="no" frameborder="0"  src="${ctx}/user/add" width="100%" height="99%"></iframe>'
+            title: '添加角色信息',
+            content: '<iframe scrolling="no" frameborder="0"  src="${ctx}/role/add" width="100%" height="99%"></iframe>'
         });
     }
 
-    //启用用户
+    //启用角色
     function enableBtn() {
-        var row = $('#getUserDatagrid').datagrid('getSelections');
+        var row = $('#getRoleDatagrid').datagrid('getSelections');
         if (row.length < 1) {
             $.messager.alert('提示信息', '请选择一条记录！');
             return false;
@@ -264,13 +261,13 @@
             $.messager.alert('提示信息', '只能选择单条记录进行修改！');
             return false;
         } else if (row[0].enable == '1') {
-            $.messager.alert('提示信息', '该用户已启用！');
+            $.messager.alert('提示信息', '该角色已启用！');
             return false;
         } else {
-            $.messager.confirm('警告', '确定启用该用户吗?', function (r) {
+            $.messager.confirm('警告', '确定启用该角色吗?', function (r) {
                 if (r) {
                     $.ajax({
-                        url: '${ctx}/user/enable',
+                        url: '${ctx}/role/enable',
                         data: {"id": row[0].id},
                         type: 'POST',
                         cache: false,
@@ -290,7 +287,7 @@
 
     //禁用角色
     function disableBtn() {
-        var row = $('#getUserDatagrid').datagrid('getSelections');
+        var row = $('#getRoleDatagrid').datagrid('getSelections');
         if (row.length < 1) {
             $.messager.alert('提示信息', '请选择一条记录！');
             return false;
@@ -298,13 +295,13 @@
             $.messager.alert('提示信息', '只能选择单条记录进行修改！');
             return false;
         } else if (row[0].enable == '0') {
-            $.messager.alert('提示信息', '该用户已禁用！');
+            $.messager.alert('提示信息', '该角色已禁用！');
             return false;
         } else {
-            $.messager.confirm('警告', '确定禁用该用户吗?', function (r) {
+            $.messager.confirm('警告', '确定禁用该角色吗?', function (r) {
                 if (r) {
                     $.ajax({
-                        url: '${ctx}/user/stop',
+                        url: '${ctx}/role/stop',
                         data: {"id": row[0].id},
                         type: 'POST',
                         cache: false,
@@ -322,9 +319,9 @@
         }
     }
 
-    //用户权限管理
-    function userRoleBtn() {
-        var row = $('#getUserDatagrid').datagrid('getSelections');
+    //角色权限管理
+    function roleMenuBtn() {
+        var row = $('#getRoleDatagrid').datagrid('getSelections');
         if (row.length < 1) {
             $.messager.alert('提示信息', '请选择一条记录！');
             return false;
@@ -335,7 +332,7 @@
             parent.$("#tabs").tabs("add", {
                 closable: true,
                 title: '权限管理',
-                content: '<iframe scrolling="no" frameborder="0"  src="${ctx}/user/userRole/' + row[0].id + '" width="100%" height="99%"></iframe>'
+                content: '<iframe scrolling="no" frameborder="0"  src="${ctx}/role/roleMenu/' + row[0].id + '" width="100%" height="99%"></iframe>'
             });
         }
     }

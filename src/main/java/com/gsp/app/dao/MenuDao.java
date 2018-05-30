@@ -2,7 +2,6 @@ package com.gsp.app.dao;
 
 
 import com.gsp.app.model.GspMenu;
-import com.gsp.app.model.GspUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,5 +13,9 @@ import java.util.List;
 public interface MenuDao extends BaseDao {
 
     List<GspMenu> selectMenuById(@Param("id") String userId);
+
+    List<GspMenu> selectAllMenu();
+
+    GspMenu findMenuById(@Param("id") Long id);
 
 }

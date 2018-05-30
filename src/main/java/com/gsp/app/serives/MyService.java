@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.gsp.app.constant.MenuEnum;
 import com.gsp.app.dao.MenuDao;
+import com.gsp.app.dao.UserDao;
 import com.gsp.app.model.GspMenu;
 import com.gsp.app.model.GspUser;
 import com.gsp.app.model.User;
@@ -27,17 +28,11 @@ public class MyService {
     private MenuDao menuDao;
 
     @Autowired
-    private UserService userService;
-
-
-    public List<User> userList() {
-//        return menuDao.selectAllUser();
-        return new ArrayList<>();
-    }
+    private UserDao userDao;
 
 
     public GspUser doLogin(GspUser user) {
-       return userService.selectUserByName(user.getUser());
+       return userDao.findUserByName(user.getUser());
     }
 
     /**

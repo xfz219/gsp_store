@@ -1,6 +1,5 @@
 package com.gsp.app.web.controller;
 
-import com.google.common.base.MoreObjects;
 import com.gsp.app.dao.GspUserRoleDao;
 import com.gsp.app.dao.RoleDao;
 import com.gsp.app.dao.UserDao;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.security.auth.Subject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,64 +38,14 @@ public class UserController {
     public Object queryAllUser(GspUser pojo) {
         Map<String, Object> objMap = new HashMap<>();
         try {
-            List<GspUser> gspUsers = userService.selectAllUser(pojo);
+            List<GspUser> gspUsers = userDao.selectAllUser(pojo);
             objMap.put("total", gspUsers.size());
             objMap.put("rows", gspUsers);
             return objMap;
         } catch (Exception e) {
-            log.error("query all error", e);
+            log.error("user query all error", e);
         }
         return ResponseVo.ofErrorMessage();
-    }
-
-
-    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public Object updateUser(GspUser user) {
-        try {
-
-            if (!checkUser(user)) {
-                return ResponseVo.ofErrorMessage();
-            }
-            return userService.updateUser(user) ? ResponseVo.ofSuccess() : ResponseVo.ofErrorMessage();
-        } catch (Exception e) {
-            log.error("update user error", e);
-        }
-        return ResponseVo.ofErrorMessage();
-    }
-
-
-    @RequestMapping(value = "addUser", method = RequestMethod.POST)
-    public Object addUser(GspUser user) {
-        try {
-            if (!checkUser(user)) {
-                return ResponseVo.ofErrorMessage();
-            }
-            return userService.addUser(user) ? ResponseVo.ofSuccess() : ResponseVo.ofErrorMessage();
-        } catch (Exception e) {
-            log.error("add user error", e);
-        }
-        return ResponseVo.ofErrorMessage();
-    }
-
-
-    @RequestMapping(value = "/queryOne", method = RequestMethod.GET)
-    public Object queryOne(String id) {
-        try {
-            if (StringUtils.isNotBlank(id)) {
-                GspUser user = userService.selectOne(id);
-                return ResponseVo.ofSuccess(MoreObjects.firstNonNull(user, new GspUser()));
-            }
-        } catch (Exception e) {
-            log.error("query one error", e);
-        }
-        return ResponseVo.ofErrorMessage();
-    }
-
-
-    private boolean checkUser(GspUser user) {
-        return user == null
-                || 0 == user.getId()
-                || StringUtils.isBlank(user.getName());
     }
 
     /**
@@ -107,7 +55,7 @@ public class UserController {
     @ResponseBody
     public Object enable(@RequestParam(value = "id") String id) {
         try {
-            userService.updateEnabledById(Long.parseLong(id), true);
+            userDao.updateEnabledById(Long.parseLong(id), Boolean.TRUE);
         } catch (Exception e) {
             return ResponseVo.ofErrorMessage();
         }
@@ -121,7 +69,7 @@ public class UserController {
     @ResponseBody
     public Object stop(@RequestParam(value = "id") String id) {
         try {
-            userService.updateEnabledById(Long.parseLong(id), false);
+            userDao.updateEnabledById(Long.parseLong(id), Boolean.FALSE);
         } catch (Exception e) {
             return ResponseVo.ofErrorMessage();
         }

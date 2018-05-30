@@ -48,7 +48,7 @@
 <body style="overflow:auto;">
 <div>
     <div id="lookdialog"></div>
-    <form id="editNoticeForm" class="easyui-form" method="post" data-options="novalidate:true">
+    <form id="addUserForm" class="easyui-form" method="post" data-options="novalidate:true">
         <div title="新增" style="padding: 10px;">
 
             <fieldset>
@@ -125,7 +125,7 @@
         $('#add').click(function () {
             $.messager.confirm('提示信息', '确认保存吗?', function (r) {
                 if (r) {
-                    $('#editNoticeForm').form('submit', {
+                    $('#addUserForm').form('submit', {
                         url: '${ctx}/user/addGspUser',
                         success: function (dataObj) {
                             dataObj = eval("(" + dataObj + ")");

@@ -27,5 +27,10 @@ public class PageController {
         return "user/get";
     }
 
+    @RequestMapping("getRole")
+    public String role() {
+        return "role/get";
+    }
+
 
 }

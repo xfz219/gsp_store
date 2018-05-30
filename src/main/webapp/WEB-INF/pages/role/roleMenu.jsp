@@ -22,16 +22,16 @@
 </head>
 <body class="easyui-layout">
 <div data-options="region:'center',title:'搜索结果',split:true">
-    <table id="getUserDatagrid"></table>
+    <table id="getRoleDatagrid"></table>
 </div>
 
-<div id="addUserRole" class="easyui-dialog" title="绑定" style="width:400px;height:200px;"
+<div id="addRoleMenu" class="easyui-dialog" title="绑定" style="width:400px;height:200px;"
      data-options="iconCls:'icon-save',resizable:true,closed:true">
     <div style="margin: 20px 0px 0px 80px;">
-        <label style="margin: 0px 0px 0px 50px;">请选择需要绑定的角色</label>
+        <label style="margin: 0px 0px 0px 50px;">请选择需要绑定的菜单</label>
         <br><br><br>
-        <label>角色：</label>
-        <input class="easyui-combobox" data-options="editable:false" id='getRoleList'/>
+        <label>菜单：</label>
+        <input class="easyui-combobox" data-options="editable:false" id='getMenuList'/>
         <br><br>
         <div style="margin: 0px 0px 0px 50px;">
             <a href="#" onclick="YES();" class="easyui-linkbutton">确认</a>
@@ -46,7 +46,7 @@
         <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-reload" plain="true" id="refresh">刷新</a>
         <span class="datagrid-btn-separator" style="float:none;"></span>
         <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true"
-           onclick="addRole()">新增角色</a>
+           onclick="addMenu()">新增菜单</a>
         <span class="datagrid-btn-separator" style="float:none;"></span>
         <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delRole()">删除角色</a>
     </span>
@@ -54,7 +54,7 @@
 
 <script language="javascript">
 
-    var userId = ${gspUser.id};
+    var roleId = ${gspRole.id};
 
     window.top["reload_Abnormal_Monitor"] = function () {
         resetConditions();
@@ -66,24 +66,24 @@
     $(function () {
 
         //下拉框
-        $("#getRoleList").combobox({
-            url:'${ctx}/user/getRoleList',
+        $("#getMenuList").combobox({
+            url:'${ctx}/role/getMenuList',
             valueField:'id',
-            textField:'roleName'
+            textField:'text'
         });
 
-        grid = $('#getUserDatagrid').datagrid({
+        grid = $('#getRoleDatagrid').datagrid({
                 nowrap: false,
                 striped: true,
                 fit: true,
-                url: '${ctx}/user/queryUserRole',
-                queryParams: {"userId": userId},
+                url: '${ctx}/role/queryRoleMenu',
+                queryParams: {"roleId": roleId},
                 singleSelect: true,
                 columns: [
                     [
                         {field: 'id', hidden: true},
-                        {field: 'roleName', title: '角色名称', width: 130, align: 'left'},
-                        {field: 'roleDesc', title: '角色详情', width: 130, align: 'left'},
+                        {field: 'menuName', title: '菜单名称', width: 130, align: 'left'},
+                        {field: 'menuDesc', title: '菜单详情', width: 130, align: 'left'},
                         {
                             field: 'createTime',
                             title: '创建时间',
@@ -160,7 +160,7 @@
 
     //删除角色
     function delRole() {
-        var row = $('#getUserDatagrid').datagrid('getSelections');
+        var row = $('#getRoleDatagrid').datagrid('getSelections');
         if (row.length < 1) {
             $.messager.alert('提示信息', '请选择一条记录！');
             return false;
@@ -171,7 +171,7 @@
             $.messager.confirm('警告', '确定删除该用户的角色吗?', function (r) {
                 if (r) {
                     $.ajax({
-                        url: '${ctx}/user/delRole',
+                        url: '${ctx}/role/delMenu',
                         data: {"id": row[0].id},
                         type: 'POST',
                         cache: false,
@@ -189,8 +189,8 @@
         }
     }
 
-    function addRole() {
-        $('#addUserRole').dialog({
+    function addMenu() {
+        $('#addRoleMenu').dialog({
             title: "绑定",
             width: 400,
             height: 200,
@@ -200,13 +200,13 @@
     }
 
     function YES() {
-        if (typeof $('#getRoleList').combobox('getValue') != '') {
+        if (typeof $('#getMenuList').combobox('getValue') != '') {
             $.messager.confirm('确定', '您确定要绑定吗？', function (r) {
                 if (r) {
                     $.ajax({
-                        url: '${ctx}/user/addUserRole',
+                        url: '${ctx}/role/addRoleMenu',
                         data: {
-                            "roleId": $('#getRoleList').combobox('getValue'), "userId": userId
+                            "menuId": $('#getMenuList').combobox('getValue'), "roleId": roleId
                         },
                         type: 'POST',
                         cache: false,
@@ -215,7 +215,7 @@
                             if (dataObj.code == '200') {
                                 grid.datagrid('reload');
                                 grid.datagrid('clearSelections');
-                                $('#addUserRole').dialog('close');
+                                $('#addRoleMenu').dialog('close');
                             }
                             $.messager.alert('提示信息', dataObj.message);
                         }
@@ -226,7 +226,7 @@
     }
 
     function NO() {
-        $('#addUserRole').dialog({
+        $('#addRoleMenu').dialog({
             closed: true
         });
     }

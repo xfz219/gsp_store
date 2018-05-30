@@ -20,5 +20,6 @@ public interface RoleDao extends BaseDao {
 
     void updateRole(GspRole gspRole);
 
-    void updateEnabledById(@Param("id")long id, @Param("enabled")boolean enabled);
+    void updateEnabledById(@Param("id")long id, @Param("enable")boolean enable);
+
 }

@@ -35,4 +35,21 @@
 
 	</select>
 
+	<select id="findMenuById" resultMap="menuObj">
+
+		SELECT
+		<include refid="all_column" />
+		FROM gsp_menu WHERE id = #{id}
+
+	</select>
+
+	<select id="selectAllMenu" resultMap="menuObj">
+
+		SELECT
+		<include refid="all_column" />
+		FROM gsp_menu
+		ORDER BY create_time
+
+	</select>
+
 </mapper>
